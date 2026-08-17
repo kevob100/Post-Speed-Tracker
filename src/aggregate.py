@@ -91,6 +91,11 @@ def _summary(stories: list[dict]) -> dict:
     deltas = [s["time_delta_seconds"] for s in matched if s.get("time_delta_seconds") is not None]
     rw_first = sum(1 for s in matched if s.get("rotowire_first"))
 
+    # Split matched deltas by who posted first (delta > 0 => RotoWire first). "Lead" is the
+    # average head start when RotoWire wins; "Trail" is the average lag when it loses.
+    leads = [d for d in deltas if d > 0]
+    trails = [-d for d in deltas if d < 0]
+
     # Coverage gaps count TRUE gaps only (a post with no counterpart on the other feed);
     # same-event duplicates that lost the 1-to-1 match are tallied separately.
     return {
@@ -99,6 +104,8 @@ def _summary(stories: list[dict]) -> dict:
         "rotowire_first_rate": round(rw_first / len(matched), 4) if matched else None,
         "median_lead_seconds": round(statistics.median(deltas), 1) if deltas else None,
         "mean_lead_seconds": round(statistics.mean(deltas), 1) if deltas else None,
+        "avg_lead_seconds": round(statistics.mean(leads), 1) if leads else None,
+        "avg_trail_seconds": round(statistics.mean(trails), 1) if trails else None,
         "rotowire_only": sum(1 for s in active if s.get("status") == "rotowire_only" and not _is_dup(s)),
         "underdog_only": sum(1 for s in active if s.get("status") == "underdog_only" and not _is_dup(s)),
         "rotowire_duplicate": sum(1 for s in active if s.get("status") == "rotowire_only" and _is_dup(s)),
