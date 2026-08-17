@@ -334,9 +334,11 @@ function fmtDelta(sec) {
 }
 const fmtPct = r => r == null ? "—" : (r*100).toFixed(0) + "%";
 const fmtNum = n => n == null ? "—" : n.toLocaleString();
-const fmtLead = sec => {
+// Minutes:seconds, e.g. 244 -> "4:04". Used for Average Lead / Average Trail.
+const fmtMS = sec => {
   if (sec == null) return "—";
-  const a = Math.abs(sec); return (a/60).toFixed(1) + "m";
+  const a = Math.round(Math.abs(sec)), m = Math.floor(a / 60), s = a % 60;
+  return `${m}:${String(s).padStart(2, "0")}`;
 };
 function side(s, key) { return (s[key] && s[key].created_at) ? s[key].created_at : null; }
 function storyTime(s) {
@@ -350,8 +352,8 @@ function renderKpis() {
   const cards = [
     ["RotoWire-first win rate", fmtPct(s.rotowire_first_rate),
       s.matched ? `${s.rotowire_first}/${s.matched}` : ""],
-    ["Median lead", fmtLead(s.median_lead_seconds), ""],
-    ["Mean lead", fmtLead(s.mean_lead_seconds), ""],
+    ["Average Lead", fmtMS(s.avg_lead_seconds), "RotoWire first"],
+    ["Average Trail", fmtMS(s.avg_trail_seconds), "RotoWire behind"],
     ["Matched stories", s.matched ?? 0, ""],
     ["Coverage gaps", `${s.rotowire_only ?? 0} / ${s.underdog_only ?? 0}`, "RW-only / UD-only"],
     ["Same-event dups", `${(s.rotowire_duplicate ?? 0) + (s.underdog_duplicate ?? 0)}`, "RW + UD"],
@@ -454,14 +456,14 @@ function renderRollup(el, rows, periodLabel) {
   const body = rows.map(r => `<tr>
     <td>${r.period}</td><td class="num">${r.matched}</td>
     <td class="num">${fmtPct(r.rotowire_first_rate)}</td>
-    <td class="num">${fmtLead(r.median_lead_seconds)}</td>
-    <td class="num">${fmtLead(r.mean_lead_seconds)}</td>
+    <td class="num">${fmtMS(r.avg_lead_seconds)}</td>
+    <td class="num">${fmtMS(r.avg_trail_seconds)}</td>
     <td class="num">${r.rotowire_only}</td><td class="num">${r.underdog_only}</td></tr>`).join("");
   el.innerHTML = `<div class="panel"><h3 style="color:var(--muted)">RotoWire-first win rate by ${periodLabel}</h3>
     <div class="bars">${bars}</div></div>
     <table><thead><tr><th data-nosort>Period</th><th data-nosort style="text-align:right">Matched</th>
-    <th data-nosort style="text-align:right">RW win rate</th><th data-nosort style="text-align:right">Median Δ</th>
-    <th data-nosort style="text-align:right">Mean Δ</th><th data-nosort style="text-align:right">RW-only</th>
+    <th data-nosort style="text-align:right">RW win rate</th><th data-nosort style="text-align:right">Average Lead</th>
+    <th data-nosort style="text-align:right">Average Trail</th><th data-nosort style="text-align:right">RW-only</th>
     <th data-nosort style="text-align:right">UD-only</th></tr></thead><tbody>${body}</tbody></table>`;
 }
 
@@ -475,8 +477,8 @@ function renderCustom() {
   const rangeLabel = `${state.customFrom || "start"} → ${state.customTo || "latest"}`;
   const cards = [
     ["RotoWire-first win rate", fmtPct(s.rotowire_first_rate), s.matched ? `${s.rotowire_first}/${s.matched}` : ""],
-    ["Median lead", fmtLead(s.median_lead_seconds), ""],
-    ["Mean lead", fmtLead(s.mean_lead_seconds), ""],
+    ["Average Lead", fmtMS(s.avg_lead_seconds), "RotoWire first"],
+    ["Average Trail", fmtMS(s.avg_trail_seconds), "RotoWire behind"],
     ["Matched stories", fmtNum(s.matched), ""],
     ["Coverage gaps", `${s.rotowire_only} / ${s.underdog_only}`, "RW-only / UD-only"],
     ["Same-event dups", `${s.dups}`, "RW + UD"],
@@ -615,6 +617,9 @@ function summarize(stories, fromT, toT) {
   const matched = active.filter(s => s.status === "matched");
   const deltas = matched.map(s => s.time_delta_seconds).filter(v => v != null);
   const rwFirst = matched.filter(s => s.rotowire_first).length;
+  // Split by who posted first: lead = RotoWire's head start (delta>0); trail = its lag.
+  const leads = deltas.filter(d => d > 0);
+  const trails = deltas.filter(d => d < 0).map(d => -d);
   const count = (st, dup) => active.filter(s => s.status === st && isDup(s) === dup).length;
   return {
     matched: matched.length,
@@ -622,6 +627,8 @@ function summarize(stories, fromT, toT) {
     rotowire_first_rate: matched.length ? rwFirst / matched.length : null,
     median_lead_seconds: medianOf(deltas),
     mean_lead_seconds: meanOf(deltas),
+    avg_lead_seconds: meanOf(leads),
+    avg_trail_seconds: meanOf(trails),
     rotowire_only: count("rotowire_only", false),
     underdog_only: count("underdog_only", false),
     dups: count("rotowire_only", true) + count("underdog_only", true),
@@ -675,8 +682,8 @@ function renderAllTable() {
       ${cell(fmtNum(s.matched))}
       ${cell(fmtPct(s.rotowire_first_rate))}
       ${cell(s.matched ? s.rotowire_first + "/" + s.matched : "—")}
-      ${cell(fmtLead(s.median_lead_seconds))}
-      ${cell(fmtLead(s.mean_lead_seconds))}
+      ${cell(fmtMS(s.avg_lead_seconds))}
+      ${cell(fmtMS(s.avg_trail_seconds))}
       ${cell(s.rotowire_only)}
       ${cell(s.underdog_only)}
       ${cell(s.dups)}
@@ -688,8 +695,8 @@ function renderAllTable() {
     <th data-nosort style="text-align:right">Matched</th>
     <th data-nosort style="text-align:right">RW-first rate</th>
     <th data-nosort style="text-align:right">RW / matched</th>
-    <th data-nosort style="text-align:right">Median lead</th>
-    <th data-nosort style="text-align:right">Mean lead</th>
+    <th data-nosort style="text-align:right">Average Lead</th>
+    <th data-nosort style="text-align:right">Average Trail</th>
     <th data-nosort style="text-align:right">RW-only</th>
     <th data-nosort style="text-align:right">UD-only</th>
     <th data-nosort style="text-align:right">Dups</th></tr>`;
