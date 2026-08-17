@@ -65,7 +65,22 @@ jobs:
             echo "No changes to commit."
           else
             git commit -m "chore: daily pipeline refresh [skip ci]"
-            git push
+            # Push with fetch+rebase+retry so a concurrent update to main (a PR merge, an
+            # overlapping run, or a Re-run replaying an older commit) doesn't fail the job.
+            # -X theirs keeps this run's freshly generated data on any artifact conflict.
+            for attempt in 1 2 3 4 5; do
+              if git push; then
+                echo "Pushed on attempt $attempt."
+                break
+              fi
+              if [ "$attempt" -eq 5 ]; then
+                echo "::error::push failed after 5 attempts"
+                exit 1
+              fi
+              echo "::warning::push rejected (attempt $attempt); rebasing onto origin/main and retrying"
+              git fetch origin main
+              git rebase -X theirs origin/main || { git rebase --abort; exit 1; }
+            done
           fi
 
       - name: Upload Pages artifact
