@@ -258,6 +258,26 @@ function fmtTime(iso) {
   return `${p.month}/${pad(p.day)} ${p.hour}:${p.minute} CT`;
 }
 
+// Date-filter boundaries in Central Time (matching the CT display), so filtering
+// "8/14–8/15" excludes an 8/13-evening-CT post even though it's 8/14 in UTC.
+const _ctOffsetMs = ms => {
+  const p = Object.fromEntries(new Intl.DateTimeFormat("en-US", {
+    timeZone: "America/Chicago", hour12: false, year: "numeric", month: "2-digit",
+    day: "2-digit", hour: "2-digit", minute: "2-digit", second: "2-digit",
+  }).formatToParts(new Date(ms)).map(x => [x.type, x.value]));
+  const h = p.hour === "24" ? 0 : +p.hour;
+  return Date.UTC(+p.year, +p.month - 1, +p.day, h, +p.minute, +p.second) - ms;
+};
+// Start (00:00 CT) of the given YYYY-MM-DD, as an epoch ms. null for empty input.
+function ctDayStart(dateStr) {
+  if (!dateStr) return null;
+  const [y, m, d] = dateStr.split("-").map(Number);
+  const utcMid = Date.UTC(y, m - 1, d);
+  return utcMid - _ctOffsetMs(utcMid);
+}
+// Exclusive end (00:00 CT of the next day) of the given YYYY-MM-DD.
+const ctDayEnd = dateStr => { const s = ctDayStart(dateStr); return s == null ? null : s + 86400000; };
+
 // Tweet links: story sides carry tweet_id + the feed implies the handle.
 // Handles are per-sport, sourced from sports.json into state.handles.
 const tweetUrl = (handle, id) => `https://x.com/${handle}/status/${id}`;
@@ -379,14 +399,14 @@ function sortVal(s, key) {
 }
 
 function filteredStories() {
-  const from = val("f-from"), to = val("f-to"), ev = val("f-event"),
-        pl = val("f-player").toLowerCase(), conf = parseFloat(val("f-conf")),
-        st = val("f-status");
+  const fromT = ctDayStart(val("f-from")), toT = ctDayEnd(val("f-to")),
+        ev = val("f-event"), pl = val("f-player").toLowerCase(),
+        conf = parseFloat(val("f-conf")), st = val("f-status");
   return state.stories.filter(s => {
     if (s.same_event_duplicate) return false;  // duplicates live on their own tab
     const t = storyTime(s);
-    if (from && t < +new Date(from)) return false;
-    if (to && t > +new Date(to) + 86400000) return false;
+    if (fromT != null && t < fromT) return false;
+    if (toT != null && t >= toT) return false;
     if (ev && s.event_class !== ev) return false;
     if (pl && !(s.player||"").toLowerCase().includes(pl)) return false;
     if (!isNaN(conf) && (s.match_confidence ?? 0) < conf) return false;
@@ -448,8 +468,8 @@ function renderRollup(el, rows, periodLabel) {
 // Custom-range summary for the current sport. Reuses summarize() (same math as the
 // ALL overview / src/aggregate.py::_summary) over a user-picked [from,to] window.
 function renderCustom() {
-  const fromT = state.customFrom ? +new Date(state.customFrom) : null;
-  const toT = state.customTo ? +new Date(state.customTo) + 86400000 : null;
+  const fromT = ctDayStart(state.customFrom);
+  const toT = ctDayEnd(state.customTo);
   const s = summarize(state.stories, fromT, toT);
   const ranged = state.customFrom || state.customTo;
   const rangeLabel = `${state.customFrom || "start"} → ${state.customTo || "latest"}`;
@@ -579,13 +599,14 @@ const medianOf = xs => {
 };
 const meanOf = xs => xs.length ? xs.reduce((p,c) => p+c, 0) / xs.length : null;
 
-// Compute a sport's headline metrics from its stories over an optional [from,to] range.
+// Compute a sport's headline metrics from its stories over an optional [from,to) range.
+// fromT is inclusive, toT is exclusive (pass CT day boundaries via ctDayStart/ctDayEnd).
 // Mirrors src/aggregate.py::_summary (active = not rejected/merged; gaps exclude dups).
 function summarize(stories, fromT, toT) {
   const inRange = s => {
     const t = storyTime(s);
-    if (fromT && t < fromT) return false;
-    if (toT && t > toT) return false;
+    if (fromT != null && t < fromT) return false;
+    if (toT != null && t >= toT) return false;
     return true;
   };
   const isDup = s => !!s.same_event_duplicate;
@@ -636,9 +657,9 @@ function renderAll() {
 
 function renderAllTable() {
   const rows = state.allStories || [];
-  const fromT = state.allFrom ? +new Date(state.allFrom) : null;
-  // Include the whole "to" day (mirrors the feed's date filter).
-  const toT = state.allTo ? +new Date(state.allTo) + 86400000 : null;
+  // CT day boundaries (fromT inclusive, toT exclusive), matching the CT display.
+  const fromT = ctDayStart(state.allFrom);
+  const toT = ctDayEnd(state.allTo);
 
   const perSport = rows.map(r => ({ ...r, summary: summarize(r.stories, fromT, toT) }));
   const totalSummary = summarize(rows.flatMap(r => r.stories), fromT, toT);
