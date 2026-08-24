@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-08-23T11:26:01.074106+00:00",
+  "generated_at": "2026-08-24T11:36:30.936398+00:00",
   "summary": {
-    "matched": 587,
+    "matched": 592,
     "rotowire_first": 81,
-    "rotowire_first_rate": 0.138,
-    "median_lead_seconds": -252,
-    "mean_lead_seconds": -431.3,
+    "rotowire_first_rate": 0.1368,
+    "median_lead_seconds": -252.0,
+    "mean_lead_seconds": -446.9,
     "avg_lead_seconds": 394.0,
-    "avg_trail_seconds": 563.4,
-    "rotowire_only": 775,
-    "underdog_only": 358,
+    "avg_trail_seconds": 580.2,
+    "rotowire_only": 785,
+    "underdog_only": 359,
     "rotowire_duplicate": 49,
-    "underdog_duplicate": 82
+    "underdog_duplicate": 83
   },
   "weekly": [
     {
@@ -184,17 +184,31 @@
     },
     {
       "period": "2026-W34",
-      "matched": 47,
+      "matched": 52,
       "rotowire_first": 6,
-      "rotowire_first_rate": 0.1277,
-      "median_lead_seconds": -184,
-      "mean_lead_seconds": -356.8,
+      "rotowire_first_rate": 0.1154,
+      "median_lead_seconds": -198.5,
+      "mean_lead_seconds": -541.9,
       "avg_lead_seconds": 131.2,
-      "avg_trail_seconds": 428.2,
-      "rotowire_only": 30,
-      "underdog_only": 21,
+      "avg_trail_seconds": 629.7,
+      "rotowire_only": 38,
+      "underdog_only": 22,
       "rotowire_duplicate": 3,
-      "underdog_duplicate": 5
+      "underdog_duplicate": 6
+    },
+    {
+      "period": "2026-W35",
+      "matched": 0,
+      "rotowire_first": 0,
+      "rotowire_first_rate": null,
+      "median_lead_seconds": null,
+      "mean_lead_seconds": null,
+      "avg_lead_seconds": null,
+      "avg_trail_seconds": null,
+      "rotowire_only": 2,
+      "underdog_only": 0,
+      "rotowire_duplicate": 0,
+      "underdog_duplicate": 0
     }
   ],
   "monthly": [
@@ -242,17 +256,17 @@
     },
     {
       "period": "2026-08",
-      "matched": 199,
+      "matched": 204,
       "rotowire_first": 21,
-      "rotowire_first_rate": 0.1055,
-      "median_lead_seconds": -252,
-      "mean_lead_seconds": -469.5,
+      "rotowire_first_rate": 0.1029,
+      "median_lead_seconds": -253.0,
+      "mean_lead_seconds": -514.0,
       "avg_lead_seconds": 231.1,
-      "avg_trail_seconds": 552.2,
-      "rotowire_only": 154,
-      "underdog_only": 113,
+      "avg_trail_seconds": 599.4,
+      "rotowire_only": 164,
+      "underdog_only": 114,
       "rotowire_duplicate": 12,
-      "underdog_duplicate": 42
+      "underdog_duplicate": 43
     }
   ]
 }
