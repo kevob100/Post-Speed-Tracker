@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-08-31T18:04:12.590714+00:00",
+  "generated_at": "2026-09-01T15:32:07.915718+00:00",
   "summary": {
-    "matched": 635,
-    "rotowire_first": 89,
-    "rotowire_first_rate": 0.1402,
-    "median_lead_seconds": -248,
-    "mean_lead_seconds": -450.8,
-    "avg_lead_seconds": 380.3,
-    "avg_trail_seconds": 586.3,
-    "rotowire_only": 820,
-    "underdog_only": 379,
+    "matched": 643,
+    "rotowire_first": 93,
+    "rotowire_first_rate": 0.1446,
+    "median_lead_seconds": -241,
+    "mean_lead_seconds": -446.0,
+    "avg_lead_seconds": 369.9,
+    "avg_trail_seconds": 583.9,
+    "rotowire_only": 825,
+    "underdog_only": 380,
     "rotowire_duplicate": 54,
-    "underdog_duplicate": 84
+    "underdog_duplicate": 85
   },
   "weekly": [
     {
@@ -212,17 +212,17 @@
     },
     {
       "period": "2026-W36",
-      "matched": 3,
-      "rotowire_first": 1,
-      "rotowire_first_rate": 0.3333,
+      "matched": 11,
+      "rotowire_first": 5,
+      "rotowire_first_rate": 0.4545,
       "median_lead_seconds": -4,
-      "mean_lead_seconds": -283.7,
-      "avg_lead_seconds": 4,
-      "avg_trail_seconds": 427.5,
-      "rotowire_only": 2,
-      "underdog_only": 2,
+      "mean_lead_seconds": -122,
+      "avg_lead_seconds": 112.2,
+      "avg_trail_seconds": 317.2,
+      "rotowire_only": 7,
+      "underdog_only": 3,
       "rotowire_duplicate": 1,
-      "underdog_duplicate": 0
+      "underdog_duplicate": 1
     }
   ],
   "monthly": [
@@ -270,17 +270,31 @@
     },
     {
       "period": "2026-08",
-      "matched": 247,
-      "rotowire_first": 29,
-      "rotowire_first_rate": 0.1174,
-      "median_lead_seconds": -250,
-      "mean_lead_seconds": -512.4,
-      "avg_lead_seconds": 234.1,
-      "avg_trail_seconds": 611.7,
-      "rotowire_only": 199,
-      "underdog_only": 134,
+      "matched": 252,
+      "rotowire_first": 31,
+      "rotowire_first_rate": 0.123,
+      "median_lead_seconds": -248.5,
+      "mean_lead_seconds": -504.4,
+      "avg_lead_seconds": 228.9,
+      "avg_trail_seconds": 607.3,
+      "rotowire_only": 203,
+      "underdog_only": 135,
       "rotowire_duplicate": 17,
-      "underdog_duplicate": 44
+      "underdog_duplicate": 45
+    },
+    {
+      "period": "2026-09",
+      "matched": 3,
+      "rotowire_first": 2,
+      "rotowire_first_rate": 0.6667,
+      "median_lead_seconds": 110,
+      "mean_lead_seconds": 24.7,
+      "avg_lead_seconds": 124,
+      "avg_trail_seconds": 174,
+      "rotowire_only": 1,
+      "underdog_only": 0,
+      "rotowire_duplicate": 0,
+      "underdog_duplicate": 0
     }
   ]
 }
