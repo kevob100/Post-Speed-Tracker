@@ -22,8 +22,9 @@ from __future__ import annotations
 
 import json
 import statistics
-from datetime import datetime
+from datetime import datetime, timedelta
 from pathlib import Path
+from zoneinfo import ZoneInfo
 
 from .config import DATA_DIR, DOCS_DATA_DIR
 from .store import load_jsonl, now_iso, parse_dt
@@ -138,11 +139,55 @@ def _month(dt: datetime) -> str:
     return dt.strftime("%Y-%m")
 
 
+def season_week_of(weeks_cfg: dict):
+    """Return dt -> (sort_key, label, start, end) for a sport's season-week calendar.
+
+    weeks_cfg (sports.<sport>.season_weeks in config.yaml):
+      start:      local date Week 1 begins, e.g. '2026-09-08' (a Tuesday for the NFL)
+      boundary:   local time each week rolls over, e.g. '06:00' so late Monday-night news
+                  stays with that week's games (default '00:00')
+      timezone:   default 'America/New_York'
+      preseason_label: bucket for anything before Week 1 (default 'Preseason')
+    Weeks are 7 days. start/end are local dates (end inclusive) for display.
+    """
+    tz = ZoneInfo(weeks_cfg.get("timezone") or "America/New_York")
+    hh, mm = (int(x) for x in str(weeks_cfg.get("boundary") or "00:00").split(":"))
+    start = datetime.fromisoformat(str(weeks_cfg["start"])).replace(hour=hh, minute=mm, tzinfo=tz)
+    pre = weeks_cfg.get("preseason_label") or "Preseason"
+
+    def of(dt: datetime):
+        local = dt.astimezone(tz)
+        if local < start:
+            return (0, pre, None, (start - timedelta(days=1)).date().isoformat())
+        n = (local - start) // timedelta(days=7) + 1
+        wk_start = start + timedelta(days=7 * (n - 1))
+        return (n, f"Week {n}", wk_start.date().isoformat(),
+                (wk_start + timedelta(days=6)).date().isoformat())
+    return of
+
+
+def _season_rollup(stories: list[dict], weeks_cfg: dict) -> list[dict]:
+    of = season_week_of(weeks_cfg)
+    buckets: dict[tuple, list[dict]] = {}
+    for s in stories:
+        if _is_active(s):
+            buckets.setdefault(of(_story_time(s)), []).append(s)
+    rows = []
+    for key in sorted(buckets):
+        n, label, start, end = key
+        row = {"period": label, "week": n, "start": start, "end": end}
+        row.update(_summary(buckets[key]))
+        row["followups"] = row["rotowire_duplicate"] + row["underdog_duplicate"]
+        rows.append(row)
+    return rows
+
+
 def build_aggregates(
     data_dir: Path = DATA_DIR,
     docs_data_dir: Path = DOCS_DATA_DIR,
     stories_path: Path | None = None,
     reviews_path: Path | None = None,
+    season_weeks: dict | None = None,
 ) -> dict:
     stories_path = stories_path or (data_dir / "stories.jsonl")
     reviews_path = reviews_path or (data_dir / "reviews.jsonl")
@@ -155,6 +200,8 @@ def build_aggregates(
         "weekly": _rollup(stories, _iso_week),
         "monthly": _rollup(stories, _month),
     }
+    if season_weeks:
+        aggregates["season_weeks"] = _season_rollup(stories, season_weeks)
 
     docs_data_dir.mkdir(parents=True, exist_ok=True)
     _write_json(docs_data_dir / "stories.json", stories)

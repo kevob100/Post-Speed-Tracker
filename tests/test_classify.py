@@ -167,3 +167,49 @@ def test_classify_file_no_key_uses_safe_default(tmp_path):
     assert row["is_news"] is False and row["player"] is None
     # Nothing cached, since no verdict was produced.
     assert not (tmp_path / "classifications.jsonl").exists()
+
+
+# ------------------------------ multi-player ------------------------------- #
+
+def test_parse_multi_player_list():
+    c = parse_classification(
+        '{"is_news": true, "players": [{"name": "Ja\'Marr Chase", "team": "Bengals"}, '
+        '{"name": "Tee Higgins", "team": "Bengals"}], "event_class": "status_change"}'
+    )
+    assert c["is_news"] is True and c["player"] == "Ja'Marr Chase"
+    assert [p["name"] for p in c["players"]] == ["Ja'Marr Chase", "Tee Higgins"]
+
+
+def test_apply_writes_every_player():
+    rec = classify._apply({"id": "1"}, {"is_news": True, "player": "A B", "event_class": "injury",
+                                        "players": [{"name": "A B"}, {"name": "C D"}]})
+    assert [p["player_key"] for p in rec["players"]] == ["a b", "c d"]
+    assert rec["player_key"] == "a b"
+
+
+def test_multi_player_reclassifies_cached_no_player_once(tmp_path):
+    write_jsonl(tmp_path / "tweets.jsonl", [
+        {"id": "1", "created_at": "2026-09-09T00:00:00.000Z", "text": "Chase, Higgins fully practice"},
+        {"id": "2", "created_at": "2026-09-09T00:01:00.000Z", "text": "A B ruled out"},
+    ])
+    write_jsonl(tmp_path / "classifications.jsonl", [
+        {"id": "1", "is_news": False, "player": None, "event_class": "status_change",
+         "excluded_reason": "no_player"},
+        {"id": "2", "is_news": True, "player": "A B", "event_class": "injury", "excluded_reason": None},
+    ])
+
+    class Stub:
+        calls = 0
+
+        def classify(self, text):
+            Stub.calls += 1
+            return {"is_news": True, "player": "Ja'Marr Chase", "team": None,
+                    "event_class": "status_change", "excluded_reason": None,
+                    "players": [{"name": "Ja'Marr Chase", "team": None},
+                                {"name": "Tee Higgins", "team": None}]}
+
+    classify.classify_file(data_dir=tmp_path, classifier=Stub(), sport="nfl", multi_player=True)
+    classify.classify_file(data_dir=tmp_path, classifier=Stub(), sport="nfl", multi_player=True)
+    assert Stub.calls == 1                         # only the no_player post, only once
+    recs = {r["id"]: r for r in load_jsonl(tmp_path / "tweets.jsonl")}
+    assert recs["1"]["is_news"] and len(recs["1"]["players"]) == 2

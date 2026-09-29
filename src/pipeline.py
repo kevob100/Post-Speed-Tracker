@@ -23,7 +23,7 @@ from __future__ import annotations
 import json
 import os
 
-from . import aggregate, classify, collect, match
+from . import aggregate, classify, collect, develop, match
 from .config import (
     DOCS_DATA_DIR,
     load_config,
@@ -32,13 +32,17 @@ from .config import (
     sport_docs_dir,
     sports,
 )
-from .store import now_iso
+from .store import load_jsonl, now_iso
 
 
 def run_sport(sport: str, cfg: dict | None = None) -> dict:
     """Run the full pipeline for a single sport. Returns its aggregates."""
     cfg = cfg or load_config()
     accounts = sport_accounts(cfg, sport)
+    meta = cfg["sports"][sport]
+    # "developments" scores each news development once (see src/develop.py); the default
+    # "pairwise" mode keeps the original closest-pair matcher.
+    developments = meta.get("match_mode") == "developments"
     data_dir = sport_data_dir(sport)
     docs_dir = sport_docs_dir(sport)
     data_dir.mkdir(parents=True, exist_ok=True)
@@ -49,7 +53,8 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
 
     has_key = bool(os.getenv("ANTHROPIC_API_KEY"))
     if has_key:
-        classified = classify.classify_file(data_dir=data_dir, sport=sport)
+        classified = classify.classify_file(data_dir=data_dir, sport=sport,
+                                            multi_player=developments)
         print(f"[classify]  total={classified['total']} news={classified['news']} "
               f"excluded={classified['excluded']}")
     else:
@@ -58,13 +63,26 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
         print(f"[classify]  (no key, cached only) total={classified['total']} "
               f"news={classified['news']}")
 
-    candidates = match.generate_candidates(data_dir=data_dir, sport=sport, accounts=accounts)
-    print(f"[match]     candidates={len(candidates)}")
-
-    if os.getenv("ANTHROPIC_API_KEY"):
+    if developments:
+        if has_key:
+            stories = develop.resolve_developments(data_dir=data_dir, sport=sport, accounts=accounts)
+            method = "developments (llm)"
+        else:
+            news = [r for r in load_jsonl(data_dir / "tweets.jsonl") if r.get("is_news")]
+            stories = develop.resolve_developments(
+                data_dir=data_dir, sport=sport, accounts=accounts,
+                grouper=develop.EventClassGrouper({r["id"]: r for r in news}),
+                method="event_class", cache=False,
+            )
+            method = "developments (event_class stand-in, no key)"
+    elif has_key:
+        candidates = match.generate_candidates(data_dir=data_dir, sport=sport, accounts=accounts)
+        print(f"[match]     candidates={len(candidates)}")
         stories = match.resolve_stories(data_dir=data_dir, sport=sport, accounts=accounts)
         method = "llm"
     else:
+        candidates = match.generate_candidates(data_dir=data_dir, sport=sport, accounts=accounts)
+        print(f"[match]     candidates={len(candidates)}")
         # Stand-in until the key arrives: exact-player auto-accept, never cached.
         stories = match.resolve_stories(
             data_dir=data_dir, sport=sport, accounts=accounts,
@@ -75,7 +93,8 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
     matched = sum(1 for s in stories if s["status"] == "matched")
     print(f"[resolve]   stories={len(stories)} matched={matched} method={method}")
 
-    agg = aggregate.build_aggregates(data_dir=data_dir, docs_data_dir=docs_dir)
+    agg = aggregate.build_aggregates(data_dir=data_dir, docs_data_dir=docs_dir,
+                                     season_weeks=meta.get("season_weeks"))
     s = agg["summary"]
     print(
         f"[aggregate] matched={s['matched']} rw_first_rate={s['rotowire_first_rate']} "

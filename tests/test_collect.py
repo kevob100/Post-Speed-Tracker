@@ -117,3 +117,25 @@ def test_frozen_metrics_not_refreshed(tmp_path):
     rows = {r["id"]: r for r in load_jsonl(tmp_path / "tweets.jsonl")}
     assert rows["1030"]["public_metrics"]["impression_count"] == 500  # unchanged
     assert client2.metrics_calls == []  # nothing to refresh
+
+
+def test_backfill_references_once_and_only_since_date():
+    from src.collect import _backfill_references
+
+    class C:
+        asked: list = []
+
+        def tweets_lookup(self, ids, fields):
+            C.asked.append(list(ids))
+            return {"new": {"id": "new", "referenced_tweets": [{"type": "quoted", "id": "q"}]}}
+
+    by_id = {
+        "old": {"id": "old", "created_at": "2026-08-01T00:00:00.000Z"},
+        "new": {"id": "new", "created_at": "2026-09-09T00:00:00.000Z"},
+        "gone": {"id": "gone", "created_at": "2026-09-09T00:00:00.000Z"},
+    }
+    _backfill_references(C(), by_id, "2026-09-01T00:00:00Z")
+    _backfill_references(C(), by_id, "2026-09-01T00:00:00Z")
+    assert C.asked == [["new", "gone"]]
+    assert by_id["new"]["referenced_tweets"][0]["type"] == "quoted"
+    assert by_id["gone"]["referenced_tweets"] == [] and "referenced_tweets" not in by_id["old"]

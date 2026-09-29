@@ -3,6 +3,17 @@ sports:
     label: NFL
     active: true
     backfill_start_date: '2026-07-06'
+    # Score each news development once (first post per side) instead of the closest
+    # pair of posts. See src/develop.py.
+    match_mode: developments
+    # One-time fetch of quote-tweet links for posts stored before collection kept them.
+    reference_backfill_since: '2026-09-01'
+    # NFL weeks run Tuesday to Monday. The 6am ET rollover keeps late Monday-night news
+    # with that week's games. Anything before Week 1 rolls up as Preseason.
+    season_weeks:
+      start: '2026-09-08'
+      boundary: '06:00'
+      timezone: America/New_York
     accounts:
       rotowire:
         handle: RotoWireNFL

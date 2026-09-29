@@ -130,6 +130,21 @@ GOLF_PROMPT = (
     '"event_class": "<class>", "excluded_reason": "<reason or null>"}'
 )
 
+# Multi-player variant (sports with match_mode: developments). Underdog often folds several
+# players into one post ("Chase (knee), Higgins (heel) fully practice") where RotoWire posts
+# one tweet each; listing every player lets each be matched on its own.
+MULTI_PLAYER_PROMPT = DEFAULT_PROMPT.replace(
+    "If no single specific player is the subject, set player to null. ",
+    "If the post reports the same news for SEVERAL specific players, list every one of "
+    "them. If no specific player is the subject, return an empty list. ",
+).replace(
+    '''"player": "<full name or null>", "team": "<team or null>", ''',
+    '''"players": [{"name": "<full name>", "team": "<team or null>"}], ''',
+)
+
+# Bump when MULTI_PLAYER_PROMPT changes in a way that should re-run cached no_player posts.
+MULTI_PLAYER_VERSION = 1
+
 # Per-sport prompt overrides; sports absent here use DEFAULT_PROMPT.
 SPORT_PROMPTS = {
     "golf": GOLF_PROMPT,
@@ -139,7 +154,9 @@ SPORT_PROMPTS = {
 SYSTEM_PROMPT = DEFAULT_PROMPT
 
 
-def prompt_for(sport: str | None) -> str:
+def prompt_for(sport: str | None, multi_player: bool = False) -> str:
+    if multi_player and sport not in SPORT_PROMPTS:
+        return MULTI_PLAYER_PROMPT
     return SPORT_PROMPTS.get(sport or "", DEFAULT_PROMPT)
 
 
@@ -179,20 +196,40 @@ def parse_classification(
         return _bad_classification()
 
     event = _canonical_event(data.get("event_class"), event_classes)
-    player = data.get("player") or None
+    players = _parse_players(data)
+    player = players[0]["name"] if players else None
     is_news = bool(data.get("is_news")) and player is not None and event != "other"
     reason = data.get("excluded_reason")
     if is_news:
         reason = None
     elif reason not in EXCLUDED_REASONS:
         reason = "no_player" if not player else "not_news"
-    return {
+    out = {
         "is_news": is_news,
         "player": player,
-        "team": data.get("team") or None,
+        "team": (players[0]["team"] if players else None) or data.get("team") or None,
         "event_class": event,
         "excluded_reason": reason,
     }
+    if len(players) > 1:
+        out["players"] = players
+    return out
+
+
+def _parse_players(data: dict) -> list[dict]:
+    """[{name, team}] from either the multi-player `players` list or a single `player`."""
+    raw = data.get("players")
+    if isinstance(raw, list):
+        out = []
+        for p in raw:
+            if isinstance(p, dict) and p.get("name"):
+                out.append({"name": p["name"], "team": p.get("team") or None})
+            elif isinstance(p, str) and p.strip():
+                out.append({"name": p.strip(), "team": None})
+        return out
+    if data.get("player"):
+        return [{"name": data["player"], "team": data.get("team") or None}]
+    return []
 
 
 def _user_prompt(text: str) -> str:
@@ -203,13 +240,13 @@ class Classifier:
     """Thin Anthropic wrapper. Inject `client` in tests to avoid network/key."""
 
     def __init__(self, client=None, model: str | None = None, max_tokens: int = 300,
-                 sport: str = "mlb", sport_label: str = "MLB"):
+                 sport: str = "mlb", sport_label: str = "MLB", multi_player: bool = False):
         self._client = client
         self.model = model or load_config()["llm"]["model"]
         self.max_tokens = max_tokens
         self.event_classes = event_classes_for(sport)
         # replace (not str.format): the prompt contains literal JSON braces.
-        self.system_prompt = prompt_for(sport).replace("{sport}", sport_label)
+        self.system_prompt = prompt_for(sport, multi_player).replace("{sport}", sport_label)
 
     def client(self):
         if self._client is None:
@@ -238,11 +275,11 @@ def _apply(record: dict, c: dict, event_classes: tuple[str, ...] = DEFAULT_EVENT
     record["player"] = player
     record["team"] = c.get("team")
     record["player_key"] = normalize_name(player)
-    # Keep a players[] list for backward-compatible downstream/dashboard reads.
-    record["players"] = (
-        [{"name": player, "team": c.get("team"), "player_key": normalize_name(player)}]
-        if player else []
-    )
+    # players[] lists every player the post names (one for most posts). The pairwise
+    # matcher reads only player/player_key; the development matcher scores each entry.
+    players = c.get("players") or ([{"name": player, "team": c.get("team")}] if player else [])
+    record["players"] = [{"name": p["name"], "team": p.get("team"),
+                          "player_key": normalize_name(p["name"])} for p in players]
     return record
 
 
@@ -260,12 +297,17 @@ def classify_file(
     cache: bool = True,
     llm: bool = True,
     sport: str = "mlb",
+    multi_player: bool = False,
 ) -> dict:
     """Classify every post in tweets.jsonl in place. Returns a small summary.
 
     Cached verdicts in data/classifications.jsonl (keyed by tweet id) are reused so each
     post is classified only once; new verdicts are appended. The real classifier is
     created lazily on first uncached post, so an all-cached run needs no key.
+
+    With ``multi_player=True`` posts may name several players, and cached posts that were
+    excluded as ``no_player`` under an older prompt are classified again once (the new
+    verdict is appended, so the cache's last line per id wins).
 
     With ``llm=False`` (no key available) the LLM is never called: cached posts are
     applied as-is and any uncached post falls back to a safe non-news default so the rest
@@ -281,14 +323,20 @@ def classify_file(
     for r in records:
         tid = r["id"]
         c = cached.get(tid)
+        if (c is not None and llm and multi_player and c.get("excluded_reason") == "no_player"
+                and (c.get("multi_player_version") or 0) < MULTI_PLAYER_VERSION):
+            c = None
         if c is None:
             if not llm:
                 _apply(r, _bad_classification(), valid)
                 continue
             if classifier is None:
-                classifier = Classifier(sport=sport, sport_label=_sport_label(sport))
+                classifier = Classifier(sport=sport, sport_label=_sport_label(sport),
+                                        multi_player=multi_player)
             verdict = classifier.classify(r.get("text", ""))
             c = {"id": tid, **verdict, "classified_at": now_iso()}
+            if multi_player:
+                c["multi_player_version"] = MULTI_PLAYER_VERSION
             if cache:
                 append_jsonl(cls_path, c)
                 cached[tid] = c

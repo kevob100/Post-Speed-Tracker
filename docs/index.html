@@ -445,6 +445,15 @@ function renderFeed() {
 }
 
 // ---- rollup views ----
+// "2026-09-08","2026-09-14" -> "Sep 8–14"; a single date -> "Sep 7". Dates are local calendar days.
+function fmtWeekRange(start, end) {
+  const d = x => new Date(x + "T12:00:00Z");
+  const mon = x => d(x).toLocaleString("en-US", { month: "short", timeZone: "UTC" });
+  const day = x => d(x).getUTCDate();
+  if (!end) return `${mon(start)} ${day(start)}`;
+  return mon(start) === mon(end) ? `${mon(start)} ${day(start)}–${day(end)}`
+                                 : `${mon(start)} ${day(start)} – ${mon(end)} ${day(end)}`;
+}
 function renderRollup(el, rows, periodLabel) {
   if (!rows.length) { el.innerHTML = `<div class="empty">No ${periodLabel} data yet.</div>`; return; }
   const bars = rows.map(r => {
@@ -740,7 +749,10 @@ function init() {
   }
 
   renderFeed();
-  renderRollup(document.getElementById("view-weekly"), state.agg.weekly || [], "week");
+  // Sports with a season calendar (NFL: Tue-Mon weeks) roll up by season week instead of ISO week.
+  const seasonWeeks = (state.agg.season_weeks || []).map(r => ({ ...r,
+    period: r.start ? `${r.period} · ${fmtWeekRange(r.start, r.end)}` : `${r.period} · thru ${fmtWeekRange(r.end)}` }));
+  renderRollup(document.getElementById("view-weekly"), seasonWeeks.length ? seasonWeeks : (state.agg.weekly || []), "week");
   renderRollup(document.getElementById("view-monthly"), state.agg.monthly || [], "month");
   renderCustom();
   renderGaps();

@@ -37,6 +37,8 @@ def _new_record(tweet: dict, account_handle: str) -> dict:
         "text": tweet.get("text", ""),
         "lang": tweet.get("lang"),
         "public_metrics": tweet.get("public_metrics", {}),
+        # [{type: quoted|replied_to|retweeted, id}] — marks Underdog's quote-tweet updates.
+        "referenced_tweets": tweet.get("referenced_tweets") or [],
         "metrics_frozen": False,
         "metrics_frozen_at": None,
         "first_seen_at": now_iso(),
@@ -110,6 +112,7 @@ def collect(
         print(f"{handle}: +{new_count} new posts (since_id -> {newest_id})")
 
     _refresh_and_freeze(client, by_id, fetched_this_run, freeze_hours)
+    _backfill_references(client, by_id, _reference_backfill_since(cfg, sport))
 
     records = sorted(by_id.values(), key=lambda r: (r["created_at"], r["id"]))
     write_jsonl(tweets_path, records)
@@ -117,6 +120,32 @@ def collect(
     save_state(state, data_dir)
     print(f"Total stored posts: {len(records)}")
     return state
+
+
+def _reference_backfill_since(cfg: dict, sport: str | None) -> str | None:
+    meta = (cfg.get("sports") or {}).get(sport or "", {}) or {}
+    date = meta.get("reference_backfill_since")
+    return f"{date}T00:00:00Z" if date else None
+
+
+def _backfill_references(client: XClient, by_id: dict[str, dict], since: str | None) -> None:
+    """One-time fill of referenced_tweets for posts stored before collection kept it.
+
+    Limited to posts created on/after the sport's `reference_backfill_since` date so the
+    X API read cost stays bounded. Posts get an empty list once looked up (including
+    deleted ones) so each post is fetched at most once.
+    """
+    if not since:
+        return
+    since_dt = parse_dt(since)
+    ids = [r["id"] for r in by_id.values()
+           if "referenced_tweets" not in r and parse_dt(r["created_at"]) >= since_dt]
+    if not ids:
+        return
+    found = client.tweets_lookup(ids, fields="referenced_tweets")
+    for tid in ids:
+        by_id[tid]["referenced_tweets"] = (found.get(tid) or {}).get("referenced_tweets") or []
+    print(f"Backfilled referenced_tweets for {len(ids)} posts ({len(found)} found)")
 
 
 def _refresh_and_freeze(
