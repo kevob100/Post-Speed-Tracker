@@ -210,6 +210,23 @@ def test_multi_player_reclassifies_cached_no_player_once(tmp_path):
 
     classify.classify_file(data_dir=tmp_path, classifier=Stub(), sport="nfl", multi_player=True)
     classify.classify_file(data_dir=tmp_path, classifier=Stub(), sport="nfl", multi_player=True)
-    assert Stub.calls == 1                         # only the no_player post, only once
+    # The no_player post (may name several players) and the old news post (may now be
+    # hype) are each re-run exactly once.
+    assert Stub.calls == 2
     recs = {r["id"]: r for r in load_jsonl(tmp_path / "tweets.jsonl")}
     assert recs["1"]["is_news"] and len(recs["1"]["players"]) == 2
+
+
+def test_parse_hype():
+    c = parse_classification(
+        '{"is_news": false, "players": [{"name": "Landon Dickerson", "team": "Eagles"}], '
+        '"event_class": "other", "excluded_reason": "hype", "hype_kind": "soundbite"}')
+    assert c["is_news"] is False and c["excluded_reason"] == "hype" and c["hype_kind"] == "soundbite"
+    c = parse_classification('{"is_news": false, "player": "X", "excluded_reason": "hype", "hype_kind": "vibes"}')
+    assert c["hype_kind"] == "other"
+    assert "hype_kind" not in parse_classification('{"is_news": false, "player": null, "excluded_reason": "promo"}')
+
+
+def test_hype_prompt_only_in_multi_player_mode():
+    assert "hype" in classify.prompt_for("nfl", multi_player=True)
+    assert "hype" not in classify.prompt_for("mlb")

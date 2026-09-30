@@ -55,7 +55,10 @@ SPORT_EVENT_CLASSES = {
 # Backward-compatible alias (the generic taxonomy).
 EVENT_CLASSES = DEFAULT_EVENT_CLASSES
 
-EXCLUDED_REASONS = ("no_player", "lineup_card", "promo", "recap", "not_news")
+EXCLUDED_REASONS = ("no_player", "lineup_card", "promo", "recap", "not_news", "hype")
+
+# Why a post was tagged hype (sports with match_mode: developments).
+HYPE_KINDS = ("soundbite", "rumor", "in_game_note", "non_fantasy", "other")
 
 # Legacy (baseball-specific) classes -> generic cross-sport taxonomy. Applied when
 # reading cached MLB classifications so the whole dashboard is uniform without paying
@@ -140,10 +143,29 @@ MULTI_PLAYER_PROMPT = DEFAULT_PROMPT.replace(
 ).replace(
     '''"player": "<full name or null>", "team": "<team or null>", ''',
     '''"players": [{"name": "<full name>", "team": "<team or null>"}], ''',
+).replace(
+    "When is_news is false, give excluded_reason as one of: no_player, lineup_card, promo, "
+    "recap, not_news. ",
+    "HYPE: set is_news to false with excluded_reason \"hype\" for any post that is not a news "
+    "report, even when it names a player: a quote or soundbite that does not change a "
+    "player's status or role (a quote that DOES carry news, e.g. a coach saying a player "
+    "will start or is out, is news); a rumor, speculation, interest or trade/contract "
+    "chatter short of a completed move; an in-game note that is not a status change (a "
+    "player returning to the game, standing on the sideline, warming up, getting taped) - "
+    "whereas leaving the game, questionable/doubtful to return and ruled out ARE news; a "
+    "video clip, photo or observation with no news in it; and ANY post about players who are "
+    "not fantasy-relevant: offensive linemen, defensive players, punters and long snappers. "
+    "For hype also give hype_kind: soundbite, rumor, in_game_note, non_fantasy, or other. "
+    "When is_news is false, give excluded_reason as one of: no_player, lineup_card, promo, "
+    "recap, not_news, hype. ",
+).replace(
+    '''"excluded_reason": "<reason or null>"}''',
+    '''"excluded_reason": "<reason or null>", "hype_kind": "<kind or null>"}''',
 )
 
-# Bump when MULTI_PLAYER_PROMPT changes in a way that should re-run cached no_player posts.
-MULTI_PLAYER_VERSION = 1
+# Bump when MULTI_PLAYER_PROMPT changes. v1 re-ran cached no_player posts (multi-player
+# lists); v2 added the hype label and re-runs cached news posts once.
+MULTI_PLAYER_VERSION = 2
 
 # Per-sport prompt overrides; sports absent here use DEFAULT_PROMPT.
 SPORT_PROMPTS = {
@@ -213,6 +235,9 @@ def parse_classification(
     }
     if len(players) > 1:
         out["players"] = players
+    if reason == "hype":
+        kind = data.get("hype_kind")
+        out["hype_kind"] = kind if kind in HYPE_KINDS else "other"
     return out
 
 
@@ -272,6 +297,7 @@ def _apply(record: dict, c: dict, event_classes: tuple[str, ...] = DEFAULT_EVENT
     # Coerce any cached/legacy event_class into the sport's taxonomy on read.
     record["event_class"] = _canonical_event(c.get("event_class"), event_classes)
     record["excluded_reason"] = c.get("excluded_reason")
+    record["hype_kind"] = c.get("hype_kind")
     record["player"] = player
     record["team"] = c.get("team")
     record["player_key"] = normalize_name(player)
@@ -281,6 +307,14 @@ def _apply(record: dict, c: dict, event_classes: tuple[str, ...] = DEFAULT_EVENT
     record["players"] = [{"name": p["name"], "team": p.get("team"),
                           "player_key": normalize_name(p["name"])} for p in players]
     return record
+
+
+def _needs_rerun(c: dict) -> bool:
+    """Cached verdict predates the current multi-player prompt and could change under it."""
+    v = c.get("multi_player_version") or 0
+    if c.get("excluded_reason") == "no_player" and v < 1:
+        return True                     # v1: may name several players
+    return bool(c.get("is_news")) and v < 2   # v2: may now be hype
 
 
 def _sport_label(sport: str) -> str:
@@ -305,9 +339,10 @@ def classify_file(
     post is classified only once; new verdicts are appended. The real classifier is
     created lazily on first uncached post, so an all-cached run needs no key.
 
-    With ``multi_player=True`` posts may name several players, and cached posts that were
-    excluded as ``no_player`` under an older prompt are classified again once (the new
-    verdict is appended, so the cache's last line per id wins).
+    With ``multi_player=True`` posts may name several players and non-reports are tagged
+    ``hype``. Cached verdicts that the newer prompt could change (``no_player`` posts from
+    before v1, news posts from before v2) are classified again once; the new verdict is
+    appended, so the cache's last line per id wins.
 
     With ``llm=False`` (no key available) the LLM is never called: cached posts are
     applied as-is and any uncached post falls back to a safe non-news default so the rest
@@ -323,8 +358,7 @@ def classify_file(
     for r in records:
         tid = r["id"]
         c = cached.get(tid)
-        if (c is not None and llm and multi_player and c.get("excluded_reason") == "no_player"
-                and (c.get("multi_player_version") or 0) < MULTI_PLAYER_VERSION):
+        if c is not None and llm and multi_player and _needs_rerun(c):
             c = None
         if c is None:
             if not llm:

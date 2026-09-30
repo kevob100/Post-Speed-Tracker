@@ -37,6 +37,10 @@ from .store import append_jsonl, load_jsonl, now_iso, parse_dt, write_jsonl
 
 ET = ZoneInfo("America/New_York")
 
+# A coverage gap is "late" (not "missed") when the other account posts about the same
+# player within this long after the lone post.
+LATE_WINDOW_S = 24 * 3600
+
 
 def mentions(news: list[dict]) -> list[dict]:
     """One (post, player) mention per player a news post names."""
@@ -188,9 +192,42 @@ def resolve_developments(
                 stories.extend(_development_stories(
                     ms, g.get("label"), player, pkey, team, rw_handle, window_s, source))
 
+    _mark_gaps(stories, news, rw_handle)
     stories.sort(key=lambda s: s["story_id"])
     write_jsonl(data_dir / "stories.jsonl", stories)
     return stories
+
+
+def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str) -> None:
+    """Tag each coverage gap (one-sided, not a follow-up) as missed or late.
+
+    gap_kind "late": the other account posted about the same player within LATE_WINDOW_S
+    after the lone post (other_side_later names that post and the delay). It may be a
+    different development, which is why the post is shown rather than claimed as a match.
+    gap_kind "missed": the other account said nothing about the player in that window.
+    """
+    by_player: dict[tuple, list[dict]] = {}
+    for m in mentions(news):
+        side = "rw" if m["post"]["account"] == rw_handle else "ud"
+        by_player.setdefault((m["player_key"], side), []).append(m["post"])
+    for posts in by_player.values():
+        posts.sort(key=lambda p: p["created_at"])
+
+    for st in stories:
+        if st["status"] == "matched" or st.get("same_event_duplicate"):
+            continue
+        lone = st["rotowire"] or st["underdog"]
+        other = "ud" if st["rotowire"] else "rw"
+        t0 = parse_dt(lone["created_at"])
+        later = None
+        for p in by_player.get((st["player_key"], other), []):
+            delay = (parse_dt(p["created_at"]) - t0).total_seconds()
+            if 0 < delay <= LATE_WINDOW_S:
+                later = {"tweet_id": p["id"], "created_at": p["created_at"],
+                         "text": p.get("text", ""), "delay_seconds": int(delay)}
+                break
+        st["gap_kind"] = "late" if later else "missed"
+        st["other_side_later"] = later
 
 
 def _development_stories(ms, label, player, pkey, team, rw_handle, window_s, source) -> list[dict]:

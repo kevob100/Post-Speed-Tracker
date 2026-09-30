@@ -102,11 +102,14 @@
   .type-grid .wk-note { display: block; font-weight: 400; font-size: 10.5px; color: var(--muted); }
   .type-grid th.season { border-left: 2px solid var(--line); }
   .type-cell { padding: 0; min-width: 104px; height: 50px; }
-  .type-cell > div { display: flex; flex-direction: column; justify-content: center; align-items: center;
-    height: 100%; border-radius: 4px; }
+  .type-cell > div, .type-cell > button { display: flex; flex-direction: column; justify-content: center;
+    align-items: center; width: 100%; height: 100%; border-radius: 4px; }
+  .type-cell > button { border: 0; font: inherit; cursor: pointer; padding: 0; }
+  .type-cell > button:hover { outline: 1px solid var(--muted); }
+  .type-cell > button:focus-visible, .type-cell.picked > button { outline: 2px solid var(--accent); outline-offset: 1px; }
   .type-cell .pct { font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
   .type-cell .meta { font-size: 11px; opacity: .85; font-variant-numeric: tabular-nums; }
-  .type-cell.low > div, .hatch-key { background-image: repeating-linear-gradient(45deg, transparent 0 5px,
+  .type-cell.low > button, .hatch-key { background-image: repeating-linear-gradient(45deg, transparent 0 5px,
     rgba(255,255,255,.08) 5px 7px); }
   .type-cell.empty-cell > div { color: var(--muted); background: var(--panel); }
   .type-cell.season { border-left: 2px solid var(--line); padding-left: 4px; }
@@ -116,6 +119,16 @@
   .type-legend .ramp i { width: 26px; height: 10px; border-radius: 2px; }
   .hatch-key { display: inline-block; width: 26px; height: 10px; border-radius: 2px; margin-left: 10px;
     background-color: var(--panel2); }
+
+  .legend-hint { margin-left: auto; }
+  #type-examples { margin-top: 20px; }
+  .examples-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 6px; }
+  .examples-head h3 { font-size: 14px; margin: 0; }
+  .examples-head span { color: var(--muted); font-size: 12px; }
+  table.examples td { vertical-align: top; }
+  table.examples td.story { min-width: 260px; }
+  .who-tag { display: inline-block; font-size: 10.5px; font-weight: 700; color: var(--muted); margin-right: 6px; }
+  .muted-sm { color: var(--muted); font-size: 11px; }
 
   /* ALL overview */
   .all-title { font-size: 15px; margin: 4px 0 12px; color: var(--muted); }
@@ -151,7 +164,7 @@
     <div class="tab" data-view="monthly">Monthly</div>
     <div class="tab" data-view="custom">Custom</div>
     <div class="tab" data-view="gaps">Coverage Gaps</div>
-    <div class="tab" data-view="dups">Duplicates</div>
+    <div class="tab" data-view="dups">Follow-ups</div>
   </div>
 
   <section id="view-feed">
@@ -390,7 +403,7 @@ function renderKpis() {
     ["Average Trail", fmtMS(s.avg_trail_seconds), "RotoWire behind"],
     ["Matched stories", s.matched ?? 0, ""],
     ["Coverage gaps", `${s.rotowire_only ?? 0} / ${s.underdog_only ?? 0}`, "RW-only / UD-only"],
-    ["Same-event dups", `${(s.rotowire_duplicate ?? 0) + (s.underdog_duplicate ?? 0)}`, "RW + UD"],
+    ["Follow-ups", `${(s.rotowire_duplicate ?? 0) + (s.underdog_duplicate ?? 0)}`, "RW + UD"],
   ];
   document.getElementById("kpis").innerHTML = cards.map(([l,v,sub]) =>
     `<div class="kpi"><div class="label">${l}</div>
@@ -522,7 +535,7 @@ function fmtMargin(sec) {
   return `${sec > 0 ? "RW" : "UD"} +${Math.floor(a / 60)}:${pad(a % 60)}`;
 }
 
-function typeCell(c, extra = "") {
+function typeCell(c, extra = "", typeKey = "", week = "") {
   if (!c) return `<td class="type-cell empty-cell ${extra}"><div>—</div></td>`;
   const rate = c.rotowire_first_rate;
   const bg = TYPE_RAMP[Math.min(TYPE_RAMP.length - 1, Math.floor(rate / 0.1))];
@@ -531,9 +544,11 @@ function typeCell(c, extra = "") {
   const tip = `${c.matched} matched ${c.matched === 1 ? "story" : "stories"} · RW first ${fmtPct(rate)} · ` +
     `median ${c.median_lead_seconds < 0 ? "Underdog" : c.median_lead_seconds > 0 ? "RotoWire" : "even"}` +
     `${c.median_lead_seconds ? " faster by " + fmtMargin(c.median_lead_seconds).split("+")[1] : ""}`;
-  return `<td class="type-cell ${low ? "low" : ""} ${extra}" title="${esc(tip)}">
-    <div style="background:${bg};color:${ink}"><span class="pct">${fmtPct(rate)}</span>
-    <span class="meta">${c.matched} · ${fmtMargin(c.median_lead_seconds)}</span></div></td>`;
+  const picked = state.typePick && state.typePick.type === typeKey && state.typePick.week === week;
+  return `<td class="type-cell ${low ? "low" : ""} ${picked ? "picked" : ""} ${extra}">
+    <button type="button" data-type="${esc(typeKey)}" data-week="${esc(week)}" title="${esc(tip)} · click for examples"
+      style="background:${bg};color:${ink}"><span class="pct">${fmtPct(rate)}</span>
+    <span class="meta">${c.matched} · ${fmtMargin(c.median_lead_seconds)}</span></button></td>`;
 }
 
 function renderTypes() {
@@ -549,7 +564,7 @@ function renderTypes() {
   const head = nt.weeks.map(w => `<th class="wk">${esc(w)}${ends[w] && ends[w] >= today
     ? `<span class="wk-note">in progress</span>` : ""}</th>`).join("");
   const rows = nt.types.map(t => `<tr><th scope="row" class="type-name">${esc(t.label)}</th>
-    ${nt.weeks.map(w => typeCell(t.weeks[w])).join("")}${typeCell(t.season, "season")}</tr>`).join("");
+    ${nt.weeks.map(w => typeCell(t.weeks[w], "", t.key, w)).join("")}${typeCell(t.season, "season", t.key, "")}</tr>`).join("");
 
   el.innerHTML = `<p class="type-note">How often RotoWire posted first, by type of news and NFL week.
     Each cell shows RW's win rate, then the number of matched stories and the median margin
@@ -559,7 +574,46 @@ function renderTypes() {
     <th class="wk season">Season</th></tr></thead><tbody>${rows}</tbody></table></div>
     <div class="type-legend"><span>RW win rate</span>
       <span class="ramp">${TYPE_RAMP.map(c => `<i style="background:${c}"></i>`).join("")}</span>
-      <span>0% → 50%+</span><span class="hatch-key"></span><span>Fewer than ${TYPE_MIN_STORIES} stories</span></div>`;
+      <span>0% → 50%+</span><span class="hatch-key"></span><span>Fewer than ${TYPE_MIN_STORIES} stories</span>
+      <span class="legend-hint">Click a cell to see its stories.</span></div>
+    <div id="type-examples">${typeExamples(nt)}</div>`;
+  el.querySelectorAll(".type-cell button").forEach(b => b.onclick = () => {
+    const pick = { type: b.dataset.type, week: b.dataset.week };
+    const same = state.typePick && state.typePick.type === pick.type && state.typePick.week === pick.week;
+    state.typePick = same ? null : pick;
+    renderTypes();
+    if (state.typePick) document.getElementById("type-examples").scrollIntoView({ behavior: "smooth", block: "nearest" });
+  });
+  const close = document.getElementById("type-examples-close");
+  if (close) close.onclick = e => { e.preventDefault(); state.typePick = null; renderTypes(); };
+}
+
+// Head-to-heads behind the picked grid cell: both tweets, times and margin.
+function typeExamples(nt) {
+  const pick = state.typePick;
+  if (!pick) return "";
+  const t = nt.types.find(x => x.key === pick.type);
+  if (!t) return "";
+  const rows = state.stories.filter(s => s.status === "matched" && s.news_type === pick.type
+      && s.review_status !== "rejected" && s.season_week && s.season_week !== "Preseason"
+      && (!pick.week || s.season_week === pick.week))
+    .sort((a, b) => storyTime(b) - storyTime(a));
+  const body = rows.map(s => {
+    const d = s.time_delta_seconds;
+    const cls = d > 0 ? "rw" : d < 0 ? "ud" : "";
+    return `<tr><td>${esc(s.player || "?")}${pick.week ? "" : `<div class="muted-sm">${esc(s.season_week)}</div>`}</td>
+      <td><span class="badge ${cls}">${fmtMargin(d)}</span></td>
+      <td class="story"><span class="who-tag">UD</span>${timeLink(state.handles.underdog, s.underdog)}
+        <div>${textLink(state.handles.underdog, s.underdog, s.underdog.text)}</div></td>
+      <td class="story"><span class="who-tag">RW</span>${timeLink(state.handles.rotowire, s.rotowire)}
+        <div>${textLink(state.handles.rotowire, s.rotowire, s.rotowire.text)}</div></td></tr>`;
+  }).join("");
+  return `<div class="examples-head"><h3>${esc(t.label)} · ${esc(pick.week || "Season")}</h3>
+      <span>${rows.length} head-to-head${rows.length === 1 ? "" : "s"}, newest first ·
+      <a href="#" id="type-examples-close">close</a></span></div>
+    <div class="type-wrap"><table class="examples"><thead><tr><th data-nosort>Player</th>
+      <th data-nosort>First by</th><th data-nosort>Underdog</th><th data-nosort>RotoWire</th></tr></thead>
+      <tbody>${body}</tbody></table></div>`;
 }
 
 // Custom-range summary for the current sport. Reuses summarize() (same math as the
@@ -576,7 +630,7 @@ function renderCustom() {
     ["Average Trail", fmtMS(s.avg_trail_seconds), "RotoWire behind"],
     ["Matched stories", fmtNum(s.matched), ""],
     ["Coverage gaps", `${s.rotowire_only} / ${s.underdog_only}`, "RW-only / UD-only"],
-    ["Same-event dups", `${s.dups}`, "RW + UD"],
+    ["Follow-ups", `${s.dups}`, "RW + UD"],
   ];
 
   // Win-rate graph: a single bar for the whole selected period (RotoWire-first rate over
@@ -612,7 +666,76 @@ function renderCustom() {
 // Feed label = which account actually posted this one-sided story.
 const feedOf = s => s.status === "rotowire_only" ? "RotoWire" : "Underdog";
 
+// Coverage gaps for sports whose stories carry gap_kind (development matching): what each
+// side missed or posted later, one NFL week at a time, so a week's misses can be reviewed.
+const GAP_VIEWS = [
+  { key: "ud_missed", status: "underdog_only", kind: "missed", label: "RotoWire missed",
+    note: "Underdog posted it and RotoWire posted nothing about the player in the next 24 hours." },
+  { key: "ud_late", status: "underdog_only", kind: "late", label: "RotoWire later",
+    note: "Underdog posted it; RotoWire's next post about the player came later (it may be a different update, so both are shown)." },
+  { key: "rw_missed", status: "rotowire_only", kind: "missed", label: "RotoWire exclusive",
+    note: "RotoWire posted it and Underdog posted nothing about the player in the next 24 hours." },
+  { key: "rw_late", status: "rotowire_only", kind: "late", label: "Underdog later",
+    note: "RotoWire posted it; Underdog's next post about the player came later." },
+];
+
+function fmtDelay(sec) {
+  const m = Math.round(sec / 60);
+  return m < 60 ? `${m}m later` : `${Math.floor(m / 60)}h ${pad(m % 60)}m later`;
+}
+
+function renderGapsByWeek() {
+  const el = document.getElementById("view-gaps");
+  const gaps = state.stories.filter(s => s.gap_kind && !s.same_event_duplicate
+                                         && s.review_status !== "rejected" && s.season_week);
+  const weeks = (state.agg.season_weeks || []).map(r => r.period)
+    .filter(w => gaps.some(s => s.season_week === w));
+  if (!weeks.length) { el.innerHTML = `<div class="empty">No coverage gaps.</div>`; return; }
+  const week = weeks.includes(state.gapWeek) ? state.gapWeek : weeks[weeks.length - 1];
+  const inWeek = gaps.filter(s => s.season_week === week);
+  const view = GAP_VIEWS.find(v => v.key === state.gapView) || GAP_VIEWS[0];
+  const count = v => inWeek.filter(s => s.status === v.status && s.gap_kind === v.kind).length;
+  const rows = inWeek.filter(s => s.status === view.status && s.gap_kind === view.kind)
+    .sort((a, b) => storyTime(a) - storyTime(b));
+
+  const hype = ((state.agg.hype || {}).weeks || {})[week];
+  const hypeLine = hype ? ` Left out as hype (not a report) this week: Underdog ${hype.underdog},
+    RotoWire ${hype.rotowire}.` : "";
+  const loneHandle = view.status === "underdog_only" ? state.handles.underdog : state.handles.rotowire;
+  const otherHandle = view.status === "underdog_only" ? state.handles.rotowire : state.handles.underdog;
+
+  const body = rows.map(s => {
+    const lone = s.underdog || s.rotowire, later = s.other_side_later;
+    return `<tr><td>${fmtTime(lone.created_at)}</td><td>${esc(s.player || "?")}</td>
+      <td class="story">${textLink(loneHandle, lone, lone.text)}</td>
+      ${view.kind === "late" ? `<td class="num">${later ? fmtDelay(later.delay_seconds) : "—"}</td>
+      <td class="story">${later ? textLink(otherHandle, later, later.text) : "—"}</td>` : ""}</tr>`;
+  }).join("");
+  const loneName = view.status === "underdog_only" ? "Underdog post" : "RotoWire post";
+  const otherName = view.status === "underdog_only" ? "RotoWire's later post" : "Underdog's later post";
+
+  el.innerHTML = `<p class="type-note">News only one account covered. Pick a week and a list
+      to review what RotoWire missed or posted late.${hypeLine}</p>
+    <div class="filters">
+      <label>NFL week<select id="f-gap-week">${weeks.map(w =>
+        `<option${w === week ? " selected" : ""}>${esc(w)}</option>`).join("")}</select></label>
+      <label>Show<select id="f-gap-view">${GAP_VIEWS.map(v =>
+        `<option value="${v.key}"${v === view ? " selected" : ""}>${v.label} (${count(v)})</option>`).join("")}
+      </select></label>
+    </div>
+    <p class="type-note">${view.note}</p>
+    ${rows.length ? `<div class="type-wrap"><table><thead><tr><th data-nosort>Posted</th>
+      <th data-nosort>Player</th><th data-nosort>${loneName}</th>
+      ${view.kind === "late" ? `<th data-nosort style="text-align:right">Gap</th>
+      <th data-nosort>${otherName}</th>` : ""}</tr></thead><tbody>${body}</tbody></table></div>`
+      : `<div class="empty">None in ${esc(week)}.</div>`}`;
+
+  document.getElementById("f-gap-week").onchange = e => { state.gapWeek = e.target.value; renderGapsByWeek(); };
+  document.getElementById("f-gap-view").onchange = e => { state.gapView = e.target.value; renderGapsByWeek(); };
+}
+
 function renderGaps() {
+  if (state.stories.some(s => s.gap_kind)) return renderGapsByWeek();
   const all = state.stories
     .filter(s => (s.status === "rotowire_only" || s.status === "underdog_only")
                  && !s.same_event_duplicate && s.review_status !== "rejected")
@@ -677,15 +800,16 @@ function renderDups() {
   }).join("");
   document.getElementById("view-dups").innerHTML = dups.length
     ? `<p style="color:var(--muted);font-size:13px;margin:0 0 12px">
-         Extra posts about an event already matched in the feed — excluded from the
-         1-to-1 grid and from coverage-gap counts. <b>Type</b> flags whether this post is
+         Later posts about news one account already reported: an Underdog quote-tweet update
+         or a second RotoWire tweet on the same development. They don't count toward speed
+         or coverage gaps; this list is for spot-checking. <b>Type</b> flags whether this post is
          the original headline or a later follow-up (RotoWire adds a story link; Underdog
          adds a video). Story and Matched-story link to their tweets.</p>
        <table><thead><tr><th data-nosort>Date</th><th data-nosort>Player</th>
        <th data-nosort>Event</th><th data-nosort>Feed</th><th data-nosort>Type</th>
        <th data-nosort>Story</th><th data-nosort>Matched story</th></tr></thead>
        <tbody>${body}</tbody></table>`
-    : `<div class="empty">No same-event duplicates.</div>`;
+    : `<div class="empty">No follow-up posts.</div>`;
 }
 
 // ---- ALL overview ----
@@ -794,7 +918,7 @@ function renderAllTable() {
     <th data-nosort style="text-align:right">Average Trail</th>
     <th data-nosort style="text-align:right">RW-only</th>
     <th data-nosort style="text-align:right">UD-only</th>
-    <th data-nosort style="text-align:right">Dups</th></tr>`;
+    <th data-nosort style="text-align:right">Follow-ups</th></tr>`;
   const body = dataRow("", totalSummary, null)
     + perSport.map(r => dataRow(r.label, r.summary, r.key)).join("");
   document.getElementById("all-wrap").innerHTML =

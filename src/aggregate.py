@@ -225,12 +225,35 @@ def _news_type_rollup(stories: list[dict], weeks_cfg: dict) -> dict:
     return {"weeks": [label for _, label in sorted(week_keys)], "types": types}
 
 
+def _hype_rollup(tweets: list[dict], weeks_cfg: dict, rotowire_handle: str) -> dict:
+    """Posts tagged hype (not a report) per season week and account, Week 1 on.
+
+    {"weeks": {"Week 1": {"rotowire": n, "underdog": n}, ...}, "kinds": {"underdog": {kind: n}}}
+    """
+    of = season_week_of(weeks_cfg)
+    weeks: dict[tuple, dict] = {}
+    kinds: dict[str, dict[str, int]] = {"rotowire": {}, "underdog": {}}
+    for t in tweets:
+        if t.get("excluded_reason") != "hype":
+            continue
+        n, label, _, _ = of(parse_dt(t["created_at"]))
+        if n == 0:
+            continue
+        side = "rotowire" if t.get("account") == rotowire_handle else "underdog"
+        row = weeks.setdefault((n, label), {"rotowire": 0, "underdog": 0})
+        row[side] += 1
+        kind = t.get("hype_kind") or "other"
+        kinds[side][kind] = kinds[side].get(kind, 0) + 1
+    return {"weeks": {label: row for (_, label), row in sorted(weeks.items())}, "kinds": kinds}
+
+
 def build_aggregates(
     data_dir: Path = DATA_DIR,
     docs_data_dir: Path = DOCS_DATA_DIR,
     stories_path: Path | None = None,
     reviews_path: Path | None = None,
     season_weeks: dict | None = None,
+    rotowire_handle: str | None = None,
 ) -> dict:
     stories_path = stories_path or (data_dir / "stories.jsonl")
     reviews_path = reviews_path or (data_dir / "reviews.jsonl")
@@ -246,6 +269,15 @@ def build_aggregates(
     if season_weeks:
         aggregates["season_weeks"] = _season_rollup(stories, season_weeks)
         aggregates["news_types"] = _news_type_rollup(stories, season_weeks)
+        # Tag each story so the dashboard can list examples per week / news type.
+        of = season_week_of(season_weeks)
+        for st in stories:
+            st["season_week"] = of(_story_time(st))[1]
+            if st.get("status") == "matched":
+                st["news_type"] = news_type(st)
+        if rotowire_handle:
+            aggregates["hype"] = _hype_rollup(load_jsonl(data_dir / "tweets.jsonl"),
+                                              season_weeks, rotowire_handle)
 
     docs_data_dir.mkdir(parents=True, exist_ok=True)
     _write_json(docs_data_dir / "stories.json", stories)

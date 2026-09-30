@@ -223,3 +223,45 @@ def test_news_type_rollup(tmp_path):
     assert list(ir["weeks"]) == ["Week 1"]
     assert types["in_game"]["weeks"]["Week 2"]["matched"] == 1
     assert nt["types"][0]["key"] == "injury_report"            # ordered by volume
+
+
+def test_gaps_marked_missed_or_late(tmp_path):
+    posts = [
+        _post("ud_a", UD, 0, players=("Mike Evans",)),                  # RW posts on him 3h later
+        _post("rw_a", RW, 180, players=("Mike Evans",)),
+        _post("ud_b", UD, 0, players=("Dallas Goedert",)),              # RW never does
+    ]
+
+    class Boom:
+        def group(self, *a):
+            raise AssertionError("one-account sessions need no model")
+
+    s = _run(tmp_path, posts, Boom())
+    assert s["st_ud_a"]["gap_kind"] == "late"
+    assert s["st_ud_a"]["other_side_later"]["tweet_id"] == "rw_a"
+    assert s["st_ud_a"]["other_side_later"]["delay_seconds"] == 180 * 60
+    assert s["st_rw_a"]["gap_kind"] == "missed"        # UD's post was before, not after
+    assert s["st_ud_b"]["gap_kind"] == "missed" and s["st_ud_b"]["other_side_later"] is None
+
+
+def test_hype_rollup_and_story_tags(tmp_path):
+    write_jsonl(tmp_path / "stories.jsonl", [
+        {"story_id": "a", "status": "matched",
+         "rotowire": {"tweet_id": "1", "created_at": "2026-09-09T12:00:00.000Z", "text": "Ruled out for Week 1."},
+         "underdog": {"tweet_id": "2", "created_at": "2026-09-09T12:01:00.000Z", "text": "Out Week 1."},
+         "time_delta_seconds": 60, "rotowire_first": True}])
+    write_jsonl(tmp_path / "tweets.jsonl", [
+        {"id": "h1", "account": UD, "created_at": "2026-09-09T12:00:00.000Z", "excluded_reason": "hype", "hype_kind": "soundbite"},
+        {"id": "h2", "account": UD, "created_at": "2026-09-16T12:00:00.000Z", "excluded_reason": "hype", "hype_kind": "rumor"},
+        {"id": "h3", "account": RW, "created_at": "2026-09-16T12:00:00.000Z", "excluded_reason": "hype", "hype_kind": "rumor"},
+        {"id": "h0", "account": UD, "created_at": "2026-09-01T12:00:00.000Z", "excluded_reason": "hype"},  # preseason
+        {"id": "n", "account": UD, "created_at": "2026-09-16T12:00:00.000Z", "excluded_reason": "promo"},
+    ])
+    out = agg.build_aggregates(data_dir=tmp_path, docs_data_dir=tmp_path / "docs",
+                               season_weeks=WEEKS, rotowire_handle=RW)
+    assert out["hype"]["weeks"] == {"Week 1": {"rotowire": 0, "underdog": 1},
+                                    "Week 2": {"rotowire": 1, "underdog": 1}}
+    assert out["hype"]["kinds"]["underdog"] == {"soundbite": 1, "rumor": 1}
+    import json as _json
+    st = _json.loads((tmp_path / "docs" / "stories.json").read_text())[0]
+    assert st["season_week"] == "Week 1" and st["news_type"] == "game_status"
