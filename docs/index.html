@@ -38,8 +38,10 @@
   .kpi .value small { font-size: 13px; color: var(--muted); font-weight: 400; }
 
   /* tabs */
-  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
-  .tab { padding: 9px 14px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; user-select: none; }
+  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 16px;
+    overflow-x: auto; scrollbar-width: none; }
+  .tab { padding: 9px 14px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; user-select: none;
+    white-space: nowrap; }
   .tab:hover { color: var(--text); }
   .tab.active { color: var(--text); border-bottom-color: var(--accent); }
 
@@ -87,6 +89,34 @@
   .cov h3 { font-size: 13px; margin: 0 0 6px; color: var(--muted); }
   .cov li { margin: 4px 0; }
 
+  /* by news type grid */
+  .type-note { color: var(--muted); font-size: 12.5px; margin: 0 0 14px; }
+  .type-wrap { overflow-x: auto; }
+  .type-grid { border-collapse: separate; border-spacing: 2px; }
+  .type-grid th, .type-grid td { border-bottom: 0; }
+  .type-grid th.type-name { color: var(--text); font-weight: 400; font-size: 14px; cursor: default; padding-left: 0; }
+  /* keep the type names visible while the weeks scroll sideways on a phone */
+  .type-grid th:first-child { position: sticky; left: 0; z-index: 1; background: var(--bg); }
+  .type-grid thead th { vertical-align: bottom; cursor: default; }
+  .type-grid th.wk { text-align: center; }
+  .type-grid .wk-note { display: block; font-weight: 400; font-size: 10.5px; color: var(--muted); }
+  .type-grid th.season { border-left: 2px solid var(--line); }
+  .type-cell { padding: 0; min-width: 104px; height: 50px; }
+  .type-cell > div { display: flex; flex-direction: column; justify-content: center; align-items: center;
+    height: 100%; border-radius: 4px; }
+  .type-cell .pct { font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
+  .type-cell .meta { font-size: 11px; opacity: .85; font-variant-numeric: tabular-nums; }
+  .type-cell.low > div, .hatch-key { background-image: repeating-linear-gradient(45deg, transparent 0 5px,
+    rgba(255,255,255,.08) 5px 7px); }
+  .type-cell.empty-cell > div { color: var(--muted); background: var(--panel); }
+  .type-cell.season { border-left: 2px solid var(--line); padding-left: 4px; }
+  .type-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 11.5px;
+    color: var(--muted); margin-top: 12px; }
+  .type-legend .ramp { display: inline-flex; gap: 2px; }
+  .type-legend .ramp i { width: 26px; height: 10px; border-radius: 2px; }
+  .hatch-key { display: inline-block; width: 26px; height: 10px; border-radius: 2px; margin-left: 10px;
+    background-color: var(--panel2); }
+
   /* ALL overview */
   .all-title { font-size: 15px; margin: 4px 0 12px; color: var(--muted); }
   #view-all table tbody tr.sport-row { cursor: pointer; }
@@ -117,6 +147,7 @@
   <div class="tabs" id="tabs">
     <div class="tab active" data-view="feed">Story Feed</div>
     <div class="tab" data-view="weekly">Weekly</div>
+    <div class="tab hidden" data-view="types" id="tab-types">By news type</div>
     <div class="tab" data-view="monthly">Monthly</div>
     <div class="tab" data-view="custom">Custom</div>
     <div class="tab" data-view="gaps">Coverage Gaps</div>
@@ -139,6 +170,7 @@
   </section>
 
   <section id="view-weekly" class="hidden"></section>
+  <section id="view-types" class="hidden"></section>
   <section id="view-monthly" class="hidden"></section>
   <section id="view-custom" class="hidden"></section>
   <section id="view-gaps" class="hidden"></section>
@@ -236,12 +268,14 @@ function setMode(isAll) {
   document.getElementById("kpis").classList.toggle("hidden", isAll);
   document.getElementById("tabs").classList.toggle("hidden", isAll);
   if (isAll) {
-    ["feed","weekly","monthly","custom","gaps","dups"].forEach(v =>
+    VIEWS.forEach(v =>
       document.getElementById("view-" + v).classList.add("hidden"));
   } else {
     showView(state.view || "feed");   // restore the active tab, one visible at a time
   }
 }
+
+const VIEWS = ["feed","weekly","types","monthly","custom","gaps","dups"];
 
 // ---- formatting helpers ----
 const pad = n => String(n).padStart(2, "0");
@@ -474,6 +508,58 @@ function renderRollup(el, rows, periodLabel) {
     <th data-nosort style="text-align:right">RW win rate</th><th data-nosort style="text-align:right">Average Lead</th>
     <th data-nosort style="text-align:right">Average Trail</th><th data-nosort style="text-align:right">RW-only</th>
     <th data-nosort style="text-align:right">UD-only</th></tr></thead><tbody>${body}</tbody></table>`;
+}
+
+// ---- by news type: season week x type grid of RotoWire's win rate ----
+// Single-hue ramp (magnitude): surface -> brand green. Win rates of 50%+ share the top step.
+const TYPE_RAMP = ["#1f2a2a", "#1e3b2b", "#1f4f2f", "#226434", "#277a3a", "#2ea043"];
+const TYPE_MIN_STORIES = 10;   // cells below this are hatched: too few stories to read much into
+
+function fmtMargin(sec) {
+  if (sec == null) return "—";
+  if (sec === 0) return "even";
+  const a = Math.abs(Math.round(sec));
+  return `${sec > 0 ? "RW" : "UD"} +${Math.floor(a / 60)}:${pad(a % 60)}`;
+}
+
+function typeCell(c, extra = "") {
+  if (!c) return `<td class="type-cell empty-cell ${extra}"><div>—</div></td>`;
+  const rate = c.rotowire_first_rate;
+  const bg = TYPE_RAMP[Math.min(TYPE_RAMP.length - 1, Math.floor(rate / 0.1))];
+  const ink = rate >= 0.3 ? "#0f1419" : "var(--text)";
+  const low = c.matched < TYPE_MIN_STORIES;
+  const tip = `${c.matched} matched ${c.matched === 1 ? "story" : "stories"} · RW first ${fmtPct(rate)} · ` +
+    `median ${c.median_lead_seconds < 0 ? "Underdog" : c.median_lead_seconds > 0 ? "RotoWire" : "even"}` +
+    `${c.median_lead_seconds ? " faster by " + fmtMargin(c.median_lead_seconds).split("+")[1] : ""}`;
+  return `<td class="type-cell ${low ? "low" : ""} ${extra}" title="${esc(tip)}">
+    <div style="background:${bg};color:${ink}"><span class="pct">${fmtPct(rate)}</span>
+    <span class="meta">${c.matched} · ${fmtMargin(c.median_lead_seconds)}</span></div></td>`;
+}
+
+function renderTypes() {
+  const nt = state.agg.news_types;
+  const has = !!(nt && nt.types && nt.types.length);
+  document.getElementById("tab-types").classList.toggle("hidden", !has);
+  const el = document.getElementById("view-types");
+  if (!has) { el.innerHTML = ""; return; }
+
+  // Flag the week still in progress (its end date hasn't passed yet).
+  const today = new Date().toISOString().slice(0, 10);
+  const ends = Object.fromEntries((state.agg.season_weeks || []).map(r => [r.period, r.end]));
+  const head = nt.weeks.map(w => `<th class="wk">${esc(w)}${ends[w] && ends[w] >= today
+    ? `<span class="wk-note">in progress</span>` : ""}</th>`).join("");
+  const rows = nt.types.map(t => `<tr><th scope="row" class="type-name">${esc(t.label)}</th>
+    ${nt.weeks.map(w => typeCell(t.weeks[w])).join("")}${typeCell(t.season, "season")}</tr>`).join("");
+
+  el.innerHTML = `<p class="type-note">How often RotoWire posted first, by type of news and NFL week.
+    Each cell shows RW's win rate, then the number of matched stories and the median margin
+    (UD +2:00 means Underdog was typically two minutes faster). Week 1 on; types are sorted
+    by keyword rules on the post text, so treat them as close, not exact.</p>
+    <div class="type-wrap"><table class="type-grid"><thead><tr><th>News type</th>${head}
+    <th class="wk season">Season</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <div class="type-legend"><span>RW win rate</span>
+      <span class="ramp">${TYPE_RAMP.map(c => `<i style="background:${c}"></i>`).join("")}</span>
+      <span>0% → 50%+</span><span class="hatch-key"></span><span>Fewer than ${TYPE_MIN_STORIES} stories</span></div>`;
 }
 
 // Custom-range summary for the current sport. Reuses summarize() (same math as the
@@ -721,9 +807,10 @@ function renderAllTable() {
 
 // ---- tabs + init ----
 function showView(name) {
+  if (name === "types" && !(state.agg.news_types || {}).types?.length) name = "feed";
   state.view = name;
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.view===name));
-  ["feed","weekly","monthly","custom","gaps","dups"].forEach(v =>
+  VIEWS.forEach(v =>
     document.getElementById("view-"+v).classList.toggle("hidden", v!==name));
 }
 
@@ -754,6 +841,7 @@ function init() {
     period: r.start ? `${r.period} · ${fmtWeekRange(r.start, r.end)}` : `${r.period} · thru ${fmtWeekRange(r.end)}` }));
   renderRollup(document.getElementById("view-weekly"), seasonWeeks.length ? seasonWeeks : (state.agg.weekly || []), "week");
   renderRollup(document.getElementById("view-monthly"), state.agg.monthly || [], "month");
+  renderTypes();
   renderCustom();
   renderGaps();
   renderDups();

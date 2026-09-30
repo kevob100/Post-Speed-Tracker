@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-09-30T16:40:24.085373+00:00",
+  "generated_at": "2026-09-30T20:28:02.162757+00:00",
   "summary": {
     "matched": 949,
     "rotowire_first": 165,
@@ -332,5 +332,212 @@
       "underdog_duplicate": 1,
       "followups": 1
     }
-  ]
+  ],
+  "news_types": {
+    "weeks": [
+      "Week 1",
+      "Week 2",
+      "Week 3",
+      "Week 4"
+    ],
+    "types": [
+      {
+        "key": "injury_report",
+        "label": "Practice / injury report",
+        "season": {
+          "matched": 131,
+          "rotowire_first_rate": 0.1221,
+          "median_lead_seconds": -132
+        },
+        "weeks": {
+          "Week 1": {
+            "matched": 41,
+            "rotowire_first_rate": 0.122,
+            "median_lead_seconds": -187
+          },
+          "Week 2": {
+            "matched": 27,
+            "rotowire_first_rate": 0.0741,
+            "median_lead_seconds": -112
+          },
+          "Week 3": {
+            "matched": 53,
+            "rotowire_first_rate": 0.1698,
+            "median_lead_seconds": -127
+          },
+          "Week 4": {
+            "matched": 10,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -152.0
+          }
+        }
+      },
+      {
+        "key": "in_game",
+        "label": "In-game",
+        "season": {
+          "matched": 105,
+          "rotowire_first_rate": 0.0857,
+          "median_lead_seconds": -123
+        },
+        "weeks": {
+          "Week 1": {
+            "matched": 28,
+            "rotowire_first_rate": 0.0714,
+            "median_lead_seconds": -186.5
+          },
+          "Week 2": {
+            "matched": 44,
+            "rotowire_first_rate": 0.0227,
+            "median_lead_seconds": -144.5
+          },
+          "Week 3": {
+            "matched": 33,
+            "rotowire_first_rate": 0.1818,
+            "median_lead_seconds": -58
+          }
+        }
+      },
+      {
+        "key": "game_status",
+        "label": "Game status",
+        "season": {
+          "matched": 101,
+          "rotowire_first_rate": 0.1485,
+          "median_lead_seconds": -112
+        },
+        "weeks": {
+          "Week 1": {
+            "matched": 27,
+            "rotowire_first_rate": 0.1481,
+            "median_lead_seconds": -149
+          },
+          "Week 2": {
+            "matched": 37,
+            "rotowire_first_rate": 0.2162,
+            "median_lead_seconds": -83
+          },
+          "Week 3": {
+            "matched": 37,
+            "rotowire_first_rate": 0.0811,
+            "median_lead_seconds": -116
+          }
+        }
+      },
+      {
+        "key": "practice_obs",
+        "label": "Practice observation",
+        "season": {
+          "matched": 62,
+          "rotowire_first_rate": 0.2742,
+          "median_lead_seconds": -91.5
+        },
+        "weeks": {
+          "Week 1": {
+            "matched": 8,
+            "rotowire_first_rate": 0.5,
+            "median_lead_seconds": 14.0
+          },
+          "Week 2": {
+            "matched": 16,
+            "rotowire_first_rate": 0.1875,
+            "median_lead_seconds": -70.5
+          },
+          "Week 3": {
+            "matched": 38,
+            "rotowire_first_rate": 0.2632,
+            "median_lead_seconds": -158.0
+          }
+        }
+      },
+      {
+        "key": "diagnosis",
+        "label": "Diagnosis / timeline",
+        "season": {
+          "matched": 51,
+          "rotowire_first_rate": 0.0588,
+          "median_lead_seconds": -108
+        },
+        "weeks": {
+          "Week 1": {
+            "matched": 16,
+            "rotowire_first_rate": 0.0625,
+            "median_lead_seconds": -158.0
+          },
+          "Week 2": {
+            "matched": 17,
+            "rotowire_first_rate": 0.1176,
+            "median_lead_seconds": -89
+          },
+          "Week 3": {
+            "matched": 17,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -84
+          },
+          "Week 4": {
+            "matched": 1,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -81
+          }
+        }
+      },
+      {
+        "key": "comments",
+        "label": "Coach / reporter comments",
+        "season": {
+          "matched": 41,
+          "rotowire_first_rate": 0.2439,
+          "median_lead_seconds": -123
+        },
+        "weeks": {
+          "Week 1": {
+            "matched": 12,
+            "rotowire_first_rate": 0.1667,
+            "median_lead_seconds": -157.5
+          },
+          "Week 2": {
+            "matched": 17,
+            "rotowire_first_rate": 0.2941,
+            "median_lead_seconds": -123
+          },
+          "Week 3": {
+            "matched": 12,
+            "rotowire_first_rate": 0.25,
+            "median_lead_seconds": -72.5
+          }
+        }
+      },
+      {
+        "key": "transaction",
+        "label": "Transaction",
+        "season": {
+          "matched": 34,
+          "rotowire_first_rate": 0.0294,
+          "median_lead_seconds": -103.5
+        },
+        "weeks": {
+          "Week 1": {
+            "matched": 12,
+            "rotowire_first_rate": 0.0833,
+            "median_lead_seconds": -77.0
+          },
+          "Week 2": {
+            "matched": 11,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -68
+          },
+          "Week 3": {
+            "matched": 9,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -417
+          },
+          "Week 4": {
+            "matched": 2,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -141.0
+          }
+        }
+      }
+    ]
+  }
 }

@@ -194,3 +194,32 @@ def test_season_weeks_rollup(tmp_path):
     assert rows["Week 1"]["matched"] == 2 and rows["Week 1"]["rotowire_first"] == 1
     assert rows["Week 1"]["start"] == "2026-09-08" and rows["Week 1"]["end"] == "2026-09-14"
     assert "season_weeks" not in agg.build_aggregates(data_dir=tmp_path, docs_data_dir=tmp_path / "d2")
+
+
+def test_news_type_rollup(tmp_path):
+    def m(sid, ts, delta, rw_text, ud_text="x"):
+        return {"story_id": sid, "status": "matched",
+                "rotowire": {"tweet_id": sid, "created_at": ts, "text": rw_text},
+                "underdog": {"tweet_id": sid, "created_at": ts, "text": ud_text},
+                "time_delta_seconds": delta, "rotowire_first": delta > 0}
+
+    stories = [
+        m("pre", "2026-09-01T12:00:00.000Z", 10, "He was placed on injured reserve."),
+        m("a", "2026-09-09T12:00:00.000Z", 30, "Limited in practice Wednesday."),
+        m("b", "2026-09-10T12:00:00.000Z", -90, "Did not practice Thursday, per the injury report."),
+        m("c", "2026-09-16T12:00:00.000Z", -60, "Ruled out for the remainder of Sunday's game, won't return."),
+        {"story_id": "gap", "status": "rotowire_only", "rotowire": {"tweet_id": "g",
+         "created_at": "2026-09-16T12:00:00.000Z", "text": "Signed a contract."}, "underdog": None},
+    ]
+    write_jsonl(tmp_path / "stories.jsonl", stories)
+    nt = agg.build_aggregates(data_dir=tmp_path, docs_data_dir=tmp_path / "docs",
+                              season_weeks=WEEKS)["news_types"]
+    assert nt["weeks"] == ["Week 1", "Week 2"]                 # preseason left out
+    types = {t["key"]: t for t in nt["types"]}
+    assert set(types) == {"injury_report", "in_game"}          # gaps and preseason ignored
+    ir = types["injury_report"]
+    assert ir["label"] == "Practice / injury report"
+    assert ir["season"] == {"matched": 2, "rotowire_first_rate": 0.5, "median_lead_seconds": -30.0}
+    assert list(ir["weeks"]) == ["Week 1"]
+    assert types["in_game"]["weeks"]["Week 2"]["matched"] == 1
+    assert nt["types"][0]["key"] == "injury_report"            # ordered by volume

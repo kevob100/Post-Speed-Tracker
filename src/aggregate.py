@@ -27,6 +27,8 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from .config import DATA_DIR, DOCS_DATA_DIR
+from .news_type import LABELS as NEWS_TYPE_LABELS
+from .news_type import news_type
 from .store import load_jsonl, now_iso, parse_dt
 
 
@@ -182,6 +184,47 @@ def _season_rollup(stories: list[dict], weeks_cfg: dict) -> list[dict]:
     return rows
 
 
+def _type_cell(group: list[dict]) -> dict:
+    deltas = [s["time_delta_seconds"] for s in group]
+    return {
+        "matched": len(group),
+        "rotowire_first_rate": round(sum(1 for d in deltas if d > 0) / len(group), 4),
+        "median_lead_seconds": round(statistics.median(deltas), 1),
+    }
+
+
+def _news_type_rollup(stories: list[dict], weeks_cfg: dict) -> dict:
+    """Matched stories by news type x season week (Week 1 on; preseason is left out).
+
+    Returns {"weeks": ["Week 1", ...], "types": [{key, label, season, weeks: {label: cell}}]}
+    with types ordered by season volume. A cell is {matched, rotowire_first_rate,
+    median_lead_seconds}; a type with no stories in a week has no entry for it.
+    """
+    of = season_week_of(weeks_cfg)
+    by_type: dict[str, dict[tuple, list[dict]]] = {}
+    week_keys: set[tuple] = set()
+    for s in stories:
+        if not _is_active(s) or s.get("status") != "matched" or s.get("time_delta_seconds") is None:
+            continue
+        n, label, _, _ = of(_story_time(s))
+        if n == 0:
+            continue
+        week_keys.add((n, label))
+        by_type.setdefault(news_type(s), {}).setdefault((n, label), []).append(s)
+
+    types = []
+    for key, weeks in by_type.items():
+        season = [s for group in weeks.values() for s in group]
+        types.append({
+            "key": key,
+            "label": NEWS_TYPE_LABELS[key],
+            "season": _type_cell(season),
+            "weeks": {label: _type_cell(g) for (_, label), g in sorted(weeks.items())},
+        })
+    types.sort(key=lambda t: -t["season"]["matched"])
+    return {"weeks": [label for _, label in sorted(week_keys)], "types": types}
+
+
 def build_aggregates(
     data_dir: Path = DATA_DIR,
     docs_data_dir: Path = DOCS_DATA_DIR,
@@ -202,6 +245,7 @@ def build_aggregates(
     }
     if season_weeks:
         aggregates["season_weeks"] = _season_rollup(stories, season_weeks)
+        aggregates["news_types"] = _news_type_rollup(stories, season_weeks)
 
     docs_data_dir.mkdir(parents=True, exist_ok=True)
     _write_json(docs_data_dir / "stories.json", stories)
