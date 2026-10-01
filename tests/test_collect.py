@@ -210,3 +210,31 @@ def test_archive_backfill_failure_retries_next_run():
     _archive_backfill(Boom(), {"underdog": {"handle": "UnderdogNFL", "user_id": "2"}},
                       state, by_id, set(), "2026-04-01T00:00:00Z")
     assert "archive_start" not in state["accounts"]["underdog"]
+
+
+
+def test_get_retries_timeouts(monkeypatch):
+    import requests
+    from src import xapi
+
+    monkeypatch.setattr(xapi.time, "sleep", lambda s: None)
+
+    class Resp:
+        status_code = 200
+
+        def json(self):
+            return {"data": [{"id": "1"}]}
+
+    class Sess:
+        headers: dict = {}
+        calls: list = []
+
+        def get(self, url, params=None, timeout=None):
+            Sess.calls.append(timeout)
+            if len(Sess.calls) < 3:
+                raise requests.Timeout("slow")
+            return Resp()
+
+    c = xapi.XClient(bearer_token="t", session=Sess())
+    assert c._get("/tweets/search/all", {})["data"][0]["id"] == "1"
+    assert Sess.calls == [90, 90, 90]

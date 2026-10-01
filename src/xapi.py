@@ -29,8 +29,16 @@ class XClient:
 
     def _get(self, path: str, params: dict | None = None, max_retries: int = 5) -> dict:
         url = f"{BASE}{path}"
+        # Full-archive search pages for big accounts can take well over 30s to answer.
+        timeout = 90 if path.startswith("/tweets/search") else 30
         for attempt in range(max_retries):
-            resp = self.session.get(url, params=params, timeout=30)
+            try:
+                resp = self.session.get(url, params=params, timeout=timeout)
+            except (requests.Timeout, requests.ConnectionError):
+                if attempt == max_retries - 1:
+                    raise
+                time.sleep(min(2 ** attempt * 5, 60))
+                continue
             if resp.status_code == 429:
                 reset = resp.headers.get("x-rate-limit-reset")
                 wait = self._backoff_seconds(reset, attempt)
