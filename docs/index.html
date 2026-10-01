@@ -174,6 +174,8 @@
   .t-dot.faint.hollow { stroke: var(--muted); }
   .t-dot.clipped { opacity: .9; stroke: var(--text); stroke-width: 1; }
   .t-end { fill: var(--text); font-size: 12px; font-weight: 650; font-variant-numeric: tabular-nums; }
+  .t-mark { stroke: var(--text); stroke-width: 1; stroke-dasharray: 4 3; opacity: .6; }
+  .t-mark-label { fill: var(--text); font-size: 11px; font-weight: 600; }
   .t-cross { stroke: var(--muted); stroke-dasharray: 3 3; }
   .t-hit { fill: transparent; }
   .t-tip { position: absolute; top: 0; background: var(--panel2); border: 1px solid var(--line); border-radius: 6px;
@@ -778,6 +780,23 @@ function renderTrend() {
   }).join("");
   const lastV = last && lineVal(last);
   const endLabel = lastV != null ? `<text x="${x(rows.length - 1) + 10}" y="${y(lastV) + 4}" class="t-end">${fmtMargin(Math.round(lastV))}</text>` : "";
+  // Release markers: a dashed line at the bucket each release date falls in. A release
+  // before the first bucket can't be placed, so it's named in a note instead.
+  const keyOf = d => grain === "month" ? d.slice(0, 7) : d;
+  const marks = [], early = [];
+  (state.agg.milestones || []).forEach(ms => {
+    const k = keyOf(ms.date);
+    let idx = -1;
+    rows.forEach((r, i) => { if (r.period <= k) idx = i; });
+    if (idx < 0) { early.push(ms); return; }
+    marks.push({ ...ms, i: idx });
+  });
+  const fmtDay = d => new Date(d + "T12:00:00Z").toLocaleString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  const markSvg = marks.map(mk => `<line x1="${x(mk.i)}" x2="${x(mk.i)}" y1="${m.t}" y2="${m.t + ih}" class="t-mark"/>
+    <text x="${x(mk.i) + (mk.i > rows.length * 0.75 ? -6 : 6)}" y="${m.t + 12}" class="t-mark-label"
+      text-anchor="${mk.i > rows.length * 0.75 ? "end" : "start"}">${esc(mk.label)} · ${fmtDay(mk.date)}</text>`).join("");
+  const earlyNote = early.length ? ` ${early.map(e => `${esc(e.label)} (${fmtDay(e.date)})`).join(", ")}
+    went live before tracking started, so everything shown is after it.` : "";
   const hits = rows.map((r, i) => {
     const w = rows.length === 1 ? iw : iw / (rows.length - 1);
     return `<rect x="${x(i) - w / 2}" y="${m.t}" width="${w}" height="${ih}" data-i="${i}" class="t-hit"/>`;
@@ -785,7 +804,7 @@ function renderTrend() {
 
   el.innerHTML = `<div class="trend-head">
       <div><h3>Typical margin over time</h3>
-        <p>Median of every matched story${isDay ? " (line: trailing 7 days; dots: each day)" : ""}. Above the line RotoWire was typically first; below it, Underdog. The goal is to get above the line.</p></div>
+        <p>Median of every matched story${isDay ? " (line: trailing 7 days; dots: each day)" : ""}. Above the line RotoWire was typically first; below it, Underdog. The goal is to get above the line.${earlyNote}</p></div>
       <div class="seg" role="group" aria-label="Group by">${TREND_GRAINS.map(([k, l]) =>
         `<button type="button" data-g="${k}" class="${k === grain ? "on" : ""}" aria-pressed="${k === grain}">${l}</button>`).join("")}</div>
     </div>
@@ -793,7 +812,7 @@ function renderTrend() {
       aria-label="Median margin by ${grain}; latest ${last ? esc(last.label) + " " + fmtMargin(Math.round(lastV)) : ""}">
       <text x="${m.l + 6}" y="${y(0) - 7}" class="t-side">▲ RotoWire earlier</text>
       <text x="${m.l + 6}" y="${y(0) + 15}" class="t-side">▼ Underdog earlier</text>
-      ${grid}${xlabels}<path d="${path}" class="t-line"/>${dots}${endLabel}
+      ${grid}${xlabels}${markSvg}<path d="${path}" class="t-line"/>${dots}${endLabel}
       <line class="t-cross hidden" y1="${m.t}" y2="${m.t + ih}"/>${hits}</svg>
       <div class="t-tip hidden"></div></div>`;
 

@@ -64,6 +64,13 @@ sports:
       underdog:
         handle: UnderdogGolf
         user_id: '1550241147787829250'
+# RotoWire workflow releases, drawn as markers on the dashboard's trend chart. Add the next
+# release here (date = the day it went live, US Eastern).
+milestones:
+- date: '2026-05-01'
+  label: News system 1.0
+- date: '2026-09-29'
+  label: News system 2.0
 matching:
   time_window_minutes: 90
   min_match_confidence: 0.75

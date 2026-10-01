@@ -95,7 +95,8 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
 
     agg = aggregate.build_aggregates(data_dir=data_dir, docs_data_dir=docs_dir,
                                      season_weeks=meta.get("season_weeks"),
-                                     rotowire_handle=accounts["rotowire"]["handle"])
+                                     rotowire_handle=accounts["rotowire"]["handle"],
+                                     milestones=cfg.get("milestones"))
     s = agg["summary"]
     print(
         f"[aggregate] matched={s['matched']} rw_first_rate={s['rotowire_first_rate']} "

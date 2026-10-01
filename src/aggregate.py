@@ -356,6 +356,7 @@ def build_aggregates(
     reviews_path: Path | None = None,
     season_weeks: dict | None = None,
     rotowire_handle: str | None = None,
+    milestones: list[dict] | None = None,
 ) -> dict:
     stories_path = stories_path or (data_dir / "stories.jsonl")
     reviews_path = reviews_path or (data_dir / "reviews.jsonl")
@@ -368,6 +369,8 @@ def build_aggregates(
         "weekly": _rollup(stories, _iso_week),
         "monthly": _rollup(stories, _month),
         "trend": _trend(stories, season_weeks),
+        # Workflow releases to mark on the trend chart ({date: YYYY-MM-DD, label}).
+        "milestones": [{"date": str(m["date"]), "label": m["label"]} for m in (milestones or [])],
         # Daily follower counts per account (collect._snapshot_followers), oldest first.
         "followers": [{k: r.get(k) for k in ("date", "account", "followers_count")}
                       for r in load_jsonl(data_dir / "followers.jsonl")],

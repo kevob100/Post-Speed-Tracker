@@ -181,3 +181,12 @@ def test_trend_series(tmp_path):
     # no season calendar -> ISO weeks
     t2 = agg.build_aggregates(data_dir=tmp_path, docs_data_dir=tmp_path / "d2")["trend"]
     assert t2["week"][0]["label"] == "Wk of Aug 31"
+
+
+
+def test_milestones_passed_through(tmp_path):
+    write_jsonl(tmp_path / "stories.jsonl", [])
+    out = agg.build_aggregates(data_dir=tmp_path, docs_data_dir=tmp_path / "d",
+                               milestones=[{"date": "2026-09-29", "label": "News system 2.0"}])
+    assert out["milestones"] == [{"date": "2026-09-29", "label": "News system 2.0"}]
+    assert agg.build_aggregates(data_dir=tmp_path, docs_data_dir=tmp_path / "d2")["milestones"] == []
