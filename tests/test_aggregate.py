@@ -150,3 +150,34 @@ def test_build_end_to_end_with_files(tmp_path):
     assert res["summary"]["matched"] == 1
     assert res["summary"]["underdog_only"] == 1
     assert len(json.loads((out / "stories.json").read_text())) == 2
+
+
+
+def test_trend_series(tmp_path):
+    weeks = {"start": "2026-09-08", "boundary": "06:00", "timezone": "America/New_York"}
+
+    def m(sid, ts, delta):
+        side = {"tweet_id": sid, "created_at": ts}
+        return {"story_id": sid, "status": "matched", "rotowire": side, "underdog": side,
+                "time_delta_seconds": delta, "rotowire_first": delta > 0}
+
+    stories = [
+        m("a", "2026-09-02T16:00:00.000Z", -300),   # preseason week starting Tue Sep 1
+        m("b", "2026-09-09T16:00:00.000Z", -120),   # Week 1
+        m("c", "2026-09-09T18:00:00.000Z", 60),
+        m("d", "2026-09-10T16:00:00.000Z", -60),
+        m("r", "2026-09-10T17:00:00.000Z", 999) | {"status": "rotowire_only"},   # not matched
+    ]
+    write_jsonl(tmp_path / "stories.jsonl", stories)
+    t = agg.build_aggregates(data_dir=tmp_path, docs_data_dir=tmp_path / "d", season_weeks=weeks)["trend"]
+    assert [(w["label"], w["matched"], w["median_lead_seconds"]) for w in t["week"]] == [
+        ("Wk of Sep 1", 1, -300.0), ("Week 1", 3, -60.0)]
+    day = {d["period"]: d for d in t["day"]}
+    assert day["2026-09-09"]["median_lead_seconds"] == -30.0 and day["2026-09-09"]["rotowire_first"] == 1
+    # trailing 7 days ending Sep 10 covers b, c, d (a is 8 days earlier)
+    assert day["2026-09-10"]["rolling7_median_seconds"] == -60.0
+    assert day["2026-09-10"]["rolling7_matched"] == 3
+    assert [mo["period"] for mo in t["month"]] == ["2026-09"]
+    # no season calendar -> ISO weeks
+    t2 = agg.build_aggregates(data_dir=tmp_path, docs_data_dir=tmp_path / "d2")["trend"]
+    assert t2["week"][0]["label"] == "Wk of Aug 31"

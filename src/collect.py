@@ -113,6 +113,7 @@ def collect(
 
     _refresh_and_freeze(client, by_id, fetched_this_run, freeze_hours)
     _backfill_references(client, by_id, _reference_backfill_since(cfg, sport))
+    _snapshot_followers(client, accounts, data_dir)
 
     records = sorted(by_id.values(), key=lambda r: (r["created_at"], r["id"]))
     write_jsonl(tweets_path, records)
@@ -120,6 +121,40 @@ def collect(
     save_state(state, data_dir)
     print(f"Total stored posts: {len(records)}")
     return state
+
+
+def _snapshot_followers(client: XClient, accounts: dict, data_dir: Path) -> None:
+    """Record each account's follower count once per day (US Eastern date).
+
+    data/<sport>/followers.jsonl gets one row per account per date; a second run on the
+    same date replaces that date's row, so the file stays one-per-day. The X API only
+    reports the current count, so history starts the day this first ran.
+    """
+    from zoneinfo import ZoneInfo
+
+    ids = {a["user_id"]: (key, a["handle"]) for key, a in accounts.items() if a.get("user_id")}
+    if not ids:
+        return
+    try:
+        metrics = client.users_metrics(list(ids))
+    except Exception as e:  # never fail the pipeline over a follower count
+        print(f"Follower snapshot skipped: {e}")
+        return
+    today = datetime.now(ZoneInfo("America/New_York")).date().isoformat()
+    path = data_dir / "followers.jsonl"
+    rows = [r for r in load_jsonl(path)
+            if not (r.get("date") == today and r.get("user_id") in metrics)]
+    for uid, m in metrics.items():
+        key, handle = ids[uid]
+        rows.append({"date": today, "account": key, "handle": handle, "user_id": uid,
+                     "followers_count": m.get("followers_count"),
+                     "following_count": m.get("following_count"),
+                     "tweet_count": m.get("tweet_count"),
+                     "listed_count": m.get("listed_count"),
+                     "captured_at": now_iso()})
+    rows.sort(key=lambda r: (r["date"], r["account"]))
+    write_jsonl(path, rows)
+    print("Followers: " + ", ".join(f"{ids[u][1]} {m.get('followers_count')}" for u, m in metrics.items()))
 
 
 def _reference_backfill_since(cfg: dict, sport: str | None) -> str | None:

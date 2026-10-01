@@ -285,6 +285,70 @@ def _hour_rollup(stories: list[dict], tweets: list[dict], weeks_cfg: dict,
     return rows
 
 
+def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
+    """Median margin over time: is RotoWire closing the gap?
+
+    For each day / week / month: matched story count, how many RotoWire was first on, and
+    the median time_delta_seconds (positive = RotoWire earlier). Days and months use the
+    season timezone (US Eastern by default). Weeks follow the season calendar when there is
+    one (NFL Tue-Mon with its rollover hour, numbered Week 1+, earlier weeks labelled by
+    start date) and ISO weeks otherwise. The day series also carries a trailing 7-day median
+    (over the stories themselves, not an average of daily medians) to show the trend
+    through day-to-day noise.
+    """
+    tz = ZoneInfo((weeks_cfg or {}).get("timezone") or "America/New_York")
+    matched = sorted(
+        ((_story_time(s), s["time_delta_seconds"]) for s in stories
+         if _is_active(s) and s.get("status") == "matched" and s.get("time_delta_seconds") is not None),
+        key=lambda x: x[0])
+
+    if weeks_cfg:
+        hh, mm = (int(x) for x in str(weeks_cfg.get("boundary") or "00:00").split(":"))
+        w1 = datetime.fromisoformat(str(weeks_cfg["start"])).replace(hour=hh, minute=mm, tzinfo=tz)
+
+        def week_of(dt):
+            n = (dt.astimezone(tz) - w1) // timedelta(days=7) + 1
+            start = (w1 + timedelta(days=7 * (n - 1))).date()
+            return start.isoformat(), (f"Week {n}" if n >= 1 else f"Wk of {start:%b} {start.day}")
+    else:
+        def week_of(dt):
+            d = dt.astimezone(tz).date()
+            start = d - timedelta(days=d.weekday())
+            return start.isoformat(), f"Wk of {start:%b} {start.day}"
+
+    def series(key_of) -> list[dict]:
+        buckets: dict[str, dict] = {}
+        for dt, d in matched:
+            key, label = key_of(dt)
+            b = buckets.setdefault(key, {"period": key, "label": label, "_d": []})
+            b["_d"].append(d)
+        out = []
+        for key in sorted(buckets):
+            b = buckets[key]
+            d = b.pop("_d")
+            b.update(matched=len(d), rotowire_first=sum(1 for x in d if x > 0),
+                     median_lead_seconds=round(statistics.median(d), 1))
+            out.append(b)
+        return out
+
+    def day_of(dt):
+        d = dt.astimezone(tz).date()
+        return d.isoformat(), f"{d:%b} {d.day}"
+
+    days = series(day_of)
+    for row in days:
+        end = datetime.fromisoformat(row["period"]).replace(tzinfo=tz) + timedelta(days=1)
+        window = [d for dt, d in matched if end - timedelta(days=7) <= dt < end]
+        row["rolling7_median_seconds"] = round(statistics.median(window), 1) if window else None
+        row["rolling7_matched"] = len(window)
+
+    def month_of(dt):
+        local = dt.astimezone(tz)
+        return local.strftime("%Y-%m"), local.strftime("%b %Y")
+
+    return {"day": days, "week": series(week_of), "month": series(month_of)}
+
+
 def build_aggregates(
     data_dir: Path = DATA_DIR,
     docs_data_dir: Path = DOCS_DATA_DIR,
@@ -303,6 +367,10 @@ def build_aggregates(
         "summary": _summary(stories),
         "weekly": _rollup(stories, _iso_week),
         "monthly": _rollup(stories, _month),
+        "trend": _trend(stories, season_weeks),
+        # Daily follower counts per account (collect._snapshot_followers), oldest first.
+        "followers": [{k: r.get(k) for k in ("date", "account", "followers_count")}
+                      for r in load_jsonl(data_dir / "followers.jsonl")],
     }
     if season_weeks:
         aggregates["season_weeks"] = _season_rollup(stories, season_weeks)

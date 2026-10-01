@@ -150,6 +150,36 @@
   .hours-table { margin-top: 14px; }
   .hours-table summary { color: var(--accent); cursor: pointer; font-size: 12.5px; margin-bottom: 8px; }
 
+  /* trend chart */
+  .trend { padding: 14px; margin: 0 0 20px; }
+  .trend-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 16px; align-items: flex-start; }
+  .trend-head h3 { font-size: 14px; margin: 0 0 2px; }
+  .trend-head p { color: var(--muted); font-size: 12.5px; margin: 0; }
+  .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; flex: none; }
+  .seg button { background: transparent; color: var(--muted); border: 0; padding: 6px 12px; font: inherit;
+    font-size: 12.5px; cursor: pointer; }
+  .seg button + button { border-left: 1px solid var(--line); }
+  .seg button.on { background: var(--panel2); color: var(--text); }
+  .seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  .trend-plot { position: relative; margin-top: 10px; }
+  .trend-plot svg { display: block; max-width: 100%; }
+  .t-grid { stroke: var(--line); stroke-width: 1; }
+  .t-zero { stroke: var(--muted); stroke-width: 1.5; }
+  .t-tick { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
+  .t-side { fill: var(--muted); font-size: 10.5px; }
+  .t-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+  .t-dot { fill: var(--accent); stroke: var(--panel); stroke-width: 2; }
+  .t-dot.faint { fill: var(--muted); opacity: .55; stroke-width: 1; }
+  .t-dot.hollow { fill: var(--panel); stroke: var(--accent); stroke-width: 1.5; }
+  .t-dot.faint.hollow { stroke: var(--muted); }
+  .t-dot.clipped { opacity: .9; stroke: var(--text); stroke-width: 1; }
+  .t-end { fill: var(--text); font-size: 12px; font-weight: 650; font-variant-numeric: tabular-nums; }
+  .t-cross { stroke: var(--muted); stroke-dasharray: 3 3; }
+  .t-hit { fill: transparent; }
+  .t-tip { position: absolute; top: 0; background: var(--panel2); border: 1px solid var(--line); border-radius: 6px;
+    padding: 6px 9px; font-size: 12px; pointer-events: none; white-space: nowrap; }
+  .t-tip b { display: block; margin-bottom: 2px; }
+
   /* ALL overview */
   .all-title { font-size: 15px; margin: 4px 0 12px; color: var(--muted); }
   #view-all table tbody tr.sport-row { cursor: pointer; }
@@ -176,6 +206,7 @@
 
   <!-- Per-sport views (shown when a single sport is selected) -->
   <div class="kpis" id="kpis"></div>
+  <section class="panel trend" id="trend"></section>
 
   <div class="tabs" id="tabs">
     <div class="tab active" data-view="feed">Story Feed</div>
@@ -301,6 +332,7 @@ async function loadAll() {
 function setMode(isAll) {
   document.getElementById("view-all").classList.toggle("hidden", !isAll);
   document.getElementById("kpis").classList.toggle("hidden", isAll);
+  document.getElementById("trend").classList.toggle("hidden", isAll);
   document.getElementById("tabs").classList.toggle("hidden", isAll);
   if (isAll) {
     VIEWS.forEach(v =>
@@ -690,6 +722,107 @@ function renderHours() {
       </tr></thead><tbody>${rows}</tbody></table></details>`;
 }
 
+// ---- trend: median margin per day / week / month, zero line = even ----
+// Positive = RotoWire typically first. The goal is to get above the line.
+const TREND_GRAINS = [["day", "Day"], ["week", "Week"], ["month", "Month"]];
+const TREND_CLAMP = 600;            // y-axis caps at ±10 min; values beyond sit on the edge
+function trendGrain() {
+  if (state.trendGrain) return state.trendGrain;
+  try { return localStorage.getItem("trendGrain") || "week"; } catch (e) { return "week"; }
+}
+
+function renderTrend() {
+  const el = document.getElementById("trend");
+  const trend = state.agg.trend;
+  if (!trend || !(trend.week || []).length) { el.classList.add("hidden"); el.innerHTML = ""; return; }
+  el.classList.remove("hidden");
+  const grain = trendGrain();
+  const rows = trend[grain] || [];
+  const isDay = grain === "day";
+  // The line: the 7-day rolling median for days (daily medians are noisy), else the bucket median.
+  const lineVal = r => isDay ? r.rolling7_median_seconds : r.median_lead_seconds;
+  const last = rows[rows.length - 1];
+
+  const W = Math.max(320, el.clientWidth - 28), H = 240;
+  const m = { t: 14, r: 76, b: 30, l: 72 };
+  const iw = W - m.l - m.r, ih = H - m.t - m.b;
+  // Day view scales to the trend line; single days far outside it sit on the plot edge.
+  const vals = (isDay ? rows.map(lineVal) : rows.map(r => r.median_lead_seconds)).filter(v => v != null);
+  const clampV = v => Math.max(-TREND_CLAMP, Math.min(TREND_CLAMP, v));
+  let lo = Math.min(0, ...vals.map(clampV)), hi = Math.max(0, ...vals.map(clampV));
+  const span = Math.max(120, hi - lo); lo -= span * 0.12;
+  hi = Math.max(hi + span * 0.12, span * 0.3);   // always leave room above "even": that's the goal
+  const step = [30, 60, 120, 300, 600].find(s => (hi - lo) / s <= 6) || 600;
+  const y = v => m.t + (hi - Math.max(lo, Math.min(hi, clampV(v)))) / (hi - lo) * ih;
+  const x = i => m.l + (rows.length === 1 ? iw / 2 : i / (rows.length - 1) * iw);
+
+  const ticks = [];
+  for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) ticks.push(v);
+  const tickLabel = v => v === 0 ? "even" : `${v > 0 ? "RW" : "UD"} ${fmtMS(Math.abs(v))}`;
+  const grid = ticks.map(v => `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" class="${v === 0 ? "t-zero" : "t-grid"}"/>
+    <text x="${m.l - 8}" y="${y(v) + 4}" class="t-tick" text-anchor="end">${tickLabel(v)}</text>`).join("");
+
+  const every = Math.max(1, Math.ceil(rows.length / Math.floor(iw / 64)));
+  const lastI = rows.length - 1;
+  const showX = i => i % every === 0 ? !(i !== lastI && lastI - i < every / 2 && lastI % every !== 0)
+                                     : i === lastI && lastI % every >= every / 2;
+  const xlabels = rows.map((r, i) => showX(i)
+    ? `<text x="${x(i)}" y="${H - 8}" class="t-tick" text-anchor="middle">${esc(r.label)}</text>` : "").join("");
+
+  const pts = rows.map((r, i) => [i, lineVal(r)]).filter(([, v]) => v != null);
+  const path = pts.map(([i, v], k) => `${k ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("");
+  const dots = rows.map((r, i) => {
+    const v = r.median_lead_seconds, low = r.matched < TYPE_MIN_STORIES;
+    const clipped = v > hi || v < lo || Math.abs(v) > TREND_CLAMP;
+    return `<circle cx="${x(i)}" cy="${y(v)}" r="${isDay ? 3 : 4.5}" class="t-dot ${isDay ? "faint" : ""} ${low ? "hollow" : ""} ${clipped ? "clipped" : ""}"/>`;
+  }).join("");
+  const lastV = last && lineVal(last);
+  const endLabel = lastV != null ? `<text x="${x(rows.length - 1) + 10}" y="${y(lastV) + 4}" class="t-end">${fmtMargin(Math.round(lastV))}</text>` : "";
+  const hits = rows.map((r, i) => {
+    const w = rows.length === 1 ? iw : iw / (rows.length - 1);
+    return `<rect x="${x(i) - w / 2}" y="${m.t}" width="${w}" height="${ih}" data-i="${i}" class="t-hit"/>`;
+  }).join("");
+
+  el.innerHTML = `<div class="trend-head">
+      <div><h3>Typical margin over time</h3>
+        <p>Median of every matched story${isDay ? " (line: trailing 7 days; dots: each day)" : ""}. Above the line RotoWire was typically first; below it, Underdog. The goal is to get above the line.</p></div>
+      <div class="seg" role="group" aria-label="Group by">${TREND_GRAINS.map(([k, l]) =>
+        `<button type="button" data-g="${k}" class="${k === grain ? "on" : ""}" aria-pressed="${k === grain}">${l}</button>`).join("")}</div>
+    </div>
+    <div class="trend-plot"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="Median margin by ${grain}; latest ${last ? esc(last.label) + " " + fmtMargin(Math.round(lastV)) : ""}">
+      <text x="${m.l + 6}" y="${y(0) - 7}" class="t-side">▲ RotoWire earlier</text>
+      <text x="${m.l + 6}" y="${y(0) + 15}" class="t-side">▼ Underdog earlier</text>
+      ${grid}${xlabels}<path d="${path}" class="t-line"/>${dots}${endLabel}
+      <line class="t-cross hidden" y1="${m.t}" y2="${m.t + ih}"/>${hits}</svg>
+      <div class="t-tip hidden"></div></div>`;
+
+  el.querySelectorAll(".seg button").forEach(b => b.onclick = () => {
+    state.trendGrain = b.dataset.g;
+    try { localStorage.setItem("trendGrain", b.dataset.g); } catch (e) {}
+    renderTrend();
+  });
+  const tip = el.querySelector(".t-tip"), cross = el.querySelector(".t-cross");
+  el.querySelectorAll(".t-hit").forEach(h => {
+    h.onmouseenter = () => {
+      const r = rows[+h.dataset.i], cx = x(+h.dataset.i);
+      cross.setAttribute("x1", cx); cross.setAttribute("x2", cx); cross.classList.remove("hidden");
+      tip.innerHTML = `<b>${esc(r.label)}</b><div>Median ${fmtMargin(Math.round(r.median_lead_seconds))}</div>
+        <div>RotoWire first on ${r.rotowire_first} of ${r.matched}</div>
+        ${isDay && r.rolling7_median_seconds != null ? `<div>Trailing 7 days ${fmtMargin(Math.round(r.rolling7_median_seconds))} (${r.rolling7_matched} stories)</div>` : ""}`;
+      tip.classList.remove("hidden");
+      const left = Math.min(Math.max(cx - tip.offsetWidth / 2, 0), W - tip.offsetWidth);
+      tip.style.left = left + "px";
+    };
+    h.onmouseleave = () => { tip.classList.add("hidden"); cross.classList.add("hidden"); };
+  });
+}
+let _trendResize;
+window.addEventListener("resize", () => {
+  clearTimeout(_trendResize);
+  _trendResize = setTimeout(() => { if (state.agg && state.agg.trend) renderTrend(); }, 150);
+});
+
 // Custom-range summary for the current sport. Reuses summarize() (same math as the
 // ALL overview / src/aggregate.py::_summary) over a user-picked [from,to] window.
 function renderCustom() {
@@ -1023,6 +1156,7 @@ function init() {
     (label ? ` — ${esc(label)} news-speed comparison. ` : " news-speed comparison. ") +
     `<span id="generated">${gen ? "Updated " + esc(fmtTime(gen)) : ""}</span>`;
   renderKpis();
+  renderTrend();
 
   // event filter options
   const events = [...new Set(state.stories.map(s => s.event_class).filter(Boolean))].sort();

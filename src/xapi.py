@@ -101,6 +101,12 @@ class XClient:
             if not token or (max_pages and pages >= max_pages):
                 break
 
+    def users_metrics(self, ids: list[str]) -> dict[str, dict]:
+        """Current public_metrics (followers_count, following_count, tweet_count, listed_count)
+        for up to 100 user IDs. Returns {user_id: public_metrics}."""
+        payload = self._get("/users", params={"ids": ",".join(ids), "user.fields": "public_metrics"})
+        return {u["id"]: u.get("public_metrics", {}) for u in payload.get("data", [])}
+
     def tweets_lookup(self, ids: list[str], fields: str = "public_metrics,referenced_tweets") -> dict[str, dict]:
         """Fetch tweet objects (with `fields`) for any number of IDs, 100 per request."""
         out: dict[str, dict] = {}

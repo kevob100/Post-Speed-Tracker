@@ -139,3 +139,31 @@ def test_backfill_references_once_and_only_since_date():
     assert C.asked == [["new", "gone"]]
     assert by_id["new"]["referenced_tweets"][0]["type"] == "quoted"
     assert by_id["gone"]["referenced_tweets"] == [] and "referenced_tweets" not in by_id["old"]
+
+
+
+def test_follower_snapshot_one_row_per_account_per_day(tmp_path):
+    from src.collect import _snapshot_followers
+    from src.store import load_jsonl
+
+    class C:
+        n = 1000
+
+        def users_metrics(self, ids):
+            C.n += 5
+            return {i: {"followers_count": C.n, "following_count": 1, "tweet_count": 2,
+                        "listed_count": 3} for i in ids}
+
+    accounts = {"rotowire": {"handle": "RotoWireNFL", "user_id": "1"},
+                "underdog": {"handle": "UnderdogNFL", "user_id": "2"}}
+    _snapshot_followers(C(), accounts, tmp_path)
+    _snapshot_followers(C(), accounts, tmp_path)          # same day: replaces, no duplicates
+    rows = load_jsonl(tmp_path / "followers.jsonl")
+    assert sorted(r["account"] for r in rows) == ["rotowire", "underdog"]
+    assert all(r["followers_count"] == 1010 for r in rows)
+
+    class Boom:
+        def users_metrics(self, ids):
+            raise RuntimeError("rate limited")
+    _snapshot_followers(Boom(), accounts, tmp_path)       # must not raise
+    assert len(load_jsonl(tmp_path / "followers.jsonl")) == 2
