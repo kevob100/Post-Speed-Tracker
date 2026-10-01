@@ -130,6 +130,26 @@
   .who-tag { display: inline-block; font-size: 10.5px; font-weight: 700; color: var(--muted); margin-right: 6px; }
   .muted-sm { color: var(--muted); font-size: 11px; }
 
+  /* by time of day */
+  .hours { display: grid; grid-template-columns: 70px repeat(24, minmax(26px, 1fr)); gap: 2px;
+    align-items: end; min-width: 760px; }
+  .hlab { color: var(--muted); font-size: 11px; align-self: center; }
+  .hcol { display: flex; flex-direction: column; justify-content: flex-end; }
+  .hcol.down { justify-content: flex-start; }
+  .hcol .hbar { width: 100%; background: var(--green); border-radius: 3px 3px 0 0; }
+  .hcol.down .hbar { background: var(--red); border-radius: 0 0 3px 3px; }
+  .hzero { grid-column: 2 / -1; height: 1px; background: var(--muted); opacity: .5; }
+  .hcell { height: 42px; border-radius: 3px; display: flex; flex-direction: column; align-items: center;
+    justify-content: center; font-size: 11px; font-variant-numeric: tabular-nums; margin-top: 8px; }
+  .hcell span { font-size: 10px; opacity: .85; }
+  .hcell.none { background: var(--panel); color: var(--muted); }
+  .hcell.low { background-image: repeating-linear-gradient(45deg, transparent 0 5px, rgba(255,255,255,.08) 5px 7px); }
+  .htick { color: var(--muted); font-size: 10.5px; text-align: center; }
+  .key-sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; }
+  .key-sw.rw { background: var(--green); } .key-sw.ud { background: var(--red); margin-left: 10px; }
+  .hours-table { margin-top: 14px; }
+  .hours-table summary { color: var(--accent); cursor: pointer; font-size: 12.5px; margin-bottom: 8px; }
+
   /* ALL overview */
   .all-title { font-size: 15px; margin: 4px 0 12px; color: var(--muted); }
   #view-all table tbody tr.sport-row { cursor: pointer; }
@@ -161,6 +181,7 @@
     <div class="tab active" data-view="feed">Story Feed</div>
     <div class="tab" data-view="weekly">Weekly</div>
     <div class="tab hidden" data-view="types" id="tab-types">By news type</div>
+    <div class="tab hidden" data-view="hours" id="tab-hours">By time of day</div>
     <div class="tab" data-view="monthly">Monthly</div>
     <div class="tab" data-view="custom">Custom</div>
     <div class="tab" data-view="gaps">Coverage Gaps</div>
@@ -184,6 +205,7 @@
 
   <section id="view-weekly" class="hidden"></section>
   <section id="view-types" class="hidden"></section>
+  <section id="view-hours" class="hidden"></section>
   <section id="view-monthly" class="hidden"></section>
   <section id="view-custom" class="hidden"></section>
   <section id="view-gaps" class="hidden"></section>
@@ -288,7 +310,7 @@ function setMode(isAll) {
   }
 }
 
-const VIEWS = ["feed","weekly","types","monthly","custom","gaps","dups"];
+const VIEWS = ["feed","weekly","types","hours","monthly","custom","gaps","dups"];
 
 // ---- formatting helpers ----
 const pad = n => String(n).padStart(2, "0");
@@ -619,6 +641,55 @@ function typeExamples(nt) {
       <tbody>${body}</tbody></table></div>`;
 }
 
+// ---- by time of day: each account's news volume per hour + RotoWire's win rate that hour ----
+const hourLabel = h => h === 0 ? "12a" : h < 12 ? `${h}a` : h === 12 ? "12p" : `${h - 12}p`;
+
+function renderHours() {
+  const hours = state.agg.hours || [];
+  const has = hours.some(h => h.matched || h.rotowire_posts || h.underdog_posts);
+  document.getElementById("tab-hours").classList.toggle("hidden", !has);
+  const el = document.getElementById("view-hours");
+  if (!has) { el.innerHTML = ""; return; }
+
+  const max = Math.max(1, ...hours.map(h => Math.max(h.rotowire_posts, h.underdog_posts)));
+  const H = 84;  // px height of each volume half
+  const bar = (n, who, cls) => `<div class="hcol ${cls}" style="height:${H}px">
+      <div class="hbar" title="${n} ${who} news ${n === 1 ? "post" : "posts"}" style="height:${Math.round(n / max * H)}px"></div></div>`;
+  const cell = h => {
+    if (!h.matched) return `<div class="hcell none">—</div>`;
+    const rate = h.rotowire_first / h.matched;
+    const bg = TYPE_RAMP[Math.min(TYPE_RAMP.length - 1, Math.floor(rate / 0.1))];
+    const tip = `${hourLabel(h.hour)}: RotoWire first on ${h.rotowire_first} of ${h.matched} · typical ${fmtMargin(h.median_lead_seconds)}`;
+    return `<div class="hcell ${h.matched < TYPE_MIN_STORIES ? "low" : ""}" title="${esc(tip)}"
+      style="background-color:${bg};color:${rate >= 0.3 ? "#0f1419" : "var(--text)"}">
+      <b>${fmtPct(rate)}</b><span>${h.matched}</span></div>`;
+  };
+  const rows = hours.map(h => `<tr><td>${hourLabel(h.hour)}</td><td class="num">${h.rotowire_posts}</td>
+    <td class="num">${h.underdog_posts}</td><td class="num">${h.matched}</td>
+    <td class="num">${h.matched ? fmtPct(h.rotowire_first / h.matched) : "—"}</td>
+    <td class="num">${fmtMargin(h.median_lead_seconds)}</td></tr>`).join("");
+
+  el.innerHTML = `<p class="type-note">When each account posts news, and how often RotoWire was first, by
+    hour of the day (Eastern time, Week 1 on). Top: news posts per hour, RotoWire above the line and
+    Underdog below; hype and other non-news posts are left out. Bottom: RotoWire's win rate on the
+    stories that broke that hour, with the story count. Hover for the typical margin.</p>
+    <div class="type-wrap"><div class="hours">
+      <div class="hlab">RW posts</div>${hours.map(h => bar(h.rotowire_posts, "RotoWire", "up")).join("")}
+      <div></div><div class="hzero"></div>
+      <div class="hlab">UD posts</div>${hours.map(h => bar(h.underdog_posts, "Underdog", "down")).join("")}
+      <div class="hlab">RW first</div>${hours.map(cell).join("")}
+      <div></div>${hours.map(h => `<div class="htick">${hourLabel(h.hour)}</div>`).join("")}
+    </div></div>
+    <div class="type-legend"><span class="key-sw rw"></span><span>RotoWire news posts</span>
+      <span class="key-sw ud"></span><span>Underdog news posts</span>
+      <span class="hatch-key"></span><span>Fewer than ${TYPE_MIN_STORIES} stories</span></div>
+    <details class="hours-table"><summary>Show as a table</summary>
+      <table><thead><tr><th data-nosort>Hour</th><th data-nosort style="text-align:right">RW news posts</th>
+      <th data-nosort style="text-align:right">UD news posts</th><th data-nosort style="text-align:right">Matched</th>
+      <th data-nosort style="text-align:right">RW first</th><th data-nosort style="text-align:right">Typical margin</th>
+      </tr></thead><tbody>${rows}</tbody></table></details>`;
+}
+
 // Custom-range summary for the current sport. Reuses summarize() (same math as the
 // ALL overview / src/aggregate.py::_summary) over a user-picked [from,to] window.
 function renderCustom() {
@@ -937,6 +1008,7 @@ function renderAllTable() {
 // ---- tabs + init ----
 function showView(name) {
   if (name === "types" && !(state.agg.news_types || {}).types?.length) name = "feed";
+  if (name === "hours" && !(state.agg.hours || []).length) name = "feed";
   state.view = name;
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.view===name));
   VIEWS.forEach(v =>
@@ -971,6 +1043,7 @@ function init() {
   renderRollup(document.getElementById("view-weekly"), seasonWeeks.length ? seasonWeeks : (state.agg.weekly || []), "week");
   renderRollup(document.getElementById("view-monthly"), state.agg.monthly || [], "month");
   renderTypes();
+  renderHours();
   renderCustom();
   renderGaps();
   renderDups();

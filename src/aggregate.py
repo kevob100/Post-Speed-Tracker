@@ -250,6 +250,41 @@ def _hype_rollup(tweets: list[dict], weeks_cfg: dict, rotowire_handle: str) -> d
     return {"weeks": {label: row for (_, label), row in sorted(weeks.items())}, "kinds": kinds}
 
 
+def _hour_rollup(stories: list[dict], tweets: list[dict], weeks_cfg: dict,
+                 rotowire_handle: str) -> list[dict]:
+    """Per hour of the day (season timezone), Week 1 on: news volume and head-to-heads.
+
+    One row per hour 0-23: rotowire_posts / underdog_posts count news posts (hype and other
+    non-news excluded) made that hour; matched / rotowire_first / median_lead_seconds cover
+    matched stories, bucketed by the hour of the story's FIRST post.
+    """
+    of = season_week_of(weeks_cfg)
+    tz = ZoneInfo(weeks_cfg.get("timezone") or "America/New_York")
+    rows = [{"hour": h, "rotowire_posts": 0, "underdog_posts": 0, "_d": []} for h in range(24)]
+    for t in tweets:
+        if not t.get("is_news"):
+            continue
+        dt = parse_dt(t["created_at"])
+        if of(dt)[0] == 0:
+            continue
+        key = "rotowire_posts" if t.get("account") == rotowire_handle else "underdog_posts"
+        rows[dt.astimezone(tz).hour][key] += 1
+    for s in stories:
+        if (not _is_active(s) or s.get("status") != "matched"
+                or s.get("time_delta_seconds") is None):
+            continue
+        first = _story_time(s)
+        if of(first)[0] == 0:
+            continue
+        rows[first.astimezone(tz).hour]["_d"].append(s["time_delta_seconds"])
+    for r in rows:
+        d = r.pop("_d")
+        r["matched"] = len(d)
+        r["rotowire_first"] = sum(1 for x in d if x > 0)
+        r["median_lead_seconds"] = round(statistics.median(d), 1) if d else None
+    return rows
+
+
 def build_aggregates(
     data_dir: Path = DATA_DIR,
     docs_data_dir: Path = DOCS_DATA_DIR,
@@ -279,8 +314,9 @@ def build_aggregates(
             if st.get("status") == "matched":
                 st["news_type"] = news_type(st)
         if rotowire_handle:
-            aggregates["hype"] = _hype_rollup(load_jsonl(data_dir / "tweets.jsonl"),
-                                              season_weeks, rotowire_handle)
+            tweets = load_jsonl(data_dir / "tweets.jsonl")
+            aggregates["hype"] = _hype_rollup(tweets, season_weeks, rotowire_handle)
+            aggregates["hours"] = _hour_rollup(stories, tweets, season_weeks, rotowire_handle)
 
     docs_data_dir.mkdir(parents=True, exist_ok=True)
     _write_json(docs_data_dir / "stories.json", stories)

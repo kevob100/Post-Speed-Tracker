@@ -278,3 +278,33 @@ def test_old_prompt_version_groupings_are_redone(tmp_path):
     _run(tmp_path, posts, g)
     _run(tmp_path, posts, g)
     assert len(g.calls) == 2          # redone once, then cached again (last line wins)
+
+
+def test_hour_rollup(tmp_path):
+    def m(sid, rw_ts, ud_ts, delta):
+        return {"story_id": sid, "status": "matched",
+                "rotowire": {"tweet_id": sid + "r", "created_at": rw_ts, "text": "Out Week 1."},
+                "underdog": {"tweet_id": sid + "u", "created_at": ud_ts, "text": "Out Week 1."},
+                "time_delta_seconds": delta, "rotowire_first": delta > 0}
+    write_jsonl(tmp_path / "stories.jsonl", [
+        # 6:05 AM ET (10:05 UTC): RW first. Bucketed by the earlier (RW) post.
+        m("a", "2026-09-13T10:05:00.000Z", "2026-09-13T11:10:00.000Z", 3900),
+        # 7:30 AM ET: UD first by 7 min, bucketed by UD's 7:30 post.
+        m("b", "2026-09-14T11:37:00.000Z", "2026-09-14T11:30:00.000Z", -420),
+        m("pre", "2026-09-01T11:30:00.000Z", "2026-09-01T11:31:00.000Z", 60),   # preseason
+    ])
+    write_jsonl(tmp_path / "tweets.jsonl", [
+        {"id": "1", "account": RW, "created_at": "2026-09-13T10:05:00.000Z", "is_news": True},
+        {"id": "2", "account": UD, "created_at": "2026-09-14T11:30:00.000Z", "is_news": True},
+        {"id": "3", "account": UD, "created_at": "2026-09-14T11:45:00.000Z", "is_news": False,
+         "excluded_reason": "hype"},
+        {"id": "4", "account": UD, "created_at": "2026-09-01T11:30:00.000Z", "is_news": True},
+    ])
+    hours = agg.build_aggregates(data_dir=tmp_path, docs_data_dir=tmp_path / "docs",
+                                 season_weeks=WEEKS, rotowire_handle=RW)["hours"]
+    assert len(hours) == 24
+    assert hours[6] == {"hour": 6, "rotowire_posts": 1, "underdog_posts": 0, "matched": 1,
+                        "rotowire_first": 1, "median_lead_seconds": 3900.0}
+    assert hours[7] == {"hour": 7, "rotowire_posts": 0, "underdog_posts": 1, "matched": 1,
+                        "rotowire_first": 0, "median_lead_seconds": -420.0}
+    assert sum(h["matched"] for h in hours) == 2
