@@ -230,3 +230,10 @@ def test_parse_hype():
 def test_hype_prompt_only_in_multi_player_mode():
     assert "hype" in classify.prompt_for("nfl", multi_player=True)
     assert "hype" not in classify.prompt_for("mlb")
+
+
+def test_v3_reruns_hype_but_not_v2_news():
+    assert classify._needs_rerun({"excluded_reason": "hype", "multi_player_version": 2})
+    assert not classify._needs_rerun({"excluded_reason": "hype", "multi_player_version": 3})
+    assert not classify._needs_rerun({"is_news": True, "multi_player_version": 2})
+    assert classify._needs_rerun({"is_news": True, "multi_player_version": 1})

@@ -150,11 +150,21 @@ MULTI_PLAYER_PROMPT = DEFAULT_PROMPT.replace(
     "report, even when it names a player: a quote or soundbite that does not change a "
     "player's status or role (a quote that DOES carry news, e.g. a coach saying a player "
     "will start or is out, is news); a rumor, speculation, interest or trade/contract "
-    "chatter short of a completed move; an in-game note that is not a status change (a "
-    "player returning to the game, standing on the sideline, warming up, getting taped) - "
-    "whereas leaving the game, questionable/doubtful to return and ruled out ARE news; a "
-    "video clip, photo or observation with no news in it; and ANY post about players who are "
-    "not fantasy-relevant: offensive linemen, defensive players, punters and long snappers. "
+    "chatter short of a completed move; an in-game note made DURING A GAME that is not a "
+    "status change (a player returning to the game, standing on the sideline, getting taped "
+    "on the bench); a video clip or photo with no news in it; and ANY post about players who "
+    "are not fantasy-relevant: offensive linemen, defensive players, punters and long "
+    "snappers. "
+    "These are NEWS, never hype: any injury (hurt, left the game or field, carted off, "
+    "headed to the tent or locker room, questionable/doubtful to return, ruled out), even "
+    "when the post is a clip; practice and pregame observations (participating, not seen at "
+    "practice, working on the side, limited, wearing a non-contact jersey, in uniform, "
+    "warming up); a quote that reveals health, test results, availability or role (more "
+    "reps, starting, a new job such as punt returner). "
+    "Only tag non_fantasy when the post states a non-fantasy position (LG, OT, C, DE, DT, "
+    "LB, CB, S, P, LS, edge, pass rusher) or you are certain of it; quarterbacks, running "
+    "backs, wide receivers, tight ends and kickers are fantasy-relevant, and when you are "
+    "unsure of a player's position (rookies especially) it is NOT non_fantasy. "
     "For hype also give hype_kind: soundbite, rumor, in_game_note, non_fantasy, or other. "
     "When is_news is false, give excluded_reason as one of: no_player, lineup_card, promo, "
     "recap, not_news, hype. ",
@@ -164,8 +174,9 @@ MULTI_PLAYER_PROMPT = DEFAULT_PROMPT.replace(
 )
 
 # Bump when MULTI_PLAYER_PROMPT changes. v1 re-ran cached no_player posts (multi-player
-# lists); v2 added the hype label and re-runs cached news posts once.
-MULTI_PLAYER_VERSION = 2
+# lists); v2 added the hype label and re-ran cached news posts once; v3 narrowed hype
+# (practice observations, injuries and unknown positions are news) and re-runs hype posts.
+MULTI_PLAYER_VERSION = 3
 
 # Per-sport prompt overrides; sports absent here use DEFAULT_PROMPT.
 SPORT_PROMPTS = {
@@ -314,6 +325,8 @@ def _needs_rerun(c: dict) -> bool:
     v = c.get("multi_player_version") or 0
     if c.get("excluded_reason") == "no_player" and v < 1:
         return True                     # v1: may name several players
+    if c.get("excluded_reason") == "hype" and v < 3:
+        return True                     # v3: hype narrowed, may be news after all
     return bool(c.get("is_news")) and v < 2   # v2: may now be hype
 
 
