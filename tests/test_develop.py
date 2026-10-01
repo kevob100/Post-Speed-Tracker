@@ -265,3 +265,16 @@ def test_hype_rollup_and_story_tags(tmp_path):
     import json as _json
     st = _json.loads((tmp_path / "docs" / "stories.json").read_text())[0]
     assert st["season_week"] == "Week 1" and st["news_type"] == "game_status"
+
+
+def test_old_prompt_version_groupings_are_redone(tmp_path):
+    posts = [_post("ud1", UD, 0), _post("rw1", RW, 2)]
+    g = FixedGrouper(["ud1", "rw1"])
+    _run(tmp_path, posts, g)
+    recs = load_jsonl(tmp_path / "developments.jsonl")
+    assert recs[0]["prompt_version"] == develop.GROUP_PROMPT_VERSION
+    recs[0]["prompt_version"] = develop.GROUP_PROMPT_VERSION - 1     # pretend it is stale
+    write_jsonl(tmp_path / "developments.jsonl", recs)
+    _run(tmp_path, posts, g)
+    _run(tmp_path, posts, g)
+    assert len(g.calls) == 2          # redone once, then cached again (last line wins)

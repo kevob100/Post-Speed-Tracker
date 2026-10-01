@@ -109,6 +109,9 @@ def _summary(stories: list[dict]) -> dict:
         "mean_lead_seconds": round(statistics.mean(deltas), 1) if deltas else None,
         "avg_lead_seconds": round(statistics.mean(leads), 1) if leads else None,
         "avg_trail_seconds": round(statistics.mean(trails), 1) if trails else None,
+        # Medians of the same splits: a handful of hour-long wins drag the means around.
+        "median_win_lead_seconds": round(statistics.median(leads), 1) if leads else None,
+        "median_win_trail_seconds": round(statistics.median(trails), 1) if trails else None,
         "rotowire_only": sum(1 for s in active if s.get("status") == "rotowire_only" and not _is_dup(s)),
         "underdog_only": sum(1 for s in active if s.get("status") == "underdog_only" and not _is_dup(s)),
         "rotowire_duplicate": sum(1 for s in active if s.get("status") == "rotowire_only" and _is_dup(s)),

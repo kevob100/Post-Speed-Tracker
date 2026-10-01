@@ -65,6 +65,8 @@ def test_summary_win_rate_and_leads():
     # Lead/Trail split by who posted first: leads=[480,120], trails=[360].
     assert s["avg_lead_seconds"] == 300.0     # (480+120)/2
     assert s["avg_trail_seconds"] == 360.0    # 360/1
+    assert s["median_win_lead_seconds"] == 300.0
+    assert s["median_win_trail_seconds"] == 360.0
 
 
 def test_coverage_gaps_excluded_from_timing():

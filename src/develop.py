@@ -32,6 +32,7 @@ import hashlib
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from .anthropic_client import GROUP_PROMPT_VERSION
 from .config import DATA_DIR, load_config, sport_accounts
 from .store import append_jsonl, load_jsonl, now_iso, parse_dt, write_jsonl
 
@@ -170,6 +171,9 @@ def resolve_developments(
         else:
             skey = session_key(pkey, post_ids)
             hit = cached.get(skey)
+            if hit is not None and (hit.get("prompt_version") or 1) < GROUP_PROMPT_VERSION \
+                    and method == "llm":
+                hit = None              # grouped under older instructions: redo once
             if hit is not None:
                 groups = hit["developments"]
             else:
@@ -181,7 +185,8 @@ def resolve_developments(
                 groups = grouper.group(player, _prompt_posts(session, rw_handle))
                 if cache:
                     rec = {"session_key": skey, "player_key": pkey, "post_ids": sorted(post_ids),
-                           "developments": groups, "grouped_at": now_iso()}
+                           "developments": groups, "prompt_version": GROUP_PROMPT_VERSION,
+                           "grouped_at": now_iso()}
                     append_jsonl(cache_path, rec)
                     cached[skey] = rec
             source = method

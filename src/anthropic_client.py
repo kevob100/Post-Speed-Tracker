@@ -123,6 +123,14 @@ GROUP_SYSTEM_PROMPT = (
     "situation (questionable to return -> ruled out; limited -> full practice; expected to "
     "miss time -> placed on IR), or an observation and its later explanation (\"not seen at "
     "practice\" vs \"underwent a knee procedure\").\n"
+    "Status about DIFFERENT moments or questions is never the same development, even for "
+    "the same injury: a practice-day report (suited up, participating, limited, not seen, "
+    "DNP) is separate from a game-availability designation (questionable, out, active, not "
+    "listed on the injury report), and both are separate from a post-game comment (postgame "
+    "soreness, how he felt) or an earlier/later day's practice. An informal observation and "
+    "the official report of the SAME practice ARE the same development (\"not present at "
+    "the walkthrough\" and \"listed as DNP Monday\"; \"will return to practice Monday\" "
+    "and \"seen practicing Monday\").\n"
     "Each account usually posts once per development and posts again only when something "
     "new happens, so a second post from the SAME account (including a post marked "
     "[quotes ...], which quotes the account's earlier post) normally starts a new "
@@ -131,6 +139,10 @@ GROUP_SYSTEM_PROMPT = (
     "Respond with JSON ONLY - no prose, no markdown fences. Schema: "
     '{"developments": [{"label": "<short description>", "post_ids": ["<id>", ...]}]}'
 )
+
+
+# Bump when GROUP_SYSTEM_PROMPT changes; cached groupings from older versions are redone.
+GROUP_PROMPT_VERSION = 2
 
 
 def parse_groups(raw: str | None, post_ids: list[str]) -> list[dict]:
