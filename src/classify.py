@@ -288,7 +288,7 @@ class Classifier:
         if self._client is None:
             from anthropic import Anthropic
 
-            self._client = Anthropic(api_key=env("ANTHROPIC_API_KEY"))
+            self._client = Anthropic(api_key=env("ANTHROPIC_API_KEY"), max_retries=6)
         return self._client
 
     def classify(self, text: str) -> dict:
@@ -318,6 +318,28 @@ def _apply(record: dict, c: dict, event_classes: tuple[str, ...] = DEFAULT_EVENT
     record["players"] = [{"name": p["name"], "team": p.get("team"),
                           "player_key": normalize_name(p["name"])} for p in players]
     return record
+
+
+CLASSIFY_WORKERS = 8
+
+
+def _parallel(fn, items: list, arg_of):
+    """Yield (item, fn(arg_of(item))) running up to CLASSIFY_WORKERS calls at once.
+    A small batch runs inline (keeps tests and tiny daily runs simple)."""
+    if len(items) < 4:
+        for it in items:
+            yield it, fn(arg_of(it))
+        return
+    from concurrent.futures import ThreadPoolExecutor, as_completed
+
+    with ThreadPoolExecutor(max_workers=CLASSIFY_WORKERS) as pool:
+        futures = {pool.submit(fn, arg_of(it)): it for it in items}
+        done = 0
+        for f in as_completed(futures):
+            done += 1
+            if done % 500 == 0:
+                print(f"  classified {done}/{len(items)}")
+            yield futures[f], f.result()
 
 
 def _needs_rerun(c: dict) -> bool:
@@ -368,26 +390,38 @@ def classify_file(
     cls_path = data_dir / "classifications.jsonl"
     cached = {r["id"]: r for r in load_jsonl(cls_path)} if cache else {}
 
+    todo = []
     for r in records:
-        tid = r["id"]
-        c = cached.get(tid)
+        c = cached.get(r["id"])
         if c is not None and llm and multi_player and _needs_rerun(c):
             c = None
         if c is None:
-            if not llm:
-                _apply(r, _bad_classification(), valid)
-                continue
-            if classifier is None:
-                classifier = Classifier(sport=sport, sport_label=_sport_label(sport),
-                                        multi_player=multi_player)
-            verdict = classifier.classify(r.get("text", ""))
-            c = {"id": tid, **verdict, "classified_at": now_iso()}
+            todo.append(r)
+
+    fresh: dict[str, dict] = {}
+    if todo and llm:
+        if classifier is None:
+            classifier = Classifier(sport=sport, sport_label=_sport_label(sport),
+                                    multi_player=multi_player)
+        # Calls run CLASSIFY_WORKERS at a time (a big backfill is thousands of posts);
+        # results are appended to the cache as they finish, so an interrupted run keeps
+        # everything already classified.
+        for r, verdict in _parallel(classifier.classify, todo, lambda r: r.get("text", "")):
+            c = {"id": r["id"], **verdict, "classified_at": now_iso()}
             if multi_player:
                 c["multi_player_version"] = MULTI_PLAYER_VERSION
+            fresh[r["id"]] = c
             if cache:
                 append_jsonl(cls_path, c)
-                cached[tid] = c
-        _apply(r, c, valid)
+                cached[r["id"]] = c
+
+    todo_ids = {r["id"] for r in todo}
+    for r in records:
+        c = fresh.get(r["id"]) or cached.get(r["id"])
+        if c is None or (r["id"] in todo_ids and not llm):
+            _apply(r, _bad_classification(), valid)
+        else:
+            _apply(r, c, valid)
 
     records.sort(key=lambda r: (r["created_at"], r["id"]))
     write_jsonl(path, records)

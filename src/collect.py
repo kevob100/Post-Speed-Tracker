@@ -111,6 +111,10 @@ def collect(
         acct_state["last_run"] = now_iso()
         print(f"{handle}: +{new_count} new posts (since_id -> {newest_id})")
 
+    archive_start = (cfg.get("collection") or {}).get("archive_start")
+    if archive_start:
+        _archive_backfill(client, accounts, state, by_id, fetched_this_run, f"{archive_start}T00:00:00Z")
+
     _refresh_and_freeze(client, by_id, fetched_this_run, freeze_hours)
     _backfill_references(client, by_id, _reference_backfill_since(cfg, sport))
     _snapshot_followers(client, accounts, data_dir)
@@ -121,6 +125,41 @@ def collect(
     save_state(state, data_dir)
     print(f"Total stored posts: {len(records)}")
     return state
+
+
+def _archive_backfill(client, accounts: dict, state: dict, by_id: dict[str, dict],
+                      fetched_this_run: set[str], start: str) -> None:
+    """One-time fill of each account's posts from `start` up to its oldest stored post.
+
+    The user-timeline endpoint only reaches an account's latest ~3,200 posts, so older
+    history comes from full-archive search (retweets and replies excluded, as in normal
+    collection). Each account records the start it was filled from in state, so this runs
+    once per account and again only if collection.archive_start moves earlier.
+    """
+    for key, account in accounts.items():
+        handle = account["handle"]
+        acct_state = state["accounts"].setdefault(key, {"since_id": None, "last_run": None})
+        done = acct_state.get("archive_start")
+        if done and done <= start:
+            continue
+        own = [r["created_at"] for r in by_id.values() if r["account"] == handle]
+        end = min(own) if own else None
+        if not end or end <= start:
+            acct_state["archive_start"] = start
+            continue
+        added = 0
+        try:
+            for tweet in client.search_all(f"from:{handle} -is:retweet -is:reply", start, end):
+                tid = tweet["id"]
+                fetched_this_run.add(tid)
+                if tid not in by_id:
+                    by_id[tid] = _new_record(tweet, handle)
+                    added += 1
+        except Exception as e:  # leave state unset so the next run retries
+            print(f"{handle}: archive backfill failed ({e}); will retry next run")
+            continue
+        acct_state["archive_start"] = start
+        print(f"{handle}: archive backfill +{added} posts ({start[:10]} to {end[:10]})")
 
 
 def _snapshot_followers(client: XClient, accounts: dict, data_dir: Path) -> None:

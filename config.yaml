@@ -87,6 +87,9 @@ impressions:
   freeze_hours: 12
 collection:
   backfill_start_date: '2026-05-29'
+  # One-time history from full-archive search for every active account, from this date up
+  # to its oldest stored post (the timeline endpoint only reaches ~3,200 posts back).
+  archive_start: '2026-04-01'
   exclude:
   - retweets
   - replies

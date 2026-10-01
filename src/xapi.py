@@ -101,6 +101,26 @@ class XClient:
             if not token or (max_pages and pages >= max_pages):
                 break
 
+    def search_all(self, query: str, start_time: str, end_time: str, page_size: int = 500) -> Iterator[dict]:
+        """Full-archive search (needs an X API plan with archive access). Yields tweets
+        newest-first across all pages. The endpoint allows 1 request/second, so pages are
+        spaced out; 429s are retried by _get."""
+        params: dict = {
+            "query": query, "start_time": start_time, "end_time": end_time,
+            "max_results": max(10, min(page_size, 500)), "tweet.fields": TWEET_FIELDS,
+        }
+        token: str | None = None
+        while True:
+            if token:
+                params["next_token"] = token
+            payload = self._get("/tweets/search/all", params=params)
+            for tweet in payload.get("data", []):
+                yield tweet
+            token = payload.get("meta", {}).get("next_token")
+            if not token:
+                break
+            time.sleep(1.1)
+
     def users_metrics(self, ids: list[str]) -> dict[str, dict]:
         """Current public_metrics (followers_count, following_count, tweet_count, listed_count)
         for up to 100 user IDs. Returns {user_id: public_metrics}."""

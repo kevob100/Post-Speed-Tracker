@@ -237,3 +237,21 @@ def test_v3_reruns_hype_but_not_v2_news():
     assert not classify._needs_rerun({"excluded_reason": "hype", "multi_player_version": 3})
     assert not classify._needs_rerun({"is_news": True, "multi_player_version": 2})
     assert classify._needs_rerun({"is_news": True, "multi_player_version": 1})
+
+
+
+def test_parallel_classification_caches_every_post(tmp_path):
+    write_jsonl(tmp_path / "tweets.jsonl", [
+        {"id": str(i), "created_at": f"2026-04-01T00:{i:02d}:00.000Z", "text": f"P{i} ruled out"}
+        for i in range(25)])
+
+    class Stub:
+        def classify(self, text):
+            return {"is_news": True, "player": text.split()[0], "team": None,
+                    "event_class": "injury", "excluded_reason": None}
+
+    out = classify.classify_file(data_dir=tmp_path, classifier=Stub(), sport="nfl")
+    assert out["news"] == 25
+    assert len(load_jsonl(tmp_path / "classifications.jsonl")) == 25
+    recs = {r["id"]: r for r in load_jsonl(tmp_path / "tweets.jsonl")}
+    assert recs["7"]["player"] == "P7"                      # results land on the right post

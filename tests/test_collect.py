@@ -167,3 +167,46 @@ def test_follower_snapshot_one_row_per_account_per_day(tmp_path):
             raise RuntimeError("rate limited")
     _snapshot_followers(Boom(), accounts, tmp_path)       # must not raise
     assert len(load_jsonl(tmp_path / "followers.jsonl")) == 2
+
+
+
+def test_archive_backfill_fills_before_oldest_post_once():
+    from src.collect import _archive_backfill
+
+    class C:
+        calls: list = []
+
+        def search_all(self, query, start, end):
+            C.calls.append((query, start, end))
+            yield {"id": "old1", "created_at": "2026-04-10T12:00:00.000Z", "text": "a",
+                   "public_metrics": {"impression_count": 5}}
+            yield {"id": "keep", "created_at": "2026-05-01T12:00:00.000Z", "text": "dup"}
+
+    by_id = {"keep": {"id": "keep", "account": "RotoWireNFL", "created_at": "2026-07-06T00:00:00.000Z"}}
+    state = {"accounts": {}}
+    accounts = {"rotowire": {"handle": "RotoWireNFL", "user_id": "1"}}
+    seen: set = set()
+    _archive_backfill(C(), accounts, state, by_id, seen, "2026-04-01T00:00:00Z")
+    assert C.calls == [("from:RotoWireNFL -is:retweet -is:reply", "2026-04-01T00:00:00Z",
+                        "2026-07-06T00:00:00.000Z")]
+    assert by_id["old1"]["account"] == "RotoWireNFL" and by_id["keep"].get("text") != "dup"
+    assert state["accounts"]["rotowire"]["archive_start"] == "2026-04-01T00:00:00Z"
+    _archive_backfill(C(), accounts, state, by_id, seen, "2026-04-01T00:00:00Z")
+    assert len(C.calls) == 1                                  # done once
+    _archive_backfill(C(), accounts, state, by_id, seen, "2026-03-01T00:00:00Z")
+    assert len(C.calls) == 2                                  # earlier start re-runs
+
+
+def test_archive_backfill_failure_retries_next_run():
+    from src.collect import _archive_backfill
+
+    class Boom:
+        def search_all(self, *a):
+            raise RuntimeError("403 not enrolled")
+            yield
+
+    state = {"accounts": {}}
+    by_id = {"x": {"id": "x", "account": "UnderdogNFL", "created_at": "2026-07-07T00:00:00.000Z"}}
+    _archive_backfill(Boom(), {"underdog": {"handle": "UnderdogNFL", "user_id": "2"}},
+                      state, by_id, set(), "2026-04-01T00:00:00Z")
+    assert "archive_start" not in state["accounts"]["underdog"]

@@ -86,7 +86,7 @@ class Adjudicator:
         if self._client is None:
             from anthropic import Anthropic
 
-            self._client = Anthropic(api_key=env("ANTHROPIC_API_KEY"))
+            self._client = Anthropic(api_key=env("ANTHROPIC_API_KEY"), max_retries=6)
         return self._client
 
     def verdict(self, player: str | None, rw_text: str, ud_text: str) -> dict:
@@ -209,7 +209,7 @@ class Grouper:
         if self._client is None:
             from anthropic import Anthropic
 
-            self._client = Anthropic(api_key=env("ANTHROPIC_API_KEY"))
+            self._client = Anthropic(api_key=env("ANTHROPIC_API_KEY"), max_retries=6)
         return self._client
 
     def group(self, player: str | None, posts: list[dict]) -> list[dict]:
