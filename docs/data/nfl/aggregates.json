@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-10-01T22:08:28.488096+00:00",
+  "generated_at": "2026-10-01T22:48:04.028539+00:00",
   "summary": {
-    "matched": 1000,
+    "matched": 1004,
     "rotowire_first": 155,
-    "rotowire_first_rate": 0.155,
-    "median_lead_seconds": -123.5,
-    "mean_lead_seconds": -243.0,
+    "rotowire_first_rate": 0.1544,
+    "median_lead_seconds": -123.0,
+    "mean_lead_seconds": -247.4,
     "avg_lead_seconds": 820.8,
-    "avg_trail_seconds": 438.1,
+    "avg_trail_seconds": 442.5,
     "median_win_lead_seconds": 109,
     "median_win_trail_seconds": 158,
     "rotowire_only": 888,
-    "underdog_only": 822,
+    "underdog_only": 826,
     "rotowire_duplicate": 63,
-    "underdog_duplicate": 162
+    "underdog_duplicate": 163
   },
   "weekly": [
     {
@@ -434,19 +434,19 @@
     },
     {
       "period": "2026-W40",
-      "matched": 82,
+      "matched": 86,
       "rotowire_first": 6,
-      "rotowire_first_rate": 0.0732,
-      "median_lead_seconds": -115.5,
-      "mean_lead_seconds": -75.0,
+      "rotowire_first_rate": 0.0698,
+      "median_lead_seconds": -112.5,
+      "mean_lead_seconds": -134.7,
       "avg_lead_seconds": 1934.5,
-      "avg_trail_seconds": 233.6,
+      "avg_trail_seconds": 289.9,
       "median_win_lead_seconds": 856.0,
-      "median_win_trail_seconds": 119.5,
+      "median_win_trail_seconds": 117.5,
       "rotowire_only": 46,
-      "underdog_only": 59,
+      "underdog_only": 63,
       "rotowire_duplicate": 4,
-      "underdog_duplicate": 17
+      "underdog_duplicate": 18
     }
   ],
   "monthly": [
@@ -548,19 +548,19 @@
     },
     {
       "period": "2026-10",
-      "matched": 26,
+      "matched": 30,
       "rotowire_first": 2,
-      "rotowire_first_rate": 0.0769,
-      "median_lead_seconds": -75.5,
-      "mean_lead_seconds": 75.6,
+      "rotowire_first_rate": 0.0667,
+      "median_lead_seconds": -68.5,
+      "mean_lead_seconds": -115.7,
       "avg_lead_seconds": 2681.5,
-      "avg_trail_seconds": 141.6,
+      "avg_trail_seconds": 315.5,
       "median_win_lead_seconds": 2681.5,
-      "median_win_trail_seconds": 95.0,
+      "median_win_trail_seconds": 76.0,
       "rotowire_only": 14,
-      "underdog_only": 14,
+      "underdog_only": 18,
       "rotowire_duplicate": 2,
-      "underdog_duplicate": 2
+      "underdog_duplicate": 3
     }
   ],
   "trend": {
@@ -1432,11 +1432,11 @@
       {
         "period": "2026-10-01",
         "label": "Oct 1",
-        "matched": 25,
+        "matched": 29,
         "rotowire_first": 2,
         "median_lead_seconds": -68,
         "rolling7_median_seconds": -115,
-        "rolling7_matched": 175
+        "rolling7_matched": 179
       }
     ],
     "week": [
@@ -1604,9 +1604,9 @@
       {
         "period": "2026-09-29",
         "label": "Week 4",
-        "matched": 61,
+        "matched": 65,
         "rotowire_first": 3,
-        "median_lead_seconds": -115
+        "median_lead_seconds": -110
       }
     ],
     "month": [
@@ -1655,7 +1655,7 @@
       {
         "period": "2026-10",
         "label": "Oct 2026",
-        "matched": 25,
+        "matched": 29,
         "rotowire_first": 2,
         "median_lead_seconds": -68
       }
@@ -1675,12 +1675,12 @@
     {
       "date": "2026-10-01",
       "account": "rotowire",
-      "followers_count": 142512
+      "followers_count": 142521
     },
     {
       "date": "2026-10-01",
       "account": "underdog",
-      "followers_count": 408886
+      "followers_count": 408914
     }
   ],
   "season_weeks": [
@@ -1769,20 +1769,20 @@
       "week": 4,
       "start": "2026-09-29",
       "end": "2026-10-05",
-      "matched": 61,
+      "matched": 65,
       "rotowire_first": 3,
-      "rotowire_first_rate": 0.0492,
-      "median_lead_seconds": -115,
-      "mean_lead_seconds": -133.4,
+      "rotowire_first_rate": 0.0462,
+      "median_lead_seconds": -110,
+      "mean_lead_seconds": -208.8,
       "avg_lead_seconds": 1818.7,
-      "avg_trail_seconds": 234.4,
+      "avg_trail_seconds": 307.0,
       "median_win_lead_seconds": 93,
-      "median_win_trail_seconds": 117.0,
+      "median_win_trail_seconds": 115.5,
       "rotowire_only": 29,
-      "underdog_only": 37,
+      "underdog_only": 41,
       "rotowire_duplicate": 4,
-      "underdog_duplicate": 10,
-      "followups": 14
+      "underdog_duplicate": 11,
+      "followups": 15
     }
   ],
   "news_types": {
@@ -1797,9 +1797,9 @@
         "key": "injury_report",
         "label": "Practice / injury report",
         "season": {
-          "matched": 156,
-          "rotowire_first_rate": 0.1026,
-          "median_lead_seconds": -131.0
+          "matched": 160,
+          "rotowire_first_rate": 0.1,
+          "median_lead_seconds": -130.5
         },
         "weeks": {
           "Week 1": {
@@ -1818,9 +1818,9 @@
             "median_lead_seconds": -125.5
           },
           "Week 4": {
-            "matched": 39,
-            "rotowire_first_rate": 0.0513,
-            "median_lead_seconds": -127
+            "matched": 43,
+            "rotowire_first_rate": 0.0465,
+            "median_lead_seconds": -118
           }
         }
       },
@@ -2028,7 +2028,7 @@
       },
       "Week 4": {
         "rotowire": 1,
-        "underdog": 21
+        "underdog": 23
       }
     },
     "kinds": {
@@ -2039,8 +2039,8 @@
       },
       "underdog": {
         "rumor": 24,
-        "non_fantasy": 24,
-        "soundbite": 39,
+        "non_fantasy": 25,
+        "soundbite": 40,
         "in_game_note": 24,
         "other": 3
       }
@@ -2179,25 +2179,25 @@
       "hour": 16,
       "rotowire_posts": 139,
       "underdog_posts": 136,
-      "matched": 99,
+      "matched": 100,
       "rotowire_first": 10,
-      "median_lead_seconds": -136
+      "median_lead_seconds": -137.5
     },
     {
       "hour": 17,
-      "rotowire_posts": 67,
-      "underdog_posts": 57,
-      "matched": 36,
+      "rotowire_posts": 69,
+      "underdog_posts": 62,
+      "matched": 37,
       "rotowire_first": 4,
-      "median_lead_seconds": -85.0
+      "median_lead_seconds": -79
     },
     {
       "hour": 18,
-      "rotowire_posts": 52,
-      "underdog_posts": 68,
-      "matched": 43,
+      "rotowire_posts": 54,
+      "underdog_posts": 71,
+      "matched": 45,
       "rotowire_first": 5,
-      "median_lead_seconds": -122
+      "median_lead_seconds": -121
     },
     {
       "hour": 19,
