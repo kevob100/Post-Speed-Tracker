@@ -1,15 +1,15 @@
 {
-  "generated_at": "2026-10-01T23:08:17.169579+00:00",
+  "generated_at": "2026-10-02T16:29:41.613997+00:00",
   "summary": {
-    "matched": 1200,
+    "matched": 1201,
     "rotowire_first": 138,
-    "rotowire_first_rate": 0.115,
-    "median_lead_seconds": -371.0,
-    "mean_lead_seconds": -537.2,
+    "rotowire_first_rate": 0.1149,
+    "median_lead_seconds": -371,
+    "mean_lead_seconds": -537.3,
     "avg_lead_seconds": 440.1,
     "avg_trail_seconds": 664.2,
     "median_win_lead_seconds": 99.5,
-    "median_win_trail_seconds": 429.0,
+    "median_win_trail_seconds": 430,
     "rotowire_only": 1231,
     "underdog_only": 637,
     "rotowire_duplicate": 96,
@@ -434,15 +434,15 @@
     },
     {
       "period": "2026-W40",
-      "matched": 15,
+      "matched": 16,
       "rotowire_first": 5,
-      "rotowire_first_rate": 0.3333,
-      "median_lead_seconds": -247,
-      "mean_lead_seconds": -234.7,
+      "rotowire_first_rate": 0.3125,
+      "median_lead_seconds": -273.0,
+      "mean_lead_seconds": -259.3,
       "avg_lead_seconds": 56.4,
-      "avg_trail_seconds": 380.3,
+      "avg_trail_seconds": 402.8,
       "median_win_lead_seconds": 56,
-      "median_win_trail_seconds": 321.0,
+      "median_win_trail_seconds": 323,
       "rotowire_only": 8,
       "underdog_only": 12,
       "rotowire_duplicate": 1,
@@ -548,15 +548,15 @@
     },
     {
       "period": "2026-10",
-      "matched": 1,
+      "matched": 2,
       "rotowire_first": 1,
-      "rotowire_first_rate": 1.0,
-      "median_lead_seconds": 56,
-      "mean_lead_seconds": 56,
+      "rotowire_first_rate": 0.5,
+      "median_lead_seconds": -286.0,
+      "mean_lead_seconds": -286,
       "avg_lead_seconds": 56,
-      "avg_trail_seconds": null,
+      "avg_trail_seconds": 628,
       "median_win_lead_seconds": 56,
-      "median_win_trail_seconds": null,
+      "median_win_trail_seconds": 628,
       "rotowire_only": 1,
       "underdog_only": 2,
       "rotowire_duplicate": 0,
@@ -2193,6 +2193,15 @@
         "median_lead_seconds": 56,
         "rolling7_median_seconds": -243.0,
         "rolling7_matched": 24
+      },
+      {
+        "period": "2026-10-02",
+        "label": "Oct 2",
+        "matched": 1,
+        "rotowire_first": 0,
+        "median_lead_seconds": -628,
+        "rolling7_median_seconds": -234,
+        "rolling7_matched": 21
       }
     ],
     "week": [
@@ -2381,9 +2390,9 @@
       {
         "period": "2026-09-28",
         "label": "Wk of Sep 28",
-        "matched": 15,
+        "matched": 16,
         "rotowire_first": 5,
-        "median_lead_seconds": -247
+        "median_lead_seconds": -273.0
       }
     ],
     "month": [
@@ -2439,9 +2448,9 @@
       {
         "period": "2026-10",
         "label": "Oct 2026",
-        "matched": 1,
+        "matched": 2,
         "rotowire_first": 1,
-        "median_lead_seconds": 56
+        "median_lead_seconds": -286.0
       }
     ]
   },
@@ -2465,6 +2474,16 @@
       "date": "2026-10-01",
       "account": "underdog",
       "followers_count": 211565
+    },
+    {
+      "date": "2026-10-02",
+      "account": "rotowire",
+      "followers_count": 13429
+    },
+    {
+      "date": "2026-10-02",
+      "account": "underdog",
+      "followers_count": 211578
     }
   ]
 }
