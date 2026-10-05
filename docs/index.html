@@ -2013,7 +2013,7 @@ function renderAudience() {
     const step = [50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000].find(st => (hi - lo) / st <= 5) || 100000;
     let grid = "";
     for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) grid += `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
-      <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${kfmt(v)}</text>`;
+      <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${hi - lo < 20000 ? num(v) : kfmt(v)}</text>`;
     // Month ticks; the year shows on the first tick and on January.
     let xt = "";
     const first = new Date(t0), mon = new Date(Date.UTC(first.getUTCFullYear(), first.getUTCMonth() + 1, 1));
@@ -2060,8 +2060,10 @@ function renderAudience() {
     const fromExport = fr[0].source === "x_analytics";
     const jumpGain = jumps.reduce((s2, j) => s2 + j.gain, 0), total = lp.followers - fr[0].followers;
     const fmtY = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+    // Short form unless both ends round to the same thing (only a few days counted).
+    const fmtF = v => kfmt(fr[0].followers) === kfmt(lp.followers) ? num(v) : kfmt(v);
     folLead = `<section class="lead"><div class="eyebrow">RotoWire followers</div>
-      <h2><span class="from">${kfmt(fr[0].followers)}</span><span class="arrow" aria-label="to">→</span><span class="to">${kfmt(lp.followers)}</span></h2>
+      <h2><span class="from">${fmtF(fr[0].followers)}</span><span class="arrow" aria-label="to">→</span><span class="to">${fmtF(lp.followers)}</span></h2>
       <p>Since ${fmtY(fr[0].date)}${jumps.length && total > 0 ? `; ${Math.round(jumpGain / total * 100)}% of the gain came on ${jumps.length === 1 ? "one jump" : jumps.length + " jumps"} marked on the chart` : ""}.</p></section>`;
     folPanel = `<div class="panel a-panel"><h3>Followers over time</h3>
       <p class="type-note">${fromExport
