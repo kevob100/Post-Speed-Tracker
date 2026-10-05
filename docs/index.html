@@ -1867,14 +1867,17 @@ function renderAudience() {
     for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) svg += `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
       <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${num(v)}</text>`;
     svg += `<path class="t-line" d="${fr.map((p, i) => `${i ? "L" : "M"}${x(p.date).toFixed(1)},${y(p.followers).toFixed(1)}`).join("")}"/>`;
-    svg += fr.map(p => `<circle class="t-dot" cx="${x(p.date)}" cy="${y(p.followers)}" r="3.5"><title>${fmtD(p.date)}: ${num(p.followers)} followers</title></circle>`).join("");
+    // Hover targets only (a dot per day would crowd a long history).
+    svg += fr.map(p => `<circle class="t-hit" cx="${x(p.date)}" cy="${y(p.followers)}" r="6"><title>${fmtD(p.date)}: ${num(p.followers)} followers${p.source === "x_analytics" ? " (from X Analytics)" : ""}</title></circle>`).join("");
     const lp = fr[fr.length - 1];
     svg += `<text class="t-end" x="${x(lp.date) + 10}" y="${y(lp.followers) + 4}">${kfmt(lp.followers)}</text>`;
     const every = Math.max(1, Math.ceil(fr.length / 8));
     fr.forEach((p, i) => { if (i % every === 0 || i === fr.length - 1)
       svg += `<text class="t-tick" x="${x(p.date)}" y="${H - 8}" text-anchor="middle">${fmtD(p.date)}</text>`; });
     folPanel = `<div class="panel a-panel"><h3>RotoWire followers</h3>
-      <p class="type-note">Counted once a day since ${fmtD(fr[0].date)}${gr && gr.per_day != null ? `: +${num(gr.gained)} so far, about ${num(gr.per_day)} a day` : ""}.</p>
+      <p class="type-note">${fr[0].source === "x_analytics"
+        ? `Daily since ${fmtD(fr[0].date)}: from RotoWire's X Analytics export up to ${fmtD((fr.find(p => p.source !== "x_analytics") || fr[fr.length - 1]).date)}, counted by the pipeline after that. +${num(fr[fr.length - 1].followers - fr[0].followers)} over the period.`
+        : `Counted once a day since ${fmtD(fr[0].date)}${gr && gr.per_day != null ? `: +${num(gr.gained)} so far, about ${num(gr.per_day)} a day` : ""}.`}</p>
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire followers over time">${svg}</svg></div>`;
   }
 

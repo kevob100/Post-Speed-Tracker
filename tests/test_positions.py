@@ -40,3 +40,19 @@ def test_mark_gaps_tags_out_of_beat_misses():
            _lone("5", "trey mcbride", "2026-10-04T17:00:00Z")]   # RW never posted, but a top TE
     develop._mark_gaps(sts, news, "RW", POS)
     assert [s["gap_kind"] for s in sts] == ["not_fantasy", "not_covered", "missed", "missed"]
+
+
+def test_x_analytics_backfill_walks_net_follows_back(tmp_path):
+    from src import x_analytics
+    (tmp_path / "export.csv").write_text(
+        "Date,Impressions,New follows,Unfollows\n"
+        "\"Wed, Oct 01, 2026\",1000,50,10\n"
+        "2026-09-30,900,30,5\n"
+        "2026-09-29,800,20,0\n")
+    daily = x_analytics.load_daily(tmp_path)
+    assert daily["2026-10-01"] == {"new_follows": 50, "unfollows": 10, "impressions": 1000}
+    out = x_analytics.backfill([{"date": "2026-10-01", "followers": 1000},
+                                {"date": "2026-10-02", "followers": 1100}], daily)
+    assert [(p["date"], p["followers"]) for p in out] == [
+        ("2026-09-28", 915), ("2026-09-29", 935), ("2026-09-30", 960),
+        ("2026-10-01", 1000), ("2026-10-02", 1100)]

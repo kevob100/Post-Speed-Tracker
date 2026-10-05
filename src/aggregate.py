@@ -26,7 +26,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from . import develop, focus, games, practice, source, staffing
+from . import develop, focus, games, practice, source, staffing, x_analytics
 from .config import DATA_DIR, DOCS_DATA_DIR
 from .news_type import LABELS as NEWS_TYPE_LABELS
 from .news_type import news_type
@@ -494,7 +494,7 @@ def _mature_views(t: dict | None) -> int | None:
 
 
 def _audience(stories: list[dict], tweets: list[dict], followers: list[dict], rw_handle: str,
-              weeks_cfg: dict | None, tie_s: int = TIE_SECONDS) -> dict:
+              weeks_cfg: dict | None, tie_s: int = TIE_SECONDS, x_daily: dict | None = None) -> dict:
     """Followers, views per news post by week, and views on head-to-head stories."""
     tz = ZoneInfo((weeks_cfg or {}).get("timezone") or "America/New_York")
     side = lambda t: "rotowire" if t.get("account") == rw_handle else "underdog"  # noqa: E731
@@ -544,9 +544,16 @@ def _audience(stories: list[dict], tweets: list[dict], followers: list[dict], rw
     series: dict[str, list[dict]] = {}
     for f in followers:
         series.setdefault(f["account"], []).append({"date": f["date"], "followers": f["followers_count"]})
+    for pts in series.values():
+        pts.sort(key=lambda p: p["date"])
+    # RotoWire's history before collection started, from its own X Analytics export.
+    if x_daily and series.get("rotowire"):
+        series["rotowire"] = x_analytics.backfill(series["rotowire"], x_daily)
+    # Growth compares like with like: only the dates every account has a count for.
+    common = max(pts[0]["date"] for pts in series.values()) if series else None
     growth = {}
     for acct, pts in series.items():
-        pts.sort(key=lambda p: p["date"])
+        pts = [p for p in pts if p["date"] >= common]
         first, last = pts[0], pts[-1]
         days = (datetime.fromisoformat(last["date"]) - datetime.fromisoformat(first["date"])).days
         gained = last["followers"] - first["followers"]
@@ -670,7 +677,8 @@ def build_aggregates(
         aggregates["audience"] = _audience(
             [s for s in stories if not season_weeks or _story_time(s) >= datetime.fromisoformat(
                 str(season_weeks["start"])).replace(tzinfo=ZoneInfo("America/New_York")) - timedelta(days=42)],
-            load_jsonl(data_dir / "tweets.jsonl"), followers, rotowire_handle, season_weeks)
+            load_jsonl(data_dir / "tweets.jsonl"), followers, rotowire_handle, season_weeks,
+            x_daily=x_analytics.load_daily(data_dir / "x_analytics") if (data_dir / "x_analytics").exists() else None)
 
     # Before / after comparison (sports.<sport>.eras).
     if eras:
