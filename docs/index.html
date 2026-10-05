@@ -17,6 +17,11 @@
     font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
   header { padding: 20px 24px 8px; max-width: 1200px; margin: 0 auto; }
+  /* The title and sport pills stay pinned while the page scrolls under them. */
+  .topbar { position: sticky; top: 0; z-index: 10; background: var(--bg); border-bottom: 1px solid transparent;
+    transition: border-color .15s; }
+  .topbar.stuck { border-bottom-color: var(--line); }
+  .topbar .sports { margin-bottom: 8px; }
   h1 { font-size: 20px; margin: 0 0 2px; }
   .sub { color: var(--muted); font-size: 12px; }
 
@@ -30,7 +35,10 @@
   .sport-btn:hover { color: var(--text); }
   .sport-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
   .wrap { padding: 0 24px 48px; max-width: 1200px; margin: 0 auto; }
-  @media (max-width: 640px) { header { padding: 16px 16px 8px; } .wrap { padding: 0 16px 40px; } }
+  @media (max-width: 640px) { header { padding: 12px 16px 4px; } .wrap { padding: 0 16px 40px; }
+    /* keep the pinned bar short on a phone: one-line subtitle, smaller title and pills */
+    header h1 { font-size: 16px; } header .sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .topbar .sports { margin: 8px 0 6px; } .sport-btn { padding: 4px 12px; } }
   table, .kpi, .hb, svg text, .type-cell, .hcell, .strip { font-variant-numeric: tabular-nums; }
 
   /* KPI cards */
@@ -52,7 +60,8 @@
   .lead p { color: var(--muted); font-size: 14px; margin: 0; }
 
   /* who posted first over the last 30 days: a slim bar, labels in a key below */
-  .kpis.has-headline { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  /* --n is the number of cards (set in renderKpis), so two or three cards always fill the row */
+  .kpis.has-headline { grid-template-columns: repeat(var(--n, 3), minmax(0, 1fr)); }
   @media (max-width: 640px) { .kpis.has-headline { grid-template-columns: minmax(0, 1fr); } }
   .headline { grid-column: 1 / -1; background: var(--panel); border: 1px solid var(--line);
     border-radius: 10px; padding: 12px 16px 12px; }
@@ -60,9 +69,9 @@
   .hl-head h3 { font-size: 14px; margin: 0; }
   .hl-head span { color: var(--muted); font-size: 12px; }
   .hb { display: flex; gap: 2px; height: 32px; border-radius: 6px; overflow: hidden; }
-  .hb-seg { display: flex; align-items: center; padding: 0 10px; min-width: 40px; color: #fff; white-space: nowrap;
+  .hb-seg { display: flex; align-items: center; padding: 0 6px; min-width: 8px; color: #fff; white-space: nowrap; overflow: hidden;
     font-size: 14px; font-weight: 650; }
-  .hb-seg.rw { background: var(--green); }
+  .hb-seg.rw { background: var(--green); color: #0f1419; }   /* dark ink reads better on teal */
   .hb-seg.tie { background: #4a5563; justify-content: center; }
   .hb-seg.ud { background: var(--red); justify-content: flex-end; }
   .hb-key { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; font-size: 12px; color: var(--muted); }
@@ -90,7 +99,7 @@
   .tab-group { display: flex; align-items: center; padding: 0 2px 0 12px; color: var(--muted); opacity: .7;
     font-size: 12px; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; }
   .tab-group::before { content: ""; width: 1px; height: 16px; background: var(--line); margin-right: 12px; }
-  #tab-focus.hidden + .tab-group { padding-left: 0; }
+  .tabs > .tab-group:not(.hidden):first-of-type, #tab-focus.hidden + .tab-group { padding-left: 0; }
   #tab-focus.hidden + .tab-group::before { display: none; }
 
   /* filters */
@@ -102,6 +111,8 @@
   }
 
   #feed-wrap, #all-wrap { overflow-x: auto; }
+  /* Wide tables scroll inside their tab on a phone instead of widening the page. */
+  section[id^="view-"] { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; }
   td.story { white-space: normal; min-width: 200px; }
   th, td { text-align: left; padding: 9px 10px; border-bottom: 1px solid var(--line); white-space: nowrap; }
@@ -329,12 +340,12 @@
 </style>
 </head>
 <body>
-<header>
+<div class="topbar" id="topbar"><header>
   <h1>Post-Speed Tracker</h1>
   <div class="sub" id="subtitle">RotoWire vs Underdog — news-speed comparison.
     <span id="generated"></span></div>
   <div class="sports" id="sport-switcher"></div>
-</header>
+</header></div>
 <div class="wrap">
   <!-- ALL-sports overview (shown when the ALL pill is selected) -->
   <section id="view-all" class="hidden"></section>
@@ -431,7 +442,20 @@ function renderSwitcher() {
     `<div class="sport-btn${key === state.sport ? " active" : ""}" data-sport="${key}">${esc(label)}</div>`;
   el.innerHTML = state.sportsIndex.map(s => pill(s.key, s.label)).join("");
   el.querySelectorAll(".sport-btn").forEach(btn =>
-    btn.onclick = () => { if (btn.dataset.sport !== state.sport) select(btn.dataset.sport); });
+    btn.onclick = async () => {
+      if (btn.dataset.sport === state.sport) return;
+      // Switching sports keeps the reader on the same section (the sports' pages differ in
+      // length, so a raw pixel offset would land somewhere else).
+      const bar = document.getElementById("topbar").offsetHeight;
+      const SECTIONS = ["audience-top", "lead", "trend", "kpis", "eras", "tabs-wrap"];
+      const vis = id => { const n = document.getElementById(id); return n && !n.classList.contains("hidden") ? n : null; };
+      const at = window.scrollY > 4 && SECTIONS.map(vis).filter(Boolean)
+        .filter(n => n.getBoundingClientRect().top <= bar + 1).pop();
+      const off = at ? at.getBoundingClientRect().top : 0;
+      await select(btn.dataset.sport);
+      const back = at && (vis(at.id) || SECTIONS.map(vis).filter(Boolean).find(n => SECTIONS.indexOf(n.id) > SECTIONS.indexOf(at.id)));
+      window.scrollTo(0, back ? Math.max(0, window.scrollY + back.getBoundingClientRect().top - off) : 0);
+    });
 }
 
 // Route to either the ALL overview or a single sport.
@@ -625,9 +649,9 @@ function renderKpis() {
   const pct = r => r == null ? "—" : `${Math.round(r * 100)}%`;
   const since = fmtShortDay(h.since);
   // Who posted first on matched stories: RotoWire | tie (within a minute) | Underdog.
-  // Numbers sit inside a segment only when it is wide enough; the key below names every segment.
+  // Each segment shows its number when it fits (fitBarLabels); the key below names every segment.
   const seg = (cls, n, rate, label) => rate ? `<div class="hb-seg ${cls}" style="flex:${n}"
-      title="${label}: ${n} of ${h.matched} matched stories (${pct(rate)})">${rate >= 0.12 ? pct(rate) : ""}</div>` : "";
+      title="${label}: ${n} of ${h.matched} matched stories (${pct(rate)})"><span>${pct(rate)}</span></div>` : "";
   const key = (color, label, rate) => `<span><i style="background:${color}"></i>${label} <b>${pct(rate)}</b></span>`;
   const tile = (label, value, sub, tip) => `<div class="kpi" title="${esc(tip)}"><div class="label">${label}</div>
     <div class="value">${value}</div><div class="kpi-sub">${sub}</div></div>`;
@@ -656,12 +680,22 @@ function renderKpis() {
       <div class="rows">
         <span>RW only</span><b>${pct(h.underdog_missed_rate)}</b><span>${h.underdog_missed} stories</span>
         <span>UD only</span><b>${pct(h.rotowire_missed_rate)}</b><span>${h.rotowire_missed} stories</span></div></div>`;
+  el.style.setProperty("--n", el.querySelectorAll(":scope > .kpi").length || 1);
+  fitBarLabels();
   const top = ((state.agg.focus || {}).groups || []).slice(0, 3);
   const call = document.getElementById("focus-callout");
   if (call) call.innerHTML = top.length ? `Focus on: ${top.map(g => `<b>${esc(g.label)}</b>`).join(", ")}.
     <a id="focus-link" href="#tabs">See examples →</a>` : "";
   const link = document.getElementById("focus-link");
   if (link) link.onclick = e => { e.preventDefault(); showView("focus"); document.getElementById("tabs").scrollIntoView({ behavior: "smooth" }); };
+}
+
+// Hide a segment's number when it does not fit inside the segment.
+function fitBarLabels() {
+  document.querySelectorAll(".hb-seg").forEach(seg => {
+    const sp = seg.querySelector("span");
+    if (sp) sp.style.visibility = sp.offsetWidth + 12 <= seg.clientWidth ? "" : "hidden";
+  });
 }
 
 // ---- feed ----
@@ -1534,11 +1568,14 @@ function renderTrend() {
     h.onmouseleave = () => { tip.classList.add("hidden"); cross.classList.add("hidden"); };
   });
 }
+window.addEventListener("scroll", () =>
+  document.getElementById("topbar").classList.toggle("stuck", window.scrollY > 4), { passive: true });
 let _trendResize;
 window.addEventListener("resize", () => {
   clearTimeout(_trendResize);
   _trendResize = setTimeout(() => { if (state.agg && state.agg.trend) renderTrend();
-    if (state.agg && state.agg.audience) renderAudience(); }, 150);
+    if (state.agg && state.agg.audience) renderAudience();
+    fitBarLabels(); }, 150);
 });
 
 // Custom-range summary for the current sport. Reuses summarize() (same math as the
@@ -2104,6 +2141,12 @@ function showView(name) {
   VIEWS.forEach(v => {
     const sec = document.getElementById("view-" + v);
     sec.classList.toggle("hidden", v !== name); sec.setAttribute("role", "tabpanel"); });
+  // A group label with none of its tabs showing (a sport without that data) is hidden too.
+  document.querySelectorAll(".tab-group").forEach(g => {
+    let n = g.nextElementSibling, any = false;
+    while (n && !n.classList.contains("tab-group")) { if (!n.classList.contains("hidden")) any = true; n = n.nextElementSibling; }
+    g.classList.toggle("hidden", !any);
+  });
   const act = document.querySelector(".tab.active");
   if (act) act.scrollIntoView({ block: "nearest", inline: "nearest" });
   updateTabFade();
