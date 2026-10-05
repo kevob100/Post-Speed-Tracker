@@ -793,6 +793,7 @@ function renderTrend() {
   const path = pts.map(([i, v], k) => `${k ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("");
   const dots = rows.map((r, i) => {
     const v = r.median_lead_seconds, low = r.matched < TYPE_MIN_STORIES;
+    if (v == null) return "";   // a period with no matched story: no dot, axis keeps its place
     const clipped = v > hi || v < lo || Math.abs(v) > TREND_CLAMP;
     const faint = isDay || rolling;
     return `<circle cx="${x(i)}" cy="${y(v)}" r="${isDay ? 3 : 4}" class="t-dot ${faint ? "faint" : ""} ${low ? "hollow" : ""} ${clipped ? "clipped" : ""}"/>`;
@@ -845,7 +846,8 @@ function renderTrend() {
     h.onmouseenter = () => {
       const r = rows[+h.dataset.i], cx = x(+h.dataset.i);
       cross.setAttribute("x1", cx); cross.setAttribute("x2", cx); cross.classList.remove("hidden");
-      tip.innerHTML = `<b>${esc(r.label)}</b><div>Median ${fmtMargin(Math.round(r.median_lead_seconds))}</div>
+      tip.innerHTML = `<b>${esc(r.label)}</b><div>${r.median_lead_seconds == null ? "No matched stories"
+          : `Median ${fmtMargin(Math.round(r.median_lead_seconds))}`}</div>
         <div>RotoWire first on ${r.rotowire_first} of ${r.matched}</div>
         ${r.rolling_median_seconds != null ? `<div>Trailing ${ROLL} ${fmtMargin(Math.round(r.rolling_median_seconds))} (${r.rolling_matched} stories)</div>`
           : isDay && r.rolling7_median_seconds != null ? `<div>Trailing 7 days ${fmtMargin(Math.round(r.rolling7_median_seconds))} (${r.rolling7_matched} stories)</div>` : ""}`;

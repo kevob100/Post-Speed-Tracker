@@ -391,3 +391,15 @@ def test_trend_week_line_is_a_trailing_four_week_median():
     assert [w["median_lead_seconds"] for w in weeks] == [-100, -120, -900, -110, -90]
     # Trailing 4 weeks pooled: the -900 week moves the line far less than its own dot.
     assert [w["rolling_median_seconds"] for w in weeks] == [-100, -110, -120, -115, -115]
+
+
+def test_trend_keeps_empty_weeks_on_the_axis():
+    def m(ts, delta):
+        return {"story_id": ts, "status": "matched", "time_delta_seconds": delta,
+                "rotowire": {"created_at": ts}, "underdog": {"created_at": ts}}
+    # Week 1 and week 4 have stories; weeks 2-3 have none.
+    weeks = agg._trend([m("2026-09-09T16:00:00.000Z", -100), m("2026-09-30T16:00:00.000Z", -60)],
+                       WEEKS)["week"]
+    assert [w["label"] for w in weeks] == ["Week 1", "Week 2", "Week 3", "Week 4"]
+    assert [w["median_lead_seconds"] for w in weeks] == [-100, None, None, -60]
+    assert weeks[1]["matched"] == 0 and weeks[2]["rolling_median_seconds"] == -100

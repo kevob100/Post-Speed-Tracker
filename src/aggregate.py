@@ -338,6 +338,14 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
         median over every story in it and the trailing-1 buckets before it (pooled stories,
         not a median of medians), so one thin or odd bucket does not swing the line."""
         buckets: dict[str, dict] = {}
+        # Every period from the first story to the last, so a period with no matched story
+        # keeps its place on the axis (median None) instead of silently disappearing.
+        if matched:
+            day = matched[0][0].astimezone(tz).replace(hour=12, minute=0, second=0, microsecond=0)
+            while day <= matched[-1][0] + timedelta(days=1):
+                key, label = key_of(day)
+                buckets.setdefault(key, {"period": key, "label": label, "_d": []})
+                day += timedelta(days=1)
         for dt, d in matched:
             key, label = key_of(dt)
             b = buckets.setdefault(key, {"period": key, "label": label, "_d": []})
@@ -348,10 +356,10 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
             d = b.pop("_d")
             pooled.append(d)
             b.update(matched=len(d), rotowire_first=sum(1 for x in d if x > 0),
-                     median_lead_seconds=round(statistics.median(d), 1))
+                     median_lead_seconds=round(statistics.median(d), 1) if d else None)
             if trailing:
                 window = [x for group in pooled[-trailing:] for x in group]
-                b.update(rolling_median_seconds=round(statistics.median(window), 1),
+                b.update(rolling_median_seconds=round(statistics.median(window), 1) if window else None,
                          rolling_matched=len(window))
             out.append(b)
         return out
