@@ -26,7 +26,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from . import develop, focus, games, practice, staffing
+from . import develop, focus, games, practice, source, staffing
 from .config import DATA_DIR, DOCS_DATA_DIR
 from .news_type import LABELS as NEWS_TYPE_LABELS
 from .news_type import news_type
@@ -323,6 +323,13 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
          if _is_active(s) and s.get("status") == "matched" and s.get("time_delta_seconds") is not None),
         key=lambda x: x[0])
 
+    # Matched stories with a source tweet (src/source.py): (time, RW secs, UD secs).
+    sourced = sorted(
+        ((_story_time(s), s["rotowire_secs_from_source"], s["underdog_secs_from_source"])
+         for s in stories if _is_active(s) and s.get("status") == "matched"
+         and s.get("underdog_secs_from_source") is not None),
+        key=lambda x: x[0])
+
     if weeks_cfg:
         hh, mm = (int(x) for x in str(weeks_cfg.get("boundary") or "00:00").split(":"))
         w1 = datetime.fromisoformat(str(weeks_cfg["start"])).replace(hour=hh, minute=mm, tzinfo=tz)
@@ -381,6 +388,17 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
         window30 = [d for dt, d in matched if end - timedelta(days=30) <= dt < end]
         row["rolling30_median_seconds"] = round(statistics.median(window30), 1) if window30 else None
         row["rolling30_matched"] = len(window30)
+        # Time to post from the original source tweet, per side (stories with a source).
+        start = end - timedelta(days=1)
+        day_src = [(r, u) for dt, r, u in sourced if start <= dt < end]
+        row["sourced"] = len(day_src)
+        row["rw_from_source"] = _med([r for r, _ in day_src])
+        row["ud_from_source"] = _med([u for _, u in day_src])
+        for n, label in ((7, "rolling7"), (30, "rolling30")):
+            src = [(r, u) for dt, r, u in sourced if end - timedelta(days=n) <= dt < end]
+            row[f"{label}_sourced"] = len(src)
+            row[f"{label}_rw_from_source"] = _med([r for r, _ in src])
+            row[f"{label}_ud_from_source"] = _med([u for _, u in src])
         # Same field the week and month series use, so the chart reads one key.
         row["rolling_median_seconds"] = row["rolling7_median_seconds"]
         row["rolling_matched"] = len(window)
@@ -392,6 +410,10 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
     # Trailing windows: 4 weeks, 3 months (days use a calendar 7 days, above).
     return {"day": days, "week": series(week_of, trailing=4),
             "month": series(month_of, trailing=3)}
+
+
+def _med(xs: list) -> float | None:
+    return round(statistics.median(xs), 1) if xs else None
 
 
 HEADLINE_DAYS = 30
@@ -539,6 +561,10 @@ def _eras(stories: list[dict], eras: list[dict], rotowire_handle: str | None,
         row["rotowire_posts_per_week"] = round(rw / weeks, 1) if weeks else None
         row["underdog_posts_per_week"] = round((len(posts) - rw) / weeks, 1) if weeks else None
         row["matched_per_week"] = round(row["matched"] / weeks, 1) if weeks else None
+        src = [s for s in sts if s.get("status") == "matched" and s.get("underdog_secs_from_source") is not None]
+        row["sourced"] = len(src)
+        row["rotowire_from_source_seconds"] = _med([s["rotowire_secs_from_source"] for s in src])
+        row["underdog_from_source_seconds"] = _med([s["underdog_secs_from_source"] for s in src])
         out.append(row)
     return out
 
@@ -563,6 +589,8 @@ def build_aggregates(
     reviews_path = reviews_path or (data_dir / "reviews.jsonl")
 
     all_stories = apply_reviews(load_jsonl(stories_path), load_jsonl(reviews_path))
+    # Source tweet times (cached by src/source.py; never calls the X API here).
+    source.attach(all_stories, data_dir)
     start = None
     if analysis_start:
         start = datetime.fromisoformat(str(analysis_start)).replace(tzinfo=ZoneInfo("America/New_York"))

@@ -230,6 +230,11 @@
   .t-tick { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
   .t-side { fill: var(--muted); font-size: 10.5px; }
   .t-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+  .s-line { fill: none; stroke-width: 2; stroke-linejoin: round; }
+  .s-line.rw { stroke: var(--green); } .s-line.ud { stroke: var(--red); }
+  .s-line.thin { stroke-width: 1.5; stroke-dasharray: 2 4; opacity: .55; }
+  .s-end.rw { fill: var(--green); } .s-end.ud { fill: var(--red); }
+  .s-end { font-size: 12px; font-weight: 650; font-variant-numeric: tabular-nums; }
   .t-line.thin { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 2 4; opacity: .7; }
   .t-dot { fill: var(--accent); stroke: var(--panel); stroke-width: 2; }
   .t-dot.faint { fill: var(--muted); opacity: .55; stroke-width: 1; }
@@ -1170,23 +1175,81 @@ function trendGrain() {
 function erasTable() {
   const eras = state.agg.eras || [];
   if (eras.length < 2) return "";
+  const hasSrc = eras.some(e => e.sourced);
   const fmtD = d => d ? new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }) : "";
   const rows = eras.map(e => `<tr><td>${esc(e.label)}<div class="bl">${fmtD(e.first)} – ${fmtD(e.last)} · ${e.weeks} wks</div></td>
     <td class="num">${e.matched} <span class="bl">${e.matched_per_week}/wk</span></td>
     <td class="num">${e.rotowire_first} <span class="bl">${fmtPct(e.rotowire_first_rate)}</span></td>
     <td class="num">${fmtMargin(e.median_lead_seconds)}</td>
     <td class="num">${fmtMS(e.median_win_lead_seconds)}</td><td class="num">${fmtMS(e.median_win_trail_seconds)}</td>
-    <td class="num">${e.rotowire_posts_per_week ?? "—"}</td><td class="num">${e.underdog_posts_per_week ?? "—"}</td></tr>`).join("");
+    <td class="num">${e.rotowire_posts_per_week ?? "—"} / ${e.underdog_posts_per_week ?? "—"}</td>
+    ${hasSrc ? `<td class="num">${fmtMS(e.rotowire_from_source_seconds)} / ${fmtMS(e.underdog_from_source_seconds)}</td>` : ""}</tr>`).join("");
   return `<div class="type-wrap" style="margin-top:14px"><table><thead><tr><th data-nosort>Era</th>
     <th data-nosort style="text-align:right">Matched</th><th data-nosort style="text-align:right">RotoWire first</th>
     <th data-nosort style="text-align:right" title="Median of every matched story">Typical margin</th>
     <th data-nosort style="text-align:right" title="Median margin on the stories RotoWire posted first">RW wins by</th>
     <th data-nosort style="text-align:right" title="Median margin on the stories Underdog posted first">UD wins by</th>
-    <th data-nosort style="text-align:right">RW news posts/wk</th><th data-nosort style="text-align:right">UD news posts/wk</th>
+    <th data-nosort style="text-align:right">RW / UD news posts/wk</th>
+    ${hasSrc ? `<th data-nosort style="text-align:right" title="Median time from the original report (reporter or team tweet) to each side's post, over the stories whose source was found">From source RW / UD</th>` : ""}
     </tr></thead><tbody>${rows}</tbody></table></div>
     <p class="type-note" style="margin-top:6px">Before mass adoption is the offseason: few posts, mostly signings and
       the draft (draft week alone is half its matches), so read it as direction, not a precise baseline. An era
       under 2 weeks old is a small sample.</p>`;
+}
+
+// Time from the original source tweet to each side's post (src/source.py). The margin chart
+// can't say which side moved; this one can. Lower is faster. Same Day / Week / Month grain.
+function sourceChart(rows, grain, W, fmtDay, marks) {
+  if (!rows.some(r => r.sourced)) return "";
+  const isDay = grain === "day";
+  const pre = { week: "rolling7_", month: "rolling30_" }[grain] || "";
+  const val = (r, side) => r[`${pre}${side}_from_source`];
+  const n = r => r[isDay ? "sourced" : `${pre}sourced`] || 0;
+  const thin = r => n(r) < (isDay ? TREND_MIN_DAY : TREND_MIN_ROLLING);
+  const H = 200, m = { t: 14, r: 76, b: 30, l: 72 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+  const solid = rows.filter(r => !thin(r)).flatMap(r => [val(r, "rw"), val(r, "ud")]).filter(v => v != null);
+  const all = rows.flatMap(r => [val(r, "rw"), val(r, "ud")]).filter(v => v != null);
+  const hi = Math.min(3600, Math.max(120, ...(solid.length ? solid : all)) * 1.15);
+  const step = [60, 120, 300, 600, 900, 1800].find(s => hi / s <= 5) || 1800;
+  const y = v => m.t + (1 - Math.min(hi, Math.max(0, v)) / hi) * ih;
+  const x = i => m.l + (rows.length === 1 ? iw / 2 : i / (rows.length - 1) * iw);
+  const ticks = []; for (let v = 0; v <= hi; v += step) ticks.push(v);
+  const grid = ticks.map(v => `<line x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}" class="t-grid"/>
+    <text x="${m.l - 8}" y="${y(v) + 4}" class="t-tick" text-anchor="end">${v ? fmtMS(v) : "0:00"}</text>`).join("");
+  const paths = side => {
+    let s = "", t = "";
+    rows.forEach((r, i) => {
+      if (!i) return;
+      const a = val(rows[i - 1], side), b = val(r, side);
+      if (a == null || b == null) return;
+      const seg = `M${x(i - 1).toFixed(1)},${y(a).toFixed(1)}L${x(i).toFixed(1)},${y(b).toFixed(1)}`;
+      if (thin(rows[i - 1]) || thin(r)) t += seg; else s += seg;
+    });
+    return `<path d="${t}" class="s-line thin ${side}"/><path d="${s}" class="s-line ${side}"/>`;
+  };
+  // Direct end labels name each line, so colour isn't the only cue.
+  const lastI = rows.map((r, i) => [r, i]).filter(([r]) => val(r, "ud") != null).pop();
+  let ends = "";
+  if (lastI) {
+    const [r, i] = lastI, yr = y(val(r, "rw")), yu = y(val(r, "ud"));
+    const gap = Math.abs(yr - yu) < 14 ? (yr < yu ? -7 : 7) : 0;
+    ends = `<text x="${x(i) + 10}" y="${yr + 4 + gap}" class="s-end rw">RW ${fmtMS(val(r, "rw"))}</text>
+      <text x="${x(i) + 10}" y="${yu + 4 - gap}" class="s-end ud">UD ${fmtMS(val(r, "ud"))}</text>`;
+  }
+  const markSvg = marks.map(mk => `<line x1="${x(mk.i)}" x2="${x(mk.i)}" y1="${m.t}" y2="${m.t + ih}" class="t-mark"/>`).join("");
+  const every = Math.max(1, Math.ceil(rows.length / Math.floor(iw / 64)));
+  const xlabels = rows.map((r, i) => i % every === 0 && rows.length - 1 - i >= every / 2 || i === rows.length - 1
+    ? `<text x="${x(i)}" y="${H - 8}" class="t-tick" text-anchor="middle">${esc(r.label)}</text>` : "").join("");
+  const sourced = rows.reduce((a, r) => a + (r.sourced || 0), 0);
+  return `<div class="trend-head" style="margin-top:22px"><div><h3>Time from source to post</h3>
+      <p>How long after the original report (the reporter or team tweet the post credits) each side posted.
+      Median${isDay ? " each day" : `, trailing ${{ week: "7 days", month: "30 days" }[grain]}, day by day`};
+      lower is faster. The margin above can't say which side moved; this can. Covers the ${sourced} matched
+      stories whose source tweet was found.${rows.some(thin) ? ` Dotted stretches rest on fewer than
+      ${isDay ? TREND_MIN_DAY : TREND_MIN_ROLLING} stories.` : ""}</p></div></div>
+    <div class="trend-plot"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img"
+      aria-label="Median minutes from source tweet to post, RotoWire and Underdog">
+      ${grid}${xlabels}${markSvg}${paths("ud")}${paths("rw")}${ends}</svg></div>`;
 }
 
 function renderTrend() {
@@ -1298,7 +1361,7 @@ function renderTrend() {
       <text x="${m.l + 6}" y="${y(0) + 15}" class="t-side">▼ Underdog earlier</text>
       ${grid}${xlabels}${markSvg}<path d="${thinPath}" class="t-line thin"/><path d="${path}" class="t-line"/>${dots}${endLabel}
       <line class="t-cross hidden" y1="${m.t}" y2="${m.t + ih}"/>${hits}</svg>
-      <div class="t-tip hidden"></div></div>${erasTable()}`;
+      <div class="t-tip hidden"></div></div>${sourceChart(rows, grain, W, fmtDay, marks)}${erasTable()}`;
 
   el.querySelectorAll(".seg button").forEach(b => b.onclick = () => {
     state.trendGrain = b.dataset.g;

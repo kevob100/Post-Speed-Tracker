@@ -14,7 +14,7 @@ from .config import env
 
 BASE = "https://api.twitter.com/2"
 
-TWEET_FIELDS = "created_at,public_metrics,referenced_tweets,entities,text,lang"
+TWEET_FIELDS = "created_at,public_metrics,referenced_tweets,entities,text,lang,author_id"
 
 
 class XApiError(RuntimeError):
@@ -134,6 +134,15 @@ class XClient:
         for up to 100 user IDs. Returns {user_id: public_metrics}."""
         payload = self._get("/users", params={"ids": ",".join(ids), "user.fields": "public_metrics"})
         return {u["id"]: u.get("public_metrics", {}) for u in payload.get("data", [])}
+
+    def users_by_ids(self, ids: list[str]) -> dict[str, str]:
+        """Usernames for any number of user IDs, 100 per request. Returns {user_id: username}."""
+        out: dict[str, str] = {}
+        for i in range(0, len(ids), 100):
+            payload = self._get("/users", params={"ids": ",".join(ids[i : i + 100])})
+            for u in payload.get("data", []):
+                out[u["id"]] = u["username"]
+        return out
 
     def tweets_lookup(self, ids: list[str], fields: str = "public_metrics,referenced_tweets") -> dict[str, dict]:
         """Fetch tweet objects (with `fields`) for any number of IDs, 100 per request."""

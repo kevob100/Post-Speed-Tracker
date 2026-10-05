@@ -24,7 +24,7 @@ import json
 from datetime import datetime
 import os
 
-from . import aggregate, classify, collect, develop, games, match, practice
+from . import aggregate, classify, collect, develop, games, match, practice, source
 from .config import (
     DOCS_DATA_DIR,
     load_config,
@@ -34,6 +34,7 @@ from .config import (
     sports,
 )
 from .store import load_jsonl, now_iso
+from .xapi import XClient
 
 
 def run_sport(sport: str, cfg: dict | None = None) -> dict:
@@ -93,6 +94,15 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
         method = "exact_name (stand-in, no key)"
     matched = sum(1 for s in stories if s["status"] == "matched")
     print(f"[resolve]   stories={len(stories)} matched={matched} method={method}")
+
+    # Source tweet times for matched stories (needs X search; cached per story).
+    if meta.get("source_lookup") and os.getenv("X_BEARER_TOKEN"):
+        try:
+            res = source.find_sources(XClient(), data_dir,
+                                      [a["handle"] for a in accounts.values()], meta["source_lookup"])
+            print(f"[source]    {res}")
+        except Exception as e:  # never fail the run over source lookups; retried next run
+            print(f"[source]    skipped: {e}")
 
     if meta.get("practice_phases") and has_key:
         n = len(practice.label_phases(data_dir))
