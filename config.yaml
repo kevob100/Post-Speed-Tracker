@@ -7,10 +7,10 @@ sports:
     # pair of posts. See src/develop.py.
     match_mode: developments
     # Eras compared under the trend chart (US Eastern dates; `until` is exclusive).
-    # Jul 28 is mass adoption of the new news system (and training camp volume).
+    # Jul 24 is mass adoption: the day the desk switched over to the new news system for NFL.
     eras:
-    - {label: Before mass adoption, until: '2026-07-28'}
-    - {label: News system 1.0 (mass adoption), from: '2026-07-28', until: '2026-09-29'}
+    - {label: Before mass adoption, until: '2026-07-24'}
+    - {label: News system 1.0 (mass adoption), from: '2026-07-24', until: '2026-09-29'}
     - {label: News system 2.0, from: '2026-09-29'}
     # Hype kinds counted as news anyway (err toward matching more). The post keeps its
     # label as `borderline` so it can be reviewed. soundbite and other (clips) stay out.
@@ -110,7 +110,7 @@ sports:
 milestones:
 - date: '2026-05-01'
   label: News system 1.0
-- date: '2026-07-28'
+- date: '2026-07-24'
   label: Mass adoption
 - date: '2026-09-29'
   label: News system 2.0
