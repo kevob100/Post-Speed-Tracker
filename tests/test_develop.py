@@ -498,3 +498,25 @@ def test_eras_split_before_and_after():
     rows = agg._eras([m("a", "2026-07-20T16:00:00.000Z", -600), m("b", "2026-07-29T16:00:00.000Z", -60)],
                      [{"label": "Before", "until": "2026-07-28"}, {"label": "After", "from": "2026-07-28"}], "RW", [])
     assert [(r["label"], r["matched"], r["median_lead_seconds"]) for r in rows] == [("Before", 1, -600), ("After", 1, -60)]
+
+
+def test_headline_ties_within_a_minute_and_real_gaps_only():
+    from datetime import datetime, timezone
+    now = datetime(2026, 10, 5, tzinfo=timezone.utc)
+    ts = "2026-10-01T16:00:00.000Z"
+    def m(sid, d):
+        return {"story_id": sid, "status": "matched", "time_delta_seconds": d, "rotowire": {"created_at": ts},
+                "underdog": {"created_at": ts}}
+    def gap(sid, status, **kw):
+        side = {"created_at": ts, **kw}
+        return {"story_id": sid, "status": status, "rotowire": side if status == "rotowire_only" else None,
+                "underdog": side if status == "underdog_only" else None, "gap_kind": "missed"}
+    stories = [m("a", 90), m("b", 30), m("c", -45), m("d", -300),
+               gap("e", "underdog_only"), gap("f", "underdog_only", borderline="in_game_note"),
+               gap("g", "rotowire_only"),
+               {**m("old", -500), "rotowire": {"created_at": "2026-08-01T16:00:00.000Z"},
+                "underdog": {"created_at": "2026-08-01T16:00:00.000Z"}}]
+    h = agg._headline(stories, now)
+    assert (h["rotowire_first"], h["ties"], h["underdog_first"]) == (1, 2, 1)
+    assert h["stories"] == 6 and h["rotowire_missed"] == 1 and h["underdog_missed"] == 1
+    assert h["matched_rate"] == round(4 / 6, 4)

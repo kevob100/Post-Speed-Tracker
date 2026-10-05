@@ -391,6 +391,48 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
             "month": series(month_of, trailing=3)}
 
 
+HEADLINE_DAYS = 30
+TIE_SECONDS = 60
+
+
+def _real_gap(s: dict, status: str) -> bool:
+    """A real miss: one-sided, not a follow-up/roundup/skipped step, and not a borderline
+    post (a highlight clip or in-game note the classifier only let in as borderline)."""
+    side = s.get("underdog") if status == "underdog_only" else s.get("rotowire")
+    return _is_gap(s, status) and not (side or {}).get("borderline")
+
+
+def _headline(stories: list[dict], now: datetime, days: int = HEADLINE_DAYS,
+              tie_s: int = TIE_SECONDS) -> dict:
+    """The dashboard's top line over the trailing `days`: who posted first (a match within
+    tie_s either way is a tie), and what share of real stories each side covered.
+
+    stories = matched + real RotoWire-only + real Underdog-only. Rejected/merged stories,
+    follow-ups, roundups, skipped steps and borderline posts are left out.
+    """
+    since = now - timedelta(days=days)
+    sts = [s for s in stories if _is_active(s) and _story_time(s) >= since]
+    matched = [s for s in sts if s.get("status") == "matched" and s.get("time_delta_seconds") is not None]
+    d = [s["time_delta_seconds"] for s in matched]
+    rw_first = sum(1 for x in d if x > tie_s)
+    ud_first = sum(1 for x in d if x < -tie_s)
+    ud_only = sum(1 for s in sts if _real_gap(s, "underdog_only"))
+    rw_only = sum(1 for s in sts if _real_gap(s, "rotowire_only"))
+    total = len(matched) + ud_only + rw_only
+    pct = lambda n, of: round(n / of, 4) if of else None  # noqa: E731
+    return {
+        "days": days, "tie_seconds": tie_s, "since": since.date().isoformat(),
+        "matched": len(matched), "rotowire_first": rw_first, "ties": len(matched) - rw_first - ud_first,
+        "underdog_first": ud_first,
+        "rotowire_first_rate": pct(rw_first, len(matched)), "tie_rate": pct(len(matched) - rw_first - ud_first, len(matched)),
+        "underdog_first_rate": pct(ud_first, len(matched)),
+        "median_lead_seconds": round(statistics.median(d), 1) if d else None,
+        "stories": total, "matched_rate": pct(len(matched), total),
+        "rotowire_missed": ud_only, "rotowire_missed_rate": pct(ud_only, total),
+        "underdog_missed": rw_only, "underdog_missed_rate": pct(rw_only, total),
+    }
+
+
 def _eras(stories: list[dict], eras: list[dict], rotowire_handle: str | None,
           tweets: list[dict]) -> list[dict]:
     """One summary row per era ({label, from?, until?}, US Eastern dates, until exclusive),
@@ -451,6 +493,7 @@ def build_aggregates(
         "generated_at": now_iso(),
         "analysis_start": str(analysis_start) if analysis_start else None,
         "summary": _summary(stories),
+        "headline": _headline(stories, datetime.now(ZoneInfo("UTC"))),
         "weekly": _rollup(stories, _iso_week),
         "monthly": _rollup(stories, _month),
         "trend": _trend(stories, season_weeks),

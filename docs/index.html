@@ -36,6 +36,24 @@
   .kpi .label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
   .kpi .value { font-size: 26px; font-weight: 650; margin-top: 4px; }
   .kpi .value small { font-size: 13px; color: var(--muted); font-weight: 400; }
+  .kpi .kpi-sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
+
+  /* headline: who posted first over the last 30 days */
+  .kpis.has-headline { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  @media (max-width: 640px) { .kpis.has-headline { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .headline { grid-column: 1 / -1; background: var(--panel); border: 1px solid var(--line);
+    border-radius: 10px; padding: 14px 16px 16px; }
+  .hl-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 10px; }
+  .hl-head h2 { font-size: 15px; margin: 0; }
+  .hl-head span { color: var(--muted); font-size: 12px; }
+  .hb { display: flex; gap: 3px; height: 58px; border-radius: 8px; overflow: hidden; }
+  .hb-seg { display: flex; flex-direction: column; justify-content: center; padding: 0 12px;
+    min-width: 72px; color: #fff; white-space: nowrap; }
+  .hb-seg b { font-size: 22px; font-weight: 650; line-height: 1.1; }
+  .hb-seg span { font-size: 11.5px; opacity: .9; }
+  .hb-seg.rw { background: var(--green); }
+  .hb-seg.tie { background: #4a5563; align-items: center; text-align: center; }
+  .hb-seg.ud { background: var(--red); align-items: flex-end; text-align: right; }
 
   /* tabs */
   .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 16px;
@@ -477,19 +495,34 @@ function storyTime(s) {
 
 // ---- KPI header ----
 function renderKpis() {
-  const s = state.agg.summary || {};
-  const cards = [
-    ["RotoWire-first win rate", fmtPct(s.rotowire_first_rate),
-      s.matched ? `${s.rotowire_first}/${s.matched}` : ""],
-    ["RW wins by", fmtMS(s.median_win_lead_seconds), "median, when RotoWire is first"],
-    ["UD wins by", fmtMS(s.median_win_trail_seconds), "median, when Underdog is first"],
-    ["Matched stories", s.matched ?? 0, ""],
-    ["Coverage gaps", `${s.rotowire_only ?? 0} / ${s.underdog_only ?? 0}`, "RW-only / UD-only"],
-    ["Follow-ups", `${(s.rotowire_duplicate ?? 0) + (s.underdog_duplicate ?? 0)}`, "RW + UD"],
-  ];
-  document.getElementById("kpis").innerHTML = cards.map(([l,v,sub]) =>
-    `<div class="kpi"><div class="label">${l}</div>
-     <div class="value">${v} <small>${sub||""}</small></div></div>`).join("");
+  const h = state.agg.headline;
+  const el = document.getElementById("kpis");
+  el.classList.toggle("has-headline", !!(h && h.matched));
+  if (!h || !h.matched) { el.innerHTML = ""; return; }
+  const pct = r => r == null ? "—" : `${Math.round(r * 100)}%`;
+  const since = new Date(h.since + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  // Who posted first on matched stories: RotoWire | tie (within a minute) | Underdog.
+  const seg = (cls, n, rate, label) => rate ? `<div class="hb-seg ${cls}" style="flex:${n}"
+      title="${label}: ${n} of ${h.matched} matched stories (${pct(rate)})"><b>${pct(rate)}</b><span>${label}</span></div>` : "";
+  const tile = (label, value, sub, tip) => `<div class="kpi" title="${esc(tip)}"><div class="label">${label}</div>
+    <div class="value">${value}</div><div class="kpi-sub">${sub}</div></div>`;
+  el.innerHTML = `<div class="headline">
+      <div class="hl-head"><h2>Who posted first</h2>
+        <span>Last ${h.days} days (since ${since}) · ${h.matched} matched stories · a tie is within ${Math.round(h.tie_seconds / 60)} minute</span></div>
+      <div class="hb" role="img" aria-label="RotoWire first ${pct(h.rotowire_first_rate)}, tie ${pct(h.tie_rate)}, Underdog first ${pct(h.underdog_first_rate)}">
+        ${seg("rw", h.rotowire_first, h.rotowire_first_rate, "RotoWire first")}
+        ${seg("tie", h.ties, h.tie_rate, "Tie")}
+        ${seg("ud", h.underdog_first, h.underdog_first_rate, "Underdog first")}
+      </div>
+    </div>
+    ${tile("Stories matched", pct(h.matched_rate), `${h.matched} of ${h.stories} real stories`,
+      "Stories both accounts posted, out of every real story either posted (highlight clips, roundups, follow-ups and skipped steps left out)")}
+    ${tile("RotoWire missed", pct(h.rotowire_missed_rate), `${h.rotowire_missed} stories only Underdog posted`,
+      "Real stories Underdog posted and RotoWire never matched")}
+    ${tile("Underdog missed", pct(h.underdog_missed_rate), `${h.underdog_missed} stories only RotoWire posted`,
+      "Real stories RotoWire posted and Underdog never matched")}
+    ${tile("Typical margin", fmtMargin(h.median_lead_seconds), "median of matched stories",
+      "UD +1:50 means Underdog was typically 1:50 faster on the stories both posted")}`;
 }
 
 // ---- feed ----
@@ -1079,8 +1112,11 @@ function renderTrend() {
     marks.push({ ...ms, i: idx });
   });
   const fmtDay = d => new Date(d + "T12:00:00Z").toLocaleString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  // Labels closer than ~150px stack downwards so they never overlap.
+  let lastX = -1e9, row = 0;
+  marks.forEach(mk => { const px = x(mk.i); row = px - lastX < 150 ? row + 1 : 0; mk.row = row; lastX = px; });
   const markSvg = marks.map(mk => `<line x1="${x(mk.i)}" x2="${x(mk.i)}" y1="${m.t}" y2="${m.t + ih}" class="t-mark"/>
-    <text x="${x(mk.i) + (mk.i > rows.length * 0.75 ? -6 : 6)}" y="${m.t + 12}" class="t-mark-label"
+    <text x="${x(mk.i) + (mk.i > rows.length * 0.75 ? -6 : 6)}" y="${m.t + 12 + mk.row * 14}" class="t-mark-label"
       text-anchor="${mk.i > rows.length * 0.75 ? "end" : "start"}">${esc(mk.label)} · ${fmtDay(mk.date)}</text>`).join("");
   const earlyNote = early.length ? ` ${early.map(e => `${esc(e.label)} (${fmtDay(e.date)})`).join(", ")}
     went live before tracking started, so everything shown is after it.` : "";
