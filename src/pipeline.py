@@ -24,7 +24,7 @@ import json
 from datetime import datetime
 import os
 
-from . import aggregate, classify, collect, develop, games, match
+from . import aggregate, classify, collect, develop, games, match, practice
 from .config import (
     DOCS_DATA_DIR,
     load_config,
@@ -94,6 +94,10 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
     matched = sum(1 for s in stories if s["status"] == "matched")
     print(f"[resolve]   stories={len(stories)} matched={matched} method={method}")
 
+    if meta.get("practice_phases") and has_key:
+        n = len(practice.label_phases(data_dir))
+        print(f"[practice]  {n} practice posts labelled pre/post")
+
     gw = meta.get("game_windows")
     if gw and gw.get("source") == "espn":
         n = games.refresh_games(data_dir, int(gw.get("season") or datetime.now().year))
@@ -105,7 +109,8 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
                                      milestones=cfg.get("milestones"),
                                      game_windows=gw,
                                      analysis_start=meta.get("analysis_start"),
-                                     eras=meta.get("eras"))
+                                     eras=meta.get("eras"),
+                                     practice_phases=bool(meta.get("practice_phases")))
     s = agg["summary"]
     print(
         f"[aggregate] matched={s['matched']} rw_first_rate={s['rotowire_first_rate']} "

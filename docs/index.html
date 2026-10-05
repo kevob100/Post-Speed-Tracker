@@ -257,6 +257,7 @@
     <div class="tab hidden" data-view="hours" id="tab-hours">By time of day</div>
     <div class="tab hidden" data-view="staff" id="tab-staff">By staff</div>
     <div class="tab hidden" data-view="games" id="tab-games">During games</div>
+    <div class="tab hidden" data-view="practice" id="tab-practice">Practice reports</div>
     <div class="tab" data-view="monthly">Monthly</div>
     <div class="tab" data-view="custom">Custom</div>
     <div class="tab" data-view="gaps">Coverage Gaps</div>
@@ -283,6 +284,7 @@
   <section id="view-hours" class="hidden"></section>
   <section id="view-staff" class="hidden"></section>
   <section id="view-games" class="hidden"></section>
+  <section id="view-practice" class="hidden"></section>
   <section id="view-monthly" class="hidden"></section>
   <section id="view-custom" class="hidden"></section>
   <section id="view-gaps" class="hidden"></section>
@@ -388,7 +390,7 @@ function setMode(isAll) {
   }
 }
 
-const VIEWS = ["feed","weekly","types","hours","staff","games","monthly","custom","gaps","dups"];
+const VIEWS = ["feed","weekly","types","hours","staff","games","practice","monthly","custom","gaps","dups"];
 
 // ---- formatting helpers ----
 const pad = n => String(n).padStart(2, "0");
@@ -1015,6 +1017,59 @@ function renderGames() {
   });
 }
 
+// ---- practice reports: pre-practice (seen / will practice) vs post-practice (official report) ----
+function renderPractice() {
+  const pr = state.agg.practice;
+  document.getElementById("tab-practice").classList.toggle("hidden", !pr);
+  const el = document.getElementById("view-practice");
+  if (!pr) { el.innerHTML = ""; return; }
+  const LABEL = { pre: "Pre-practice", post: "Post-practice" };
+  const NOTE = { pre: "will / won't practice, seen or not seen, worked on the side, media-window notes",
+                 post: "the session's result, usually the official report: full, limited, DNP" };
+  const since = new Date(pr.since + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  const row = ph => {
+    const p = pr.phases[ph];
+    return `<tr><td>${LABEL[ph]}<div class="bl">${NOTE[ph]}</div></td><td class="num">${p.days}</td>
+      <td class="num">${p.rotowire_posted} <span class="bl">${fmtPct(p.rotowire_posted_rate)}</span></td>
+      <td class="num">${p.underdog_posted} <span class="bl">${fmtPct(p.underdog_posted_rate)}</span></td>
+      <td class="num">${p.rotowire_only}</td><td class="num">${p.underdog_only}</td>
+      <td class="num">${p.both ? `${p.rotowire_first} / ${p.ties} / ${p.underdog_first}` : "—"}</td>
+      <td class="num">${fmtMargin(p.median_lead_seconds)}</td></tr>`;
+  };
+  const cell = (side, handle) => side
+    ? `<a href="${tweetUrl(handle, side.tweet_id)}" target="_blank" rel="noopener" title="${esc(side.text)}">${_etTime.format(new Date(side.created_at))}</a>` : `<span class="bl">—</span>`;
+  const verdict = r => {
+    const out = [];
+    ["pre", "post"].forEach(ph => {
+      const h = r[ph];
+      if (h.rotowire && !h.underdog) out.push(`UD skipped ${ph}`);
+      if (h.underdog && !h.rotowire) out.push(`RW skipped ${ph}`);
+    });
+    return out.map(t => `<span class="chip">${t}</span>`).join(" ");
+  };
+  const fmtD = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", timeZone: "UTC" });
+  const rows = [...pr.recent].reverse().map(r => `<tr><td>${fmtD(r.date)}</td><td>${esc(r.player || r.player_key)}</td>
+    <td class="num">${cell(r.pre.rotowire, state.handles.rotowire)}</td><td class="num">${cell(r.pre.underdog, state.handles.underdog)}</td>
+    <td class="num">${cell(r.post.rotowire, state.handles.rotowire)}</td><td class="num">${cell(r.post.underdog, state.handles.underdog)}</td>
+    <td>${verdict(r)}</td></tr>`).join("");
+  el.innerHTML = `<p class="type-note">Each practice day has two updates fantasy players want: before or during
+      practice (is he out there?) and after it (how much did he do?). RotoWire tries to post both. This tracks
+      them separately, per player per practice day, so a day one side skipped shows up as exactly that.
+      Last ${pr.days} days (since ${since}); a tie is within ${Math.round(pr.tie_seconds / 60)} minute. Times are Eastern.</p>
+    <div class="type-wrap"><table><thead><tr><th data-nosort>Update</th><th data-nosort style="text-align:right">Player-days</th>
+      <th data-nosort style="text-align:right">RotoWire posted</th><th data-nosort style="text-align:right">Underdog posted</th>
+      <th data-nosort style="text-align:right">Only RotoWire</th><th data-nosort style="text-align:right">Only Underdog</th>
+      <th data-nosort style="text-align:right" title="When both posted it: RotoWire first / tie / Underdog first">Both: RW / tie / UD first</th>
+      <th data-nosort style="text-align:right">Typical margin</th></tr></thead>
+      <tbody>${row("pre")}${row("post")}</tbody></table></div>
+    <h3 style="font-size:14px;margin:22px 0 8px">Practice days, last two weeks</h3>
+    <div class="type-wrap"><table><thead><tr><th data-nosort>Day</th><th data-nosort>Player</th>
+      <th data-nosort style="text-align:right">RW pre</th><th data-nosort style="text-align:right">UD pre</th>
+      <th data-nosort style="text-align:right">RW post</th><th data-nosort style="text-align:right">UD post</th>
+      <th data-nosort>Skipped</th></tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="type-note">Times link to the tweet; hover for its text.</p>`;
+}
+
 // ---- trend: median margin per day / week / month, zero line = even ----
 // Positive = RotoWire typically first. The goal is to get above the line.
 const TREND_GRAINS = [["day", "Day"], ["week", "Week"], ["month", "Month"]];
@@ -1513,6 +1568,7 @@ function showView(name) {
   if (name === "hours" && !(state.agg.hours || []).length) name = "feed";
   if (name === "staff" && !((state.agg.staffing || {}).days || []).length) name = "feed";
   if (name === "games" && !((state.agg.game_windows || {}).windows || []).length) name = "feed";
+  if (name === "practice" && !state.agg.practice) name = "feed";
   state.view = name;
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.view===name));
   VIEWS.forEach(v =>
@@ -1551,6 +1607,7 @@ function init() {
   renderHours();
   renderStaff();
   renderGames();
+  renderPractice();
   renderCustom();
   renderGaps();
   renderDups();

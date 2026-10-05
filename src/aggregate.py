@@ -26,7 +26,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from . import games, staffing
+from . import develop, games, practice, staffing
 from .config import DATA_DIR, DOCS_DATA_DIR
 from .news_type import LABELS as NEWS_TYPE_LABELS
 from .news_type import news_type
@@ -477,6 +477,7 @@ def build_aggregates(
     game_windows: dict | None = None,
     analysis_start: str | None = None,
     eras: list[dict] | None = None,
+    practice_phases: bool = False,
 ) -> dict:
     """analysis_start (sports.<sport>.analysis_start, a US Eastern date): every metric counts
     only stories and posts from that day on. Earlier stories stay in stories.json for the
@@ -520,6 +521,14 @@ def build_aggregates(
                       if start is None or parse_dt(t["created_at"]) >= start]
             aggregates["hype"] = _hype_rollup(tweets, season_weeks, rotowire_handle)
             aggregates["hours"] = _hour_rollup(stories, tweets, season_weeks, rotowire_handle)
+
+    # Pre- vs post-practice updates (cached model labels; never calls the model here).
+    if practice_phases and rotowire_handle:
+        news = [t for t in load_jsonl(data_dir / "tweets.jsonl") if t.get("is_news")]
+        phases = practice.label_phases(data_dir, llm=False)
+        aggregates["practice"] = practice.rollup(
+            data_dir, rotowire_handle, phases, datetime.now(ZoneInfo("UTC")),
+            alias=develop.spelling_aliases(news, rotowire_handle))
 
     # Before / after comparison (sports.<sport>.eras).
     if eras:
