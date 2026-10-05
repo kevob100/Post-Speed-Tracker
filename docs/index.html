@@ -2148,9 +2148,8 @@ function init() {
     window.addEventListener("resize", updateTabFade);
     document.querySelectorAll("#mode-row button").forEach(b => b.onclick = () => {
       state.topMode = b.dataset.m;
-      try { localStorage.setItem("pst-top-mode", state.topMode); } catch (e) {}
       applyTopMode(); if (state.topMode === "timing") renderTrend(); });
-    try { state.topMode = localStorage.getItem("pst-top-mode") || "timing"; } catch (e) { state.topMode = "timing"; }
+    state.topMode = "timing";   // always opens on Timing; an Audience pick lasts until reload
     state.wired = true;
   }
 
