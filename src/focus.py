@@ -90,12 +90,14 @@ def rollup(stories: list[dict], story_time, now: datetime, mature_views, tweets_
         elif status == "underdog_only" and not (s.get("underdog") or {}).get("borderline"):
             if s.get("gap_kind") == "update":
                 g["steps"] += 1
+            elif s.get("gap_kind") in ("not_fantasy", "not_covered"):
+                continue            # outside RotoWire's beat: not a miss
             else:
                 g["missed"].append(s)
                 v = views(s.get("underdog"))
                 if v:
                     g["ud_views"].append(v)
-        elif status == "rotowire_only" and s.get("gap_kind") != "update":
+        elif status == "rotowire_only" and s.get("gap_kind") not in ("update", "not_fantasy"):
             g["rw_only"] += 1
 
     behind = {k: sum(-s["time_delta_seconds"] for s in g["matched"] if s["time_delta_seconds"] < 0) / 60

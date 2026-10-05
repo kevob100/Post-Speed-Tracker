@@ -287,13 +287,17 @@ def resolve_developments(
                     st["session_two_sided"] = update_gap
                     stories.append(st)
 
-    _mark_gaps(stories, news, rw_handle)
+    from . import positions as positions_mod
+    meta = (cfg.get("sports", {}).get(sport, {}) or {})
+    _mark_gaps(stories, news, rw_handle, positions_mod.load(data_dir),
+               int(meta.get("fantasy_rank_cutoff") or 120))
     stories.sort(key=lambda s: s["story_id"])
     write_jsonl(data_dir / "stories.jsonl", stories)
     return stories
 
 
-def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str) -> None:
+def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str,
+               positions: dict[str, dict] | None = None, rank_cutoff: int = 120) -> None:
     """Tag each coverage gap (one-sided, not a follow-up) as missed or late.
 
     gap_kind "late": the other account posted about the same player within LATE_WINDOW_S
@@ -304,7 +308,14 @@ def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str) -> None:
     gap_kind "update": both accounts covered the player's story in this session, but only
     one posted this step of it (e.g. "headed to the locker room"). other_side_near names
     the other account's closest post in the session. Not counted as a missed story.
+    A "missed" post outside RotoWire's beat isn't counted either (positions from
+    src/positions.py): gap_kind "not_fantasy" when every player it names is a lineman,
+    defender or specialist, and, for Underdog posts, "not_covered" when RotoWire has never
+    posted about the player and he ranks outside Sleeper's top rank_cutoff (a deep backup;
+    a starter RotoWire has simply never covered still counts as missed).
     """
+    from .positions import non_fantasy, ranked_below
+    by_id = {p["id"]: p for p in news}
     by_player: dict[tuple, list[dict]] = {}
     for m in mentions(news, rw_handle):
         side = "rw" if m["post"]["account"] == rw_handle else "ud"
@@ -342,6 +353,14 @@ def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str) -> None:
                 break
         st["gap_kind"] = "late" if later else "missed"
         st["other_side_later"] = later
+        if not later and positions is not None:
+            post = by_id.get(lone["tweet_id"]) or {}
+            keys = [p.get("player_key") for p in post.get("players") or []] or [st["player_key"]]
+            if non_fantasy(keys, positions):
+                st["gap_kind"] = "not_fantasy"
+            elif other == "rw" and not by_player.get((st["player_key"], "rw")) \
+                    and ranked_below(st["player_key"], positions, rank_cutoff):
+                st["gap_kind"] = "not_covered"
 
 
 def _development_stories(ms, label, player, pkey, team, rw_handle, window_s, source,

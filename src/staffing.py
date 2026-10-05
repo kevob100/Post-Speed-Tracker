@@ -91,7 +91,7 @@ def _summary_plus(summary, sts: list[dict]) -> dict:
     out = summary(sts)
     out["underdog_only_borderline"] = sum(
         1 for s in sts if s.get("status") == "underdog_only" and not s.get("same_event_duplicate")
-        and not s.get("roundup") and s.get("gap_kind") != "update"
+        and not s.get("roundup") and s.get("gap_kind") not in ("update", "not_fantasy", "not_covered")
         and s.get("review_status") not in ("rejected", "merged")
         and (s.get("underdog") or {}).get("borderline"))
     return out

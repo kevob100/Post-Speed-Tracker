@@ -863,6 +863,7 @@ function storyList(title, ids) {
     .sort((a, b) => storyTime(a) - storyTime(b));
   const what = s => s.status === "matched" ? (s.rotowire_first ? "RotoWire first" : "Underdog first")
     : s.roundup ? "Roundup" : s.gap_kind === "update" ? (s.underdog ? "Step RW skipped" : "Step UD skipped")
+    : s.gap_kind === "not_fantasy" ? "Not fantasy" : s.gap_kind === "not_covered" ? "Below RW's bar"
     : s.underdog ? "RotoWire missed" : "RotoWire only";
   const body = rows.map(s => {
     const lead = s.underdog && (!s.rotowire || !s.rotowire_first) ? s.underdog : s.rotowire;
@@ -1441,6 +1442,9 @@ function renderCustom() {
 // Feed label = which account actually posted this one-sided story.
 const feedOf = s => s.status === "rotowire_only" ? "RotoWire" : "Underdog";
 
+// One-sided stories that are not missed stories: a skipped step, or news outside RotoWire's beat.
+const NOT_GAPS = ["update", "not_fantasy", "not_covered"];
+
 // Coverage gaps for sports whose stories carry gap_kind (development matching): what each
 // side missed or posted later, one NFL week at a time, so a week's misses can be reviewed.
 const GAP_VIEWS = [
@@ -1456,6 +1460,10 @@ const GAP_VIEWS = [
     note: "Both accounts covered this player's story, but only Underdog posted this step of it (e.g. headed to the locker room). Shown next to RotoWire's closest post on the player. Not counted as a missed story." },
   { key: "rw_update", status: "rotowire_only", kind: "update", label: "Update Underdog skipped",
     note: "Both accounts covered this player's story, but only RotoWire posted this step of it." },
+  { key: "ud_not_fantasy", status: "underdog_only", kind: "not_fantasy", label: "Not fantasy (UD)",
+    note: "Underdog news about linemen, defenders and specialists. RotoWire is a fantasy account and skips these, so they are not counted as missed." },
+  { key: "ud_not_covered", status: "underdog_only", kind: "not_covered", label: "Below RotoWire's bar",
+    note: "Underdog news about a fantasy-position player RotoWire has never posted about (a deep backup, for example). Not counted as missed; check here for anyone who should be covered." },
 ];
 
 // Signed offset of the other account's post from the lone one: "4m before" / "12m after".
@@ -1532,7 +1540,7 @@ function renderGaps() {
   if (state.stories.some(s => s.gap_kind)) return renderGapsByWeek();
   const all = state.stories
     .filter(s => (s.status === "rotowire_only" || s.status === "underdog_only")
-                 && !s.same_event_duplicate && !s.roundup && s.gap_kind !== "update" && s.review_status !== "rejected")
+                 && !s.same_event_duplicate && !s.roundup && !NOT_GAPS.includes(s.gap_kind) && s.review_status !== "rejected")
     .sort((a,b) => storyTime(a) - storyTime(b));
   const rw = all.filter(s => s.status === "rotowire_only").length;
   const ud = all.length - rw;
@@ -1635,7 +1643,7 @@ function summarize(stories, fromT, toT) {
   const trails = deltas.filter(d => d < 0).map(d => -d);
   // Unmatched roundups and update gaps (a step of a story both covered) are not missed stories.
   const count = (st, dup) => active.filter(s => s.status === st && isDup(s) === dup
-                                               && (dup || (!s.roundup && s.gap_kind !== "update"))).length;
+                                               && (dup || (!s.roundup && !NOT_GAPS.includes(s.gap_kind)))).length;
   return {
     matched: matched.length,
     rotowire_first: rwFirst,

@@ -24,7 +24,8 @@ import json
 from datetime import datetime
 import os
 
-from . import aggregate, classify, collect, develop, games, match, practice, source, staffing_import
+from . import (aggregate, classify, collect, develop, games, match, positions, practice, source,
+               staffing_import)
 from .config import (
     DOCS_DATA_DIR,
     load_config,
@@ -64,6 +65,13 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
         classified = classify.classify_file(data_dir=data_dir, sport=sport, llm=False)
         print(f"[classify]  (no key, cached only) total={classified['total']} "
               f"news={classified['news']}")
+
+    if developments and sport == "nfl":
+        try:   # positions + fantasy rank, refreshed weekly (src/positions.py)
+            n = positions.refresh(data_dir)
+            print(f"[positions] {'refreshed ' + str(n) + ' players' if n else 'cache fresh'}")
+        except Exception as e:
+            print(f"[positions] skipped: {e}")
 
     if developments:
         if has_key:

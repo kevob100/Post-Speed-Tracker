@@ -93,7 +93,12 @@ def _is_gap(s: dict, status: str) -> bool:
     """A true coverage gap: one-sided, not a follow-up, not an unmatched roundup post, and
     not an update gap (the other account covered the story, just not this step)."""
     return (s.get("status") == status and not _is_dup(s) and not s.get("roundup")
-            and s.get("gap_kind") != "update")
+            and s.get("gap_kind") not in NOT_GAPS)
+
+
+# Gap kinds that are one-sided but not a missed story: a step of a story both covered, or
+# news outside RotoWire's beat (develop._mark_gaps).
+NOT_GAPS = ("update", "not_fantasy", "not_covered")
 
 
 def _summary(stories: list[dict]) -> dict:

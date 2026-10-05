@@ -68,6 +68,15 @@ def is_link_reply(record: dict) -> bool:
     replied = any(r.get("type") == "replied_to" for r in record.get("referenced_tweets") or [])
     return replied and bool(_LINK_REPLY.match((record.get("text") or "").strip()))
 
+# "Lineup alert: X enters game in place of injured Y." RotoWire posts when a player leaves
+# a game, not when his backup comes in, so these never count as news (the injury itself is
+# its own post on both feeds).
+_ENTERS_GAME = re.compile(r"\b(enters?|entered|in) (the )?game\b.*\bin place of\b", re.I)
+
+
+def is_enters_game(record: dict) -> bool:
+    return bool(_ENTERS_GAME.search(record.get("text") or ""))
+
 # Why a post was tagged hype (sports with match_mode: developments).
 HYPE_KINDS = ("soundbite", "rumor", "in_game_note", "non_fantasy", "other")
 
@@ -328,6 +337,10 @@ def _apply(record: dict, c: dict, event_classes: tuple[str, ...] = DEFAULT_EVENT
     record["borderline"] = None
     if is_link_reply(record):
         record.update(is_news=False, excluded_reason="link_reply", hype_kind=None, player=None,
+                      team=None, player_key="", players=[], event_class="other")
+        return record
+    if is_enters_game(record):
+        record.update(is_news=False, excluded_reason="enters_game", hype_kind=None, player=None,
                       team=None, player_key="", players=[], event_class="other")
         return record
     has_player = bool(player or c.get("players"))

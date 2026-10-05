@@ -255,3 +255,14 @@ def test_parallel_classification_caches_every_post(tmp_path):
     assert len(load_jsonl(tmp_path / "classifications.jsonl")) == 25
     recs = {r["id"]: r for r in load_jsonl(tmp_path / "tweets.jsonl")}
     assert recs["7"]["player"] == "P7"                      # results land on the right post
+
+
+def test_enters_game_lineup_alert_is_not_news():
+    from src.classify import _apply
+    rec = {"text": "Lineup alert: Athan Kaliakmanis enters game in place of injured Marcus Mariota (right leg) on Sunday."}
+    out = _apply(rec, {"is_news": True, "event_class": "injury", "player": "Athan Kaliakmanis"})
+    assert out["is_news"] is False and out["excluded_reason"] == "enters_game"
+    rec = {"text": "Stetson Bennett in game at QB for Rams in place of Matthew Stafford on Thursday."}
+    assert _apply(rec, {"is_news": True, "player": "Stetson Bennett"})["excluded_reason"] == "enters_game"
+    rec = {"text": "Status alert: Marcus Mariota headed to medical tent Sunday."}
+    assert _apply(rec, {"is_news": True, "event_class": "injury", "player": "Marcus Mariota"})["is_news"] is True

@@ -29,6 +29,9 @@ sports:
       after_hours: 3
       primetime_from: '19:00'
       primetime_after_hours: 4
+    # A one-sided Underdog post about a player RotoWire has never posted about counts as
+    # "below RotoWire's bar" (not missed) only when he ranks outside Sleeper's top N.
+    fantasy_rank_cutoff: 120
     # Staffing schedules (By staff tab), rebuilt from these Google Sheets each run
     # (src/staffing_import.py). X Watcher is the source from 2026-10-04 on; the Breaking
     # News Schedule (NFL + NFL News columns) fills earlier days. Aliases join the two
