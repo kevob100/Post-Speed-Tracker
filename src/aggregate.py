@@ -400,14 +400,25 @@ def build_aggregates(
     rotowire_handle: str | None = None,
     milestones: list[dict] | None = None,
     game_windows: dict | None = None,
+    analysis_start: str | None = None,
 ) -> dict:
+    """analysis_start (sports.<sport>.analysis_start, a US Eastern date): every metric counts
+    only stories and posts from that day on. Earlier stories stay in stories.json for the
+    feed, flagged before_start."""
     stories_path = stories_path or (data_dir / "stories.jsonl")
     reviews_path = reviews_path or (data_dir / "reviews.jsonl")
 
-    stories = apply_reviews(load_jsonl(stories_path), load_jsonl(reviews_path))
+    all_stories = apply_reviews(load_jsonl(stories_path), load_jsonl(reviews_path))
+    start = None
+    if analysis_start:
+        start = datetime.fromisoformat(str(analysis_start)).replace(tzinfo=ZoneInfo("America/New_York"))
+        for st in all_stories:
+            st["before_start"] = _story_time(st) < start
+    stories = [st for st in all_stories if not st.get("before_start")]
 
     aggregates = {
         "generated_at": now_iso(),
+        "analysis_start": str(analysis_start) if analysis_start else None,
         "summary": _summary(stories),
         "weekly": _rollup(stories, _iso_week),
         "monthly": _rollup(stories, _month),
@@ -423,12 +434,13 @@ def build_aggregates(
         aggregates["news_types"] = _news_type_rollup(stories, season_weeks)
         # Tag each story so the dashboard can list examples per week / news type.
         of = season_week_of(season_weeks)
-        for st in stories:
+        for st in all_stories:
             st["season_week"] = of(_story_time(st))[1]
             if st.get("status") == "matched":
                 st["news_type"] = news_type(st)
         if rotowire_handle:
-            tweets = load_jsonl(data_dir / "tweets.jsonl")
+            tweets = [t for t in load_jsonl(data_dir / "tweets.jsonl")
+                      if start is None or parse_dt(t["created_at"]) >= start]
             aggregates["hype"] = _hype_rollup(tweets, season_weeks, rotowire_handle)
             aggregates["hours"] = _hour_rollup(stories, tweets, season_weeks, rotowire_handle)
 
@@ -452,7 +464,7 @@ def build_aggregates(
             tweets=load_jsonl(data_dir / "tweets.jsonl"), rotowire_handle=rotowire_handle)
 
     docs_data_dir.mkdir(parents=True, exist_ok=True)
-    _write_json(docs_data_dir / "stories.json", stories)
+    _write_json(docs_data_dir / "stories.json", all_stories)
     _write_json(docs_data_dir / "aggregates.json", aggregates)
     return aggregates
 

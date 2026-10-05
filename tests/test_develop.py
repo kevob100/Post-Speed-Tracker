@@ -472,3 +472,20 @@ def test_more_details_reply_is_a_link_reply_not_news():
     assert _apply(rec, c)["excluded_reason"] == "link_reply"
     plain = {"text": "More Details on the Chase injury soon", "referenced_tweets": []}
     assert _apply(plain, c)["excluded_reason"] == "no_player"
+
+
+def test_analysis_start_drops_earlier_stories_from_metrics_but_keeps_them_in_the_feed(tmp_path):
+    def m(sid, ts):
+        return {"story_id": sid, "status": "matched", "time_delta_seconds": -60, "rotowire_first": False,
+                "rotowire": {"created_at": ts}, "underdog": {"created_at": ts}}
+    write_jsonl(tmp_path / "stories.jsonl", [m("old", "2026-07-20T16:00:00.000Z"),
+                                              m("new", "2026-07-29T16:00:00.000Z")])
+    a = agg.build_aggregates(data_dir=tmp_path, docs_data_dir=tmp_path / "docs", analysis_start="2026-07-28")
+    assert a["summary"]["matched"] == 1 and a["analysis_start"] == "2026-07-28"
+    feed = {s["story_id"]: s for s in load_jsonl_json(tmp_path / "docs" / "stories.json")}
+    assert feed["old"]["before_start"] and not feed["new"]["before_start"]
+
+
+def load_jsonl_json(path):
+    import json
+    return json.loads(path.read_text())

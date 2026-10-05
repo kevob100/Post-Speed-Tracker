@@ -6,6 +6,9 @@ sports:
     # Score each news development once (first post per side) instead of the closest
     # pair of posts. See src/develop.py.
     match_mode: developments
+    # Every NFL metric starts here (training camp; enough volume to match). Earlier
+    # stories stay in the story feed, flagged before_start.
+    analysis_start: '2026-07-28'
     # Hype kinds counted as news anyway (err toward matching more). The post keeps its
     # label as `borderline` so it can be reviewed. soundbite and other (clips) stay out.
     include_hype_kinds: [rumor, in_game_note, non_fantasy]
