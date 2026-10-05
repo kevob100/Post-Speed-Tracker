@@ -56,3 +56,13 @@ def test_x_analytics_backfill_walks_net_follows_back(tmp_path):
     assert [(p["date"], p["followers"]) for p in out] == [
         ("2026-09-28", 915), ("2026-09-29", 935), ("2026-09-30", 960),
         ("2026-10-01", 1000), ("2026-10-02", 1100)]
+
+
+def test_x_analytics_skips_all_zero_padding_rows(tmp_path):
+    from src import x_analytics
+    (tmp_path / "a.csv").write_text(
+        'Date,Impressions,New follows,Unfollows\n'
+        '"Mon, Oct 5, 2026",100,5,1\n'
+        '"Sun, Oct 4, 2026",0,0,0\n')
+    daily = x_analytics.load_daily(tmp_path)
+    assert list(daily) == ["2026-10-05"]

@@ -51,6 +51,10 @@ def load_daily(folder: Path) -> dict[str, dict]:
                 d = _date(r.get("date", ""))
                 if not d:
                     continue
+                # Exports pad the range before the account's data starts with all-zero rows;
+                # those are "no data", not a day with no follows, so they stop the walk back.
+                if not any(_int(v) for k, v in r.items() if k != "date"):
+                    continue
                 out[d.isoformat()] = {
                     "new_follows": _int(r.get("newfollows") or r.get("follows") or r.get("newfollowers")),
                     "unfollows": _int(r.get("unfollows")),
