@@ -1963,57 +1963,21 @@ function renderAudience() {
   const kpis = `<div class="kpis has-headline a-kpis">
     ${gNow ? `<div class="kpi"><div class="label">Impressions growth · last 4 weeks vs prior 4</div>
       <div class="value">RW ${pctS(gNow.rw, 0)}</div><div class="kpi-sub">UD ${pctS(gNow.ud, 0)}</div>
-      ${jump ? `<div class="kpi-sub kpi-flag">RotoWire's views per post jumped ${Math.round(jump.f)}x the week of ${fmtD(jump.w.week)}; see the note below.</div>` : ""}</div>` : ""}
+      ${jump ? `<div class="kpi-sub kpi-flag">RotoWire's views per post jumped ${Math.round(jump.f)}x the week of ${fmtD(jump.w.week)}; worth confirming why before quoting this.</div>` : ""}</div>` : ""}
     ${lastW ? kpi("RotoWire impressions, last week", kfmt(lastW.rotowire_total_views),
       `${rwPrevAvg ? pctS(lastW.rotowire_total_views / rwPrevAvg - 1, 0) + " vs the 4 weeks before" : ""} · week of ${fmtD(lastW.week)}`) : ""}
     ${folR != null && folU != null ? kpi(`Follower growth since ${fmtD(common)}`, pctS(folR, 2), `UD ${pctS(folU, 2)}`) : ""}</div>`;
 
-  // RotoWire impressions per week (bars). With an X Analytics export this is every post on the
-  // account, back to the export's first week; without one, news posts since live collection started.
+  // One account chart with a metric picker: followers (daily line) or a weekly total from the
+  // X Analytics export (bars), on the same timeline with the same news-system markers.
   const acct = (a.rotowire_account_impressions || []).filter(w => w.days === 7);
-  const fromExport = acct.length > 0;
-  // Any account-overview metric the export carries can be charted; impressions by default.
-  const ACCT_METRICS = [["impressions", "Impressions"], ["engagements", "Engagements"], ["likes", "Likes"],
-    ["reposts", "Reposts"], ["replies", "Replies"], ["profile_visits", "Profile visits"],
-    ["new_follows", "New follows"], ["posts", "Posts"]].filter(([k]) => acct.some(w => w[k] != null));
-  const metric = ACCT_METRICS.some(([k]) => k === state.acctMetric) ? state.acctMetric : "impressions";
-  const metricLabel = (ACCT_METRICS.find(([k]) => k === metric) || [, "Impressions"])[1];
-  const bars = fromExport
-    ? acct.map(w => ({ week: w.week, v: w[metric] || 0, thin: false,
-        tip: `Week of ${fmtD(w.week)}: ${num(w[metric] || 0)} ${metricLabel.toLowerCase()} (X Analytics)` }))
-    : weeks.map(w => ({ week: w.week, v: w.rotowire_total_views || 0, thin: w.thin,
-        tip: `Week of ${fmtD(w.week)}: ${num(w.rotowire_total_views || 0)} impressions on ${w.rotowire_posts || 0} news posts (median ${num(w.rotowire_median_views)} per post)` }));
-  let impPanel = "";
-  if (bars.length) {
-    const W = 1100, H = 230, m = { t: 14, r: 16, b: 28, l: 64 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
-    const max = Math.max(1, ...bars.map(w => w.v)) * 1.1;
-    const step = [10, 25, 50, 100, 250, 500, 1e3, 2.5e3, 5e3, 1e4, 2.5e4, 5e4, 1e5, 2.5e5, 5e5, 1e6, 2.5e6, 5e6, 1e7, 2.5e7, 5e7, 1e8]
-      .find(s => max / s <= 5) || 1e8;
-    const bw = iw / bars.length, y = v => m.t + (1 - v / max) * ih;
-    let svg = "";
-    for (let v = 0; v <= max; v += step) svg += `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
-      <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${kfmt(v)}</text>`;
-    const every = Math.max(1, Math.ceil(bars.length / 14));
-    bars.forEach((w, i) => {
-      const x0 = m.l + i * bw + 2, bh = Math.max(1, ih - (y(w.v) - m.t));
-      svg += `<rect class="a-col${w.thin ? " thin" : ""}" x="${x0}" y="${y(w.v)}" width="${Math.max(2, bw - 4)}" height="${bh}" rx="3">
-        <title>${esc(w.tip)}</title></rect>`;
-      if (i % every === 0 || i === bars.length - 1)
-        svg += `<text class="t-tick" x="${m.l + i * bw + bw / 2}" y="${H - 8}" text-anchor="middle">${fmtD(w.week)}</text>`;
-    });
-    impPanel = `<div class="panel a-panel"><div class="trend-head"><div><h3>RotoWire ${fromExport ? metricLabel.toLowerCase() : "impressions"} per week</h3>
-      <p class="type-note">${fromExport
-        ? `The whole account, from its X Analytics export (Monday weeks, complete weeks only).`
-        : `Views on RotoWire's news posts since live collection started, counted once each post is ${a.mature_hours || 36} hours old (Monday weeks). Faded weeks have fewer than ${AUD_MIN_POSTS} posts. Dropping RotoWire's X Analytics export into the pipeline extends this back to April.`}</p></div>
-      ${fromExport && ACCT_METRICS.length > 1 ? `<div class="seg acct-seg" role="group" aria-label="Metric">${ACCT_METRICS.map(([k, l]) =>
-        `<button type="button" data-k="${k}" class="${k === metric ? "on" : ""}" aria-pressed="${k === metric}">${l}</button>`).join("")}</div>` : ""}</div>
-      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire impressions per week">${svg}</svg>
-      ${jump && metric === "impressions" ? `<p class="a-flag">Week of ${fmtD(jump.w.week)}: median views per news post jumped from ${kfmt(jump.p.rotowire_median_views)} to
-        ${kfmt(jump.w.rotowire_median_views)} and stayed up. Worth confirming why before quoting these numbers.</p>` : ""}</div>`;
-  }
+  const ACCT_METRICS = [["followers", "Followers"], ["impressions", "Impressions"], ["engagements", "Engagements"],
+    ["profile_visits", "Profile visits"], ["posts", "Posts"]].filter(([k]) => k === "followers" || acct.some(w => w[k] != null));
+  const metric = ACCT_METRICS.some(([k]) => k === state.acctMetric) ? state.acctMetric : "followers";
+  const metricLabel = ACCT_METRICS.find(([k]) => k === metric)[1];
 
-  // RotoWire followers, all time (X Analytics export, then the pipeline's daily count), with the
-  // news-system milestones and the big single-day jumps marked, drawn at the panel's real width.
+  // Followers all time (X Analytics export, then the pipeline's daily count), or a weekly export
+  // metric, with the news-system milestones marked, drawn at the panel's real width.
   let folLead = "", folPanel = "";
   const fr = fol.rotowire || [];
   if (fr.length > 1) {
@@ -2054,13 +2018,17 @@ function renderAudience() {
     if (!found) lane.forEach((L, i) => { const [a0, a1] = span(L, L.px + 8 + L.w <= W - 2); Object.assign(L, { row: i, right: a1 > L.px, a0, a1 }); });
     m.t += Math.max(0, ...lane.map(L => L.row)) * LANE_ROW;
     const H = m.t + 258, ih = H - m.t - m.b;
-    const hiV = Math.max(...fr.map(p => p.followers)), loV = Math.min(...fr.map(p => p.followers));
-    const lo = Math.max(0, loV - (hiV - loV) * 0.05), hi = hiV + (hiV - loV) * 0.08;
+    const isF = metric === "followers", WEEK = 7 * 86400e3;
+    const wk = isF ? [] : acct.filter(w => t(w.week) >= t0 - WEEK && t(w.week) <= t1).map(w => ({ week: w.week, v: w[metric] || 0 }));
+    const vals = isF ? fr.map(p => p.followers) : wk.map(w => w.v);
+    const hiV = Math.max(1, ...vals), loV = Math.min(...vals);
+    const lo = isF ? Math.max(0, loV - (hiV - loV) * 0.05) : 0, hi = isF ? hiV + (hiV - loV) * 0.08 : hiV * 1.1;
     const y = v => m.t + (hi - v) / (hi - lo) * ih;
-    const step = [50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000].find(st => (hi - lo) / st <= 5) || 100000;
+    const step = [10, 25, 50, 100, 250, 500, 1e3, 2.5e3, 5e3, 1e4, 2.5e4, 5e4, 1e5, 2.5e5, 5e5, 1e6, 2.5e6, 5e6, 1e7]
+      .find(st => (hi - lo) / st <= 5) || 1e7;
     let grid = "";
     for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) grid += `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
-      <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${hi - lo < 20000 ? num(v) : kfmt(v)}</text>`;
+      <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${isF && hi - lo < 20000 ? num(v) : kfmt(v)}</text>`;
     // Month ticks; the year shows on the first tick and on January.
     let xt = "";
     const first = new Date(t0), mon = new Date(Date.UTC(first.getUTCFullYear(), first.getUTCMonth() + 1, 1));
@@ -2093,27 +2061,45 @@ function renderAudience() {
       else jumps.push({ from: p.date, to: p.date, gain: g, top: p }); });
     const jumpSvg = jumps.map(j => `<circle class="f-jump" cx="${x(j.top.date)}" cy="${y(j.top.followers)}" r="4"/>
       <text class="t-band-label halo" x="${x(j.top.date) - 8}" y="${y(j.top.followers) + 4}" text-anchor="end">+${kfmt(j.gain)}${narrow ? "" : " " + (j.from === j.to ? fmtD(j.from) : fmtD(j.from) + "–" + fmtD(j.to).replace(/^\w+ /, ""))}</text>`).join("");
-    const path = `<path class="t-line" d="${fr.map((p, i) => `${i ? "L" : "M"}${x(p.date).toFixed(1)},${y(p.followers).toFixed(1)}`).join("")}"/>`;
-    // Hover: one overlay picks the nearest day; crosshair, dot and tooltip follow it.
+    const lp = fr[fr.length - 1];
+    const isoAdd = (d, days) => new Date(t(d) + days * 86400e3).toISOString().slice(0, 10);
+    const fmtY = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+    // The data marks: the follower line with its jumps and end value, or one bar per Monday week.
+    const marksData = isF
+      ? `<path class="t-line" d="${fr.map((p, i) => `${i ? "L" : "M"}${x(p.date).toFixed(1)},${y(p.followers).toFixed(1)}`).join("")}"/>${jumpSvg}
+         <text class="t-end" x="${x(lp.date) + 8}" y="${y(lp.followers) + 4}">${kfmt(lp.followers)}</text>`
+      : wk.map(w => { const xa = Math.max(m.l, x(w.week)), xb = Math.min(W - m.r, x(isoAdd(w.week, 7)));
+          return `<rect class="a-col" x="${xa + 1}" y="${y(w.v)}" width="${Math.max(1, xb - xa - 2)}" height="${Math.max(1, y(0) - y(w.v))}" rx="2"/>`; }).join("");
+    // Hover: the nearest day (followers) or week (bars) gets a crosshair, dot and tooltip.
+    const hoverPts = isF
+      ? fr.map((p, i) => ({ cx: x(p.date), cy: y(p.followers), html: `<b>${fmtY(p.date)}</b><div>${num(p.followers)} followers</div>
+          ${i ? `<div>${p.followers - fr[i - 1].followers >= 0 ? "+" : "−"}${num(Math.abs(p.followers - fr[i - 1].followers))} that day</div>` : ""}
+          <div class="bl">${p.source === "x_analytics" ? "From X Analytics" : "Counted by the pipeline"}</div>` }))
+      : wk.map(w => ({ cx: (Math.max(m.l, x(w.week)) + Math.min(W - m.r, x(isoAdd(w.week, 7)))) / 2, cy: y(w.v),
+          html: `<b>Week of ${fmtY(w.week)}</b><div>${num(w.v)} ${metricLabel.toLowerCase()}</div><div class="bl">From X Analytics</div>` }));
     const hitsF = `<line class="t-cross hidden" y1="${m.t}" y2="${m.t + ih}"/><circle class="f-dot hidden" r="4"/>
       <rect class="t-hit f-hit" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}"/>`;
-    state.folHover = { fr, x, y, m, iw, t0, t1, W };
-    const lp = fr[fr.length - 1];
-    const end = `<text class="t-end" x="${x(lp.date) + 8}" y="${y(lp.followers) + 4}">${kfmt(lp.followers)}</text>`;
+    state.folHover = { pts: hoverPts, m, W };
     const fromExport = fr[0].source === "x_analytics";
     const jumpGain = jumps.reduce((s2, j) => s2 + j.gain, 0), total = lp.followers - fr[0].followers;
-    const fmtY = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
     // Short form unless both ends round to the same thing (only a few days counted).
     const fmtF = v => kfmt(fr[0].followers) === kfmt(lp.followers) ? num(v) : kfmt(v);
     folLead = `<section class="lead"><div class="eyebrow">RotoWire followers</div>
       <h2><span class="from">${fmtF(fr[0].followers)}</span><span class="arrow" aria-label="to">→</span><span class="to">${fmtF(lp.followers)}</span></h2>
       <p>Since ${fmtY(fr[0].date)}${jumps.length && total > 0 ? `; ${Math.round(jumpGain / total * 100)}% of the gain came on ${jumps.length === 1 ? "one jump" : jumps.length + " jumps"} marked on the chart` : ""}.</p></section>`;
-    folPanel = `<div class="panel a-panel"><h3>Followers over time</h3>
-      <p class="type-note">${fromExport
-        ? `Daily, from RotoWire's X Analytics export (new follows minus unfollows, walked back from the first real count) up to ${fmtD((fr.find(p => p.source !== "x_analytics") || lp).date)}, then counted by the pipeline. Marked: the news-system milestones from the Timing chart.`
-        : `Counted once a day since ${fmtD(fr[0].date)}.`}${!folOk && common ? ` Underdog's count starts ${fmtD(common)}, so growth against it shows once both have ${FOL_MIN_DAYS} days.` : ""}</p>
-      <div class="trend-plot"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire followers over time, ${kfmt(fr[0].followers)} to ${kfmt(lp.followers)}">
-        ${band}${grid}${xt}${markSvg}${path}${jumpSvg}${end}${hitsF}</svg><div class="t-tip hidden"></div></div></div>`;
+    const note = isF
+      ? (fromExport
+        ? `Daily, from RotoWire's X Analytics export (new follows minus unfollows, walked back from the first real count) up to ${fmtD((fr.find(p => p.source !== "x_analytics") || lp).date)}, then counted by the pipeline.`
+        : `Counted once a day since ${fmtD(fr[0].date)}.`) + (!folOk && common ? ` Underdog's count starts ${fmtD(common)}, so growth against it shows once both have ${FOL_MIN_DAYS} days.` : "")
+      : `Weekly totals for the whole account (Monday weeks, complete weeks only), from its X Analytics export.`;
+    folPanel = `<div class="panel a-panel"><div class="trend-head"><div><h3>RotoWire ${metricLabel.toLowerCase()} over time</h3>
+      <p class="type-note">${note}</p></div>
+      ${ACCT_METRICS.length > 1 ? `<div class="seg acct-seg" role="group" aria-label="Metric">${ACCT_METRICS.map(([k, l]) =>
+        `<button type="button" data-k="${k}" class="${k === metric ? "on" : ""}" aria-pressed="${k === metric}">${l}</button>`).join("")}</div>` : ""}</div>
+      <div class="trend-plot"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire ${metricLabel.toLowerCase()} over time">
+        ${band}${grid}${xt}${markSvg}${marksData}${hitsF}</svg><div class="t-tip hidden"></div></div>
+      ${jump && metric === "impressions" ? `<p class="a-flag">Week of ${fmtD(jump.w.week)}: median views per news post jumped from ${kfmt(jump.p.rotowire_median_views)} to
+        ${kfmt(jump.w.rotowire_median_views)} and stayed up. Worth confirming why before quoting these numbers.</p>` : ""}</div>`;
   }
 
   // Comps: impressions growth vs Underdog, the latest 4 weeks vs the 4 before, one bar each.
@@ -2165,7 +2151,6 @@ function renderAudience() {
       Posting first barely changes it, so the gap is reach, not speed.</p></div>` : "";
 
   el.innerHTML = `${folLead}<div class="a-grid one">${folPanel}</div>${kpis}
-    <div class="a-grid one">${impPanel}</div>
     <h3 class="a-sub">Compared with Underdog</h3>
     <div class="a-grid${impComp && folComp ? "" : " one"}">${impComp}${folComp}</div>
     ${sharePanel ? `<div class="a-grid one">${sharePanel}</div>` : ""}`;
@@ -2174,28 +2159,22 @@ function renderAudience() {
   applyTopMode();
 }
 
-// Tooltip on the follower chart: date, followers, that day's change, and where the count came from.
+// Tooltip on the account chart: the nearest day (followers) or week (bars), built in renderAudience.
 function wireFollowerHover(root) {
   const fh = state.folHover, hit = root.querySelector(".f-hit");
   if (!fh || !hit) return;
   const svg = hit.ownerSVGElement, plot = svg.parentElement;
   const tip = plot.querySelector(".t-tip"), cross = svg.querySelector(".t-cross"), dot = svg.querySelector(".f-dot");
-  const fmtY = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
   const show = ev => {
     const r = svg.getBoundingClientRect();
     const px = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
-    const tAt = fh.t0 + (px - fh.m.l) / fh.iw * (fh.t1 - fh.t0);
-    let i = 0, best = Infinity;
-    fh.fr.forEach((p, k) => { const d = Math.abs(new Date(p.date + "T12:00:00Z").getTime() - tAt); if (d < best) { best = d; i = k; } });
-    const p = fh.fr[i], prev = fh.fr[i - 1], cx = fh.x(p.date), cy = fh.y(p.followers);
-    cross.setAttribute("x1", cx); cross.setAttribute("x2", cx); cross.classList.remove("hidden");
-    dot.setAttribute("cx", cx); dot.setAttribute("cy", cy); dot.classList.remove("hidden");
-    const g = prev ? p.followers - prev.followers : null;
-    tip.innerHTML = `<b>${fmtY(p.date)}</b><div>${p.followers.toLocaleString("en-US")} followers</div>
-      ${g != null ? `<div>${g >= 0 ? "+" : "−"}${Math.abs(g).toLocaleString("en-US")} that day</div>` : ""}
-      <div class="bl">${p.source === "x_analytics" ? "From X Analytics" : "Counted by the pipeline"}</div>`;
+    let p = fh.pts[0], best = Infinity;
+    fh.pts.forEach(q => { const d = Math.abs(q.cx - px); if (d < best) { best = d; p = q; } });
+    cross.setAttribute("x1", p.cx); cross.setAttribute("x2", p.cx); cross.classList.remove("hidden");
+    dot.setAttribute("cx", p.cx); dot.setAttribute("cy", p.cy); dot.classList.remove("hidden");
+    tip.innerHTML = p.html;
     tip.classList.remove("hidden");
-    tip.style.left = Math.min(Math.max(cx - tip.offsetWidth / 2, 0), fh.W - tip.offsetWidth) + "px";
+    tip.style.left = Math.min(Math.max(p.cx - tip.offsetWidth / 2, 0), fh.W - tip.offsetWidth) + "px";
     tip.style.top = (fh.m.t + 6) + "px";
   };
   const hide = () => { tip.classList.add("hidden"); cross.classList.add("hidden"); dot.classList.add("hidden"); };
