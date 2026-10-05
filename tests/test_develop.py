@@ -376,3 +376,18 @@ def test_included_hype_kind_counts_as_news():
     assert r["is_news"] and r["borderline"] == "rumor" and r["excluded_reason"] is None
     r = _apply({}, {**c, "hype_kind": "soundbite"}, include_hype_kinds=frozenset({"rumor"}))
     assert not r["is_news"] and r["excluded_reason"] == "hype"
+
+
+def test_trend_week_line_is_a_trailing_four_week_median():
+    def m(day, delta):
+        ts = f"2026-09-{day:02d}T16:00:00.000Z"
+        return {"story_id": f"s{day}{delta}", "status": "matched", "time_delta_seconds": delta,
+                "rotowire": {"created_at": ts}, "underdog": {"created_at": ts}}
+    # Weeks 1-5 (Tue-Mon from Sep 8): one story each, week 3 an outlier.
+    stories = [m(9, -100), m(16, -120), m(23, -900), m(30, -110)]
+    stories.append({**m(30, -90), "story_id": "x", "rotowire": {"created_at": "2026-10-07T16:00:00.000Z"},
+                    "underdog": {"created_at": "2026-10-07T16:00:00.000Z"}})
+    weeks = agg._trend(stories, WEEKS)["week"]
+    assert [w["median_lead_seconds"] for w in weeks] == [-100, -120, -900, -110, -90]
+    # Trailing 4 weeks pooled: the -900 week moves the line far less than its own dot.
+    assert [w["rolling_median_seconds"] for w in weeks] == [-100, -110, -120, -115, -115]

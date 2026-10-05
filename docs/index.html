@@ -754,15 +754,20 @@ function renderTrend() {
   const grain = trendGrain();
   const rows = trend[grain] || [];
   const isDay = grain === "day";
-  // The line: the 7-day rolling median for days (daily medians are noisy), else the bucket median.
-  const lineVal = r => isDay ? r.rolling7_median_seconds : r.median_lead_seconds;
+  // The line is a trailing median (7 days / 4 weeks / 3 months, pooled over the stories) so
+  // it shows the trend; each bucket's own median is a faint dot. Older JSON without the
+  // rolling field falls back to the bucket median.
+  const ROLL = { day: "7 days", week: "4 weeks", month: "3 months" }[grain];
+  const rolling = rows.some(r => r.rolling_median_seconds != null);
+  const lineVal = r => rolling ? r.rolling_median_seconds
+                               : isDay ? r.rolling7_median_seconds : r.median_lead_seconds;
   const last = rows[rows.length - 1];
 
   const W = Math.max(320, el.clientWidth - 28), H = 240;
   const m = { t: 14, r: 76, b: 30, l: 72 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
   // Day view scales to the trend line; single days far outside it sit on the plot edge.
-  const vals = (isDay ? rows.map(lineVal) : rows.map(r => r.median_lead_seconds)).filter(v => v != null);
+  const vals = (isDay || rolling ? rows.map(lineVal) : rows.map(r => r.median_lead_seconds)).filter(v => v != null);
   const clampV = v => Math.max(-TREND_CLAMP, Math.min(TREND_CLAMP, v));
   let lo = Math.min(0, ...vals.map(clampV)), hi = Math.max(0, ...vals.map(clampV));
   const span = Math.max(120, hi - lo); lo -= span * 0.12;
@@ -789,7 +794,8 @@ function renderTrend() {
   const dots = rows.map((r, i) => {
     const v = r.median_lead_seconds, low = r.matched < TYPE_MIN_STORIES;
     const clipped = v > hi || v < lo || Math.abs(v) > TREND_CLAMP;
-    return `<circle cx="${x(i)}" cy="${y(v)}" r="${isDay ? 3 : 4.5}" class="t-dot ${isDay ? "faint" : ""} ${low ? "hollow" : ""} ${clipped ? "clipped" : ""}"/>`;
+    const faint = isDay || rolling;
+    return `<circle cx="${x(i)}" cy="${y(v)}" r="${isDay ? 3 : 4}" class="t-dot ${faint ? "faint" : ""} ${low ? "hollow" : ""} ${clipped ? "clipped" : ""}"/>`;
   }).join("");
   const lastV = last && lineVal(last);
   const endLabel = lastV != null ? `<text x="${x(rows.length - 1) + 10}" y="${y(lastV) + 4}" class="t-end">${fmtMargin(Math.round(lastV))}</text>` : "";
@@ -817,7 +823,7 @@ function renderTrend() {
 
   el.innerHTML = `<div class="trend-head">
       <div><h3>Typical margin over time</h3>
-        <p>Median of every matched story${isDay ? " (line: trailing 7 days; dots: each day)" : ""}. Above the line RotoWire was typically first; below it, Underdog. The goal is to get above the line.${earlyNote}</p></div>
+        <p>Median of every matched story${rolling || isDay ? ` (line: trailing ${ROLL}; dots: each ${grain})` : ""}. Above the line RotoWire was typically first; below it, Underdog. The goal is to get above the line.${earlyNote}</p></div>
       <div class="seg" role="group" aria-label="Group by">${TREND_GRAINS.map(([k, l]) =>
         `<button type="button" data-g="${k}" class="${k === grain ? "on" : ""}" aria-pressed="${k === grain}">${l}</button>`).join("")}</div>
     </div>
@@ -841,7 +847,8 @@ function renderTrend() {
       cross.setAttribute("x1", cx); cross.setAttribute("x2", cx); cross.classList.remove("hidden");
       tip.innerHTML = `<b>${esc(r.label)}</b><div>Median ${fmtMargin(Math.round(r.median_lead_seconds))}</div>
         <div>RotoWire first on ${r.rotowire_first} of ${r.matched}</div>
-        ${isDay && r.rolling7_median_seconds != null ? `<div>Trailing 7 days ${fmtMargin(Math.round(r.rolling7_median_seconds))} (${r.rolling7_matched} stories)</div>` : ""}`;
+        ${r.rolling_median_seconds != null ? `<div>Trailing ${ROLL} ${fmtMargin(Math.round(r.rolling_median_seconds))} (${r.rolling_matched} stories)</div>`
+          : isDay && r.rolling7_median_seconds != null ? `<div>Trailing 7 days ${fmtMargin(Math.round(r.rolling7_median_seconds))} (${r.rolling7_matched} stories)</div>` : ""}`;
       tip.classList.remove("hidden");
       const left = Math.min(Math.max(cx - tip.offsetWidth / 2, 0), W - tip.offsetWidth);
       tip.style.left = left + "px";

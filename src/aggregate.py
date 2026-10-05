@@ -333,18 +333,26 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
             start = d - timedelta(days=d.weekday())
             return start.isoformat(), f"Wk of {start:%b} {start.day}"
 
-    def series(key_of) -> list[dict]:
+    def series(key_of, trailing: int | None = None) -> list[dict]:
+        """Buckets in order. With `trailing`, each also carries rolling_median_seconds: the
+        median over every story in it and the trailing-1 buckets before it (pooled stories,
+        not a median of medians), so one thin or odd bucket does not swing the line."""
         buckets: dict[str, dict] = {}
         for dt, d in matched:
             key, label = key_of(dt)
             b = buckets.setdefault(key, {"period": key, "label": label, "_d": []})
             b["_d"].append(d)
-        out = []
+        out, pooled = [], []
         for key in sorted(buckets):
             b = buckets[key]
             d = b.pop("_d")
+            pooled.append(d)
             b.update(matched=len(d), rotowire_first=sum(1 for x in d if x > 0),
                      median_lead_seconds=round(statistics.median(d), 1))
+            if trailing:
+                window = [x for group in pooled[-trailing:] for x in group]
+                b.update(rolling_median_seconds=round(statistics.median(window), 1),
+                         rolling_matched=len(window))
             out.append(b)
         return out
 
@@ -358,12 +366,17 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
         window = [d for dt, d in matched if end - timedelta(days=7) <= dt < end]
         row["rolling7_median_seconds"] = round(statistics.median(window), 1) if window else None
         row["rolling7_matched"] = len(window)
+        # Same field the week and month series use, so the chart reads one key.
+        row["rolling_median_seconds"] = row["rolling7_median_seconds"]
+        row["rolling_matched"] = len(window)
 
     def month_of(dt):
         local = dt.astimezone(tz)
         return local.strftime("%Y-%m"), local.strftime("%b %Y")
 
-    return {"day": days, "week": series(week_of), "month": series(month_of)}
+    # Trailing windows: 4 weeks, 3 months (days use a calendar 7 days, above).
+    return {"day": days, "week": series(week_of, trailing=4),
+            "month": series(month_of, trailing=3)}
 
 
 def build_aggregates(
