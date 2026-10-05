@@ -489,3 +489,12 @@ def test_analysis_start_drops_earlier_stories_from_metrics_but_keeps_them_in_the
 def load_jsonl_json(path):
     import json
     return json.loads(path.read_text())
+
+
+def test_eras_split_before_and_after():
+    def m(sid, ts, d):
+        return {"story_id": sid, "status": "matched", "time_delta_seconds": d, "rotowire_first": d > 0,
+                "rotowire": {"created_at": ts}, "underdog": {"created_at": ts}}
+    rows = agg._eras([m("a", "2026-07-20T16:00:00.000Z", -600), m("b", "2026-07-29T16:00:00.000Z", -60)],
+                     [{"label": "Before", "until": "2026-07-28"}, {"label": "After", "from": "2026-07-28"}], "RW", [])
+    assert [(r["label"], r["matched"], r["median_lead_seconds"]) for r in rows] == [("Before", 1, -600), ("After", 1, -60)]

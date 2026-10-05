@@ -6,9 +6,11 @@ sports:
     # Score each news development once (first post per side) instead of the closest
     # pair of posts. See src/develop.py.
     match_mode: developments
-    # Every NFL metric starts here (training camp; enough volume to match). Earlier
-    # stories stay in the story feed, flagged before_start.
-    analysis_start: '2026-07-28'
+    # Eras compared under the trend chart (US Eastern dates; `until` is exclusive).
+    # Jul 28 is mass adoption of the new news system (and training camp volume).
+    eras:
+    - {label: Before the new news system, until: '2026-07-28'}
+    - {label: New news system, from: '2026-07-28'}
     # Hype kinds counted as news anyway (err toward matching more). The post keeps its
     # label as `borderline` so it can be reviewed. soundbite and other (clips) stay out.
     include_hype_kinds: [rumor, in_game_note, non_fantasy]
@@ -87,6 +89,8 @@ sports:
 milestones:
 - date: '2026-05-01'
   label: News system 1.0
+- date: '2026-07-28'
+  label: Mass adoption
 - date: '2026-09-29'
   label: News system 2.0
 matching:

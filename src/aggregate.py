@@ -391,6 +391,36 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
             "month": series(month_of, trailing=3)}
 
 
+def _eras(stories: list[dict], eras: list[dict], rotowire_handle: str | None,
+          tweets: list[dict]) -> list[dict]:
+    """One summary row per era ({label, from?, until?}, US Eastern dates, until exclusive),
+    with weeks covered and news posts per week so a quiet era reads as quiet."""
+    tz = ZoneInfo("America/New_York")
+    day = lambda d: datetime.fromisoformat(str(d)).replace(tzinfo=tz) if d else None  # noqa: E731
+    out = []
+    for era in eras:
+        lo, hi = day(era.get("from")), day(era.get("until"))
+        inside = lambda t: (lo is None or t >= lo) and (hi is None or t < hi)  # noqa: E731
+        sts = [s for s in stories if inside(_story_time(s))]
+        posts = [t for t in tweets if t.get("is_news") and inside(parse_dt(t["created_at"]))]
+        times = [_story_time(s) for s in sts]
+        first = min(times) if times else None
+        last = max(times) if times else None
+        weeks = max(1.0, ((last - first).total_seconds() / 86400 + 1) / 7) if times else 0
+        row = {"label": era["label"], "from": str(era.get("from") or "") or None,
+               "until": str(era.get("until") or "") or None,
+               "first": first.astimezone(tz).date().isoformat() if first else None,
+               "last": last.astimezone(tz).date().isoformat() if last else None,
+               "weeks": round(weeks, 1)}
+        row.update(_summary(sts))
+        rw = sum(1 for t in posts if t.get("account") == rotowire_handle)
+        row["rotowire_posts_per_week"] = round(rw / weeks, 1) if weeks else None
+        row["underdog_posts_per_week"] = round((len(posts) - rw) / weeks, 1) if weeks else None
+        row["matched_per_week"] = round(row["matched"] / weeks, 1) if weeks else None
+        out.append(row)
+    return out
+
+
 def build_aggregates(
     data_dir: Path = DATA_DIR,
     docs_data_dir: Path = DOCS_DATA_DIR,
@@ -401,6 +431,7 @@ def build_aggregates(
     milestones: list[dict] | None = None,
     game_windows: dict | None = None,
     analysis_start: str | None = None,
+    eras: list[dict] | None = None,
 ) -> dict:
     """analysis_start (sports.<sport>.analysis_start, a US Eastern date): every metric counts
     only stories and posts from that day on. Earlier stories stay in stories.json for the
@@ -443,6 +474,11 @@ def build_aggregates(
                       if start is None or parse_dt(t["created_at"]) >= start]
             aggregates["hype"] = _hype_rollup(tweets, season_weeks, rotowire_handle)
             aggregates["hours"] = _hour_rollup(stories, tweets, season_weeks, rotowire_handle)
+
+    # Before / after comparison (sports.<sport>.eras).
+    if eras:
+        aggregates["eras"] = _eras(stories, eras, rotowire_handle,
+                                   load_jsonl(data_dir / "tweets.jsonl") if rotowire_handle else [])
 
     # How RotoWire compares while NFL games are on (sports with game_windows configured).
     if game_windows:

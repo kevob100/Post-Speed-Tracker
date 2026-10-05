@@ -991,6 +991,28 @@ function trendGrain() {
   return state.trendGrain || "week";
 }
 
+// Before / after comparison under the trend chart (sports.<sport>.eras).
+function erasTable() {
+  const eras = state.agg.eras || [];
+  if (eras.length < 2) return "";
+  const fmtD = d => d ? new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }) : "";
+  const rows = eras.map(e => `<tr><td>${esc(e.label)}<div class="bl">${fmtD(e.first)} – ${fmtD(e.last)} · ${e.weeks} wks</div></td>
+    <td class="num">${e.matched} <span class="bl">${e.matched_per_week}/wk</span></td>
+    <td class="num">${e.rotowire_first} <span class="bl">${fmtPct(e.rotowire_first_rate)}</span></td>
+    <td class="num">${fmtMargin(e.median_lead_seconds)}</td>
+    <td class="num">${fmtMS(e.median_win_lead_seconds)}</td><td class="num">${fmtMS(e.median_win_trail_seconds)}</td>
+    <td class="num">${e.rotowire_posts_per_week ?? "—"}</td><td class="num">${e.underdog_posts_per_week ?? "—"}</td></tr>`).join("");
+  return `<div class="type-wrap" style="margin-top:14px"><table><thead><tr><th data-nosort>Era</th>
+    <th data-nosort style="text-align:right">Matched</th><th data-nosort style="text-align:right">RotoWire first</th>
+    <th data-nosort style="text-align:right" title="Median of every matched story">Typical margin</th>
+    <th data-nosort style="text-align:right" title="Median margin on the stories RotoWire posted first">RW wins by</th>
+    <th data-nosort style="text-align:right" title="Median margin on the stories Underdog posted first">UD wins by</th>
+    <th data-nosort style="text-align:right">RW news posts/wk</th><th data-nosort style="text-align:right">UD news posts/wk</th>
+    </tr></thead><tbody>${rows}</tbody></table></div>
+    <p class="type-note" style="margin-top:6px">The earlier era is the offseason: few posts, mostly signings and the
+      draft (draft week alone is half its matches), so read it as direction, not a precise baseline.</p>`;
+}
+
 function renderTrend() {
   const el = document.getElementById("trend");
   const trend = state.agg.trend;
@@ -1079,7 +1101,7 @@ function renderTrend() {
       <text x="${m.l + 6}" y="${y(0) + 15}" class="t-side">▼ Underdog earlier</text>
       ${grid}${xlabels}${markSvg}<path d="${path}" class="t-line"/>${dots}${endLabel}
       <line class="t-cross hidden" y1="${m.t}" y2="${m.t + ih}"/>${hits}</svg>
-      <div class="t-tip hidden"></div></div>`;
+      <div class="t-tip hidden"></div></div>${erasTable()}`;
 
   el.querySelectorAll(".seg button").forEach(b => b.onclick = () => {
     state.trendGrain = b.dataset.g;
