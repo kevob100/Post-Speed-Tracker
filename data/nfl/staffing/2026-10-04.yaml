@@ -1,0 +1,30 @@
+# NFL news desk schedule, Sunday 2026-10-04 (US Eastern).
+# Each slot is one hour starting at `start`. A role lists who is on it:
+#   [A, B]                          both on for the whole hour (shared)
+#   [{name: A, until: 'HH:MM'}, B]  A until that time, then B
+date: '2026-10-04'
+timezone: America/New_York
+roles:
+  tweets: Tweets (L1-2)
+  distributor: Distributor (L3-5)
+  writers: Writers
+slots:
+- {start: '05:00', tweets: [KOB], distributor: [KOB], writers: [KOB]}
+- {start: '06:00', tweets: [KOB], distributor: [KOB], writers: [KOB]}
+- {start: '07:00', tweets: [Adam], distributor: [Adam], writers: [Adam]}
+- {start: '08:00', tweets: [Adam], distributor: [Adam], writers: [Adam]}
+- {start: '09:00', tweets: [KOB], distributor: [Eric], writers: [Eric]}
+- {start: '10:00', tweets: [KOB], distributor: [{name: Eric, until: '10:30'}, Adam], writers: [{name: Eric, until: '10:30'}, Adam]}
+- {start: '11:00', tweets: [Adam, KOB], distributor: [Adam], writers: [Adam]}
+- {start: '12:00', tweets: [Adam], distributor: [Ryan W.], writers: [Eric, Paul, Cullum]}
+- {start: '13:00', tweets: [{name: Adam, until: '13:50'}, Cullum], distributor: [Ryan W.], writers: [Eric, Paul, Cullum]}
+- {start: '14:00', tweets: [Cullum, Adam], distributor: [Ryan W.], writers: [Eric, Cullum]}
+- {start: '15:00', tweets: [Cullum], distributor: [Ryan W.], writers: [Ryan W.]}
+- {start: '16:00', tweets: [Cullum, Eric], distributor: [Ryan W.], writers: [Eric, Nick B.]}
+- {start: '17:00', tweets: [Cullum, Eric], distributor: [Ryan W.], writers: [Eric, Nick B.]}
+- {start: '18:00', tweets: [Sasha, Eric], distributor: [Sasha], writers: [Mensio, Nick B.]}
+- {start: '19:00', tweets: [Sasha], distributor: [Sasha], writers: [Mensio, Nick B.]}
+- {start: '20:00', tweets: [Sasha], distributor: [Sasha], writers: [Mensio, Nick B.]}
+- {start: '21:00', tweets: [Sasha], distributor: [Sasha], writers: [Mensio, Nick B.]}
+- {start: '22:00', tweets: [Sasha], distributor: [Sasha], writers: [Mensio, Nick B.]}
+- {start: '23:00', tweets: [Sasha], distributor: [Sasha], writers: [Mensio, Nick B.]}

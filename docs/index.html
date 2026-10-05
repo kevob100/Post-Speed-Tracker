@@ -148,6 +148,27 @@
   .key-sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; }
   .key-sw.rw { background: var(--green); } .key-sw.ud { background: var(--red); margin-left: 10px; }
   .hours-table { margin-top: 14px; }
+
+  /* by staff: shift strip (who held each role, hour by hour) + people table */
+  .seg-chips { display: flex; gap: 4px; flex-wrap: wrap; }
+  .seg-chips button { background: var(--panel); color: var(--muted); border: 1px solid var(--line);
+    border-radius: 6px; padding: 6px 10px; font-size: 12.5px; cursor: pointer; }
+  .seg-chips button:hover { color: var(--text); }
+  .seg-chips button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .strip { display: grid; gap: 3px; min-width: 760px; }
+  .strip .s-lab { color: var(--muted); font-size: 11.5px; align-self: center; padding-right: 6px; }
+  .strip .s-span { background: var(--panel2); border: 1px solid var(--line); border-radius: 5px;
+    font-size: 11.5px; padding: 5px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .strip .s-cell { height: 52px; border-radius: 5px; border: 1px solid var(--line); background: var(--panel);
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
+    font-size: 12.5px; cursor: pointer; color: var(--text); font: inherit; padding: 0; }
+  .strip .s-cell b { font-size: 13px; }
+  .strip .s-cell span { font-size: 10px; opacity: .85; }
+  .strip .s-cell.on { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .strip .s-cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .strip .s-tick { font-size: 10.5px; color: var(--muted); text-align: center; }
+  .small-n { color: var(--muted); font-size: 11px; margin-left: 6px; }
+  .bl { color: var(--muted); font-size: 11.5px; }
   .hours-table summary { color: var(--accent); cursor: pointer; font-size: 12.5px; margin-bottom: 8px; }
 
   /* trend chart */
@@ -215,6 +236,7 @@
     <div class="tab" data-view="weekly">Weekly</div>
     <div class="tab hidden" data-view="types" id="tab-types">By news type</div>
     <div class="tab hidden" data-view="hours" id="tab-hours">By time of day</div>
+    <div class="tab hidden" data-view="staff" id="tab-staff">By staff</div>
     <div class="tab" data-view="monthly">Monthly</div>
     <div class="tab" data-view="custom">Custom</div>
     <div class="tab" data-view="gaps">Coverage Gaps</div>
@@ -239,6 +261,7 @@
   <section id="view-weekly" class="hidden"></section>
   <section id="view-types" class="hidden"></section>
   <section id="view-hours" class="hidden"></section>
+  <section id="view-staff" class="hidden"></section>
   <section id="view-monthly" class="hidden"></section>
   <section id="view-custom" class="hidden"></section>
   <section id="view-gaps" class="hidden"></section>
@@ -344,7 +367,7 @@ function setMode(isAll) {
   }
 }
 
-const VIEWS = ["feed","weekly","types","hours","monthly","custom","gaps","dups"];
+const VIEWS = ["feed","weekly","types","hours","staff","monthly","custom","gaps","dups"];
 
 // ---- formatting helpers ----
 const pad = n => String(n).padStart(2, "0");
@@ -741,6 +764,141 @@ function renderHours() {
       <th data-nosort style="text-align:right">RW first</th><th data-nosort style="text-align:right">Typical margin</th>
       </tr></thead><tbody>${rows}</tbody></table></details>`;
   document.getElementById("f-hours-all").onchange = e => { state.hoursAll = !!e.target.value; renderHours(); };
+}
+
+// ---- by staff: who held each desk role when the news broke ----
+// Times on this tab are US Eastern (the schedule's timezone), unlike the CT feed.
+const _etTime = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
+const hhLabel = hh => { const h = +hh.slice(0, 2); return `${(h + 11) % 12 + 1}${h < 12 ? "a" : "p"}`; };
+const STAFF_MIN = 10;   // fewer matched stories than this: flagged as a small sample
+// Red when Underdog was typically first, green when RotoWire was; stronger = bigger margin.
+function marginBg(sec, n) {
+  if (!n || sec == null) return "";
+  const a = (0.18 + 0.55 * Math.min(1, Math.abs(sec) / 240)).toFixed(2);
+  return sec < 0 ? `rgba(229,83,75,${a})` : `rgba(46,160,67,${a})`;
+}
+
+function renderStaff() {
+  const st = state.agg.staffing || {};
+  const days = st.days || [];
+  document.getElementById("tab-staff").classList.toggle("hidden", !days.length);
+  const el = document.getElementById("view-staff");
+  if (!days.length) { el.innerHTML = ""; return; }
+
+  const ALLDAYS = "__all";
+  const dayKey = days.some(d => d.date === state.staffDay) || (state.staffDay === ALLDAYS && days.length > 1)
+    ? state.staffDay : days[days.length - 1].date;
+  const day = days.find(d => d.date === dayKey);
+  const roles = st.roles || {};
+  const role = roles[state.staffRole] ? state.staffRole : Object.keys(roles)[0];
+  const total = day ? day.total : st.all.total;
+  const people = (day ? day.people : st.all.people)[role] || [];
+  const fmtDay = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-US",
+    { weekday: "short", month: "short", day: "numeric", timeZone: "UTC" });
+
+  const kpi = (label, value, small) => `<div class="kpi"><div class="label">${label}</div>
+    <div class="value">${value}${small ? ` <small>${small}</small>` : ""}</div></div>`;
+  const missed = t => `${t.underdog_only}${t.underdog_only_borderline ? ` <small>(${t.underdog_only_borderline} borderline)</small>` : ""}`;
+  const kpis = `<div class="kpis">
+    ${kpi("Matched stories", total.matched)}
+    ${kpi("RotoWire first", fmtPct(total.rotowire_first_rate), `${total.rotowire_first}/${total.matched}`)}
+    ${kpi("Typical margin", fmtMargin(total.median_lead_seconds))}
+    ${kpi("RotoWire missed", missed(total))}
+    ${kpi("Steps skipped", total.underdog_update_only ?? 0, "Underdog-only steps")}</div>`;
+
+  // Shift strip: one row per role (spans = who held it), then each hour's result.
+  let strip = "";
+  if (day) {
+    const slots = day.slots, n = slots.length;
+    const spans = r => {
+      const out = []; let cur = null, from = 0;
+      slots.forEach((s, i) => {
+        const k = (s.roles[r] || []).join(" / ");
+        if (k !== cur) { if (cur !== null) out.push([from, i, cur]); cur = k; from = i; }
+      });
+      out.push([from, n, cur]);
+      return out.map(([a, b, k]) => {
+        const hand = slots.slice(a, b).flatMap(s => s.handoffs[r] || []);
+        const tip = `${k} · ${hhLabel(slots[a].start)}–${hhLabel(slots[b - 1].start)}${hand.length ? " · " + hand.join(", ") : ""}`;
+        return `<div class="s-span" style="grid-column:${a + 2}/${b + 2}" title="${esc(tip)}">${esc(k)}</div>`;
+      }).join("");
+    };
+    const cells = slots.map((s, i) => {
+      const tip = `${hhLabel(s.start)} ET: ${s.matched} matched, RotoWire first on ${s.rotowire_first}` +
+        `${s.matched ? ", typical " + fmtMargin(s.median_lead_seconds) : ""}; ${s.underdog_only} missed` +
+        `${s.underdog_only_borderline ? ` (${s.underdog_only_borderline} borderline)` : ""}; ${s.underdog_update_only} steps skipped`;
+      const miss = s.underdog_only ? `${s.underdog_only} missed` : "";
+      return `<button type="button" class="s-cell${state.staffHour === s.start ? " on" : ""}" data-h="${s.start}"
+        style="${marginBg(s.median_lead_seconds, s.matched) ? "background:" + marginBg(s.median_lead_seconds, s.matched) : ""}"
+        title="${esc(tip)}" aria-label="${esc(tip)}"><b>${s.matched || ""}</b><span>${miss}</span></button>`;
+    }).join("");
+    strip = `<div class="type-wrap"><div class="strip" style="grid-template-columns:120px repeat(${n}, minmax(34px, 1fr))">
+      ${Object.entries(roles).map(([r, l]) => `<div class="s-lab">${esc(l)}</div>${spans(r)}`).join("")}
+      <div class="s-lab">Result</div>${cells}
+      <div></div>${slots.map(s => `<div class="s-tick">${hhLabel(s.start)}</div>`).join("")}
+    </div></div>
+    <p class="type-note">Each hour: the number is matched stories, colour is the typical margin (red: Underdog
+      first, green: RotoWire first, stronger = bigger gap), "missed" is news only Underdog posted. Click an hour
+      to list its stories. Hours are Eastern time.</p>`;
+  }
+
+  // Stories behind the selected hour.
+  let detail = "";
+  const slot = day && day.slots.find(s => s.start === state.staffHour);
+  if (slot) {
+    const rows = slot.story_ids.map(storyById).filter(Boolean)
+      .filter(s => !s.same_event_duplicate && s.review_status !== "rejected")
+      .sort((a, b) => storyTime(a) - storyTime(b));
+    const what = s => s.status === "matched" ? (s.rotowire_first ? "RotoWire first" : "Underdog first")
+      : s.roundup ? "Roundup" : s.gap_kind === "update" ? (s.underdog ? "Step RW skipped" : "Step UD skipped")
+      : s.underdog ? "RotoWire missed" : "RotoWire only";
+    const body = rows.map(s => {
+      const lead = s.underdog && (!s.rotowire || !s.rotowire_first) ? s.underdog : s.rotowire;
+      const handle = lead === s.underdog ? state.handles.underdog : state.handles.rotowire;
+      return `<tr><td>${_etTime.format(new Date(storyTime(s)))}</td><td>${esc(s.player || "?")}${borderlineChip(lead)}</td>
+        <td><span class="chip">${what(s)}</span></td>
+        <td class="num">${s.status === "matched" ? fmtMargin(s.time_delta_seconds) : "—"}</td>
+        <td class="story">${textLink(handle, lead, lead && lead.text)}</td></tr>`;
+    }).join("");
+    detail = `<h3 style="font-size:14px;margin:18px 0 8px">${hhLabel(slot.start)} ET · ${rows.length} ${rows.length === 1 ? "story" : "stories"}</h3>
+      ${rows.length ? `<div class="type-wrap"><table><thead><tr><th data-nosort>Broke (ET)</th><th data-nosort>Player</th>
+        <th data-nosort>Result</th><th data-nosort style="text-align:right">Margin</th><th data-nosort>First post</th></tr></thead>
+        <tbody>${body}</tbody></table></div>` : `<div class="empty">No stories this hour.</div>`}`;
+  }
+
+  const prow = p => `<tr><td>${esc(p.name)}${p.matched < STAFF_MIN ? `<span class="small-n" title="Fewer than ${STAFF_MIN} matched stories: too few to judge">small sample</span>` : ""}</td>
+    <td class="num">${p.hours.toFixed(1)}</td><td class="num">${p.matched}</td>
+    <td class="num">${p.rotowire_first} <span class="bl">${fmtPct(p.rotowire_first_rate)}</span></td>
+    <td class="num">${fmtMargin(p.median_lead_seconds)}</td>
+    <td class="num">${p.underdog_only}${p.underdog_only_borderline ? ` <span class="bl">(${p.underdog_only_borderline} borderline)</span>` : ""}</td>
+    <td class="num">${p.underdog_update_only ?? 0}</td><td class="num">${p.rotowire_only}</td></tr>`;
+  const table = `<div class="type-wrap"><table><thead><tr><th data-nosort>Person</th>
+    <th data-nosort style="text-align:right">Hours on</th><th data-nosort style="text-align:right">Matched</th>
+    <th data-nosort style="text-align:right">RotoWire first</th>
+    <th data-nosort style="text-align:right" title="Median of the matched stories; UD +1:40 means Underdog was typically 1:40 faster">Typical margin</th>
+    <th data-nosort style="text-align:right" title="News only Underdog posted. Borderline = highlight clips and in-game notes the classifier would otherwise drop">RotoWire missed</th>
+    <th data-nosort style="text-align:right" title="Steps of a story both covered that only Underdog posted (e.g. headed to the locker room)">Steps skipped</th>
+    <th data-nosort style="text-align:right">RotoWire exclusive</th></tr></thead>
+    <tbody>${[...people].sort((a, b) => b.hours - a.hours).map(prow).join("")}</tbody></table></div>`;
+
+  el.innerHTML = `<p class="type-note">How RotoWire did against Underdog by who held each desk role when the news
+      broke (the first post on either feed). A shared hour credits everyone on it. Only hours on the schedule count.</p>
+    <div class="filters">
+      <label>Day<select id="f-staff-day">${days.map(d =>
+        `<option value="${d.date}"${d.date === dayKey ? " selected" : ""}>${fmtDay(d.date)}</option>`).join("")}
+        ${days.length > 1 ? `<option value="${ALLDAYS}"${dayKey === ALLDAYS ? " selected" : ""}>All scheduled days</option>` : ""}</select></label>
+    </div>
+    ${kpis}${strip}${detail}
+    <div class="filters" style="margin-top:20px"><label>Role<div class="seg-chips" role="group" aria-label="Role">
+      ${Object.entries(roles).map(([r, l]) => `<button type="button" data-r="${r}" class="${r === role ? "on" : ""}" aria-pressed="${r === role}">${esc(l)}</button>`).join("")}
+    </div></label></div>
+    ${table}`;
+
+  document.getElementById("f-staff-day").onchange = e => { state.staffDay = e.target.value; state.staffHour = null; renderStaff(); };
+  el.querySelectorAll(".seg-chips button").forEach(b => b.onclick = () => { state.staffRole = b.dataset.r; renderStaff(); });
+  el.querySelectorAll(".s-cell").forEach(c => c.onclick = () => {
+    state.staffHour = state.staffHour === c.dataset.h ? null : c.dataset.h; renderStaff();
+  });
 }
 
 // ---- trend: median margin per day / week / month, zero line = even ----
@@ -1209,6 +1367,7 @@ function renderAllTable() {
 function showView(name) {
   if (name === "types" && !(state.agg.news_types || {}).types?.length) name = "feed";
   if (name === "hours" && !(state.agg.hours || []).length) name = "feed";
+  if (name === "staff" && !((state.agg.staffing || {}).days || []).length) name = "feed";
   state.view = name;
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.view===name));
   VIEWS.forEach(v =>
@@ -1245,6 +1404,7 @@ function init() {
   renderRollup(document.getElementById("view-monthly"), state.agg.monthly || [], "month");
   renderTypes();
   renderHours();
+  renderStaff();
   renderCustom();
   renderGaps();
   renderDups();

@@ -26,6 +26,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from . import staffing
 from .config import DATA_DIR, DOCS_DATA_DIR
 from .news_type import LABELS as NEWS_TYPE_LABELS
 from .news_type import news_type
@@ -426,6 +427,11 @@ def build_aggregates(
             tweets = load_jsonl(data_dir / "tweets.jsonl")
             aggregates["hype"] = _hype_rollup(tweets, season_weeks, rotowire_handle)
             aggregates["hours"] = _hour_rollup(stories, tweets, season_weeks, rotowire_handle)
+
+    # Speed and coverage by who was on the desk, for days with a schedule file.
+    schedules = staffing.load_schedules(data_dir)
+    if schedules:
+        aggregates["staffing"] = staffing.rollup(stories, schedules, _story_time, _summary)
 
     docs_data_dir.mkdir(parents=True, exist_ok=True)
     _write_json(docs_data_dir / "stories.json", stories)
