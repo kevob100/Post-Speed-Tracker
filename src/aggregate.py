@@ -378,6 +378,9 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
         window = [d for dt, d in matched if end - timedelta(days=7) <= dt < end]
         row["rolling7_median_seconds"] = round(statistics.median(window), 1) if window else None
         row["rolling7_matched"] = len(window)
+        window30 = [d for dt, d in matched if end - timedelta(days=30) <= dt < end]
+        row["rolling30_median_seconds"] = round(statistics.median(window30), 1) if window30 else None
+        row["rolling30_matched"] = len(window30)
         # Same field the week and month series use, so the chart reads one key.
         row["rolling_median_seconds"] = row["rolling7_median_seconds"]
         row["rolling_matched"] = len(window)
