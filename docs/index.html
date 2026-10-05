@@ -52,9 +52,8 @@
   .lead p { color: var(--muted); font-size: 14px; margin: 0; }
 
   /* who posted first over the last 30 days: a slim bar, labels in a key below */
-  .kpis.has-headline { grid-template-columns: repeat(5, minmax(0, 1fr)); }
-  @media (max-width: 960px) { .kpis.has-headline { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-  @media (max-width: 640px) { .kpis.has-headline { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .kpis.has-headline { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  @media (max-width: 640px) { .kpis.has-headline { grid-template-columns: minmax(0, 1fr); } }
   .headline { grid-column: 1 / -1; background: var(--panel); border: 1px solid var(--line);
     border-radius: 10px; padding: 12px 16px 12px; }
   .hl-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 8px; }
@@ -651,14 +650,13 @@ function renderKpis() {
       <div class="hb-key">${key("var(--green)", "RotoWire first", h.rotowire_first_rate)}${key("#4a5563", "Tie", h.tie_rate)}${key("var(--red)", "Underdog first", h.underdog_first_rate)}</div>
     </div>
     ${prTile}
-    ${tile(`Typical margin · last ${h.days} days`, fmtMargin(h.median_lead_seconds), "median of matched stories",
+    ${tile(`Typical margin · last ${h.days} days`, fmtMargin(h.median_lead_seconds), "on stories both posted",
       "UD +1:50 means Underdog was typically 1:50 faster on the stories both posted")}
-    ${tile("Stories matched", pct(h.matched_rate), `${h.matched} of ${h.stories} real stories`,
-      "Stories both accounts posted, out of every real story either posted (highlight clips, roundups, follow-ups and skipped steps left out)")}
-    ${tile("Only RotoWire posted", pct(h.underdog_missed_rate), `${h.underdog_missed} stories`,
-      "Real stories RotoWire posted and Underdog never matched")}
-    ${tile("Only Underdog posted", pct(h.rotowire_missed_rate), `${h.rotowire_missed} stories`,
-      "Real stories Underdog posted and RotoWire never matched")}`;
+    <div class="kpi" title="Real stories only one account posted, out of every real story either posted (highlight clips, roundups, follow-ups and skipped steps left out)">
+      <div class="label">Stories only one side posted</div>
+      <div class="rows">
+        <span>RW only</span><b>${pct(h.underdog_missed_rate)}</b><span>${h.underdog_missed} stories</span>
+        <span>UD only</span><b>${pct(h.rotowire_missed_rate)}</b><span>${h.rotowire_missed} stories</span></div></div>`;
   const top = ((state.agg.focus || {}).groups || []).slice(0, 3);
   const call = document.getElementById("focus-callout");
   if (call) call.innerHTML = top.length ? `Focus on: ${top.map(g => `<b>${esc(g.label)}</b>`).join(", ")}.
@@ -1271,7 +1269,6 @@ const TREND_GRAINS = [["day", "Day"], ["week", "Week"], ["month", "Month"]];
 const TREND_CLAMP = Infinity;       // no cap: the axis fits the data, whatever its range
 const TREND_MIN_ROLLING = 20;       // a trailing window with fewer stories draws dotted and faint
 const TREND_MIN_DAY = 10;           // same for a single day in the Day view
-const ERA_MIN_WINS = 30;            // era win margins on fewer stories show "n<30"
 function trendGrain() {
   // Always opens on Week; a Day/Month pick lasts until the page is reloaded.
   return state.trendGrain || "week";
@@ -1283,30 +1280,25 @@ function erasTable() {
   if (eras.length < 2) return "";
   const hasSrc = eras.some(e => e.sourced);
   const fmtD = fmtShortDay;
-  // A win margin on fewer than ERA_MIN_WINS stories is too thin to quote.
-  const small = n => n < ERA_MIN_WINS ? `<span class="bl" title="Only ${n} ${n === 1 ? "story" : "stories"}: too few to quote a margin">n&lt;${ERA_MIN_WINS}</span>` : "";
-  const rows = eras.map(e => `<tr><td>${esc(e.label)}<div class="bl">${fmtD(e.first)} – ${fmtD(e.last)} · ${e.weeks} wks</div></td>
-    <td class="num">${e.matched} <span class="bl">${e.matched_per_week}/wk</span></td>
-    <td class="num">${e.rotowire_first} <span class="bl">${fmtPct(e.rotowire_first_rate)}</span></td>
-    <td class="num">${fmtMargin(e.median_lead_seconds)}</td>
-    <td class="num">${small(e.rotowire_first) || fmtMS(e.median_win_lead_seconds)}</td>
-    <td class="num">${small(e.matched - e.rotowire_first) || fmtMS(e.median_win_trail_seconds)}</td>
+  const rows = eras.map(e => `<tr><td>${esc(e.label)}<div class="bl">${fmtD(e.first)} – ${fmtD(e.last)}</div></td>
+    <td class="num"><b>${fmtMargin(e.median_lead_seconds)}</b></td>
+    <td class="num">${fmtPct(e.rotowire_first_rate)}</td>
+    <td class="num">${num0(e.matched)}</td>
     <td class="num">${e.rotowire_posts_per_week ?? "—"} / ${e.underdog_posts_per_week ?? "—"}</td>
     ${hasSrc ? `<td class="num">${fmtMS(e.rotowire_from_source_seconds)} / ${fmtMS(e.underdog_from_source_seconds)}</td>` : ""}</tr>`).join("");
-  return `<div class="trend-head" style="margin-top:22px"><div><h3>Before and after</h3>
-      <p>Each era of the news system, on the stories both accounts posted.</p></div></div>
-    <div class="type-wrap" style="margin-top:8px"><table><thead><tr><th data-nosort>Era</th>
-    <th data-nosort style="text-align:right">Matched</th><th data-nosort style="text-align:right">RotoWire first</th>
-    <th data-nosort style="text-align:right" title="Median of every matched story">Typical margin</th>
-    <th data-nosort style="text-align:right" title="Median margin on the stories RotoWire posted first">RW wins by</th>
-    <th data-nosort style="text-align:right" title="Median margin on the stories Underdog posted first">UD wins by</th>
-    <th data-nosort style="text-align:right">RW / UD news posts/wk</th>
+  return `<div class="trend-head"><div><h3>By phase</h3>
+      <p>Each phase of the news system, on stories both accounts posted.</p></div></div>
+    <div class="type-wrap" style="margin-top:8px"><table><thead><tr><th data-nosort>Phase</th>
+    <th data-nosort style="text-align:right" title="Median margin on every story both posted; UD +1:35 means Underdog was typically 1:35 faster">Typical margin</th>
+    <th data-nosort style="text-align:right">RotoWire first</th>
+    <th data-nosort style="text-align:right">Stories</th>
+    <th data-nosort style="text-align:right" title="News posts per week, RotoWire / Underdog">Posts per week</th>
     ${hasSrc ? `<th data-nosort style="text-align:right" title="Median time from the original report (reporter or team tweet) to each side's post, over the stories whose source was found">From source RW / UD</th>` : ""}
     </tr></thead><tbody>${rows}</tbody></table></div>
-    <p class="type-note" style="margin-top:6px">Before mass adoption is the offseason: few posts, mostly signings and
-      the draft (draft week alone is half its matches), so read it as direction, not a precise baseline. An era
-      under 2 weeks old is a small sample.</p>`;
+    <p class="type-note" style="margin-top:6px">Posts per week is RotoWire / Underdog. Before mass adoption is the offseason
+      (few posts, mostly signings and the draft), so read it as direction. A phase under 2 weeks old is a small sample.</p>`;
 }
+const num0 = n => n == null ? "—" : n.toLocaleString("en-US");
 
 // Time from the original source tweet to each side's post (src/source.py). The margin chart
 // can't say which side moved; this one can. Lower is faster. Same Day / Week / Month grain.
