@@ -271,13 +271,14 @@ def _hour_rollup(stories: list[dict], tweets: list[dict], weeks_cfg: dict,
 
     One row per hour 0-23: rotowire_posts / underdog_posts count news posts (hype and other
     non-news excluded) made that hour; rotowire_all / underdog_all count every collected post
-    with nothing excluded; matched / rotowire_first / median_lead_seconds cover
+    with nothing excluded; rotowire_links / underdog_links count the "More Details" link
+    replies within that total; matched / rotowire_first / median_lead_seconds cover
     matched stories, bucketed by the hour of the story's FIRST post.
     """
     of = season_week_of(weeks_cfg)
     tz = ZoneInfo(weeks_cfg.get("timezone") or "America/New_York")
     rows = [{"hour": h, "rotowire_posts": 0, "underdog_posts": 0, "rotowire_all": 0,
-             "underdog_all": 0, "_d": []} for h in range(24)]
+             "underdog_all": 0, "rotowire_links": 0, "underdog_links": 0, "_d": []} for h in range(24)]
     for t in tweets:
         dt = parse_dt(t["created_at"])
         if of(dt)[0] == 0:
@@ -285,6 +286,8 @@ def _hour_rollup(stories: list[dict], tweets: list[dict], weeks_cfg: dict,
         side = "rotowire" if t.get("account") == rotowire_handle else "underdog"
         row = rows[dt.astimezone(tz).hour]
         row[f"{side}_all"] += 1
+        if t.get("excluded_reason") == "link_reply":
+            row[f"{side}_links"] += 1     # "More Details" link to the full write-up
         if t.get("is_news"):
             row[f"{side}_posts"] += 1
     for s in stories:

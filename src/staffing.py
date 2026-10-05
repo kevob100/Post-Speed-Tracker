@@ -109,12 +109,15 @@ def rollup(stories: list[dict], schedules: list[dict], story_time, summary,
     base = summary
     summary = lambda sts: _summary_plus(base, sts)  # noqa: E731
     credited = credit(stories, schedules, story_time)
-    news = [t for t in (tweets or []) if t.get("is_news")]
+    news = [t for t in (tweets or []) if t.get("is_news") or t.get("excluded_reason") == "link_reply"]
     posted = credit(news, schedules, lambda t: parse_dt(t["created_at"]))
 
     def volume(posts: list[dict]) -> dict:
-        rw = sum(1 for t in posts if t.get("account") == rotowire_handle)
-        return {"rotowire_posts": rw, "underdog_posts": len(posts) - rw}
+        rw = [t for t in posts if t.get("account") == rotowire_handle]
+        ud = [t for t in posts if t.get("account") != rotowire_handle]
+        link = lambda ts: sum(1 for t in ts if t.get("excluded_reason") == "link_reply")  # noqa: E731
+        return {"rotowire_posts": len(rw) - link(rw), "underdog_posts": len(ud) - link(ud),
+                "rotowire_links": link(rw)}
     days = []
     pooled: dict[str, dict[str, list[dict]]] = {}
     hours_by_person: dict[str, dict[str, float]] = {}

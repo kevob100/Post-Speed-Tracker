@@ -304,11 +304,11 @@ def test_hour_rollup(tmp_path):
                                  season_weeks=WEEKS, rotowire_handle=RW)["hours"]
     assert len(hours) == 24
     assert hours[6] == {"hour": 6, "rotowire_posts": 1, "underdog_posts": 0, "matched": 1,
-                        "rotowire_all": 1, "underdog_all": 0,
+                        "rotowire_all": 1, "underdog_all": 0, "rotowire_links": 0, "underdog_links": 0,
                         "rotowire_first": 1, "median_lead_seconds": 3900.0}
     # The hype post is left out of news posts but counted in all posts.
     assert hours[7] == {"hour": 7, "rotowire_posts": 0, "underdog_posts": 1, "matched": 1,
-                        "rotowire_all": 0, "underdog_all": 2,
+                        "rotowire_all": 0, "underdog_all": 2, "rotowire_links": 0, "underdog_links": 0,
                         "rotowire_first": 0, "median_lead_seconds": -420.0}
     assert sum(h["matched"] for h in hours) == 2
 
@@ -463,3 +463,12 @@ def test_roundup_only_matches_within_ninety_minutes(tmp_path, monkeypatch):
     s = _run(tmp_path, posts, OneDev())
     assert s["st_rw_round_ud_puka_puka-nacua"]["status"] == "matched"          # 30m: ok
     assert not any(v["status"] == "matched" and v["player_key"] == "chris olave" for v in s.values())
+
+
+def test_more_details_reply_is_a_link_reply_not_news():
+    from src.classify import _apply
+    c = {"is_news": False, "excluded_reason": "no_player", "players": []}
+    rec = {"text": "@AdamSchefter More Details 👉 https://t.co/x", "referenced_tweets": [{"type": "replied_to", "id": "1"}]}
+    assert _apply(rec, c)["excluded_reason"] == "link_reply"
+    plain = {"text": "More Details on the Chase injury soon", "referenced_tweets": []}
+    assert _apply(plain, c)["excluded_reason"] == "no_player"

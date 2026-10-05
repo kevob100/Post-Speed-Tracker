@@ -55,7 +55,18 @@ SPORT_EVENT_CLASSES = {
 # Backward-compatible alias (the generic taxonomy).
 EVENT_CLASSES = DEFAULT_EVENT_CLASSES
 
-EXCLUDED_REASONS = ("no_player", "lineup_card", "promo", "recap", "not_news", "hype")
+EXCLUDED_REASONS = ("no_player", "lineup_card", "promo", "recap", "not_news", "hype", "link_reply")
+
+# RotoWire tweets the headline first to beat Underdog, then writes the full analysis on the
+# site and replies to its own tweet with the link ("More Details 👉 <url>", sometimes
+# after an @mention). The reply carries no news of its own: it is counted as a post but
+# tagged link_reply, never news.
+_LINK_REPLY = re.compile(r"^(?:@\w+\s+)*more details\b", re.IGNORECASE)
+
+
+def is_link_reply(record: dict) -> bool:
+    replied = any(r.get("type") == "replied_to" for r in record.get("referenced_tweets") or [])
+    return replied and bool(_LINK_REPLY.match((record.get("text") or "").strip()))
 
 # Why a post was tagged hype (sports with match_mode: developments).
 HYPE_KINDS = ("soundbite", "rumor", "in_game_note", "non_fantasy", "other")
@@ -315,6 +326,10 @@ def _apply(record: dict, c: dict, event_classes: tuple[str, ...] = DEFAULT_EVENT
     record["excluded_reason"] = c.get("excluded_reason")
     record["hype_kind"] = c.get("hype_kind")
     record["borderline"] = None
+    if is_link_reply(record):
+        record.update(is_news=False, excluded_reason="link_reply", hype_kind=None, player=None,
+                      team=None, player_key="", players=[], event_class="other")
+        return record
     has_player = bool(player or c.get("players"))
     if (c.get("excluded_reason") == "hype" and has_player
             and (c.get("hype_kind") or "other") in include_hype_kinds):

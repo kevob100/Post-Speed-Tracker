@@ -738,6 +738,7 @@ function renderHours() {
   };
   const rows = hours.map(h => `<tr><td>${hourLabel(h.hour)}</td><td class="num">${h.rotowire_posts}</td>
     <td class="num">${h.underdog_posts}</td><td class="num">${h.rotowire_all ?? "—"}</td>
+    <td class="num">${h.rotowire_links ?? "—"}</td>
     <td class="num">${h.underdog_all ?? "—"}</td><td class="num">${h.matched}</td>
     <td class="num">${h.matched ? fmtPct(h.rotowire_first / h.matched) : "—"}</td>
     <td class="num">${fmtMargin(h.median_lead_seconds)}</td></tr>`).join("");
@@ -763,6 +764,7 @@ function renderHours() {
     <details class="hours-table"><summary>Show as a table</summary>
       <table><thead><tr><th data-nosort>Hour</th><th data-nosort style="text-align:right">RW news posts</th>
       <th data-nosort style="text-align:right">UD news posts</th><th data-nosort style="text-align:right">RW all posts</th>
+      <th data-nosort style="text-align:right" title="Of RW all posts: 'More Details' replies linking the full write-up">RW detail links</th>
       <th data-nosort style="text-align:right">UD all posts</th><th data-nosort style="text-align:right">Matched</th>
       <th data-nosort style="text-align:right">RW first</th><th data-nosort style="text-align:right">Typical margin</th>
       </tr></thead><tbody>${rows}</tbody></table></details>`;
@@ -849,7 +851,7 @@ function renderStaff() {
       }).join("");
     };
     const cells = slots.map((s, i) => {
-      const posts = s.rotowire_posts != null ? ` · news posts RW ${s.rotowire_posts}, UD ${s.underdog_posts}` : "";
+      const posts = s.rotowire_posts != null ? ` · news posts RW ${s.rotowire_posts} (+${s.rotowire_links ?? 0} detail links), UD ${s.underdog_posts}` : "";
       const tip = `${hhLabel(s.start)} ET${posts}: ${s.matched} matched, RotoWire first on ${s.rotowire_first}` +
         `${s.matched ? ", typical " + fmtMargin(s.median_lead_seconds) : ""}; ${s.underdog_only} missed` +
         `${s.underdog_only_borderline ? ` (${s.underdog_only_borderline} borderline)` : ""}; ${s.underdog_update_only} steps skipped`;
@@ -875,7 +877,7 @@ function renderStaff() {
   const vol = people.some(p => p.rotowire_posts != null);
   const prow = p => `<tr><td>${esc(p.name)}${p.matched < STAFF_MIN ? `<span class="small-n" title="Fewer than ${STAFF_MIN} matched stories: too few to judge">small sample</span>` : ""}</td>
     <td class="num">${p.hours.toFixed(1)}</td>
-    ${vol ? `<td class="num">${p.rotowire_posts ?? 0}</td><td class="num">${p.underdog_posts ?? 0}</td>` : ""}
+    ${vol ? `<td class="num">${p.rotowire_posts ?? 0}</td><td class="num">${p.rotowire_links ?? 0}</td><td class="num">${p.underdog_posts ?? 0}</td>` : ""}
     <td class="num">${p.matched}</td>
     <td class="num">${p.rotowire_first} <span class="bl">${fmtPct(p.rotowire_first_rate)}</span></td>
     <td class="num">${fmtMargin(p.median_lead_seconds)}</td>
@@ -883,7 +885,8 @@ function renderStaff() {
     <td class="num">${p.underdog_update_only ?? 0}</td><td class="num">${p.rotowire_only}</td></tr>`;
   const table = `<div class="type-wrap"><table><thead><tr><th data-nosort>Person</th>
     <th data-nosort style="text-align:right">Hours on</th>
-    ${vol ? `<th data-nosort style="text-align:right" title="News posts RotoWire made while this person was on (link replies and other non-news left out)">RW news posts</th>
+    ${vol ? `<th data-nosort style="text-align:right" title="News posts RotoWire made while this person was on (detail links and other non-news left out)">RW news posts</th>
+    <th data-nosort style="text-align:right" title="RotoWire's 'More Details' replies linking the full write-up on the site. Counted as tweets, never as news">RW detail links</th>
     <th data-nosort style="text-align:right" title="News posts Underdog made while this person was on">UD news posts</th>` : ""}
     <th data-nosort style="text-align:right">Matched</th>
     <th data-nosort style="text-align:right">RotoWire first</th>
