@@ -260,7 +260,7 @@
   .t-tick { fill: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
   .t-side { fill: var(--muted); font-size: 12px; }
   .t-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
-  .mode-row { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 4px 0 14px; }
+  #audience-top:not(.hidden) + .timing-lead { margin-top: 36px; }
   .a-grid.a-main { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
   .a-grid.one { grid-template-columns: minmax(0, 1fr); }
   .a-col { fill: var(--green); } .a-col.thin { opacity: .4; }
@@ -340,14 +340,12 @@
   <section id="view-all" class="hidden"></section>
 
   <!-- Per-sport views (shown when a single sport is selected) -->
-  <div class="mode-row hidden" id="mode-row"><div class="seg" role="group" aria-label="Show">
-    <button type="button" data-m="audience">Audience</button><button type="button" data-m="timing">Timing</button></div></div>
-  <section class="lead hidden" id="lead"></section>
+  <section id="audience-top" class="hidden"></section>
+  <section class="lead timing-lead hidden" id="lead"></section>
   <section class="panel trend" id="trend"></section>
   <div class="kpis" id="kpis"></div>
   <p class="focus-callout" id="focus-callout"></p>
   <section class="panel trend hidden" id="eras"></section>
-  <section id="audience-top" class="hidden"></section>
 
   <div class="tabs-wrap" id="tabs-wrap"><div class="tabs" id="tabs" role="tablist" aria-label="Views">
     <button type="button" role="tab" class="tab hidden" data-view="focus" id="tab-focus">Focus areas</button>
@@ -417,11 +415,12 @@ async function boot() {
       handles: { rotowire: "RotoWireMLB", underdog: "UnderdogMLB" } }] };
   }
   state.sportsIndex = index.sports || [];
-  const keys = [ALL, ...state.sportsIndex.map(s => s.key)];
-  // Opening the bare page always lands on ALL; an explicit #sport link (e.g. shared)
-  // is still honored. We intentionally do NOT remember the last-viewed sport.
-  const wanted = (location.hash || "").replace(/^#/, "") || ALL;
-  const chosen = keys.includes(wanted) ? wanted : ALL;
+  const keys = state.sportsIndex.map(s => s.key);
+  // Opening the bare page (or an old #all link) lands on NFL; an explicit #sport link is
+  // still honored. We intentionally do NOT remember the last-viewed sport.
+  const home = keys.includes("nfl") ? "nfl" : keys[0];
+  const wanted = (location.hash || "").replace(/^#/, "");
+  const chosen = keys.includes(wanted) ? wanted : home;
   await select(chosen);
 }
 
@@ -430,7 +429,7 @@ function renderSwitcher() {
   if (!el) return;
   const pill = (key, label) =>
     `<div class="sport-btn${key === state.sport ? " active" : ""}" data-sport="${key}">${esc(label)}</div>`;
-  el.innerHTML = pill(ALL, "ALL") + state.sportsIndex.map(s => pill(s.key, s.label)).join("");
+  el.innerHTML = state.sportsIndex.map(s => pill(s.key, s.label)).join("");
   el.querySelectorAll(".sport-btn").forEach(btn =>
     btn.onclick = () => { if (btn.dataset.sport !== state.sport) select(btn.dataset.sport); });
 }
@@ -1885,25 +1884,24 @@ function renderAllTable() {
     tr.onclick = () => select(tr.dataset.go));
 }
 
-// ---- audience (top switch): RotoWire's followers and impressions, then growth vs Underdog ----
+// ---- audience (top of the page): RotoWire's followers and account metrics over time ----
 const AUD_MIN_POSTS = 20;             // a week with fewer posts on a side is too thin to compare
+const AUD_MIN_DAYS = 30;              // follower history shorter than this hides the audience section
 
+// Audience sits at the top of a sport's page, timing below it; the ALL overview shows neither.
 function applyTopMode() {
   const isAll = state.sport === ALL || !state.agg;
-  const has = !isAll && !!(state.agg && state.agg.audience);
-  const mode = has && state.topMode !== "timing" ? "audience" : "timing";
-  document.getElementById("mode-row").classList.toggle("hidden", !has);
   ["kpis", "focus-callout", "trend", "lead", "eras"].forEach(id => {
     const node = document.getElementById(id);
-    node.classList.toggle("hidden", isAll || mode !== "timing" || node.dataset.empty === "1"); });
-  document.getElementById("audience-top").classList.toggle("hidden", isAll || mode !== "audience");
-  document.querySelectorAll("#mode-row button").forEach(b => {
-    b.classList.toggle("on", b.dataset.m === mode); b.setAttribute("aria-pressed", b.dataset.m === mode); });
+    node.classList.toggle("hidden", isAll || node.dataset.empty === "1"); });
+  const aud = document.getElementById("audience-top");
+  aud.classList.toggle("hidden", isAll || !state.agg.audience || aud.dataset.empty === "1");
 }
 
 function renderAudience() {
   const a = state.agg.audience;
   const el = document.getElementById("audience-top");
+  el.dataset.empty = "";
   applyTopMode();   // show the panel first so the follower chart measures its real width
   if (!a) { el.innerHTML = ""; return; }
   const kfmt = n => n == null ? "—" : n >= 1e6 ? (n / 1e6).toFixed(1) + "M" : n >= 1000 ? (n / 1000).toFixed(n >= 1e5 ? 0 : 1) + "k" : String(Math.round(n));
@@ -1934,7 +1932,10 @@ function renderAudience() {
   // metric, with the news-system milestones marked, drawn at the panel's real width.
   let folLead = "", folPanel = "";
   const fr = fol.rotowire || [];
-  if (fr.length > 1) {
+  // A few days of counts is noise, not a trend: the section waits for AUD_MIN_DAYS of history.
+  const span = fr.length ? (new Date(fr[fr.length - 1].date) - new Date(fr[0].date)) / 864e5 : 0;
+  el.dataset.empty = span >= AUD_MIN_DAYS ? "" : "1";
+  if (span >= AUD_MIN_DAYS) {
     const W = Math.max(300, (el.clientWidth || 1100) - 28), narrow = W < 560;
     const LANE_ROW = narrow ? 18 : 34;   // each extra row of event labels adds this much above the plot
     const m = { t: 52, r: narrow ? 52 : 64, b: 30, l: narrow ? 52 : 64 }, iw = W - m.l - m.r;
@@ -2056,7 +2057,7 @@ function renderAudience() {
         ${kfmt(jump.w.rotowire_median_views)} and stayed up. Worth confirming why before quoting these numbers.</p>` : ""}</div>`;
   }
 
-  el.innerHTML = `${folLead}<div class="a-grid one">${folPanel}</div>`;
+  el.innerHTML = folPanel ? `${folLead}<div class="a-grid one">${folPanel}</div>` : "";
   wireFollowerHover(el);
   el.querySelectorAll(".acct-seg button").forEach(b => b.onclick = () => { state.acctMetric = b.dataset.k; renderAudience(); });
   applyTopMode();
@@ -2150,10 +2151,6 @@ function init() {
     });
     document.getElementById("tabs").addEventListener("scroll", updateTabFade, { passive: true });
     window.addEventListener("resize", updateTabFade);
-    document.querySelectorAll("#mode-row button").forEach(b => b.onclick = () => {
-      state.topMode = b.dataset.m;
-      applyTopMode(); if (state.topMode === "timing") renderTrend(); else renderAudience(); });
-    state.topMode = "audience";   // always opens on Audience; a Timing pick lasts until reload
     state.wired = true;
   }
 
