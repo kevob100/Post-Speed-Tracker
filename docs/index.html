@@ -2017,13 +2017,46 @@ function renderAudience() {
   let folLead = "", folPanel = "";
   const fr = fol.rotowire || [];
   if (fr.length > 1) {
-    const W = Math.max(300, (el.clientWidth || 1100) - 28), H = 310, narrow = W < 560;
-    const m = { t: 52, r: narrow ? 52 : 64, b: 30, l: narrow ? 52 : 64 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const W = Math.max(300, (el.clientWidth || 1100) - 28), narrow = W < 560;
+    const LANE_ROW = narrow ? 18 : 34;   // each extra row of event labels adds this much above the plot
+    const m = { t: 52, r: narrow ? 52 : 64, b: 30, l: narrow ? 52 : 64 }, iw = W - m.l - m.r;
     const t = d => new Date(d + "T12:00:00Z").getTime();
     const t0 = t(fr[0].date), t1 = Math.max(t(fr[fr.length - 1].date), t0 + 86400e3);
+    const x = d => m.l + (t(d) - t0) / (t1 - t0) * iw;
+    // News-system milestones get a label lane above the plot: short name, date under it, and a
+    // dot where the dashed line starts. Each label goes left or right of its line, in some row;
+    // no two labels in a row may touch, and no label may be crossed by the line of a marker
+    // labelled higher up. A small search finds the fewest rows that works (right side preferred).
+    const lane = (state.agg.milestones || []).filter(ms => t(ms.date) >= t0 && t(ms.date) <= t1)
+      .map(mk => ({ ...mk, px: x(mk.date),
+        w: (narrow ? fmtD(mk.date).length : Math.max(mk.label.length, fmtD(mk.date).length)) * 7.4 }))
+      .sort((p, q) => p.px - q.px);
+    const span = (L, right) => right ? [L.px, L.px + 8 + L.w] : [L.px - 8 - L.w, L.px];
+    const ok = (L, i) => lane.slice(0, i).every(o => {
+      if (o.row === L.row && L.a0 < o.a1 + 10 && L.a1 > o.a0 - 10) return false;
+      if (o.row > L.row && o.px > L.a0 - 4 && o.px < L.a1 + 4) return false;   // o's line crosses L
+      if (L.row > o.row && L.px > o.a0 - 4 && L.px < o.a1 + 4) return false;   // L's line crosses o
+      return true; });
+    const place = (i, maxRow) => {
+      if (i === lane.length) return true;
+      const L = lane[i];
+      for (let row = 0; row <= maxRow; row++) for (const right of [true, false]) {
+        const [a0, a1] = span(L, right);
+        if (a0 < 0 || a1 > W - 2) continue;
+        Object.assign(L, { row, right, a0, a1 });
+        if (ok(L, i) && place(i + 1, maxRow)) return true;
+      }
+      return false;
+    };
+    let found = false;
+    for (let maxRow = 0; maxRow < 5 && !found; maxRow++) found = place(0, maxRow);
+    // No layout fits (many markers on a narrow screen): stack them one per row.
+    if (!found) lane.forEach((L, i) => { const [a0, a1] = span(L, L.px + 8 + L.w <= W - 2); Object.assign(L, { row: i, right: a1 > L.px, a0, a1 }); });
+    m.t += Math.max(0, ...lane.map(L => L.row)) * LANE_ROW;
+    const H = m.t + 258, ih = H - m.t - m.b;
     const hiV = Math.max(...fr.map(p => p.followers)), loV = Math.min(...fr.map(p => p.followers));
     const lo = Math.max(0, loV - (hiV - loV) * 0.05), hi = hiV + (hiV - loV) * 0.08;
-    const x = d => m.l + (t(d) - t0) / (t1 - t0) * iw, y = v => m.t + (hi - v) / (hi - lo) * ih;
+    const y = v => m.t + (hi - v) / (hi - lo) * ih;
     const step = [50, 100, 250, 500, 1000, 2500, 5000, 10000, 25000, 50000, 100000].find(st => (hi - lo) / st <= 5) || 100000;
     let grid = "";
     for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) grid += `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
@@ -2038,19 +2071,13 @@ function renderAudience() {
       const iso = d.toISOString().slice(0, 10);
       const lab = d.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }) + (i === 0 || d.getUTCMonth() === 0 ? ` '${String(d.getUTCFullYear()).slice(2)}` : "");
       xt += `<text class="t-tick" x="${x(iso)}" y="${H - 8}" text-anchor="middle">${lab}</text>`; });
-    // News-system milestones in their own label lane above the plot: short name with the date
-    // under it, and a dot where the dashed line starts. A label runs right of its line unless
-    // that would run off the edge, then it runs left.
     const eras = state.agg.eras || [];
-    const marks = (state.agg.milestones || []).filter(ms => t(ms.date) >= t0 && t(ms.date) <= t1);
-    const markSvg = marks.map(mk => {
-      const px = x(mk.date), w = narrow ? 44 : Math.max(mk.label.length, 6) * 7;
-      const right = px + 8 + w <= W - 4;
-      const anchor = right ? "start" : "end", dx = right ? 8 : -8;
-      return `<line class="t-mark" x1="${px}" x2="${px}" y1="${m.t - 10}" y2="${m.t + ih}"/>
-      <circle class="f-mark" cx="${px}" cy="${m.t - 10}" r="3.5"/>
-      ${narrow ? "" : `<text class="f-mark-name" x="${px + dx}" y="${m.t - 28}" text-anchor="${anchor}">${esc(mk.label)}</text>`}
-      <text class="f-mark-date" x="${px + dx}" y="${m.t - 14}" text-anchor="${anchor}">${fmtD(mk.date)}</text>`; }).join("");
+    const markSvg = lane.map(mk => {
+      const px = mk.px, anchor = mk.right ? "start" : "end", dx = mk.right ? 8 : -8, up = mk.row * LANE_ROW;
+      return `<line class="t-mark" x1="${px}" x2="${px}" y1="${m.t - 10 - up}" y2="${m.t + ih}"/>
+      <circle class="f-mark" cx="${px}" cy="${m.t - 10 - up}" r="3.5"/>
+      ${narrow ? "" : `<text class="f-mark-name halo" x="${px + dx}" y="${m.t - 28 - up}" text-anchor="${anchor}">${esc(mk.label)}</text>`}
+      <text class="f-mark-date halo" x="${px + dx}" y="${m.t - 14 - up}" text-anchor="${anchor}">${fmtD(mk.date)}</text>`; }).join("");
     const e0 = eras[0];
     const band = e0 && e0.until && t(e0.until) > t0
       ? (() => { const bx = e0.first && t(e0.first) > t0 ? x(e0.first) : m.l;
