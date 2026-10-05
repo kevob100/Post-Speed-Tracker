@@ -560,6 +560,8 @@ function fmtWeekRange(start, end) {
 }
 function renderRollup(el, rows, periodLabel) {
   if (!rows.length) { el.innerHTML = `<div class="empty">No ${periodLabel} data yet.</div>`; return; }
+  // Update gaps (development matching): a step of a story both covered that one side skipped.
+  const steps = rows.some(r => r.underdog_update_only != null);
   const bars = rows.map(r => {
     const pct = (r.rotowire_first_rate ?? 0) * 100;
     return `<div class="bar-row"><span>${r.period}</span>
@@ -572,7 +574,8 @@ function renderRollup(el, rows, periodLabel) {
     <td class="num">${fmtMargin(r.median_lead_seconds)}</td>
     <td class="num">${fmtMS(r.median_win_lead_seconds)}</td>
     <td class="num">${fmtMS(r.median_win_trail_seconds)}</td>
-    <td class="num">${r.rotowire_only}</td><td class="num">${r.underdog_only}</td></tr>`).join("");
+    <td class="num">${r.rotowire_only}</td><td class="num">${r.underdog_only}</td>
+    ${steps ? `<td class="num">${r.underdog_update_only ?? 0}</td><td class="num">${r.rotowire_update_only ?? 0}</td>` : ""}</tr>`).join("");
   el.innerHTML = `<div class="panel"><h3 style="color:var(--muted)">RotoWire-first win rate by ${periodLabel}</h3>
     <div class="bars">${bars}</div></div>
     <table><thead><tr><th data-nosort>Period</th><th data-nosort style="text-align:right">Matched</th>
@@ -580,7 +583,10 @@ function renderRollup(el, rows, periodLabel) {
     <th data-nosort style="text-align:right" title="Median of every matched story; UD +1:40 means Underdog was typically 1:40 faster">Typical margin</th>
     <th data-nosort style="text-align:right" title="Median margin on the stories RotoWire posted first">RW wins by</th>
     <th data-nosort style="text-align:right" title="Median margin on the stories Underdog posted first">UD wins by</th><th data-nosort style="text-align:right">RW-only</th>
-    <th data-nosort style="text-align:right">UD-only</th></tr></thead><tbody>${body}</tbody></table>`;
+    <th data-nosort style="text-align:right">UD-only</th>
+    ${steps ? `<th data-nosort style="text-align:right" title="Steps of a story both covered that only Underdog posted (e.g. headed to the locker room)">Steps RW skipped</th>
+    <th data-nosort style="text-align:right" title="Steps of a story both covered that only RotoWire posted">Steps UD skipped</th>` : ""}
+    </tr></thead><tbody>${body}</tbody></table>`;
 }
 
 // ---- by news type: season week x type grid of RotoWire's win rate ----

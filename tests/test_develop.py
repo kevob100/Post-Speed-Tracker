@@ -403,3 +403,48 @@ def test_trend_keeps_empty_weeks_on_the_axis():
     assert [w["label"] for w in weeks] == ["Week 1", "Week 2", "Week 3", "Week 4"]
     assert [w["median_lead_seconds"] for w in weeks] == [-100, None, None, -60]
     assert weeks[1]["matched"] == 0 and weeks[2]["rolling_median_seconds"] == -100
+
+
+def test_spelling_variant_used_by_one_account_folds_into_common_spelling(tmp_path):
+    posts = [_post("rw1", RW, 0, players=("Jonathon Brooks",)),
+             _post("ud0", UD, -600, players=("Jonathon Brooks",)),
+             _post("ud1", UD, 2, players=("Jonathan Brooks",))]
+    s = _run(tmp_path, posts, FixedGrouper(["rw1", "ud1"], ["ud0"]))
+    assert s["st_rw1_ud1"]["status"] == "matched"
+    # Two real players, each posted by both accounts, never merge.
+    news = [_post(f"{a}{n}", acct, 0, players=(n,)) for n in ("Jalen Williams", "Jaylin Williams")
+            for a, acct in (("r", RW), ("u", UD))]
+    assert develop.spelling_aliases(news, RW) == {}
+
+
+def _wide(monkeypatch):
+    cfg = {**CFG, "matching": {"time_window_minutes": 90, "match_window_minutes": 360}}
+    monkeypatch.setattr(develop, "load_config", lambda: cfg)
+
+
+def test_late_first_reply_joins_the_session_and_matches_within_six_hours(tmp_path, monkeypatch):
+    _wide(monkeypatch)
+    posts = [_post("ud1", UD, 0), _post("rw1", RW, 150)]          # RW 2.5h late
+    s = _run(tmp_path, posts, FixedGrouper(["ud1", "rw1"]))
+    assert s["st_rw1_ud1"]["status"] == "matched"
+    assert s["st_rw1_ud1"]["time_delta_seconds"] == -150 * 60
+
+
+def test_bridge_only_for_the_other_accounts_first_post(tmp_path, monkeypatch):
+    _wide(monkeypatch)
+    # UD posts twice 3h apart with no RW post: two separate sessions, no model needed.
+    posts = [_post("ud1", UD, 0), _post("ud2", UD, 180)]
+
+    class Boom:
+        def group(self, *a):
+            raise AssertionError("one-account sessions need no model")
+
+    s = _run(tmp_path, posts, Boom())
+    assert not s["st_ud2"]["same_event_duplicate"]
+
+
+def test_beyond_six_hours_is_not_a_match(tmp_path, monkeypatch):
+    _wide(monkeypatch)
+    posts = [_post("ud1", UD, 0), _post("rw1", RW, 400)]
+    s = _run(tmp_path, posts, FixedGrouper(["ud1", "rw1"]))
+    assert not any(v["status"] == "matched" for v in s.values())

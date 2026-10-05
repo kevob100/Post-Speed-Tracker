@@ -75,7 +75,13 @@ milestones:
 - date: '2026-09-29'
   label: News system 2.0
 matching:
+  # Posts about a player chain into one session while consecutive posts are this close.
   time_window_minutes: 90
+  # Development matching (NFL): the other account's FIRST post on a player can still join
+  # a one-account session this long after its last post, and the two sides' first posts on
+  # the same development are scored as a match when they are within this window. The
+  # model still decides whether they are the same development.
+  match_window_minutes: 360
   min_match_confidence: 0.75
   compatible_event_classes:
     injury:

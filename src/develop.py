@@ -10,7 +10,9 @@ This module scores each news DEVELOPMENT once instead:
   1. Mentions: every news post becomes one mention per player it names (a post naming
      two players is scored for both).
   2. Sessions: per player, mentions are chained into a session while consecutive posts
-     are within matching.time_window_minutes of each other.
+     are within matching.time_window_minutes of each other. While only one account has
+     posted, the other account's first post can still join up to
+     matching.match_window_minutes later, so a late reply is judged against the story.
   3. Grouping: a session with posts from BOTH accounts is sent to the model, which splits
      it into distinct developments ("got hurt", "questionable to return", "ruled out").
      A one-account session needs no model: its posts are grouped by event_class.
@@ -54,25 +56,90 @@ def is_roundup(players: list[dict]) -> bool:
     return len(players) >= 4 or (len(players) == 3 and len(teams) >= 3)
 
 
-def mentions(news: list[dict]) -> list[dict]:
-    """One (post, player) mention per player a news post names."""
+def _post_players(post: dict) -> list[dict]:
+    players = [p for p in (post.get("players") or []) if p.get("player_key")]
+    if not players and post.get("player_key"):
+        players = [{"name": post.get("player"), "team": post.get("team"),
+                    "player_key": post["player_key"]}]
+    return players
+
+
+def _one_edit(a: str, b: str) -> bool:
+    """True when a and b differ by exactly one substitution, insertion or deletion."""
+    if a == b or abs(len(a) - len(b)) > 1:
+        return False
+    if len(a) > len(b):
+        a, b = b, a
+    i = 0
+    while i < len(a) and a[i] == b[i]:
+        i += 1
+    return a[i + (len(a) == len(b)):] == b[i + 1:]
+
+
+def spelling_aliases(news: list[dict], rw_handle: str | None) -> dict[str, str]:
+    """Map a misspelled player key onto the usual spelling of the same player.
+
+    A key merges into another when they share every token but the first name, the first
+    names are one edit apart and at least 4 letters ("jonathan brooks" -> "jonathon
+    brooks"), the variant is used by ONE account only while the target is used by the
+    other account and is more common, and no team tag disagrees. Two real players with
+    near-identical names (Jalen / Jaylin Williams) are each posted by both accounts, so
+    they never merge.
+    """
+    if not rw_handle:
+        return {}
+    used: dict[str, set[str]] = {}
+    count: dict[str, int] = {}
+    teams: dict[str, set[str]] = {}
+    for post in news:
+        for p in _post_players(post):
+            k = p["player_key"]
+            used.setdefault(k, set()).add(post["account"])
+            count[k] = count.get(k, 0) + 1
+            if p.get("team"):
+                teams.setdefault(k, set()).add(p["team"])
+    by_rest: dict[str, list[str]] = {}
+    for key in used:
+        toks = key.split()
+        if len(toks) >= 2 and len(toks[0]) >= 4:
+            by_rest.setdefault(" ".join(toks[1:]), []).append(key)
+    alias: dict[str, str] = {}
+    for keys in by_rest.values():
+        for o in keys:
+            if len(used[o]) != 1:
+                continue
+            hits = [k for k in keys if k != o and _one_edit(k.split()[0], o.split()[0])
+                    and (used[k] - used[o]) and count[k] > count[o]
+                    and not (teams.get(k) and teams.get(o) and not teams[k] & teams[o])]
+            if len(hits) == 1:
+                alias[o] = hits[0]
+    return alias
+
+
+def mentions(news: list[dict], rw_handle: str | None = None) -> list[dict]:
+    """One (post, player) mention per player a news post names.
+
+    With rw_handle, spelling variants are folded onto RotoWire's key (spelling_aliases).
+    """
+    alias = spelling_aliases(news, rw_handle)
     out: list[dict] = []
     for post in news:
-        players = [p for p in (post.get("players") or []) if p.get("player_key")]
-        if not players and post.get("player_key"):
-            players = [{"name": post.get("player"), "team": post.get("team"),
-                        "player_key": post["player_key"]}]
+        players = _post_players(post)
         multi = len(players) > 1
         roundup = is_roundup(players)
         for p in players:
             out.append({"post": post, "player": p.get("name"), "team": p.get("team"),
-                        "player_key": p["player_key"], "multi_player": multi,
-                        "roundup": roundup})
+                        "player_key": alias.get(p["player_key"], p["player_key"]),
+                        "multi_player": multi, "roundup": roundup})
     return out
 
 
-def sessions(ms: list[dict], window_s: int) -> list[list[dict]]:
-    """Chain each player's mentions while consecutive posts are <= window_s apart."""
+def sessions(ms: list[dict], window_s: int, bridge_s: int | None = None) -> list[list[dict]]:
+    """Chain each player's mentions while consecutive posts are <= window_s apart.
+
+    bridge_s: while the session holds posts from one account only, a post from the OTHER
+    account joins if it is <= bridge_s after the last post (its first reply, however late).
+    """
     by_player: dict[str, list[dict]] = {}
     for m in ms:
         by_player.setdefault(m["player_key"], []).append(m)
@@ -83,7 +150,10 @@ def sessions(ms: list[dict], window_s: int) -> list[list[dict]]:
         for m in items[1:]:
             gap = (parse_dt(m["post"]["created_at"])
                    - parse_dt(current[-1]["post"]["created_at"])).total_seconds()
-            if gap <= window_s:
+            accounts = {c["post"]["account"] for c in current}
+            bridge = (bridge_s is not None and gap <= bridge_s and len(accounts) == 1
+                      and m["post"]["account"] not in accounts)
+            if gap <= window_s or bridge:
                 current.append(m)
             else:
                 out.append(current)
@@ -161,6 +231,7 @@ def resolve_developments(
     """Build stories.jsonl by grouping each player's posts into developments."""
     cfg = load_config()
     window_s = cfg["matching"]["time_window_minutes"] * 60
+    match_s = (cfg["matching"].get("match_window_minutes") or cfg["matching"]["time_window_minutes"]) * 60
     accounts = accounts if accounts is not None else sport_accounts(cfg, sport)
     rw_handle = accounts["rotowire"]["handle"]
 
@@ -171,7 +242,7 @@ def resolve_developments(
     cached = {g["session_key"]: g for g in load_jsonl(cache_path)} if cache else {}
 
     stories: list[dict] = []
-    for session in sessions(mentions(news), window_s):
+    for session in sessions(mentions(news, rw_handle), window_s, match_s):
         pkey = session[0]["player_key"]
         player = next((m["player"] for m in session if m["player"]), None)
         team = next((m["team"] for m in session if m["team"]), None)
@@ -211,7 +282,7 @@ def resolve_developments(
                 # One account's step inside a session both accounts posted in: an update gap.
                 update_gap = two_sided and len({m["post"]["account"] for m in ms}) == 1
                 for st in _development_stories(
-                        ms, g.get("label"), player, pkey, team, rw_handle, window_s, source):
+                        ms, g.get("label"), player, pkey, team, rw_handle, match_s, source):
                     st["session_two_sided"] = update_gap
                     stories.append(st)
 
@@ -234,7 +305,7 @@ def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str) -> None:
     the other account's closest post in the session. Not counted as a missed story.
     """
     by_player: dict[tuple, list[dict]] = {}
-    for m in mentions(news):
+    for m in mentions(news, rw_handle):
         side = "rw" if m["post"]["account"] == rw_handle else "ud"
         by_player.setdefault((m["player_key"], side), []).append(m["post"])
     for posts in by_player.values():
