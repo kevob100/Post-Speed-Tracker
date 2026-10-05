@@ -230,6 +230,7 @@
   .t-tick { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
   .t-side { fill: var(--muted); font-size: 10.5px; }
   .t-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+  .t-line.thin { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 2 4; opacity: .7; }
   .t-dot { fill: var(--accent); stroke: var(--panel); stroke-width: 2; }
   .t-dot.faint { fill: var(--muted); opacity: .55; stroke-width: 1; }
   .t-dot.hollow { fill: var(--panel); stroke: var(--accent); stroke-width: 1.5; }
@@ -1158,6 +1159,8 @@ function renderFocus() {
 // Positive = RotoWire typically first. The goal is to get above the line.
 const TREND_GRAINS = [["day", "Day"], ["week", "Week"], ["month", "Month"]];
 const TREND_CLAMP = 600;            // y-axis caps at ±10 min; values beyond sit on the edge
+const TREND_MIN_ROLLING = 20;       // a trailing window with fewer stories draws dotted and faint
+const TREND_MIN_DAY = 10;           // same for a single day in the Day view
 function trendGrain() {
   // Always opens on Week; a Day/Month pick lasts until the page is reloaded.
   return state.trendGrain || "week";
@@ -1204,13 +1207,18 @@ function renderTrend() {
   const rollKey = { week: "rolling7", month: "rolling30" }[grain];
   const rolling = !isDay;
   const lineVal = r => rolling ? r[`${rollKey}_median_seconds`] : r.median_lead_seconds;
+  // Too few stories behind a point: still drawn, but dotted and faint, and kept out of the scale.
+  const lineN = r => rolling ? (r[`${rollKey}_matched`] || 0) : (r.matched || 0);
+  const thin = r => lineN(r) < (rolling ? TREND_MIN_ROLLING : TREND_MIN_DAY);
   const last = rows[rows.length - 1];
 
   const W = Math.max(320, el.clientWidth - 28), H = 240;
   const m = { t: 14, r: 76, b: 30, l: 72 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
   // Day view scales to the trend line; single days far outside it sit on the plot edge.
-  const vals = (isDay || rolling ? rows.map(lineVal) : rows.map(r => r.median_lead_seconds)).filter(v => v != null);
+  const allVals = rows.map(lineVal).filter(v => v != null);
+  const solidVals = rows.filter(r => !thin(r)).map(lineVal).filter(v => v != null);
+  const vals = solidVals.length ? solidVals : allVals;
   const clampV = v => Math.max(-TREND_CLAMP, Math.min(TREND_CLAMP, v));
   let lo = Math.min(0, ...vals.map(clampV)), hi = Math.max(0, ...vals.map(clampV));
   const span = Math.max(120, hi - lo); lo -= span * 0.12;
@@ -1233,14 +1241,22 @@ function renderTrend() {
     ? `<text x="${x(i)}" y="${H - 8}" class="t-tick" text-anchor="middle">${esc(r.label)}</text>` : "").join("");
 
   const pts = rows.map((r, i) => [i, lineVal(r)]).filter(([, v]) => v != null);
-  // A period with no value breaks the line rather than bridging it.
-  const path = pts.map(([i, v], k) => `${k && pts[k - 1][0] === i - 1 ? "L" : "M"}${x(i).toFixed(1)},${y(v).toFixed(1)}`).join("");
+  // A period with no value breaks the line rather than bridging it. A segment touching a
+  // thin point goes on the dotted path; the rest is the solid line.
+  const P = (i, v) => `${x(i).toFixed(1)},${y(v).toFixed(1)}`;
+  let path = "", thinPath = "";
+  pts.forEach(([i, v], k) => {
+    if (!k || pts[k - 1][0] !== i - 1) return;
+    const [pi, pv] = pts[k - 1], seg = `M${P(pi, pv)}L${P(i, v)}`;
+    if (thin(rows[pi]) || thin(rows[i])) thinPath += seg; else path += seg;
+  });
+  const anyThin = thinPath !== "";
   const dots = rows.map((r, i) => {
     const v = r.median_lead_seconds, low = r.matched < TYPE_MIN_STORIES;
     if (v == null) return "";   // a period with no matched story: no dot, axis keeps its place
     const clipped = v > hi || v < lo || Math.abs(v) > TREND_CLAMP;
     if (rolling) return "";   // smoothed views: the line alone (daily dots would be noise)
-    const faint = false;
+    const faint = thin(r);   // a day on too few stories: greyed like its dotted line
     return `<circle cx="${x(i)}" cy="${y(v)}" r="${isDay ? 3 : 4}" class="t-dot ${faint ? "faint" : ""} ${low ? "hollow" : ""} ${clipped ? "clipped" : ""}"/>`;
   }).join("");
   const lastV = last && lineVal(last);
@@ -1272,7 +1288,7 @@ function renderTrend() {
 
   el.innerHTML = `<div class="trend-head">
       <div><h3>Typical margin over time</h3>
-        <p>Median of every matched story${rolling ? `, trailing ${ROLL}, day by day` : " each day"}${state.agg.analysis_start ? `, from ${fmtDay(state.agg.analysis_start)} on` : ""}. Above the line RotoWire was typically first; below it, Underdog. The goal is to get above the line.${earlyNote}</p></div>
+        <p>Median of every matched story${rolling ? `, trailing ${ROLL}, day by day` : " each day"}${state.agg.analysis_start ? `, from ${fmtDay(state.agg.analysis_start)} on` : ""}. Above the line RotoWire was typically first; below it, Underdog. The goal is to get above the line.${anyThin ? ` Dotted stretches rest on fewer than ${rolling ? TREND_MIN_ROLLING : TREND_MIN_DAY} stories, too few to read much into.` : ""}${earlyNote}</p></div>
       <div class="seg" role="group" aria-label="Group by">${TREND_GRAINS.map(([k, l]) =>
         `<button type="button" data-g="${k}" class="${k === grain ? "on" : ""}" aria-pressed="${k === grain}">${l}</button>`).join("")}</div>
     </div>
@@ -1280,7 +1296,7 @@ function renderTrend() {
       aria-label="Median margin by ${grain}; latest ${last ? esc(last.label) + " " + fmtMargin(Math.round(lastV)) : ""}">
       <text x="${m.l + 6}" y="${y(0) - 7}" class="t-side">▲ RotoWire earlier</text>
       <text x="${m.l + 6}" y="${y(0) + 15}" class="t-side">▼ Underdog earlier</text>
-      ${grid}${xlabels}${markSvg}<path d="${path}" class="t-line"/>${dots}${endLabel}
+      ${grid}${xlabels}${markSvg}<path d="${thinPath}" class="t-line thin"/><path d="${path}" class="t-line"/>${dots}${endLabel}
       <line class="t-cross hidden" y1="${m.t}" y2="${m.t + ih}"/>${hits}</svg>
       <div class="t-tip hidden"></div></div>${erasTable()}`;
 
