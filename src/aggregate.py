@@ -503,7 +503,7 @@ def _audience(stories: list[dict], tweets: list[dict], followers: list[dict], rw
     # Head to head: the same story on both feeds, by who posted first.
     by_id = {t["id"]: t for t in tweets}
     buckets: dict[str, list[tuple[int, int]]] = {"rotowire_first": [], "tie": [], "underdog_first": [],
-                                                  "underdog_first_10m": []}
+                                                  "underdog_first_10m": [], "all": []}
     for s in stories:
         if not _is_active(s) or s.get("status") != "matched" or s.get("time_delta_seconds") is None:
             continue
@@ -514,6 +514,7 @@ def _audience(stories: list[dict], tweets: list[dict], followers: list[dict], rw
         d = s["time_delta_seconds"]
         key = "rotowire_first" if d > tie_s else "underdog_first" if d < -tie_s else "tie"
         buckets[key].append((r, u))
+        buckets["all"].append((r, u))
         if d < -600:
             buckets["underdog_first_10m"].append((r, u))
     h2h = {k: {"stories": len(v),
