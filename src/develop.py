@@ -282,7 +282,8 @@ def resolve_developments(
                 # One account's step inside a session both accounts posted in: an update gap.
                 update_gap = two_sided and len({m["post"]["account"] for m in ms}) == 1
                 for st in _development_stories(
-                        ms, g.get("label"), player, pkey, team, rw_handle, match_s, source):
+                        ms, g.get("label"), player, pkey, team, rw_handle, match_s, source,
+                        roundup_window_s=window_s):
                     st["session_two_sided"] = update_gap
                     stories.append(st)
 
@@ -343,7 +344,11 @@ def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str) -> None:
         st["other_side_later"] = later
 
 
-def _development_stories(ms, label, player, pkey, team, rw_handle, window_s, source) -> list[dict]:
+def _development_stories(ms, label, player, pkey, team, rw_handle, window_s, source,
+                         roundup_window_s: int | None = None) -> list[dict]:
+    """Stories for one development. A roundup post on either side only matches within
+    roundup_window_s (the 90-minute session window): a digest naming many players is not
+    the same report as a single post hours away."""
     rw = [m for m in ms if m["post"]["account"] == rw_handle]
     ud = [m for m in ms if m["post"]["account"] != rw_handle]
     multi = any(m["multi_player"] for m in ms)
@@ -374,7 +379,11 @@ def _development_stories(ms, label, player, pkey, team, rw_handle, window_s, sou
     if first_rw and first_ud:
         delta = int((parse_dt(first_ud["post"]["created_at"])
                      - parse_dt(first_rw["post"]["created_at"])).total_seconds())
-    if delta is not None and abs(delta) <= window_s:
+    limit = window_s
+    if roundup_window_s is not None and delta is not None and (
+            first_rw.get("roundup") or first_ud.get("roundup")):
+        limit = min(window_s, roundup_window_s)
+    if delta is not None and abs(delta) <= limit:
         sid = f"st_{first_rw['post']['id']}_{first_ud['post']['id']}{suffix}"
         out.append({**base,
                     "story_id": sid,

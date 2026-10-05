@@ -448,3 +448,18 @@ def test_beyond_six_hours_is_not_a_match(tmp_path, monkeypatch):
     posts = [_post("ud1", UD, 0), _post("rw1", RW, 400)]
     s = _run(tmp_path, posts, FixedGrouper(["ud1", "rw1"]))
     assert not any(v["status"] == "matched" for v in s.values())
+
+
+def test_roundup_only_matches_within_ninety_minutes(tmp_path, monkeypatch):
+    _wide(monkeypatch)
+    names = ("Puka Nacua", "Nico Collins", "Brock Bowers", "Chris Olave")
+    posts = [_post("rw_round", RW, 0, players=names), _post("ud_olave", UD, 300, players=("Chris Olave",)),
+             _post("ud_puka", UD, 30, players=("Puka Nacua",))]
+
+    class OneDev:
+        def group(self, player, posts):
+            return [{"label": player, "post_ids": [p["id"] for p in posts]}]
+
+    s = _run(tmp_path, posts, OneDev())
+    assert s["st_rw_round_ud_puka_puka-nacua"]["status"] == "matched"          # 30m: ok
+    assert not any(v["status"] == "matched" and v["player_key"] == "chris olave" for v in s.values())
