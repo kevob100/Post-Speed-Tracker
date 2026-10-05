@@ -54,6 +54,20 @@ def _side(side: dict | None) -> dict | None:
     return {k: side.get(k) for k in ("tweet_id", "created_at", "text", "impression_count")}
 
 
+def _distinct(sts: list[dict], n: int) -> list[dict]:
+    """First n stories with distinct Underdog tweets (one post naming two players is one example)."""
+    seen, out = set(), []
+    for s in sts:
+        tid = (s.get("underdog") or {}).get("tweet_id")
+        if tid in seen:
+            continue
+        seen.add(tid)
+        out.append(s)
+        if len(out) == n:
+            break
+    return out
+
+
 def rollup(stories: list[dict], story_time, now: datetime, mature_views, tweets_by_id: dict,
            days: int = 30, tie_s: int = 60, min_stories: int = 10,
            n_slow: int = 3, n_missed: int = 3, example_max_s: int = 1800) -> dict:
@@ -97,9 +111,9 @@ def rollup(stories: list[dict], story_time, now: datetime, mature_views, tweets_
             continue
         # Examples come from clear races (RotoWire 1-30 min behind): the extreme hours-apart
         # matches are often loosely related reports and make poor examples.
-        slow = sorted((s for s in g["matched"] if -example_max_s <= s["time_delta_seconds"] < -tie_s),
-                      key=lambda s: s["time_delta_seconds"])[:n_slow]
-        missed = sorted(g["missed"], key=story_time, reverse=True)[:n_missed]
+        slow = _distinct(sorted((s for s in g["matched"] if -example_max_s <= s["time_delta_seconds"] < -tie_s),
+                                key=lambda s: s["time_delta_seconds"]), n_slow)
+        missed = _distinct(sorted(g["missed"], key=story_time, reverse=True), n_missed)
         rows.append({
             "key": k, "label": label_of(k), "stories": n, "matched": len(d),
             "rotowire_first": sum(1 for x in d if x > tie_s),
