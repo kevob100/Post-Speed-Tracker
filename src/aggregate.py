@@ -387,23 +387,22 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
     days = series(day_of)
     for row in days:
         end = datetime.fromisoformat(row["period"]).replace(tzinfo=tz) + timedelta(days=1)
-        window = [d for dt, d in matched if end - timedelta(days=7) <= dt < end]
-        row["rolling7_median_seconds"] = round(statistics.median(window), 1) if window else None
-        row["rolling7_matched"] = len(window)
-        window30 = [d for dt, d in matched if end - timedelta(days=30) <= dt < end]
-        row["rolling30_median_seconds"] = round(statistics.median(window30), 1) if window30 else None
-        row["rolling30_matched"] = len(window30)
-        # Time to post from the original source tweet, per side (stories with a source).
-        start = end - timedelta(days=1)
-        day_src = [(r, u) for dt, r, u in sourced if start <= dt < end]
-        row["sourced"] = len(day_src)
-        row["rw_from_source"] = _med([r for r, _ in day_src])
-        row["ud_from_source"] = _med([u for _, u in day_src])
-        for n, label in ((7, "rolling7"), (30, "rolling30")):
-            src = [(r, u) for dt, r, u in sourced if end - timedelta(days=n) <= dt < end]
+        # Each window is the last N days, stretched back until it holds at least TREND_MIN
+        # stories, so a quiet stretch reads as a longer window instead of a gap or a swing.
+        for n, label in ((1, "rolling1"), (7, "rolling7"), (30, "rolling30")):
+            win, start = _stretch(matched, end, n, TREND_MIN[n])
+            row[f"{label}_median_seconds"] = _med([d for _, d in win])
+            row[f"{label}_matched"] = len(win)
+            row[f"{label}_days"] = round((end - start).total_seconds() / 86400, 1) if start else None
+            src, _ = _stretch([(dt, (r, u)) for dt, r, u in sourced], end, n, TREND_MIN[n])
             row[f"{label}_sourced"] = len(src)
-            row[f"{label}_rw_from_source"] = _med([r for r, _ in src])
-            row[f"{label}_ud_from_source"] = _med([u for _, u in src])
+            row[f"{label}_rw_from_source"] = _med([r for _, (r, _u) in src])
+            row[f"{label}_ud_from_source"] = _med([u for _, (_r, u) in src])
+        # Day view keys (the stretched one-day window).
+        row["sourced"] = row["rolling1_sourced"]
+        row["rw_from_source"] = row["rolling1_rw_from_source"]
+        row["ud_from_source"] = row["rolling1_ud_from_source"]
+        window = [d for dt, d in matched if end - timedelta(days=7) <= dt < end]
         # Same field the week and month series use, so the chart reads one key.
         row["rolling_median_seconds"] = row["rolling7_median_seconds"]
         row["rolling_matched"] = len(window)
@@ -415,6 +414,24 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
     # Trailing windows: 4 weeks, 3 months (days use a calendar 7 days, above).
     return {"day": days, "week": series(week_of, trailing=4),
             "month": series(month_of, trailing=3)}
+
+
+# Minimum stories behind a trend point, per nominal window length in days.
+TREND_MIN = {1: 10, 7: 30, 30: 100}
+
+
+def _stretch(items: list[tuple], end: datetime, days: int, minimum: int) -> tuple[list[tuple], datetime | None]:
+    """Items (time-sorted (dt, value)) in the `days` before `end`, or, when that holds
+    fewer than `minimum`, the last `minimum` items before `end`. Returns (items, start of
+    the window). Empty until `minimum` items exist."""
+    before = [x for x in items if x[0] < end]
+    win = [x for x in before if x[0] >= end - timedelta(days=days)]
+    if len(win) < minimum:
+        if len(before) < minimum:
+            return [], None
+        win = before[-minimum:]
+        return win, win[0][0]
+    return win, end - timedelta(days=days)
 
 
 def _med(xs: list) -> float | None:

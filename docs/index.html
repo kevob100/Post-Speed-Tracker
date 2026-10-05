@@ -230,8 +230,18 @@
   .t-tick { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
   .t-side { fill: var(--muted); font-size: 10.5px; }
   .t-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
+  .mode-row { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 4px 0 14px; }
+  .a-sub { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin: 18px 0 8px; }
+  .a-grid.a-main { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
+  .a-grid.one { grid-template-columns: minmax(0, 1fr); }
+  .a-col { fill: var(--green); } .a-col.thin { opacity: .4; }
+  .a-bar-fill.ud { background: var(--red); }
+  .a-gains.big { margin-top: 14px; gap: 22px; }
+  .a-gains.big .a-gain-bars { height: 142px; }
+  .a-gains.big .a-gain i { width: 26px; }
+  .a-gain b { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
   .a-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-bottom: 12px; }
-  @media (max-width: 860px) { .a-grid { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 860px) { .a-grid, .a-grid.a-main { grid-template-columns: minmax(0, 1fr); } }
   .a-panel { padding: 14px; min-width: 0; }
   .a-panel h3 { font-size: 14px; margin: 0 0 2px; }
   .a-panel svg { display: block; width: 100%; height: auto; }
@@ -298,9 +308,13 @@
   <section id="view-all" class="hidden"></section>
 
   <!-- Per-sport views (shown when a single sport is selected) -->
+  <div class="mode-row hidden" id="mode-row"><div class="seg" role="group" aria-label="Show">
+    <button type="button" data-m="timing">Timing</button><button type="button" data-m="audience">Audience</button></div>
+    <span class="bl">Timing: who posts first. Audience: followers and impressions.</span></div>
   <div class="kpis" id="kpis"></div>
   <p class="focus-callout" id="focus-callout"></p>
   <section class="panel trend" id="trend"></section>
+  <section id="audience-top" class="hidden"></section>
 
   <div class="tabs" id="tabs">
     <div class="tab active" data-view="feed">Story Feed</div>
@@ -311,7 +325,6 @@
     <div class="tab hidden" data-view="staff" id="tab-staff">By staff</div>
     <div class="tab hidden" data-view="games" id="tab-games">During games</div>
     <div class="tab hidden" data-view="practice" id="tab-practice">Practice reports</div>
-    <div class="tab hidden" data-view="audience" id="tab-audience">Audience</div>
     <div class="tab" data-view="monthly">Monthly</div>
     <div class="tab" data-view="custom">Custom</div>
     <div class="tab" data-view="gaps">Coverage Gaps</div>
@@ -340,7 +353,6 @@
   <section id="view-staff" class="hidden"></section>
   <section id="view-games" class="hidden"></section>
   <section id="view-practice" class="hidden"></section>
-  <section id="view-audience" class="hidden"></section>
   <section id="view-monthly" class="hidden"></section>
   <section id="view-custom" class="hidden"></section>
   <section id="view-gaps" class="hidden"></section>
@@ -439,6 +451,7 @@ function setMode(isAll) {
   document.getElementById("focus-callout").classList.toggle("hidden", isAll);
   document.getElementById("trend").classList.toggle("hidden", isAll);
   document.getElementById("tabs").classList.toggle("hidden", isAll);
+  applyTopMode();
   if (isAll) {
     VIEWS.forEach(v =>
       document.getElementById("view-" + v).classList.add("hidden"));
@@ -447,7 +460,7 @@ function setMode(isAll) {
   }
 }
 
-const VIEWS = ["feed","focus","weekly","types","hours","staff","games","practice","audience","monthly","custom","gaps","dups"];
+const VIEWS = ["feed","focus","weekly","types","hours","staff","games","practice","monthly","custom","gaps","dups"];
 
 // ---- formatting helpers ----
 const pad = n => String(n).padStart(2, "0");
@@ -1191,7 +1204,7 @@ function renderFocus() {
 // ---- trend: median margin per day / week / month, zero line = even ----
 // Positive = RotoWire typically first. The goal is to get above the line.
 const TREND_GRAINS = [["day", "Day"], ["week", "Week"], ["month", "Month"]];
-const TREND_CLAMP = 600;            // y-axis caps at ±10 min; values beyond sit on the edge
+const TREND_CLAMP = Infinity;       // no cap: the axis fits the data, whatever its range
 const TREND_MIN_ROLLING = 20;       // a trailing window with fewer stories draws dotted and faint
 const TREND_MIN_DAY = 10;           // same for a single day in the Day view
 function trendGrain() {
@@ -1230,10 +1243,9 @@ function erasTable() {
 function sourceChart(rows, grain, W, fmtDay, marks) {
   if (!rows.some(r => r.sourced)) return "";
   const isDay = grain === "day";
-  const pre = { week: "rolling7_", month: "rolling30_" }[grain] || "";
+  const pre = { day: "rolling1_", week: "rolling7_", month: "rolling30_" }[grain];
   const val = (r, side) => r[`${pre}${side}_from_source`];
-  const n = r => r[isDay ? "sourced" : `${pre}sourced`] || 0;
-  const thin = r => n(r) < (isDay ? TREND_MIN_DAY : TREND_MIN_ROLLING);
+  const thin = () => false;   // windows stretch to enough stories (aggregate.TREND_MIN)
   const H = 200, m = { t: 14, r: 76, b: 30, l: 72 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
   const solid = rows.filter(r => !thin(r)).flatMap(r => [val(r, "rw"), val(r, "ud")]).filter(v => v != null);
   const all = rows.flatMap(r => [val(r, "rw"), val(r, "ud")]).filter(v => v != null);
@@ -1271,10 +1283,9 @@ function sourceChart(rows, grain, W, fmtDay, marks) {
   const sourced = rows.reduce((a, r) => a + (r.sourced || 0), 0);
   return `<div class="trend-head" style="margin-top:22px"><div><h3>Time from source to post</h3>
       <p>How long after the original report (the reporter or team tweet the post credits) each side posted.
-      Median${isDay ? " each day" : `, trailing ${{ week: "7 days", month: "30 days" }[grain]}, day by day`};
+      Median over the last ${{ day: "day", week: "7 days", month: "30 days" }[grain]}, reaching further back when news is thin;
       lower is faster. The margin above can't say which side moved; this can. Covers the ${sourced} matched
-      stories whose source tweet was found.${rows.some(thin) ? ` Dotted stretches rest on fewer than
-      ${isDay ? TREND_MIN_DAY : TREND_MIN_ROLLING} stories.` : ""}</p></div></div>
+      stories whose source tweet was found.</p></div></div>
     <div class="trend-plot"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img"
       aria-label="Median minutes from source tweet to post, RotoWire and Underdog">
       ${grid}${xlabels}${markSvg}${paths("ud")}${paths("rw")}${ends}</svg></div>`;
@@ -1284,7 +1295,7 @@ function renderTrend() {
   const el = document.getElementById("trend");
   const trend = state.agg.trend;
   if (!trend || !(trend.week || []).length) { el.classList.add("hidden"); el.innerHTML = ""; return; }
-  el.classList.remove("hidden");
+  applyTopMode();   // visibility follows the Timing / Audience switch
   const grain = trendGrain();
   // Every view runs day by day: Day is each day's actual median, Week a trailing 7-day
   // median and Month a trailing 30-day median (pooled over the stories in the window).
@@ -1294,19 +1305,22 @@ function renderTrend() {
   // it shows the trend; each bucket's own median is a faint dot. Older JSON without the
   // rolling field falls back to the bucket median.
   // Day view plots each day's actual median; Week and Month draw a trailing median.
-  const ROLL = { week: "7 days", month: "30 days" }[grain];
-  const rollKey = { week: "rolling7", month: "rolling30" }[grain];
-  const rolling = !isDay;
-  const lineVal = r => rolling ? r[`${rollKey}_median_seconds`] : r.median_lead_seconds;
-  // Too few stories behind a point: still drawn, but dotted and faint, and kept out of the scale.
-  const lineN = r => rolling ? (r[`${rollKey}_matched`] || 0) : (r.matched || 0);
-  const thin = r => lineN(r) < (rolling ? TREND_MIN_ROLLING : TREND_MIN_DAY);
+  // Every view is one continuous line: the last N days, stretched back until the window
+  // holds enough stories (aggregate.TREND_MIN), so quiet stretches never leave a gap.
+  const ROLL = { day: "day", week: "7 days", month: "30 days" }[grain];
+  const MIN = { day: 10, week: 30, month: 100 }[grain];
+  const rollKey = { day: "rolling1", week: "rolling7", month: "rolling30" }[grain];
+  const rolling = true;
+  const hasStretch = rows.some(r => r[`${rollKey}_median_seconds`] !== undefined);
+  const lineVal = r => hasStretch ? r[`${rollKey}_median_seconds`]
+    : isDay ? r.median_lead_seconds : r[`${rollKey}_median_seconds`];
+  const thin = () => false;
   const last = rows[rows.length - 1];
 
   const W = Math.max(320, el.clientWidth - 28), H = 240;
   const m = { t: 14, r: 76, b: 30, l: 72 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
-  // Day view scales to the trend line; single days far outside it sit on the plot edge.
+  // The axis fits every point on the line.
   const allVals = rows.map(lineVal).filter(v => v != null);
   const solidVals = rows.filter(r => !thin(r)).map(lineVal).filter(v => v != null);
   const vals = solidVals.length ? solidVals : allVals;
@@ -1314,7 +1328,7 @@ function renderTrend() {
   let lo = Math.min(0, ...vals.map(clampV)), hi = Math.max(0, ...vals.map(clampV));
   const span = Math.max(120, hi - lo); lo -= span * 0.12;
   hi = Math.max(hi + span * 0.12, span * 0.3);   // always leave room above "even": that's the goal
-  const step = [30, 60, 120, 300, 600].find(s => (hi - lo) / s <= 6) || 600;
+  const step = [30, 60, 120, 300, 600, 900, 1800].find(s => (hi - lo) / s <= 6) || 1800;
   const y = v => m.t + (hi - Math.max(lo, Math.min(hi, clampV(v)))) / (hi - lo) * ih;
   const x = i => m.l + (rows.length === 1 ? iw / 2 : i / (rows.length - 1) * iw);
 
@@ -1379,7 +1393,7 @@ function renderTrend() {
 
   el.innerHTML = `<div class="trend-head">
       <div><h3>Typical margin over time</h3>
-        <p>Median of every matched story${rolling ? `, trailing ${ROLL}, day by day` : " each day"}${state.agg.analysis_start ? `, from ${fmtDay(state.agg.analysis_start)} on` : ""}. Above the line RotoWire was typically first; below it, Underdog. The goal is to get above the line.${anyThin ? ` Dotted stretches rest on fewer than ${rolling ? TREND_MIN_ROLLING : TREND_MIN_DAY} stories, too few to read much into.` : ""}${earlyNote}</p></div>
+        <p>Median of every matched story over the last ${ROLL}, day by day, reaching further back when news is thin so each point rests on at least ${MIN} stories${state.agg.analysis_start ? `, from ${fmtDay(state.agg.analysis_start)} on` : ""}. Above the line RotoWire was typically first; below it, Underdog. The goal is to get above the line.${earlyNote}</p></div>
       <div class="seg" role="group" aria-label="Group by">${TREND_GRAINS.map(([k, l]) =>
         `<button type="button" data-g="${k}" class="${k === grain ? "on" : ""}" aria-pressed="${k === grain}">${l}</button>`).join("")}</div>
     </div>
@@ -1400,8 +1414,9 @@ function renderTrend() {
     h.onmouseenter = () => {
       const r = rows[+h.dataset.i], cx = x(+h.dataset.i);
       cross.setAttribute("x1", cx); cross.setAttribute("x2", cx); cross.classList.remove("hidden");
-      const roll = rolling && r[`${rollKey}_median_seconds`] != null
-        ? `<div>Trailing ${ROLL}: ${fmtMargin(Math.round(r[`${rollKey}_median_seconds`]))} (${r[`${rollKey}_matched`]} stories)</div>` : "";
+      const span = r[`${rollKey}_days`];
+      const roll = r[`${rollKey}_median_seconds`] != null
+        ? `<div>Trend: ${fmtMargin(Math.round(r[`${rollKey}_median_seconds`]))} (${r[`${rollKey}_matched`]} stories${span ? ` over ${span >= 2 ? Math.round(span) + " days" : "1 day"}` : ""})</div>` : "";
       tip.innerHTML = `<b>${esc(r.label)}</b>${roll}<div>${r.median_lead_seconds == null ? "No matched stories that day"
           : `That day: ${fmtMargin(Math.round(r.median_lead_seconds))}, RotoWire first on ${r.rotowire_first} of ${r.matched}`}</div>`;
       tip.classList.remove("hidden");
@@ -1760,124 +1775,172 @@ function renderAllTable() {
     tr.onclick = () => select(tr.dataset.go));
 }
 
-// ---- audience: followers, views per post, views on the same story ----
-const AUD_MIN_POSTS = 20;      // a week with fewer posts on either side draws dotted
-const AUD_FOLLOWER_CHART_DAYS = 28;   // below this, followers show as a strip, not a chart
+// ---- audience (top switch): RotoWire's followers and impressions, then growth vs Underdog ----
+const AUD_MIN_POSTS = 20;             // a week with fewer posts on a side is too thin to compare
+const AUD_FOLLOWER_CHART_DAYS = 28;   // below this, followers show as daily gains, not a chart
+
+function applyTopMode() {
+  const isAll = state.sport === ALL || !state.agg;
+  const has = !isAll && !!(state.agg && state.agg.audience);
+  const mode = has && state.topMode === "audience" ? "audience" : "timing";
+  document.getElementById("mode-row").classList.toggle("hidden", !has);
+  ["kpis", "focus-callout", "trend"].forEach(id =>
+    document.getElementById(id).classList.toggle("hidden", isAll || mode !== "timing"));
+  document.getElementById("audience-top").classList.toggle("hidden", isAll || mode !== "audience");
+  document.querySelectorAll("#mode-row button").forEach(b => {
+    b.classList.toggle("on", b.dataset.m === mode); b.setAttribute("aria-pressed", b.dataset.m === mode); });
+}
 
 function renderAudience() {
   const a = state.agg.audience;
-  const el = document.getElementById("view-audience");
-  const has = a && ((a.views_by_week || []).length || Object.keys(a.followers || {}).length);
-  document.getElementById("tab-audience").classList.toggle("hidden", !has);
-  if (!has) { el.innerHTML = ""; return; }
-  const kfmt = n => n == null ? "—" : n >= 1e6 ? (n / 1e6).toFixed(1) + "M" : n >= 1000 ? (n / 1000).toFixed(n >= 1e5 ? 0 : 1) + "k" : String(n);
-  const num = n => n == null ? "—" : n.toLocaleString("en-US");
+  const el = document.getElementById("audience-top");
+  if (!a) { el.innerHTML = ""; applyTopMode(); return; }
+  const kfmt = n => n == null ? "—" : n >= 1e6 ? (n / 1e6).toFixed(1) + "M" : n >= 1000 ? (n / 1000).toFixed(n >= 1e5 ? 0 : 1) + "k" : String(Math.round(n));
+  const num = n => n == null ? "—" : Math.round(n).toLocaleString("en-US");
+  const pctS = (x, d = 1) => x == null ? "—" : `${x >= 0 ? "+" : ""}${(x * 100).toFixed(d)}%`;
   const fmtD = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
-  const g = a.growth || {}, h = a.head_to_head || {};
-  const weeks = (a.views_by_week || []).map(w => ({ ...w, ratio: w.rotowire_median_views && w.underdog_median_views
-    ? w.rotowire_median_views / w.underdog_median_views : null,
-    thin: (w.rotowire_posts || 0) < AUD_MIN_POSTS || (w.underdog_posts || 0) < AUD_MIN_POSTS }));
+  const g = a.growth || {}, h = a.head_to_head || {}, fol = a.followers || {};
+  const genAt = new Date(state.agg.generated_at || Date.now());
+  // Complete weeks only: a week counts once its last post has had time to mature.
+  const weeks = (a.views_by_week || []).filter(w =>
+    new Date(w.week + "T00:00:00Z").getTime() + (7 * 24 + (a.mature_hours || 36)) * 3600e3 <= genAt.getTime())
+    .map(w => ({ ...w, thin: (w.rotowire_posts || 0) < AUD_MIN_POSTS || (w.underdog_posts || 0) < AUD_MIN_POSTS }));
   const full = weeks.filter(w => !w.thin);
-  const lastW = full[full.length - 1] || weeks[weeks.length - 1];
-
+  const lastW = full[full.length - 1], prev4 = full.slice(-5, -1);
+  const avg = xs => xs.length ? xs.reduce((s, x) => s + x, 0) / xs.length : null;
+  const rwPrevAvg = avg(prev4.map(w => w.rotowire_total_views || 0));
   const kpi = (label, value, sub) => `<div class="kpi"><div class="label">${label}</div>
     <div class="value">${value}</div><div class="kpi-sub">${sub}</div></div>`;
-  const fol = side => g[side] ? kpi(`${side === "rotowire" ? "RotoWire" : "Underdog"} followers`, num(g[side].followers),
-    g[side].per_day != null ? `+${num(Math.round(g[side].per_day))}/day since ${fmtD(g[side].first_date)}` : "first count today") : "";
-  const kpis = `<div class="kpis has-headline">${fol("rotowire")}${fol("underdog")}
-    ${lastW ? kpi("Median views per post", `${kfmt(lastW.rotowire_median_views)} <small>vs ${kfmt(lastW.underdog_median_views)}</small>`,
-      `RotoWire vs Underdog, week of ${fmtD(lastW.week)}`) : ""}
-    ${h.all && h.all.stories ? kpi("Same story, RW views vs UD", fmtPct(h.all.rotowire_share),
-      `median over ${num(h.all.stories)} matched stories`) : ""}</div>`;
 
-  // View share by race result (median of RW views / UD views per story).
-  const ROWS = [["rotowire_first", "RotoWire first"], ["tie", "Within 1 minute"], ["underdog_first", "Underdog first"],
-    ["underdog_first_10m", "Underdog first by 10+ min"]].filter(([k]) => h[k] && h[k].stories);
-  const maxS = Math.max(0.01, ...ROWS.map(([k]) => h[k].rotowire_share || 0));
-  const bars = ROWS.map(([k, label]) => {
-    const r = h[k], w = (r.rotowire_share || 0) / maxS * 100;
-    const tip = `${label}: ${r.stories} stories. Median views RotoWire ${num(r.rotowire_median_views)}, Underdog ${num(r.underdog_median_views)}`;
-    return `<div class="a-bar" title="${esc(tip)}"><div class="a-bar-lab">${label}<span class="bl">${num(r.stories)} stories</span></div>
-      <div class="a-bar-track"><div class="a-bar-fill${k === "underdog_first_10m" ? " strong" : ""}" style="width:${w.toFixed(1)}%"></div>
-      <span class="a-bar-val">${(r.rotowire_share * 100).toFixed(1)}%</span></div></div>`;
-  }).join("");
-  const sharePanel = `<div class="panel a-panel"><h3>RotoWire's views on the same story, as a share of Underdog's</h3>
-    <p class="type-note">Matched stories, by who posted first. Median of RotoWire's views ÷ Underdog's, counted once both posts are ${a.mature_hours || 36} hours old.</p>
-    <div class="a-bars">${bars}</div></div>`;
+  // Follower growth since the first count, both sides (rate, so the bigger account isn't favoured).
+  const gr = g.rotowire, gu = g.underdog;
+  const faster = gr && gu && gr.gained_rate != null && gu.gained_rate != null ? gr.gained_rate >= gu.gained_rate : null;
+  // Impressions growth: each week's last 4 weeks of impressions vs the 4 weeks before
+  // (complete weeks), so the comparison is about pace now, not an empty July baseline.
+  const sum4 = (i, side) => weeks.slice(i - 3, i + 1).reduce((t, w) => t + (w[`${side}_total_views`] || 0), 0);
+  const growth = weeks.map((w, i) => i < 7 ? null : {
+    week: w.week, rw: sum4(i, "rotowire") / (sum4(i - 4, "rotowire") || 1) - 1,
+    ud: sum4(i, "underdog") / (sum4(i - 4, "underdog") || 1) - 1 }).filter(Boolean);
+  const gNow = growth[growth.length - 1];
 
-  // Weekly ratio line: RW median views per post as % of UD's.
-  let ratioPanel = "";
-  const pts = weeks.filter(w => w.ratio != null);
-  if (pts.length > 1) {
-    const W = 560, H = 210, m = { t: 14, r: 56, b: 28, l: 44 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
-    const hi = Math.max(0.05, ...pts.filter(p => !p.thin).map(p => p.ratio), ...pts.map(p => Math.min(p.ratio, 0.5))) * 1.15;
-    const x = i => m.l + i / (weeks.length - 1) * iw, y = v => m.t + (1 - Math.min(v, hi) / hi) * ih;
-    const step = [0.02, 0.05, 0.1, 0.2].find(s => hi / s <= 5) || 0.2;
+  const kpis = `<div class="kpis has-headline">
+    ${gr ? kpi("RotoWire followers", num(gr.followers), gr.per_day != null ? `+${num(gr.per_day)}/day, ${pctS(gr.gained_rate, 2)} since ${fmtD(gr.first_date)}` : "first count today") : ""}
+    ${lastW ? kpi("RotoWire impressions, last week", kfmt(lastW.rotowire_total_views),
+      `${rwPrevAvg ? pctS(lastW.rotowire_total_views / rwPrevAvg - 1, 0) + " vs the 4 weeks before" : ""} · week of ${fmtD(lastW.week)}`) : ""}
+    ${faster != null ? kpi("Followers growing faster than UD?", faster ? "Yes" : "No",
+      `RW ${pctS(gr.gained_rate, 2)} vs UD ${pctS(gu.gained_rate, 2)} since ${fmtD(gr.first_date)}`) : ""}
+    ${gNow ? kpi("Impressions growing faster than UD?", gNow.rw >= gNow.ud ? "Yes" : "No",
+      `last 4 weeks vs the 4 before: RW ${pctS(gNow.rw, 0)}, UD ${pctS(gNow.ud, 0)}`) : ""}</div>`;
+
+  // RotoWire impressions per week (bars), with any 3x step in views per post named.
+  let impPanel = "";
+  if (weeks.length) {
+    const W = 620, H = 220, m = { t: 14, r: 16, b: 28, l: 52 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const max = Math.max(1, ...weeks.map(w => w.rotowire_total_views || 0)) * 1.1;
+    const step = [1e5, 2.5e5, 5e5, 1e6, 2.5e6, 5e6, 1e7].find(s => max / s <= 5) || 1e7;
+    const bw = iw / weeks.length, y = v => m.t + (1 - v / max) * ih;
     let svg = "";
-    for (let v = 0; v <= hi; v += step) svg += `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
-      <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${Math.round(v * 100)}%</text>`;
-    const every = Math.max(1, Math.ceil(weeks.length / 6));
-    weeks.forEach((w, i) => { if (i % every === 0 || i === weeks.length - 1)
-      svg += `<text class="t-tick" x="${x(i)}" y="${H - 8}" text-anchor="middle">${fmtD(w.week)}</text>`; });
-    let solid = "", thin = "";
-    weeks.forEach((w, i) => { if (!i) return; const p = weeks[i - 1];
-      if (p.ratio == null || w.ratio == null) return;
-      const seg = `M${x(i - 1).toFixed(1)},${y(p.ratio).toFixed(1)}L${x(i).toFixed(1)},${y(w.ratio).toFixed(1)}`;
-      if (p.thin || w.thin) thin += seg; else solid += seg; });
-    svg += `<path d="${thin}" class="t-line thin"/><path d="${solid}" class="t-line"/>`;
-    const li = weeks.length - 1;
-    if (weeks[li].ratio != null) svg += `<circle cx="${x(li)}" cy="${y(weeks[li].ratio)}" r="4" class="t-dot"/>
-      <text class="t-end" x="${x(li) + 8}" y="${y(weeks[li].ratio) + 4}">${Math.round(weeks[li].ratio * 100)}%</text>`;
-    // Hover: one hit area per week.
-    svg += weeks.map((w, i) => `<rect class="t-hit" x="${x(i) - iw / weeks.length / 2}" y="${m.t}" width="${iw / weeks.length}" height="${ih}">
-      <title>Week of ${fmtD(w.week)}: RotoWire ${num(w.rotowire_median_views)} median views on ${w.rotowire_posts || 0} posts, Underdog ${num(w.underdog_median_views)} on ${w.underdog_posts || 0}</title></rect>`).join("");
-    // Name the biggest week-over-week jump (3x or more) so a step change is explained, not guessed at.
+    for (let v = 0; v <= max; v += step) svg += `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
+      <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${kfmt(v)}</text>`;
+    const every = Math.max(1, Math.ceil(weeks.length / 7));
+    weeks.forEach((w, i) => {
+      const v = w.rotowire_total_views || 0, x0 = m.l + i * bw + 2, bh = Math.max(1, ih - (y(v) - m.t));
+      svg += `<rect class="a-col${w.thin ? " thin" : ""}" x="${x0}" y="${y(v)}" width="${Math.max(2, bw - 4)}" height="${bh}" rx="3">
+        <title>Week of ${fmtD(w.week)}: ${num(v)} impressions on ${w.rotowire_posts || 0} news posts (median ${num(w.rotowire_median_views)} per post)</title></rect>`;
+      if (i % every === 0 || i === weeks.length - 1)
+        svg += `<text class="t-tick" x="${m.l + i * bw + bw / 2}" y="${H - 8}" text-anchor="middle">${fmtD(w.week)}</text>`;
+    });
     let jump = null;
     full.forEach((w, i) => { const p = full[i - 1];
       if (p && p.rotowire_median_views && w.rotowire_median_views / p.rotowire_median_views >= 3
           && (!jump || w.rotowire_median_views / p.rotowire_median_views > jump.f))
         jump = { w, p, f: w.rotowire_median_views / p.rotowire_median_views }; });
-    const jumpNote = jump ? `<p class="a-flag">Week of ${fmtD(jump.w.week)}: RotoWire's median views per post went from
-      ${kfmt(jump.p.rotowire_median_views)} to ${kfmt(jump.w.rotowire_median_views)}. Worth confirming why before quoting view numbers.</p>` : "";
-    ratioPanel = `<div class="panel a-panel"><h3>RotoWire views per post, as a share of Underdog's</h3>
-      <p class="type-note">Weekly median views per news post, RotoWire ÷ Underdog (Monday weeks). Dotted weeks have fewer than ${AUD_MIN_POSTS} posts on a side.</p>
-      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire views per post as a share of Underdog's, by week">${svg}</svg>${jumpNote}</div>`;
+    impPanel = `<div class="panel a-panel"><h3>RotoWire impressions per week</h3>
+      <p class="type-note">Views on RotoWire's news posts, counted once each post is ${a.mature_hours || 36} hours old (Monday weeks). Faded weeks have fewer than ${AUD_MIN_POSTS} posts.</p>
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire impressions per week">${svg}</svg>
+      ${jump ? `<p class="a-flag">Week of ${fmtD(jump.w.week)}: median views per post jumped from ${kfmt(jump.p.rotowire_median_views)} to
+        ${kfmt(jump.w.rotowire_median_views)} and stayed up. Worth confirming why before quoting these numbers.</p>` : ""}</div>`;
   }
 
-  // Followers: a strip until there are enough days to draw a trend.
-  const series = a.followers || {};
-  const days = Math.max(0, ...Object.values(g).map(x => x.days || 0));
+  // RotoWire followers: daily gains until there's enough history for a line.
   let folPanel = "";
-  if (series.rotowire && series.underdog) {
-    const gains = side => series[side].slice(1).map((p, i) => ({ date: p.date, gain: p.followers - series[side][i].followers }));
+  if (fol.rotowire && fol.rotowire.length) {
+    const days = gr ? gr.days || 0 : 0;
+    const gains = side => (fol[side] || []).slice(1).map((p, i) => ({ date: p.date, gain: p.followers - fol[side][i].followers }));
     if (days < AUD_FOLLOWER_CHART_DAYS) {
-      const gr = gains("rotowire"), gu = gains("underdog");
-      const max = Math.max(1, ...gr.map(x => x.gain), ...gu.map(x => x.gain));
-      const cols = gu.slice(-14).map(u => { const r = gr.find(x => x.date === u.date) || { gain: 0 };
-        return `<div class="a-gain" title="${fmtD(u.date)}: RotoWire +${num(r.gain)}, Underdog +${num(u.gain)}">
-          <div class="a-gain-bars"><i class="rw" style="height:${Math.max(2, r.gain / max * 44)}px"></i><i class="ud" style="height:${Math.max(2, u.gain / max * 44)}px"></i></div>
-          <span>${fmtD(u.date)}</span></div>`; }).join("");
-      folPanel = `<div class="panel a-panel"><h3>New followers per day</h3>
-        <div class="a-strip"><div class="a-legend"><span><i class="sw rw"></i>RotoWire</span><span><i class="sw ud"></i>Underdog</span></div>
-        <div class="a-gains">${cols}</div></div>
-        <p class="type-note">Counted once a day since ${fmtD(g.rotowire.first_date)}. This becomes a growth chart once there are ${AUD_FOLLOWER_CHART_DAYS} days of counts.</p></div>`;
+      const rg = gains("rotowire").slice(-14), max = Math.max(1, ...rg.map(x => x.gain));
+      folPanel = `<div class="panel a-panel"><h3>RotoWire new followers per day</h3>
+        <p class="type-note">${num(gr.followers)} followers, +${num(gr.gained)} since ${fmtD(gr.first_date)}.</p>
+        <div class="a-gains big">${rg.map(x => `<div class="a-gain" title="${fmtD(x.date)}: +${num(x.gain)}">
+          <b>+${num(x.gain)}</b><div class="a-gain-bars"><i class="rw" style="height:${Math.max(2, x.gain / max * 140)}px"></i></div><span>${fmtD(x.date)}</span></div>`).join("")}</div>
+        <p class="type-note">Counted once a day since ${fmtD(gr.first_date)}; becomes a growth line at ${AUD_FOLLOWER_CHART_DAYS} days.</p></div>`;
     } else {
-      const W = 560, H = 190, m = { t: 14, r: 76, b: 28, l: 56 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
-      const idx = s => series[s].map(p => (p.followers / series[s][0].followers - 1) * 100);
-      const ir = idx("rotowire"), iu = idx("underdog"), n = Math.max(ir.length, iu.length);
-      const hi = Math.max(0.1, ...ir, ...iu) * 1.15, x = i => m.l + i / (n - 1) * iw, y = v => m.t + (1 - v / hi) * ih;
-      let svg = [0, hi / 2, hi].map(v => `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
-        <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">+${v.toFixed(1)}%</text>`).join("");
-      [["underdog", iu], ["rotowire", ir]].forEach(([s, v]) => {
-        svg += `<path class="s-line ${s === "rotowire" ? "rw" : "ud"}" d="${v.map((p, i) => `${i ? "L" : "M"}${x(i)},${y(p)}`).join("")}"/>
-          <text class="s-end ${s === "rotowire" ? "rw" : "ud"}" x="${x(v.length - 1) + 8}" y="${y(v[v.length - 1]) + 4}">${s === "rotowire" ? "RW" : "UD"} +${v[v.length - 1].toFixed(1)}%</text>`; });
-      folPanel = `<div class="panel a-panel"><h3>Follower growth</h3><p class="type-note">Percent gained since the first count, so both accounts share one scale.</p>
-        <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Follower growth">${svg}</svg></div>`;
+      const pts = fol.rotowire, W = 420, H = 220, m = { t: 14, r: 16, b: 28, l: 58 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+      const lo = Math.min(...pts.map(p => p.followers)), hi = Math.max(...pts.map(p => p.followers));
+      const pad = Math.max(50, (hi - lo) * 0.1), y = v => m.t + (1 - (v - lo + pad) / (hi - lo + 2 * pad)) * ih;
+      const x = i => m.l + i / (pts.length - 1) * iw;
+      const svg = [lo, (lo + hi) / 2, hi].map(v => `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
+        <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${kfmt(v)}</text>`).join("")
+        + `<path class="t-line" d="${pts.map((p, i) => `${i ? "L" : "M"}${x(i)},${y(p.followers)}`).join("")}"/>`
+        + [0, pts.length - 1].map(i => `<text class="t-tick" x="${x(i)}" y="${H - 8}" text-anchor="${i ? "end" : "start"}">${fmtD(pts[i].date)}</text>`).join("");
+      folPanel = `<div class="panel a-panel"><h3>RotoWire followers</h3>
+        <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire followers over time">${svg}</svg></div>`;
     }
   }
 
-  el.innerHTML = `<p class="type-note">Who's reading: followers, views per news post, and how many views RotoWire gets on the stories both accounts posted.</p>
-    ${kpis}<div class="a-grid">${sharePanel}${ratioPanel}</div>${folPanel}`;
+  // Comps: growth vs Underdog (indexed so the bigger account doesn't dwarf the smaller).
+  let impComp = "";
+  if (growth.length > 1) {
+    const W = 560, H = 210, m = { t: 14, r: 78, b: 28, l: 52 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const vals = growth.flatMap(gw => [gw.rw, gw.ud]);
+    let lo = Math.min(0, ...vals), hi = Math.max(0.1, ...vals);
+    const pad = (hi - lo) * 0.1; lo -= pad; hi += pad;
+    const x = i => m.l + i / (growth.length - 1) * iw, y = v => m.t + (hi - v) / (hi - lo) * ih;
+    const step = [0.1, 0.25, 0.5, 1, 2, 5, 10].find(s => (hi - lo) / s <= 6) || 10;
+    let svg = "";
+    for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) svg += `<line class="${Math.abs(v) < 1e-9 ? "t-zero" : "t-grid"}" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
+      <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${Math.abs(v) < 1e-9 ? "flat" : pctS(v, 0)}</text>`;
+    const lr = growth[growth.length - 1].rw, lu = growth[growth.length - 1].ud;
+    const gap = Math.abs(y(lr) - y(lu)) < 14 ? (y(lr) < y(lu) ? -7 : 7) : 0;
+    [["ud", "ud", "UD", -gap], ["rw", "rw", "RW", gap]].forEach(([k, c, l, dy]) => {
+      svg += `<path class="s-line ${c}" d="${growth.map((gw, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(gw[k]).toFixed(1)}`).join("")}"/>
+        <text class="s-end ${c}" x="${x(growth.length - 1) + 8}" y="${y(growth[growth.length - 1][k]) + 4 + dy}">${l} ${pctS(growth[growth.length - 1][k], 0)}</text>`; });
+    svg += growth.map((gw, i) => `<rect class="t-hit" x="${x(i) - iw / growth.length / 2}" y="${m.t}" width="${iw / growth.length}" height="${ih}">
+      <title>4 weeks to ${fmtD(gw.week)}: RotoWire ${pctS(gw.rw, 0)}, Underdog ${pctS(gw.ud, 0)} vs the 4 weeks before</title></rect>`).join("");
+    const every = Math.max(1, Math.ceil(growth.length / 6));
+    growth.forEach((gw, i) => { if (i % every === 0 || i === growth.length - 1)
+      svg += `<text class="t-tick" x="${x(i)}" y="${H - 8}" text-anchor="middle">${fmtD(gw.week)}</text>`; });
+    impComp = `<div class="panel a-panel"><h3>Impressions growth vs Underdog</h3>
+      <p class="type-note">Each account's impressions over the last 4 weeks vs the 4 weeks before. Above "flat" means growing; the higher line is growing faster.</p>
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Impressions growth, RotoWire vs Underdog">${svg}</svg></div>`;
+  }
+  let folComp = "";
+  if (gr && gu) {
+    const rows = [["RotoWire", gr, "rw"], ["Underdog", gu, "ud"]];
+    const maxR = Math.max(1e-6, ...rows.map(([, x]) => x.gained_rate || 0));
+    folComp = `<div class="panel a-panel"><h3>Follower growth vs Underdog</h3>
+      <p class="type-note">Percent gained since ${fmtD(gr.first_date)} (${gr.days} days of counts), so the bigger account isn't favoured.</p>
+      <div class="a-bars">${rows.map(([n, x, c]) => `<div class="a-bar"><div class="a-bar-lab">${n}<span class="bl">+${num(x.gained)} (${num(x.per_day)}/day)</span></div>
+        <div class="a-bar-track"><div class="a-bar-fill strong ${c}" style="width:${((x.gained_rate || 0) / maxR * 100).toFixed(1)}%"></div>
+        <span class="a-bar-val">${pctS(x.gained_rate, 2)}</span></div></div>`).join("")}</div></div>`;
+  }
+  const SH = [["rotowire_first", "RotoWire first"], ["tie", "Within 1 minute"], ["underdog_first", "Underdog first"],
+    ["underdog_first_10m", "Underdog first by 10+ min"]].filter(([k]) => h[k] && h[k].stories);
+  const maxS = Math.max(0.01, ...SH.map(([k]) => h[k].rotowire_share || 0));
+  const sharePanel = SH.length ? `<div class="panel a-panel"><h3>Views on the same story, as a share of Underdog's</h3>
+    <p class="type-note">Matched stories by who posted first: the median of RotoWire's views ÷ Underdog's.</p>
+    <div class="a-bars">${SH.map(([k, label]) => { const r = h[k];
+      return `<div class="a-bar" title="${esc(`${label}: ${r.stories} stories. Median views RW ${num(r.rotowire_median_views)}, UD ${num(r.underdog_median_views)}`)}">
+        <div class="a-bar-lab">${label}<span class="bl">${num(r.stories)} stories</span></div>
+        <div class="a-bar-track"><div class="a-bar-fill rw${k === "underdog_first_10m" ? " strong" : ""}" style="width:${(r.rotowire_share / maxS * 100).toFixed(1)}%"></div>
+        <span class="a-bar-val">${(r.rotowire_share * 100).toFixed(1)}%</span></div></div>`; }).join("")}</div></div>` : "";
+
+  el.innerHTML = `${kpis}
+    <div class="a-grid a-main">${impPanel}${folPanel}</div>
+    <h3 class="a-sub">Compared with Underdog</h3>
+    <div class="a-grid">${impComp}${folComp}</div>
+    ${sharePanel ? `<div class="a-grid one">${sharePanel}</div>` : ""}`;
+  applyTopMode();
 }
 
 // ---- tabs + init ----
@@ -1888,7 +1951,6 @@ function showView(name) {
   if (name === "games" && !((state.agg.game_windows || {}).windows || []).length) name = "feed";
   if (name === "practice" && !state.agg.practice) name = "feed";
   if (name === "focus" && !((state.agg.focus || {}).groups || []).length) name = "feed";
-  if (name === "audience" && !state.agg.audience) name = "feed";
   state.view = name;
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.view===name));
   VIEWS.forEach(v =>
@@ -1914,6 +1976,11 @@ function init() {
     ["f-from","f-to","f-event","f-player","f-conf","f-status"].forEach(id =>
       document.getElementById(id).addEventListener("input", renderFeed));
     document.querySelectorAll(".tab").forEach(t => t.onclick = () => showView(t.dataset.view));
+    document.querySelectorAll("#mode-row button").forEach(b => b.onclick = () => {
+      state.topMode = b.dataset.m;
+      try { localStorage.setItem("pst-top-mode", state.topMode); } catch (e) {}
+      applyTopMode(); if (state.topMode === "timing") renderTrend(); });
+    try { state.topMode = localStorage.getItem("pst-top-mode") || "timing"; } catch (e) { state.topMode = "timing"; }
     state.wired = true;
   }
 

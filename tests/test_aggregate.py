@@ -175,8 +175,9 @@ def test_trend_series(tmp_path):
     day = {d["period"]: d for d in t["day"]}
     assert day["2026-09-09"]["median_lead_seconds"] == -30.0 and day["2026-09-09"]["rotowire_first"] == 1
     # trailing 7 days ending Sep 10 covers b, c, d (a is 8 days earlier)
-    assert day["2026-09-10"]["rolling7_median_seconds"] == -60.0
-    assert day["2026-09-10"]["rolling7_matched"] == 3
+    # Trend windows need TREND_MIN stories (30 for 7 days): three stories draw nothing yet.
+    assert day["2026-09-10"]["rolling7_median_seconds"] is None
+    assert day["2026-09-10"]["rolling7_matched"] == 0
     assert [mo["period"] for mo in t["month"]] == ["2026-09"]
     # no season calendar -> ISO weeks
     t2 = agg.build_aggregates(data_dir=tmp_path, docs_data_dir=tmp_path / "d2")["trend"]
@@ -190,3 +191,16 @@ def test_milestones_passed_through(tmp_path):
                                milestones=[{"date": "2026-09-29", "label": "News system 2.0"}])
     assert out["milestones"] == [{"date": "2026-09-29", "label": "News system 2.0"}]
     assert agg.build_aggregates(data_dir=tmp_path, docs_data_dir=tmp_path / "d2")["milestones"] == []
+
+
+def test_stretch_reaches_back_for_enough_stories():
+    from datetime import datetime, timedelta, timezone
+    from src.aggregate import _stretch
+    end = datetime(2026, 10, 1, tzinfo=timezone.utc)
+    items = [(end - timedelta(days=d), d) for d in (40, 30, 20, 3, 2, 1)]
+    items.sort()
+    win, start = _stretch(items, end, 7, 3)          # enough inside 7 days
+    assert [v for _, v in win] == [3, 2, 1] and start == end - timedelta(days=7)
+    win, start = _stretch(items, end, 7, 5)          # stretch back to 5 stories
+    assert [v for _, v in win] == [30, 20, 3, 2, 1] and start == end - timedelta(days=30)
+    assert _stretch(items, end, 7, 10) == ([], None)  # not enough history yet
