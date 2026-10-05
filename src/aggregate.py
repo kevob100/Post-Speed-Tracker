@@ -89,8 +89,10 @@ def _is_dup(s: dict) -> bool:
 
 
 def _is_gap(s: dict, status: str) -> bool:
-    """A true coverage gap: one-sided, not a follow-up, not an unmatched roundup post."""
-    return s.get("status") == status and not _is_dup(s) and not s.get("roundup")
+    """A true coverage gap: one-sided, not a follow-up, not an unmatched roundup post, and
+    not an update gap (the other account covered the story, just not this step)."""
+    return (s.get("status") == status and not _is_dup(s) and not s.get("roundup")
+            and s.get("gap_kind") != "update")
 
 
 def _summary(stories: list[dict]) -> dict:
@@ -121,6 +123,11 @@ def _summary(stories: list[dict]) -> dict:
         "rotowire_only": sum(1 for s in active if _is_gap(s, "rotowire_only")),
         "underdog_only": sum(1 for s in active if _is_gap(s, "underdog_only")),
         "roundup_only": sum(1 for s in active if s.get("roundup") and not _is_dup(s)),
+        # Steps of a story both covered that only one account posted.
+        "rotowire_update_only": sum(1 for s in active if s.get("status") == "rotowire_only"
+                                    and s.get("gap_kind") == "update" and not _is_dup(s)),
+        "underdog_update_only": sum(1 for s in active if s.get("status") == "underdog_only"
+                                    and s.get("gap_kind") == "update" and not _is_dup(s)),
         "rotowire_duplicate": sum(1 for s in active if s.get("status") == "rotowire_only" and _is_dup(s)),
         "underdog_duplicate": sum(1 for s in active if s.get("status") == "underdog_only" and _is_dup(s)),
     }
@@ -262,20 +269,23 @@ def _hour_rollup(stories: list[dict], tweets: list[dict], weeks_cfg: dict,
     """Per hour of the day (season timezone), Week 1 on: news volume and head-to-heads.
 
     One row per hour 0-23: rotowire_posts / underdog_posts count news posts (hype and other
-    non-news excluded) made that hour; matched / rotowire_first / median_lead_seconds cover
+    non-news excluded) made that hour; rotowire_all / underdog_all count every collected post
+    with nothing excluded; matched / rotowire_first / median_lead_seconds cover
     matched stories, bucketed by the hour of the story's FIRST post.
     """
     of = season_week_of(weeks_cfg)
     tz = ZoneInfo(weeks_cfg.get("timezone") or "America/New_York")
-    rows = [{"hour": h, "rotowire_posts": 0, "underdog_posts": 0, "_d": []} for h in range(24)]
+    rows = [{"hour": h, "rotowire_posts": 0, "underdog_posts": 0, "rotowire_all": 0,
+             "underdog_all": 0, "_d": []} for h in range(24)]
     for t in tweets:
-        if not t.get("is_news"):
-            continue
         dt = parse_dt(t["created_at"])
         if of(dt)[0] == 0:
             continue
-        key = "rotowire_posts" if t.get("account") == rotowire_handle else "underdog_posts"
-        rows[dt.astimezone(tz).hour][key] += 1
+        side = "rotowire" if t.get("account") == rotowire_handle else "underdog"
+        row = rows[dt.astimezone(tz).hour]
+        row[f"{side}_all"] += 1
+        if t.get("is_news"):
+            row[f"{side}_posts"] += 1
     for s in stories:
         if (not _is_active(s) or s.get("status") != "matched"
                 or s.get("time_delta_seconds") is None):

@@ -301,14 +301,26 @@ class Classifier:
         return parse_classification(resp.content[0].text, self.event_classes)
 
 
-def _apply(record: dict, c: dict, event_classes: tuple[str, ...] = DEFAULT_EVENT_CLASSES) -> dict:
-    """Write a classification onto a tweet record (raw fields preserved)."""
+def _apply(record: dict, c: dict, event_classes: tuple[str, ...] = DEFAULT_EVENT_CLASSES,
+           include_hype_kinds: frozenset[str] = frozenset()) -> dict:
+    """Write a classification onto a tweet record (raw fields preserved).
+
+    A hype verdict whose hype_kind is in include_hype_kinds (sports.<sport>.include_hype_kinds)
+    is counted as news, tagged borderline=<kind>, so policy changes need no new model calls.
+    """
     player = c.get("player")
     record["is_news"] = bool(c.get("is_news"))
     # Coerce any cached/legacy event_class into the sport's taxonomy on read.
     record["event_class"] = _canonical_event(c.get("event_class"), event_classes)
     record["excluded_reason"] = c.get("excluded_reason")
     record["hype_kind"] = c.get("hype_kind")
+    record["borderline"] = None
+    has_player = bool(player or c.get("players"))
+    if (c.get("excluded_reason") == "hype" and has_player
+            and (c.get("hype_kind") or "other") in include_hype_kinds):
+        record["is_news"] = True
+        record["excluded_reason"] = None
+        record["borderline"] = c.get("hype_kind")
     record["player"] = player
     record["team"] = c.get("team")
     record["player_key"] = normalize_name(player)
@@ -352,6 +364,14 @@ def _needs_rerun(c: dict) -> bool:
     return bool(c.get("is_news")) and v < 2   # v2: may now be hype
 
 
+def _include_hype_kinds(sport: str) -> frozenset[str]:
+    try:
+        meta = load_config().get("sports", {}).get(sport, {}) or {}
+    except Exception:
+        return frozenset()
+    return frozenset(meta.get("include_hype_kinds") or ())
+
+
 def _sport_label(sport: str) -> str:
     """Human-readable label for the classifier prompt; robust if config lacks the sport."""
     try:
@@ -386,6 +406,7 @@ def classify_file(
     path = data_dir / "tweets.jsonl"
     records = load_jsonl(path)
     valid = event_classes_for(sport)
+    include = _include_hype_kinds(sport)
 
     cls_path = data_dir / "classifications.jsonl"
     cached = {r["id"]: r for r in load_jsonl(cls_path)} if cache else {}
@@ -421,7 +442,7 @@ def classify_file(
         if c is None or (r["id"] in todo_ids and not llm):
             _apply(r, _bad_classification(), valid)
         else:
-            _apply(r, c, valid)
+            _apply(r, c, valid, include)
 
     records.sort(key=lambda r: (r["created_at"], r["id"]))
     write_jsonl(path, records)

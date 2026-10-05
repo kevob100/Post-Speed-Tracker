@@ -142,6 +142,7 @@ def _side(post: dict) -> dict:
         "created_at": post["created_at"],
         "impression_count": (post.get("public_metrics") or {}).get("impression_count"),
         "text": post.get("text", ""),
+        "borderline": post.get("borderline"),   # hype kind counted as news, if any
     }
 
 
@@ -207,8 +208,12 @@ def resolve_developments(
         for g in groups:
             ms = [mention_by_id[i] for i in g["post_ids"] if i in mention_by_id]
             if ms:
-                stories.extend(_development_stories(
-                    ms, g.get("label"), player, pkey, team, rw_handle, window_s, source))
+                # One account's step inside a session both accounts posted in: an update gap.
+                update_gap = two_sided and len({m["post"]["account"] for m in ms}) == 1
+                for st in _development_stories(
+                        ms, g.get("label"), player, pkey, team, rw_handle, window_s, source):
+                    st["session_two_sided"] = update_gap
+                    stories.append(st)
 
     _mark_gaps(stories, news, rw_handle)
     stories.sort(key=lambda s: s["story_id"])
@@ -224,6 +229,9 @@ def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str) -> None:
     different development, which is why the post is shown rather than claimed as a match.
     gap_kind "missed": the other account said nothing about the player in that window.
     gap_kind "roundup": the lone post is a roundup (see is_roundup), so it is not a gap.
+    gap_kind "update": both accounts covered the player's story in this session, but only
+    one posted this step of it (e.g. "headed to the locker room"). other_side_near names
+    the other account's closest post in the session. Not counted as a missed story.
     """
     by_player: dict[tuple, list[dict]] = {}
     for m in mentions(news):
@@ -242,6 +250,17 @@ def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str) -> None:
             continue
         other = "ud" if st["rotowire"] else "rw"
         t0 = parse_dt(lone["created_at"])
+        if st.get("session_two_sided"):
+            near = min(by_player.get((st["player_key"], other), []),
+                       key=lambda p: abs((parse_dt(p["created_at"]) - t0).total_seconds()),
+                       default=None)
+            st["gap_kind"] = "update"
+            st["other_side_later"] = None
+            st["other_side_near"] = near and {
+                "tweet_id": near["id"], "created_at": near["created_at"],
+                "text": near.get("text", ""),
+                "delay_seconds": int((parse_dt(near["created_at"]) - t0).total_seconds())}
+            continue
         later = None
         for p in by_player.get((st["player_key"], other), []):
             delay = (parse_dt(p["created_at"]) - t0).total_seconds()

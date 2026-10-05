@@ -686,10 +686,15 @@ function renderHours() {
   const el = document.getElementById("view-hours");
   if (!has) { el.innerHTML = ""; return; }
 
-  const max = Math.max(1, ...hours.map(h => Math.max(h.rotowire_posts, h.underdog_posts)));
+  // Volume bars show news posts, or every collected post with nothing excluded.
+  const all = state.hoursAll && hours.some(h => h.rotowire_all != null);
+  const rwN = h => all ? h.rotowire_all : h.rotowire_posts;
+  const udN = h => all ? h.underdog_all : h.underdog_posts;
+  const what = all ? "" : "news ";
+  const max = Math.max(1, ...hours.map(h => Math.max(rwN(h), udN(h))));
   const H = 84;  // px height of each volume half
   const bar = (n, who, cls) => `<div class="hcol ${cls}" style="height:${H}px">
-      <div class="hbar" title="${n} ${who} news ${n === 1 ? "post" : "posts"}" style="height:${Math.round(n / max * H)}px"></div></div>`;
+      <div class="hbar" title="${n} ${who} ${what}${n === 1 ? "post" : "posts"}" style="height:${Math.round(n / max * H)}px"></div></div>`;
   const cell = h => {
     if (!h.matched) return `<div class="hcell none">—</div>`;
     const rate = h.rotowire_first / h.matched;
@@ -700,29 +705,36 @@ function renderHours() {
       <b>${fmtPct(rate)}</b><span>${h.matched}</span></div>`;
   };
   const rows = hours.map(h => `<tr><td>${hourLabel(h.hour)}</td><td class="num">${h.rotowire_posts}</td>
-    <td class="num">${h.underdog_posts}</td><td class="num">${h.matched}</td>
+    <td class="num">${h.underdog_posts}</td><td class="num">${h.rotowire_all ?? "—"}</td>
+    <td class="num">${h.underdog_all ?? "—"}</td><td class="num">${h.matched}</td>
     <td class="num">${h.matched ? fmtPct(h.rotowire_first / h.matched) : "—"}</td>
     <td class="num">${fmtMargin(h.median_lead_seconds)}</td></tr>`).join("");
 
   el.innerHTML = `<p class="type-note">When each account posts news, and how often RotoWire was first, by
-    hour of the day (Eastern time, Week 1 on). Top: news posts per hour, RotoWire above the line and
-    Underdog below; hype and other non-news posts are left out. Bottom: RotoWire's win rate on the
-    stories that broke that hour, with the story count. Hover for the typical margin.</p>
+    hour of the day (Eastern time, Week 1 on). Top: ${all ? "every post collected per hour, nothing left out"
+    : "news posts per hour; hype and other non-news posts are left out"}, RotoWire above the line and
+    Underdog below. Bottom: RotoWire's win rate on the stories that broke that hour, with the story
+    count. Hover for the typical margin.</p>
+    <div class="filters"><label>Posts<select id="f-hours-all">
+      <option value=""${all ? "" : " selected"}>News only</option>
+      <option value="1"${all ? " selected" : ""}>All tweets</option></select></label></div>
     <div class="type-wrap"><div class="hours">
-      <div class="hlab">RW posts</div>${hours.map(h => bar(h.rotowire_posts, "RotoWire", "up")).join("")}
+      <div class="hlab">RW posts</div>${hours.map(h => bar(rwN(h), "RotoWire", "up")).join("")}
       <div></div><div class="hzero"></div>
-      <div class="hlab">UD posts</div>${hours.map(h => bar(h.underdog_posts, "Underdog", "down")).join("")}
+      <div class="hlab">UD posts</div>${hours.map(h => bar(udN(h), "Underdog", "down")).join("")}
       <div class="hlab">RW first</div>${hours.map(cell).join("")}
       <div></div>${hours.map(h => `<div class="htick">${hourLabel(h.hour)}</div>`).join("")}
     </div></div>
-    <div class="type-legend"><span class="key-sw rw"></span><span>RotoWire news posts</span>
-      <span class="key-sw ud"></span><span>Underdog news posts</span>
+    <div class="type-legend"><span class="key-sw rw"></span><span>RotoWire ${what}posts</span>
+      <span class="key-sw ud"></span><span>Underdog ${what}posts</span>
       <span class="hatch-key"></span><span>Fewer than ${TYPE_MIN_STORIES} stories</span></div>
     <details class="hours-table"><summary>Show as a table</summary>
       <table><thead><tr><th data-nosort>Hour</th><th data-nosort style="text-align:right">RW news posts</th>
-      <th data-nosort style="text-align:right">UD news posts</th><th data-nosort style="text-align:right">Matched</th>
+      <th data-nosort style="text-align:right">UD news posts</th><th data-nosort style="text-align:right">RW all posts</th>
+      <th data-nosort style="text-align:right">UD all posts</th><th data-nosort style="text-align:right">Matched</th>
       <th data-nosort style="text-align:right">RW first</th><th data-nosort style="text-align:right">Typical margin</th>
       </tr></thead><tbody>${rows}</tbody></table></details>`;
+  document.getElementById("f-hours-all").onchange = e => { state.hoursAll = !!e.target.value; renderHours(); };
 }
 
 // ---- trend: median margin per day / week / month, zero line = even ----
@@ -904,7 +916,20 @@ const GAP_VIEWS = [
     note: "RotoWire posted it and Underdog posted nothing about the player in the next 24 hours." },
   { key: "rw_late", status: "rotowire_only", kind: "late", label: "Underdog later",
     note: "RotoWire posted it; Underdog's next post about the player came later." },
+  { key: "ud_update", status: "underdog_only", kind: "update", label: "Update RotoWire skipped",
+    note: "Both accounts covered this player's story, but only Underdog posted this step of it (e.g. headed to the locker room). Shown next to RotoWire's closest post on the player. Not counted as a missed story." },
+  { key: "rw_update", status: "rotowire_only", kind: "update", label: "Update Underdog skipped",
+    note: "Both accounts covered this player's story, but only RotoWire posted this step of it." },
 ];
+
+// Signed offset of the other account's post from the lone one: "4m before" / "12m after".
+function fmtOffset(sec) {
+  const m = Math.round(Math.abs(sec) / 60);
+  const t = m < 60 ? `${m}m` : `${Math.floor(m / 60)}h ${pad(m % 60)}m`;
+  return sec < 0 ? `${t} before` : `${t} after`;
+}
+const borderlineChip = side => side && side.borderline
+  ? ` <span class="chip" title="Labelled ${esc(side.borderline.replace("_", " "))} by the classifier, counted as news anyway">borderline</span>` : "";
 
 function fmtDelay(sec) {
   const m = Math.round(sec / 60);
@@ -931,15 +956,21 @@ function renderGapsByWeek() {
   const loneHandle = view.status === "underdog_only" ? state.handles.underdog : state.handles.rotowire;
   const otherHandle = view.status === "underdog_only" ? state.handles.rotowire : state.handles.underdog;
 
+  const paired = view.kind === "late" || view.kind === "update";
   const body = rows.map(s => {
-    const lone = s.underdog || s.rotowire, later = s.other_side_later;
-    return `<tr><td>${fmtTime(lone.created_at)}</td><td>${esc(s.player || "?")}</td>
+    const lone = s.underdog || s.rotowire;
+    const other = view.kind === "update" ? s.other_side_near : s.other_side_later;
+    const gap = !other ? "—" : view.kind === "update" ? fmtOffset(other.delay_seconds)
+                                                     : fmtDelay(other.delay_seconds);
+    return `<tr><td>${fmtTime(lone.created_at)}</td><td>${esc(s.player || "?")}${borderlineChip(lone)}</td>
       <td class="story">${textLink(loneHandle, lone, lone.text)}</td>
-      ${view.kind === "late" ? `<td class="num">${later ? fmtDelay(later.delay_seconds) : "—"}</td>
-      <td class="story">${later ? textLink(otherHandle, later, later.text) : "—"}</td>` : ""}</tr>`;
+      ${paired ? `<td class="num">${gap}</td>
+      <td class="story">${other ? textLink(otherHandle, other, other.text) : "—"}</td>` : ""}</tr>`;
   }).join("");
   const loneName = view.status === "underdog_only" ? "Underdog post" : "RotoWire post";
-  const otherName = view.status === "underdog_only" ? "RotoWire's later post" : "Underdog's later post";
+  const otherWho = view.status === "underdog_only" ? "RotoWire's" : "Underdog's";
+  const otherName = view.kind === "update" ? `${otherWho} closest post on the player`
+                                           : `${otherWho} later post`;
 
   el.innerHTML = `<p class="type-note">News only one account covered. Pick a week and a list
       to review what RotoWire missed or posted late.${hypeLine}</p>
@@ -953,7 +984,7 @@ function renderGapsByWeek() {
     <p class="type-note">${view.note}</p>
     ${rows.length ? `<div class="type-wrap"><table><thead><tr><th data-nosort>Posted</th>
       <th data-nosort>Player</th><th data-nosort>${loneName}</th>
-      ${view.kind === "late" ? `<th data-nosort style="text-align:right">Gap</th>
+      ${paired ? `<th data-nosort style="text-align:right">Gap</th>
       <th data-nosort>${otherName}</th>` : ""}</tr></thead><tbody>${body}</tbody></table></div>`
       : `<div class="empty">None in ${esc(week)}.</div>`}`;
 
@@ -965,7 +996,7 @@ function renderGaps() {
   if (state.stories.some(s => s.gap_kind)) return renderGapsByWeek();
   const all = state.stories
     .filter(s => (s.status === "rotowire_only" || s.status === "underdog_only")
-                 && !s.same_event_duplicate && !s.roundup && s.review_status !== "rejected")
+                 && !s.same_event_duplicate && !s.roundup && s.gap_kind !== "update" && s.review_status !== "rejected")
     .sort((a,b) => storyTime(a) - storyTime(b));
   const rw = all.filter(s => s.status === "rotowire_only").length;
   const ud = all.length - rw;
@@ -1066,9 +1097,9 @@ function summarize(stories, fromT, toT) {
   // Split by who posted first: lead = RotoWire's head start (delta>0); trail = its lag.
   const leads = deltas.filter(d => d > 0);
   const trails = deltas.filter(d => d < 0).map(d => -d);
-  // Unmatched roundup posts are neither gaps nor follow-ups; they count in neither.
+  // Unmatched roundups and update gaps (a step of a story both covered) are not missed stories.
   const count = (st, dup) => active.filter(s => s.status === st && isDup(s) === dup
-                                               && (dup || !s.roundup)).length;
+                                               && (dup || (!s.roundup && s.gap_kind !== "update"))).length;
   return {
     matched: matched.length,
     rotowire_first: rwFirst,

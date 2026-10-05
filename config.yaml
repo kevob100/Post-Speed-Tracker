@@ -6,6 +6,9 @@ sports:
     # Score each news development once (first post per side) instead of the closest
     # pair of posts. See src/develop.py.
     match_mode: developments
+    # Hype kinds counted as news anyway (err toward matching more). The post keeps its
+    # label as `borderline` so it can be reviewed. soundbite and other (clips) stay out.
+    include_hype_kinds: [rumor, in_game_note, non_fantasy]
     # One-time fetch of quote-tweet links for posts stored before collection kept them.
     reference_backfill_since: '2026-09-01'
     # NFL weeks run Tuesday to Monday. The 6am ET rollover keeps late Monday-night news

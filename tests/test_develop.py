@@ -304,8 +304,11 @@ def test_hour_rollup(tmp_path):
                                  season_weeks=WEEKS, rotowire_handle=RW)["hours"]
     assert len(hours) == 24
     assert hours[6] == {"hour": 6, "rotowire_posts": 1, "underdog_posts": 0, "matched": 1,
+                        "rotowire_all": 1, "underdog_all": 0,
                         "rotowire_first": 1, "median_lead_seconds": 3900.0}
+    # The hype post is left out of news posts but counted in all posts.
     assert hours[7] == {"hour": 7, "rotowire_posts": 0, "underdog_posts": 1, "matched": 1,
+                        "rotowire_all": 0, "underdog_all": 2,
                         "rotowire_first": 0, "median_lead_seconds": -420.0}
     assert sum(h["matched"] for h in hours) == 2
 
@@ -346,3 +349,30 @@ def test_single_team_list_is_not_a_roundup():
     jets = [{"name": n, "team": "New York Jets"} for n in ("Breece Hall", "Mason Taylor", "Adonai Mitchell")]
     assert not develop.is_roundup(jets)
     assert develop.is_roundup(jets + [{"name": "Garrett Wilson", "team": "New York Jets"}])
+
+
+def test_step_only_one_side_posted_is_an_update_gap(tmp_path):
+    # Both cover the injury; only Underdog posts "headed to locker room".
+    posts = [_post("ud_hurt", UD, 0), _post("rw_hurt", RW, 3), _post("ud_locker", UD, 8)]
+    s = _run(tmp_path, posts, FixedGrouper(["ud_hurt", "rw_hurt"], ["ud_locker"]))
+    locker = s["st_ud_locker"]
+    assert locker["status"] == "underdog_only" and locker["gap_kind"] == "update"
+    assert locker["other_side_near"]["tweet_id"] == "rw_hurt"
+    summary = agg._summary(list(s.values()))
+    assert summary["underdog_only"] == 0 and summary["underdog_update_only"] == 1
+
+
+def test_same_development_outside_window_is_not_an_update_gap(tmp_path):
+    posts = [_post("rw1", RW, 0), _post("rw2", RW, 80), _post("ud1", UD, 150)]
+    s = _run(tmp_path, posts, FixedGrouper(["rw1", "rw2", "ud1"]))
+    assert s["st_ud1"]["gap_kind"] != "update" and s["st_rw1"]["gap_kind"] != "update"
+
+
+def test_included_hype_kind_counts_as_news():
+    from src.classify import _apply
+    c = {"is_news": False, "excluded_reason": "hype", "hype_kind": "rumor",
+         "players": [{"name": "Joe Mixon", "team": None}], "player": "Joe Mixon"}
+    r = _apply({}, c, include_hype_kinds=frozenset({"rumor"}))
+    assert r["is_news"] and r["borderline"] == "rumor" and r["excluded_reason"] is None
+    r = _apply({}, {**c, "hype_kind": "soundbite"}, include_hype_kinds=frozenset({"rumor"}))
+    assert not r["is_news"] and r["excluded_reason"] == "hype"
