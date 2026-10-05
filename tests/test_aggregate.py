@@ -204,3 +204,17 @@ def test_stretch_reaches_back_for_enough_stories():
     win, start = _stretch(items, end, 7, 5)          # stretch back to 5 stories
     assert [v for _, v in win] == [30, 20, 3, 2, 1] and start == end - timedelta(days=30)
     assert _stretch(items, end, 7, 10) == ([], None)  # not enough history yet
+
+
+def test_audience_rotowire_account_impressions_by_week():
+    followers = [{"account": "rotowire", "date": "2026-10-01", "followers_count": 100},
+                 {"account": "underdog", "date": "2026-10-01", "followers_count": 300}]
+    x_daily = {"2026-04-06": {"new_follows": 1, "unfollows": 0, "impressions": 10},   # Mon
+               "2026-04-12": {"new_follows": 0, "unfollows": 0, "impressions": 5},    # Sun, same week
+               "2026-04-13": {"new_follows": 0, "unfollows": 0, "impressions": 7},    # next Mon
+               "2026-04-14": {"new_follows": 0, "unfollows": 0, "impressions": None}}
+    a = agg._audience([], [], followers, "RotoWireNFL", None, x_daily=x_daily)
+    assert a["rotowire_account_impressions"] == [
+        {"week": "2026-04-06", "impressions": 15, "days": 2},
+        {"week": "2026-04-13", "impressions": 7, "days": 1}]
+    assert agg._audience([], [], followers, "RotoWireNFL", None)["rotowire_account_impressions"] == []

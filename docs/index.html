@@ -279,9 +279,10 @@
   .a-track { flex: 1; min-width: 0; height: 16px; border-radius: 4px; background: var(--panel2); overflow: hidden; }
   .a-bar-fill { height: 16px; border-radius: 4px; background: var(--green); opacity: .5; }
   .a-bar-val { min-width: 48px; text-align: right; }
+  .a-finding { font-size: 16px; margin: 8px 0 0; }
+  .a-finding b { font-size: 20px; }
   .kpi-flag { color: var(--text); opacity: .75; margin-top: 6px; border-left: 2px solid var(--accent); padding-left: 8px; }
-  .a-kpis { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
-  @media (max-width: 960px) { .a-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
+  .a-kpis { grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)) !important; }
   .a-bar-fill.strong { opacity: 1; }
   .a-bar-val { font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .a-flag { border-left: 2px solid var(--accent); background: var(--panel2); padding: 6px 10px; border-radius: 0 6px 6px 0;
@@ -1892,6 +1893,7 @@ function renderAllTable() {
 
 // ---- audience (top switch): RotoWire's followers and impressions, then growth vs Underdog ----
 const AUD_MIN_POSTS = 20;             // a week with fewer posts on a side is too thin to compare
+const FOL_MIN_DAYS = 60;              // follower growth vs Underdog needs this many days counted on both
 
 function applyTopMode() {
   const isAll = state.sport === ALL || !state.agg;
@@ -1933,7 +1935,9 @@ function renderAudience() {
   const common = fr0.length && fu0.length ? [fr0[0].date, fu0[0].date].sort().pop() : null;
   const gainSince = (ser, d) => { const a0 = ser.find(p => p.date >= d), z = ser[ser.length - 1];
     return a0 && z && z.date > a0.date ? z.followers / a0.followers - 1 : null; };
-  const folR = common && gainSince(fr0, common), folU = common && gainSince(fu0, common);
+  const folDays = common && fr0.length ? (new Date(fr0[fr0.length - 1].date) - new Date(common)) / 864e5 : 0;
+  const folOk = folDays >= FOL_MIN_DAYS;
+  const folR = folOk ? gainSince(fr0, common) : null, folU = folOk ? gainSince(fu0, common) : null;
   // Impressions growth: each week's last 4 weeks of impressions vs the 4 weeks before
   // (complete weeks), so the comparison is about pace now, not an empty July baseline.
   const sum4 = (i, side) => weeks.slice(i - 3, i + 1).reduce((t, w) => t + (w[`${side}_total_views`] || 0), 0);
@@ -1957,28 +1961,38 @@ function renderAudience() {
       `${rwPrevAvg ? pctS(lastW.rotowire_total_views / rwPrevAvg - 1, 0) + " vs the 4 weeks before" : ""} · week of ${fmtD(lastW.week)}`) : ""}
     ${folR != null && folU != null ? kpi(`Follower growth since ${fmtD(common)}`, pctS(folR, 2), `UD ${pctS(folU, 2)}`) : ""}</div>`;
 
-  // RotoWire impressions per week (bars), with any 3x step in views per post named.
+  // RotoWire impressions per week (bars). With an X Analytics export this is every post on the
+  // account, back to the export's first week; without one, news posts since live collection started.
+  const acct = (a.rotowire_account_impressions || []).filter(w => w.days === 7);
+  const fromExport = acct.length > 0;
+  const bars = fromExport
+    ? acct.map(w => ({ week: w.week, v: w.impressions, thin: false,
+        tip: `Week of ${fmtD(w.week)}: ${num(w.impressions)} impressions on every RotoWire post (X Analytics)` }))
+    : weeks.map(w => ({ week: w.week, v: w.rotowire_total_views || 0, thin: w.thin,
+        tip: `Week of ${fmtD(w.week)}: ${num(w.rotowire_total_views || 0)} impressions on ${w.rotowire_posts || 0} news posts (median ${num(w.rotowire_median_views)} per post)` }));
   let impPanel = "";
-  if (weeks.length) {
+  if (bars.length) {
     const W = 1100, H = 230, m = { t: 14, r: 16, b: 28, l: 64 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
-    const max = Math.max(1, ...weeks.map(w => w.rotowire_total_views || 0)) * 1.1;
-    const step = [1e5, 2.5e5, 5e5, 1e6, 2.5e6, 5e6, 1e7].find(s => max / s <= 5) || 1e7;
-    const bw = iw / weeks.length, y = v => m.t + (1 - v / max) * ih;
+    const max = Math.max(1, ...bars.map(w => w.v)) * 1.1;
+    const step = [1e5, 2.5e5, 5e5, 1e6, 2.5e6, 5e6, 1e7, 2.5e7, 5e7, 1e8].find(s => max / s <= 5) || 1e8;
+    const bw = iw / bars.length, y = v => m.t + (1 - v / max) * ih;
     let svg = "";
     for (let v = 0; v <= max; v += step) svg += `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
       <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${kfmt(v)}</text>`;
-    const every = Math.max(1, Math.ceil(weeks.length / 14));
-    weeks.forEach((w, i) => {
-      const v = w.rotowire_total_views || 0, x0 = m.l + i * bw + 2, bh = Math.max(1, ih - (y(v) - m.t));
-      svg += `<rect class="a-col${w.thin ? " thin" : ""}" x="${x0}" y="${y(v)}" width="${Math.max(2, bw - 4)}" height="${bh}" rx="3">
-        <title>Week of ${fmtD(w.week)}: ${num(v)} impressions on ${w.rotowire_posts || 0} news posts (median ${num(w.rotowire_median_views)} per post)</title></rect>`;
-      if (i % every === 0 || i === weeks.length - 1)
+    const every = Math.max(1, Math.ceil(bars.length / 14));
+    bars.forEach((w, i) => {
+      const x0 = m.l + i * bw + 2, bh = Math.max(1, ih - (y(w.v) - m.t));
+      svg += `<rect class="a-col${w.thin ? " thin" : ""}" x="${x0}" y="${y(w.v)}" width="${Math.max(2, bw - 4)}" height="${bh}" rx="3">
+        <title>${esc(w.tip)}</title></rect>`;
+      if (i % every === 0 || i === bars.length - 1)
         svg += `<text class="t-tick" x="${m.l + i * bw + bw / 2}" y="${H - 8}" text-anchor="middle">${fmtD(w.week)}</text>`;
     });
     impPanel = `<div class="panel a-panel"><h3>RotoWire impressions per week</h3>
-      <p class="type-note">Views on RotoWire's news posts, counted once each post is ${a.mature_hours || 36} hours old (Monday weeks). Faded weeks have fewer than ${AUD_MIN_POSTS} posts.</p>
+      <p class="type-note">${fromExport
+        ? `Every RotoWire post, from the account's X Analytics export (Monday weeks, complete weeks only).`
+        : `Views on RotoWire's news posts since live collection started, counted once each post is ${a.mature_hours || 36} hours old (Monday weeks). Faded weeks have fewer than ${AUD_MIN_POSTS} posts. Dropping RotoWire's X Analytics export into the pipeline extends this back to April.`}</p>
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire impressions per week">${svg}</svg>
-      ${jump ? `<p class="a-flag">Week of ${fmtD(jump.w.week)}: median views per post jumped from ${kfmt(jump.p.rotowire_median_views)} to
+      ${jump ? `<p class="a-flag">Week of ${fmtD(jump.w.week)}: median views per news post jumped from ${kfmt(jump.p.rotowire_median_views)} to
         ${kfmt(jump.w.rotowire_median_views)} and stayed up. Worth confirming why before quoting these numbers.</p>` : ""}</div>`;
   }
 
@@ -2008,7 +2022,8 @@ function renderAudience() {
     folPanel = `<div class="panel a-panel"><h3>RotoWire followers</h3>
       <p class="type-note">${fr[0].source === "x_analytics"
         ? `Daily since ${fmtD(fr[0].date)}: from RotoWire's X Analytics export up to ${fmtD((fr.find(p => p.source !== "x_analytics") || fr[fr.length - 1]).date)}, counted by the pipeline after that. +${num(fr[fr.length - 1].followers - fr[0].followers)} over the period.`
-        : `Counted once a day since ${fmtD(fr[0].date)}${gr && gr.per_day != null ? `: +${num(gr.gained)} so far, about ${num(gr.per_day)} a day` : ""}.`}</p>
+        : `Counted once a day since ${fmtD(fr[0].date)}${gr && gr.per_day != null ? `: +${num(gr.gained)} so far, about ${num(gr.per_day)} a day` : ""}.`}
+        ${!folOk && common ? ` Underdog's count starts ${fmtD(common)}, so growth against it shows once both have ${FOL_MIN_DAYS} days.` : ""}</p>
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire followers over time">${svg}</svg></div>`;
   }
 
@@ -2021,13 +2036,13 @@ function renderAudience() {
       <div class="a-bar-track"><div class="a-track"><div class="a-bar-fill ${cls} strong" style="width:${(Math.max(0, v) / maxG * 100).toFixed(1)}%"></div></div>
       <span class="a-bar-val">${pctS(v, 0)}</span></div></div>`;
     impComp = `<div class="panel a-panel"><h3>Impressions growth vs Underdog</h3>
-      <p class="type-note">Impressions in the 4 weeks to ${fmtD(gNow.week)} vs the 4 weeks before. Growth rate, so the bigger account isn't favoured.</p>
+      <p class="type-note">News-post impressions in the 4 weeks to ${fmtD(gNow.week)} vs the 4 weeks before. Growth rate, so the bigger account isn't favoured. Both accounts are comparable from ${fmtD(weeks[0].week)}, when live collection started.</p>
       <div class="a-bars">${gbar("RotoWire", gNow.rw, "rw")}${gbar("Underdog", gNow.ud, "ud")}</div></div>`;
   }
   // Follower growth vs Underdog: percent gained since the first count, one line each.
   let folComp = "";
   const fu = fol.underdog || [];
-  if (common && fr.filter(p => p.date >= common).length > 1 && fu.filter(p => p.date >= common).length > 1) {
+  if (folOk && fr.filter(p => p.date >= common).length > 1 && fu.filter(p => p.date >= common).length > 1) {
     const W = 560, H = 210, m = { t: 14, r: 86, b: 28, l: 52 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
     const pctOf = ser => ser.map(p => ({ date: p.date, v: p.followers / ser[0].followers - 1 }));
     const pr = pctOf(fr.filter(p => p.date >= common)), pu = pctOf(fu.filter(p => p.date >= common)), dates = [...new Set([...pr, ...pu].map(p => p.date))].sort();
@@ -2049,21 +2064,21 @@ function renderAudience() {
       <p class="type-note">Percent gained since ${fmtD(common)}, the first day both were counted, so the bigger account isn't favoured. The higher line is growing faster.</p>
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Follower growth, RotoWire vs Underdog">${svg}</svg></div>`;
   }
-  const SH = [["rotowire_first", "RotoWire first"], ["tie", "Within 1 minute"], ["underdog_first", "Underdog first"],
-    ["underdog_first_10m", "Underdog first by 10+ min"]].filter(([k]) => h[k] && h[k].stories);
-  const sharePanel = SH.length ? `<div class="panel a-panel"><h3>Views on the same story, as a share of Underdog's</h3>
-    <p class="type-note">Matched stories by who posted first: the median of RotoWire's views ÷ Underdog's.</p>
-    <div class="a-bars">${SH.map(([k, label]) => { const r = h[k];
-      return `<div class="a-bar" title="${esc(`${label}: ${r.stories} stories. Median views RW ${num(r.rotowire_median_views)}, UD ${num(r.underdog_median_views)}`)}">
-        <div class="a-bar-lab">${label}<span class="bl">${num(r.stories)} stories</span></div>
-        <div class="a-bar-track"><div class="a-track"><div class="a-bar-fill rw${k === "underdog_first_10m" ? " strong" : ""}" style="width:${Math.min(100, r.rotowire_share * 100).toFixed(1)}%"></div></div>
-        <span class="a-bar-val">${(r.rotowire_share * 100).toFixed(0)}%</span></div></div>`; }).join("")}</div>
-    <p class="type-note" style="margin:8px 0 0">A full track would be the same views as Underdog.</p></div>` : "";
+  // Same story, both feeds: RotoWire's views as a fraction of Underdog's. One sentence, because
+  // the fraction barely moves with who posted first; it is a reach gap, not a speed gap.
+  const oneIn = r => r && r.rotowire_share ? `1/${Math.round(1 / r.rotowire_share)}` : null;
+  const shAll = oneIn(h.all), shFirst = oneIn(h.rotowire_first), shLate = oneIn(h.underdog_first_10m);
+  const sharePanel = shAll ? `<div class="panel a-panel"><h3>Views on the same story</h3>
+    <p class="a-finding">On a story both accounts posted, RotoWire gets about <b>${shAll}</b> of Underdog's views${shFirst
+      ? `, ${shFirst === shAll ? "the same" : shFirst} when RotoWire posts first` : ""}${shLate ? `; ${shLate} when Underdog is 10+ minutes faster` : ""}.</p>
+    <p class="type-note" style="margin:6px 0 0">Median of RotoWire's views ÷ Underdog's over ${num(h.all.stories)} matched stories
+      (RotoWire first ${num((h.rotowire_first || {}).stories || 0)}, Underdog first by 10+ min ${num((h.underdog_first_10m || {}).stories || 0)}).
+      Posting first barely changes it, so the gap is reach, not speed.</p></div>` : "";
 
   el.innerHTML = `${kpis}
     <div class="a-grid one">${folPanel}${impPanel}</div>
     <h3 class="a-sub">Compared with Underdog</h3>
-    <div class="a-grid">${impComp}${folComp}</div>
+    <div class="a-grid${impComp && folComp ? "" : " one"}">${impComp}${folComp}</div>
     ${sharePanel ? `<div class="a-grid one">${sharePanel}</div>` : ""}`;
   applyTopMode();
 }
