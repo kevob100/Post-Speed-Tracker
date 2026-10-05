@@ -66,3 +66,13 @@ def test_x_analytics_skips_all_zero_padding_rows(tmp_path):
         '"Sun, Oct 4, 2026",0,0,0\n')
     daily = x_analytics.load_daily(tmp_path)
     assert list(daily) == ["2026-10-05"]
+
+
+def test_x_analytics_keeps_extra_metrics(tmp_path):
+    from src import x_analytics
+    (tmp_path / "a.csv").write_text(
+        'Date,Impressions,Likes,Engagements,New follows,Unfollows,Profile visits,Create Post\n'
+        '"Mon, Oct 5, 2026",100,7,9,5,1,12,3\n')
+    row = x_analytics.load_daily(tmp_path)["2026-10-05"]
+    assert (row["likes"], row["engagements"], row["profile_visits"], row["posts"]) == (7, 9, 12, 3)
+    assert "video_views" not in row

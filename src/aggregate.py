@@ -563,15 +563,18 @@ def _audience(stories: list[dict], tweets: list[dict], followers: list[dict], rw
                         "per_day": round(gained / days, 1) if days else None}
     # RotoWire's account-wide impressions per Monday week, from its X Analytics export (every
     # post, not just news), so its own trend reaches back before live collection started.
+    # Every numeric column the export has (likes, profile visits, new follows...) is summed too.
     acct_weeks: dict[str, dict] = {}
     for d, row in sorted((x_daily or {}).items()):
         if row.get("impressions") is None:
             continue
         day = datetime.fromisoformat(d).date()
         wk = (day - timedelta(days=day.weekday())).isoformat()
-        w = acct_weeks.setdefault(wk, {"week": wk, "impressions": 0, "days": 0})
-        w["impressions"] += row["impressions"]
+        w = acct_weeks.setdefault(wk, {"week": wk, "days": 0})
         w["days"] += 1
+        for k, v in row.items():
+            if isinstance(v, (int, float)):
+                w[k] = w.get(k, 0) + v
     return {"followers": series, "growth": growth, "views_by_week": views, "head_to_head": h2h,
             "rotowire_account_impressions": list(acct_weeks.values()), "mature_hours": MATURE_HOURS}
 

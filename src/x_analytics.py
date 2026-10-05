@@ -17,6 +17,12 @@ from datetime import date, datetime, timedelta
 from pathlib import Path
 
 
+# Extra account-overview columns (normalised header -> field name).
+METRICS = {"engagements": "engagements", "likes": "likes", "replies": "replies", "reposts": "reposts",
+           "bookmarks": "bookmarks", "shares": "shares", "profile_visits": "profilevisits",
+           "posts": "createpost", "video_views": "videoviews", "media_views": "mediaviews"}
+
+
 def _key(h: str) -> str:
     return re.sub(r"[^a-z]", "", (h or "").lower())
 
@@ -42,7 +48,7 @@ def _int(v) -> int:
 
 
 def load_daily(folder: Path) -> dict[str, dict]:
-    """{YYYY-MM-DD: {new_follows, unfollows, impressions}} from every CSV in folder."""
+    """{YYYY-MM-DD: {new_follows, unfollows, impressions, ...METRICS}} from every CSV in folder."""
     out: dict[str, dict] = {}
     for path in sorted(folder.glob("*.csv")):
         with path.open(newline="", encoding="utf-8-sig") as f:
@@ -59,6 +65,8 @@ def load_daily(folder: Path) -> dict[str, dict]:
                     "new_follows": _int(r.get("newfollows") or r.get("follows") or r.get("newfollowers")),
                     "unfollows": _int(r.get("unfollows")),
                     "impressions": _int(r.get("impressions")) if r.get("impressions") not in (None, "") else None,
+                    # Everything else the account overview reports, kept when the column exists.
+                    **{name: _int(r[col]) for name, col in METRICS.items() if r.get(col) not in (None, "")},
                 }
     return out
 

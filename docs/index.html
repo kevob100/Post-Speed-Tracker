@@ -279,6 +279,11 @@
   .a-track { flex: 1; min-width: 0; height: 16px; border-radius: 4px; background: var(--panel2); overflow: hidden; }
   .a-bar-fill { height: 16px; border-radius: 4px; background: var(--green); opacity: .5; }
   .a-bar-val { min-width: 48px; text-align: right; }
+  .f-dot { fill: var(--accent); stroke: var(--panel); stroke-width: 2; pointer-events: none; }
+  .f-mark { fill: var(--text); }
+  .f-mark-name { fill: var(--text); font-size: 12px; font-weight: 650; }
+  .f-mark-date { fill: var(--muted); font-size: 12px; }
+  .acct-seg { flex-wrap: wrap; max-width: 100%; }
   .f-jump { fill: var(--green); stroke: var(--panel); stroke-width: 2; }
   .a-finding { font-size: 16px; margin: 8px 0 0; }
   .a-finding b { font-size: 20px; }
@@ -1967,16 +1972,23 @@ function renderAudience() {
   // account, back to the export's first week; without one, news posts since live collection started.
   const acct = (a.rotowire_account_impressions || []).filter(w => w.days === 7);
   const fromExport = acct.length > 0;
+  // Any account-overview metric the export carries can be charted; impressions by default.
+  const ACCT_METRICS = [["impressions", "Impressions"], ["engagements", "Engagements"], ["likes", "Likes"],
+    ["reposts", "Reposts"], ["replies", "Replies"], ["profile_visits", "Profile visits"],
+    ["new_follows", "New follows"], ["posts", "Posts"]].filter(([k]) => acct.some(w => w[k] != null));
+  const metric = ACCT_METRICS.some(([k]) => k === state.acctMetric) ? state.acctMetric : "impressions";
+  const metricLabel = (ACCT_METRICS.find(([k]) => k === metric) || [, "Impressions"])[1];
   const bars = fromExport
-    ? acct.map(w => ({ week: w.week, v: w.impressions, thin: false,
-        tip: `Week of ${fmtD(w.week)}: ${num(w.impressions)} impressions on every RotoWire post (X Analytics)` }))
+    ? acct.map(w => ({ week: w.week, v: w[metric] || 0, thin: false,
+        tip: `Week of ${fmtD(w.week)}: ${num(w[metric] || 0)} ${metricLabel.toLowerCase()} (X Analytics)` }))
     : weeks.map(w => ({ week: w.week, v: w.rotowire_total_views || 0, thin: w.thin,
         tip: `Week of ${fmtD(w.week)}: ${num(w.rotowire_total_views || 0)} impressions on ${w.rotowire_posts || 0} news posts (median ${num(w.rotowire_median_views)} per post)` }));
   let impPanel = "";
   if (bars.length) {
     const W = 1100, H = 230, m = { t: 14, r: 16, b: 28, l: 64 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
     const max = Math.max(1, ...bars.map(w => w.v)) * 1.1;
-    const step = [1e5, 2.5e5, 5e5, 1e6, 2.5e6, 5e6, 1e7, 2.5e7, 5e7, 1e8].find(s => max / s <= 5) || 1e8;
+    const step = [10, 25, 50, 100, 250, 500, 1e3, 2.5e3, 5e3, 1e4, 2.5e4, 5e4, 1e5, 2.5e5, 5e5, 1e6, 2.5e6, 5e6, 1e7, 2.5e7, 5e7, 1e8]
+      .find(s => max / s <= 5) || 1e8;
     const bw = iw / bars.length, y = v => m.t + (1 - v / max) * ih;
     let svg = "";
     for (let v = 0; v <= max; v += step) svg += `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
@@ -1989,12 +2001,14 @@ function renderAudience() {
       if (i % every === 0 || i === bars.length - 1)
         svg += `<text class="t-tick" x="${m.l + i * bw + bw / 2}" y="${H - 8}" text-anchor="middle">${fmtD(w.week)}</text>`;
     });
-    impPanel = `<div class="panel a-panel"><h3>RotoWire impressions per week</h3>
+    impPanel = `<div class="panel a-panel"><div class="trend-head"><div><h3>RotoWire ${fromExport ? metricLabel.toLowerCase() : "impressions"} per week</h3>
       <p class="type-note">${fromExport
-        ? `Every RotoWire post, from the account's X Analytics export (Monday weeks, complete weeks only).`
-        : `Views on RotoWire's news posts since live collection started, counted once each post is ${a.mature_hours || 36} hours old (Monday weeks). Faded weeks have fewer than ${AUD_MIN_POSTS} posts. Dropping RotoWire's X Analytics export into the pipeline extends this back to April.`}</p>
+        ? `The whole account, from its X Analytics export (Monday weeks, complete weeks only).`
+        : `Views on RotoWire's news posts since live collection started, counted once each post is ${a.mature_hours || 36} hours old (Monday weeks). Faded weeks have fewer than ${AUD_MIN_POSTS} posts. Dropping RotoWire's X Analytics export into the pipeline extends this back to April.`}</p></div>
+      ${fromExport && ACCT_METRICS.length > 1 ? `<div class="seg acct-seg" role="group" aria-label="Metric">${ACCT_METRICS.map(([k, l]) =>
+        `<button type="button" data-k="${k}" class="${k === metric ? "on" : ""}" aria-pressed="${k === metric}">${l}</button>`).join("")}</div>` : ""}</div>
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire impressions per week">${svg}</svg>
-      ${jump ? `<p class="a-flag">Week of ${fmtD(jump.w.week)}: median views per news post jumped from ${kfmt(jump.p.rotowire_median_views)} to
+      ${jump && metric === "impressions" ? `<p class="a-flag">Week of ${fmtD(jump.w.week)}: median views per news post jumped from ${kfmt(jump.p.rotowire_median_views)} to
         ${kfmt(jump.w.rotowire_median_views)} and stayed up. Worth confirming why before quoting these numbers.</p>` : ""}</div>`;
   }
 
@@ -2003,8 +2017,8 @@ function renderAudience() {
   let folLead = "", folPanel = "";
   const fr = fol.rotowire || [];
   if (fr.length > 1) {
-    const W = Math.max(300, (el.clientWidth || 1100) - 28), H = 280, narrow = W < 560;
-    const m = { t: 16, r: narrow ? 52 : 64, b: 30, l: narrow ? 52 : 64 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const W = Math.max(300, (el.clientWidth || 1100) - 28), H = 310, narrow = W < 560;
+    const m = { t: 52, r: narrow ? 52 : 64, b: 30, l: narrow ? 52 : 64 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
     const t = d => new Date(d + "T12:00:00Z").getTime();
     const t0 = t(fr[0].date), t1 = Math.max(t(fr[fr.length - 1].date), t0 + 86400e3);
     const hiV = Math.max(...fr.map(p => p.followers)), loV = Math.min(...fr.map(p => p.followers));
@@ -2024,26 +2038,25 @@ function renderAudience() {
       const iso = d.toISOString().slice(0, 10);
       const lab = d.toLocaleDateString("en-US", { month: "short", timeZone: "UTC" }) + (i === 0 || d.getUTCMonth() === 0 ? ` '${String(d.getUTCFullYear()).slice(2)}` : "");
       xt += `<text class="t-tick" x="${x(iso)}" y="${H - 8}" text-anchor="middle">${lab}</text>`; });
-    // News-system milestones (same names as the Timing chart), first era shaded. Labels sit just
-    // above the flat early line, clear of the late jumps at the top right.
+    // News-system milestones in their own label lane above the plot: short name with the date
+    // under it, and a dot where the dashed line starts. A label runs right of its line unless
+    // that would run off the edge, then it runs left.
     const eras = state.agg.eras || [];
-    const marks = (state.agg.milestones || []).filter(ms => t(ms.date) >= t0 && t(ms.date) <= t1)
-      .map(ms => ({ ...ms, label: (eras.find(e => e.from === ms.date) || {}).label || ms.label }));
-    const mText = mk => narrow ? fmtD(mk.date) : `${mk.label} · ${fmtD(mk.date)}`;
-    const placed = [];
-    marks.forEach(mk => {
-      const w = mText(mk).length * 7, px = x(mk.date);
-      mk.end = px + 6 + w > W - m.r;
-      const [a0, a1] = mk.end ? [px - 6 - w, px - 6] : [px + 6, px + 6 + w];
-      let r = 0; while (placed.some(p => p.row === r && a0 < p.a1 + 8 && a1 > p.a0 - 8)) r++;
-      mk.row = r; placed.push({ row: r, a0, a1 });
-    });
-    const markSvg = marks.map(mk => `<line class="t-mark" x1="${x(mk.date)}" x2="${x(mk.date)}" y1="${m.t}" y2="${m.t + ih}"/>
-      <text class="t-mark-label halo" x="${x(mk.date) + (mk.end ? -6 : 6)}" y="${m.t + ih - 22 - mk.row * 16}" text-anchor="${mk.end ? "end" : "start"}">${esc(mText(mk))}</text>`).join("");
+    const marks = (state.agg.milestones || []).filter(ms => t(ms.date) >= t0 && t(ms.date) <= t1);
+    const markSvg = marks.map(mk => {
+      const px = x(mk.date), w = narrow ? 44 : Math.max(mk.label.length, 6) * 7;
+      const right = px + 8 + w <= W - 4;
+      const anchor = right ? "start" : "end", dx = right ? 8 : -8;
+      return `<line class="t-mark" x1="${px}" x2="${px}" y1="${m.t - 10}" y2="${m.t + ih}"/>
+      <circle class="f-mark" cx="${px}" cy="${m.t - 10}" r="3.5"/>
+      ${narrow ? "" : `<text class="f-mark-name" x="${px + dx}" y="${m.t - 28}" text-anchor="${anchor}">${esc(mk.label)}</text>`}
+      <text class="f-mark-date" x="${px + dx}" y="${m.t - 14}" text-anchor="${anchor}">${fmtD(mk.date)}</text>`; }).join("");
     const e0 = eras[0];
     const band = e0 && e0.until && t(e0.until) > t0
       ? (() => { const bx = e0.first && t(e0.first) > t0 ? x(e0.first) : m.l;
-          return `<rect class="t-band" x="${bx}" y="${m.t}" width="${Math.min(x(e0.until), W - m.r) - bx}" height="${ih}"/>`; })() : "";
+          const bw = Math.min(x(e0.until), W - m.r) - bx;
+          return `<rect class="t-band" x="${bx}" y="${m.t}" width="${bw}" height="${ih}"/>${bw > 150
+            ? `<text class="f-mark-date" x="${bx + bw / 2}" y="${m.t + 18}" text-anchor="middle">${esc(e0.label)}</text>` : ""}`; })() : "";
     // Single-day jumps of 10k+ (consecutive days merged), labelled on the line.
     const jumps = [];
     fr.forEach((p, i) => { if (!i) return; const g = p.followers - fr[i - 1].followers;
@@ -2054,7 +2067,10 @@ function renderAudience() {
     const jumpSvg = jumps.map(j => `<circle class="f-jump" cx="${x(j.top.date)}" cy="${y(j.top.followers)}" r="4"/>
       <text class="t-band-label halo" x="${x(j.top.date) - 8}" y="${y(j.top.followers) + 4}" text-anchor="end">+${kfmt(j.gain)}${narrow ? "" : " " + (j.from === j.to ? fmtD(j.from) : fmtD(j.from) + "–" + fmtD(j.to).replace(/^\w+ /, ""))}</text>`).join("");
     const path = `<path class="t-line" d="${fr.map((p, i) => `${i ? "L" : "M"}${x(p.date).toFixed(1)},${y(p.followers).toFixed(1)}`).join("")}"/>`;
-    const hitsF = fr.map(p => `<circle class="t-hit" cx="${x(p.date)}" cy="${y(p.followers)}" r="6"><title>${fmtD(p.date)}: ${num(p.followers)} followers${p.source === "x_analytics" ? " (from X Analytics)" : ""}</title></circle>`).join("");
+    // Hover: one overlay picks the nearest day; crosshair, dot and tooltip follow it.
+    const hitsF = `<line class="t-cross hidden" y1="${m.t}" y2="${m.t + ih}"/><circle class="f-dot hidden" r="4"/>
+      <rect class="t-hit f-hit" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}"/>`;
+    state.folHover = { fr, x, y, m, iw, t0, t1, W };
     const lp = fr[fr.length - 1];
     const end = `<text class="t-end" x="${x(lp.date) + 8}" y="${y(lp.followers) + 4}">${kfmt(lp.followers)}</text>`;
     const fromExport = fr[0].source === "x_analytics";
@@ -2067,10 +2083,10 @@ function renderAudience() {
       <p>Since ${fmtY(fr[0].date)}${jumps.length && total > 0 ? `; ${Math.round(jumpGain / total * 100)}% of the gain came on ${jumps.length === 1 ? "one jump" : jumps.length + " jumps"} marked on the chart` : ""}.</p></section>`;
     folPanel = `<div class="panel a-panel"><h3>Followers over time</h3>
       <p class="type-note">${fromExport
-        ? `Daily, from RotoWire's X Analytics export (new follows minus unfollows, walked back from the first real count) up to ${fmtD((fr.find(p => p.source !== "x_analytics") || lp).date)}, then counted by the pipeline. Dashed lines are the news-system milestones on the Timing chart.`
+        ? `Daily, from RotoWire's X Analytics export (new follows minus unfollows, walked back from the first real count) up to ${fmtD((fr.find(p => p.source !== "x_analytics") || lp).date)}, then counted by the pipeline. Marked: the news-system milestones from the Timing chart.`
         : `Counted once a day since ${fmtD(fr[0].date)}.`}${!folOk && common ? ` Underdog's count starts ${fmtD(common)}, so growth against it shows once both have ${FOL_MIN_DAYS} days.` : ""}</p>
       <div class="trend-plot"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire followers over time, ${kfmt(fr[0].followers)} to ${kfmt(lp.followers)}">
-        ${band}${grid}${xt}${markSvg}${path}${jumpSvg}${end}${hitsF}</svg></div></div>`;
+        ${band}${grid}${xt}${markSvg}${path}${jumpSvg}${end}${hitsF}</svg><div class="t-tip hidden"></div></div></div>`;
   }
 
   // Comps: impressions growth vs Underdog, the latest 4 weeks vs the 4 before, one bar each.
@@ -2126,7 +2142,40 @@ function renderAudience() {
     <h3 class="a-sub">Compared with Underdog</h3>
     <div class="a-grid${impComp && folComp ? "" : " one"}">${impComp}${folComp}</div>
     ${sharePanel ? `<div class="a-grid one">${sharePanel}</div>` : ""}`;
+  wireFollowerHover(el);
+  el.querySelectorAll(".acct-seg button").forEach(b => b.onclick = () => { state.acctMetric = b.dataset.k; renderAudience(); });
   applyTopMode();
+}
+
+// Tooltip on the follower chart: date, followers, that day's change, and where the count came from.
+function wireFollowerHover(root) {
+  const fh = state.folHover, hit = root.querySelector(".f-hit");
+  if (!fh || !hit) return;
+  const svg = hit.ownerSVGElement, plot = svg.parentElement;
+  const tip = plot.querySelector(".t-tip"), cross = svg.querySelector(".t-cross"), dot = svg.querySelector(".f-dot");
+  const fmtY = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric", year: "numeric", timeZone: "UTC" });
+  const show = ev => {
+    const r = svg.getBoundingClientRect();
+    const px = (ev.touches ? ev.touches[0].clientX : ev.clientX) - r.left;
+    const tAt = fh.t0 + (px - fh.m.l) / fh.iw * (fh.t1 - fh.t0);
+    let i = 0, best = Infinity;
+    fh.fr.forEach((p, k) => { const d = Math.abs(new Date(p.date + "T12:00:00Z").getTime() - tAt); if (d < best) { best = d; i = k; } });
+    const p = fh.fr[i], prev = fh.fr[i - 1], cx = fh.x(p.date), cy = fh.y(p.followers);
+    cross.setAttribute("x1", cx); cross.setAttribute("x2", cx); cross.classList.remove("hidden");
+    dot.setAttribute("cx", cx); dot.setAttribute("cy", cy); dot.classList.remove("hidden");
+    const g = prev ? p.followers - prev.followers : null;
+    tip.innerHTML = `<b>${fmtY(p.date)}</b><div>${p.followers.toLocaleString("en-US")} followers</div>
+      ${g != null ? `<div>${g >= 0 ? "+" : "−"}${Math.abs(g).toLocaleString("en-US")} that day</div>` : ""}
+      <div class="bl">${p.source === "x_analytics" ? "From X Analytics" : "Counted by the pipeline"}</div>`;
+    tip.classList.remove("hidden");
+    tip.style.left = Math.min(Math.max(cx - tip.offsetWidth / 2, 0), fh.W - tip.offsetWidth) + "px";
+    tip.style.top = (fh.m.t + 6) + "px";
+  };
+  const hide = () => { tip.classList.add("hidden"); cross.classList.add("hidden"); dot.classList.add("hidden"); };
+  hit.addEventListener("mousemove", show);
+  hit.addEventListener("touchstart", show, { passive: true });
+  hit.addEventListener("touchmove", show, { passive: true });
+  hit.addEventListener("mouseleave", hide);
 }
 
 // ---- tabs + init ----
