@@ -26,7 +26,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from . import develop, games, practice, staffing
+from . import develop, focus, games, practice, staffing
 from .config import DATA_DIR, DOCS_DATA_DIR
 from .news_type import LABELS as NEWS_TYPE_LABELS
 from .news_type import news_type
@@ -436,6 +436,83 @@ def _headline(stories: list[dict], now: datetime, days: int = HEADLINE_DAYS,
     }
 
 
+MATURE_HOURS = 36   # impressions captured within this long of posting are comparable
+
+
+def _mature_views(t: dict | None) -> int | None:
+    """A post's impressions if they were frozen at a comparable age (12-36h after posting).
+    Posts filled in by the archive backfill were measured weeks later and are left out."""
+    if not t or not t.get("metrics_frozen_at"):
+        return None
+    age = (datetime.fromisoformat(t["metrics_frozen_at"]) - parse_dt(t["created_at"])).total_seconds()
+    v = (t.get("public_metrics") or {}).get("impression_count")
+    return v if age < MATURE_HOURS * 3600 else None
+
+
+def _audience(stories: list[dict], tweets: list[dict], followers: list[dict], rw_handle: str,
+              weeks_cfg: dict | None, tie_s: int = TIE_SECONDS) -> dict:
+    """Followers, views per news post by week, and views on head-to-head stories."""
+    tz = ZoneInfo((weeks_cfg or {}).get("timezone") or "America/New_York")
+    side = lambda t: "rotowire" if t.get("account") == rw_handle else "underdog"  # noqa: E731
+
+    # Weekly median views per news post (Monday weeks, ET).
+    weeks: dict[str, dict[str, list[int]]] = {}
+    for t in tweets:
+        v = _mature_views(t) if t.get("is_news") else None
+        if v is None:
+            continue
+        d = parse_dt(t["created_at"]).astimezone(tz).date()
+        wk = (d - timedelta(days=d.weekday())).isoformat()
+        weeks.setdefault(wk, {"rotowire": [], "underdog": []})[side(t)].append(v)
+    views = []
+    for wk in sorted(weeks):
+        row = {"week": wk}
+        for k, vs in weeks[wk].items():
+            row[f"{k}_posts"] = len(vs)
+            row[f"{k}_median_views"] = round(statistics.median(vs)) if vs else None
+            row[f"{k}_total_views"] = sum(vs)
+        views.append(row)
+
+    # Head to head: the same story on both feeds, by who posted first.
+    by_id = {t["id"]: t for t in tweets}
+    buckets: dict[str, list[tuple[int, int]]] = {"rotowire_first": [], "tie": [], "underdog_first": [],
+                                                  "underdog_first_10m": []}
+    for s in stories:
+        if not _is_active(s) or s.get("status") != "matched" or s.get("time_delta_seconds") is None:
+            continue
+        r = _mature_views(by_id.get(s["rotowire"]["tweet_id"]))
+        u = _mature_views(by_id.get(s["underdog"]["tweet_id"]))
+        if r is None or not u:
+            continue
+        d = s["time_delta_seconds"]
+        key = "rotowire_first" if d > tie_s else "underdog_first" if d < -tie_s else "tie"
+        buckets[key].append((r, u))
+        if d < -600:
+            buckets["underdog_first_10m"].append((r, u))
+    h2h = {k: {"stories": len(v),
+               "rotowire_median_views": round(statistics.median(x for x, _ in v)) if v else None,
+               "underdog_median_views": round(statistics.median(y for _, y in v)) if v else None,
+               "rotowire_share": round(statistics.median(x / y for x, y in v), 4) if v else None}
+           for k, v in buckets.items()}
+
+    # Followers: daily snapshots per account (history starts when collection did).
+    series: dict[str, list[dict]] = {}
+    for f in followers:
+        series.setdefault(f["account"], []).append({"date": f["date"], "followers": f["followers_count"]})
+    growth = {}
+    for acct, pts in series.items():
+        pts.sort(key=lambda p: p["date"])
+        first, last = pts[0], pts[-1]
+        days = (datetime.fromisoformat(last["date"]) - datetime.fromisoformat(first["date"])).days
+        gained = last["followers"] - first["followers"]
+        growth[acct] = {"first_date": first["date"], "last_date": last["date"], "days": days,
+                        "followers": last["followers"], "gained": gained,
+                        "gained_rate": round(gained / first["followers"], 5) if first["followers"] else None,
+                        "per_day": round(gained / days, 1) if days else None}
+    return {"followers": series, "growth": growth, "views_by_week": views, "head_to_head": h2h,
+            "mature_hours": MATURE_HOURS}
+
+
 def _eras(stories: list[dict], eras: list[dict], rotowire_handle: str | None,
           tweets: list[dict]) -> list[dict]:
     """One summary row per era ({label, from?, until?}, US Eastern dates, until exclusive),
@@ -529,6 +606,20 @@ def build_aggregates(
         aggregates["practice"] = practice.rollup(
             data_dir, rotowire_handle, phases, datetime.now(ZoneInfo("UTC")),
             alias=develop.spelling_aliases(news, rotowire_handle))
+
+    # Focus areas: which kinds of news cost RotoWire the most (NFL wording rules).
+    if rotowire_handle and season_weeks:
+        tw_by_id = {t["id"]: t for t in load_jsonl(data_dir / "tweets.jsonl")}
+        aggregates["focus"] = focus.rollup(stories, _story_time, datetime.now(ZoneInfo("UTC")),
+                                           _mature_views, tw_by_id)
+
+    # Audience: followers, views per post, views on head-to-head stories.
+    if rotowire_handle:
+        followers = load_jsonl(data_dir / "followers.jsonl")
+        aggregates["audience"] = _audience(
+            [s for s in stories if not season_weeks or _story_time(s) >= datetime.fromisoformat(
+                str(season_weeks["start"])).replace(tzinfo=ZoneInfo("America/New_York")) - timedelta(days=42)],
+            load_jsonl(data_dir / "tweets.jsonl"), followers, rotowire_handle, season_weeks)
 
     # Before / after comparison (sports.<sport>.eras).
     if eras:

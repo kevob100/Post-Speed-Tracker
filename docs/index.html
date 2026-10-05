@@ -187,6 +187,28 @@
   .strip .s-tick { font-size: 10.5px; color: var(--muted); text-align: center; }
   .small-n { color: var(--muted); font-size: 11px; margin-left: 6px; }
   .bl { color: var(--muted); font-size: 11.5px; }
+
+  /* focus areas */
+  .focus-callout { margin: -6px 0 20px; font-size: 13px; color: var(--muted); }
+  .focus-callout b { color: var(--text); }
+  .focus-callout a { cursor: pointer; }
+  details.fg { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; margin: 0 0 10px; }
+  details.fg > summary { list-style: none; cursor: pointer; padding: 12px 14px; display: flex; flex-wrap: wrap;
+    align-items: baseline; gap: 4px 14px; }
+  details.fg > summary::-webkit-details-marker { display: none; }
+  details.fg > summary h3 { font-size: 14px; margin: 0; }
+  details.fg > summary .fg-rank { color: var(--muted); font-variant-numeric: tabular-nums; }
+  details.fg > summary .fg-stats { color: var(--muted); font-size: 12.5px; }
+  details.fg[open] > summary { border-bottom: 1px solid var(--line); }
+  .fg-body { padding: 12px 14px 14px; }
+  .fg-body h4 { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin: 4px 0 8px; }
+  .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
+  @media (max-width: 760px) { .pair { grid-template-columns: 1fr; } }
+  .tweet { background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; font-size: 13px; }
+  .tweet .who { font-size: 11.5px; color: var(--muted); margin-bottom: 4px; display: flex; justify-content: space-between; gap: 8px; }
+  .tweet .who b { color: var(--text); }
+  .tweet .txt { white-space: pre-line; }
+  .tweet.none { color: var(--muted); font-style: italic; }
   tr.gw-row.on td { background: var(--panel2); }
   .hours-table summary { color: var(--accent); cursor: pointer; font-size: 12.5px; margin-bottom: 8px; }
 
@@ -248,10 +270,12 @@
 
   <!-- Per-sport views (shown when a single sport is selected) -->
   <div class="kpis" id="kpis"></div>
+  <p class="focus-callout" id="focus-callout"></p>
   <section class="panel trend" id="trend"></section>
 
   <div class="tabs" id="tabs">
     <div class="tab active" data-view="feed">Story Feed</div>
+    <div class="tab hidden" data-view="focus" id="tab-focus">Focus areas</div>
     <div class="tab" data-view="weekly">Weekly</div>
     <div class="tab hidden" data-view="types" id="tab-types">By news type</div>
     <div class="tab hidden" data-view="hours" id="tab-hours">By time of day</div>
@@ -279,6 +303,7 @@
     <div id="feed-wrap"></div>
   </section>
 
+  <section id="view-focus" class="hidden"></section>
   <section id="view-weekly" class="hidden"></section>
   <section id="view-types" class="hidden"></section>
   <section id="view-hours" class="hidden"></section>
@@ -380,6 +405,7 @@ async function loadAll() {
 function setMode(isAll) {
   document.getElementById("view-all").classList.toggle("hidden", !isAll);
   document.getElementById("kpis").classList.toggle("hidden", isAll);
+  document.getElementById("focus-callout").classList.toggle("hidden", isAll);
   document.getElementById("trend").classList.toggle("hidden", isAll);
   document.getElementById("tabs").classList.toggle("hidden", isAll);
   if (isAll) {
@@ -390,7 +416,7 @@ function setMode(isAll) {
   }
 }
 
-const VIEWS = ["feed","weekly","types","hours","staff","games","practice","monthly","custom","gaps","dups"];
+const VIEWS = ["feed","focus","weekly","types","hours","staff","games","practice","monthly","custom","gaps","dups"];
 
 // ---- formatting helpers ----
 const pad = n => String(n).padStart(2, "0");
@@ -525,6 +551,12 @@ function renderKpis() {
       "Real stories RotoWire posted and Underdog never matched")}
     ${tile("Typical margin", fmtMargin(h.median_lead_seconds), "median of matched stories",
       "UD +1:50 means Underdog was typically 1:50 faster on the stories both posted")}`;
+  const top = ((state.agg.focus || {}).groups || []).slice(0, 3);
+  const call = document.getElementById("focus-callout");
+  if (call) call.innerHTML = top.length ? `Focus on: ${top.map(g => `<b>${esc(g.label)}</b>`).join(", ")}.
+    <a id="focus-link">See examples →</a>` : "";
+  const link = document.getElementById("focus-link");
+  if (link) link.onclick = () => { showView("focus"); document.getElementById("tabs").scrollIntoView({ behavior: "smooth" }); };
 }
 
 // ---- feed ----
@@ -1070,6 +1102,58 @@ function renderPractice() {
     <p class="type-note">Times link to the tweet; hover for its text.</p>`;
 }
 
+// ---- focus areas: which kinds of news cost RotoWire the most (recomputed every run) ----
+function tweetCard(who, handle, side, extra) {
+  if (!side) return `<div class="tweet none">${who}: no post</div>`;
+  const when = new Date(side.created_at).toLocaleString("en-US", { timeZone: "America/New_York",
+    month: "numeric", day: "numeric", hour: "numeric", minute: "2-digit" });
+  return `<div class="tweet"><div class="who"><b>${who}</b><span>${when} ET${extra ? " · " + extra : ""}</span></div>
+    <div class="txt"><a href="${tweetUrl(handle, side.tweet_id)}" target="_blank" rel="noopener">${esc(side.text)}</a></div></div>`;
+}
+
+function renderFocus() {
+  const fa = state.agg.focus || {};
+  const groups = fa.groups || [];
+  document.getElementById("tab-focus").classList.toggle("hidden", !groups.length);
+  const el = document.getElementById("view-focus");
+  if (!groups.length) { el.innerHTML = ""; return; }
+  const since = new Date(fa.since + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  const views = v => v == null ? "—" : v >= 1000 ? `${Math.round(v / 1000)}k` : v;
+  const rows = groups.map(g => `<tr><td class="num">${g.rank}</td><td>${esc(g.label)}</td>
+    <td class="num">${g.matched}</td><td class="num">${fmtMargin(g.median_lead_seconds)}</td>
+    <td class="num">${g.rotowire_first} <span class="bl">${fmtPct(g.matched ? g.rotowire_first / g.matched : null)}</span></td>
+    <td class="num">${fmtPct(g.share_of_time_behind)}</td>
+    <td class="num">${g.missed} <span class="bl">${fmtPct(g.missed_rate)}</span></td>
+    <td class="num">${g.steps_skipped}</td><td class="num">${views(g.underdog_median_views)}</td></tr>`).join("");
+  const section = (g, open) => {
+    const pairs = g.slowest.map(x => `<div class="pair">
+        ${tweetCard("Underdog", state.handles.underdog, x.underdog, "first")}
+        ${tweetCard("RotoWire", state.handles.rotowire, x.rotowire, fmtMargin(x.delta_seconds))}</div>`).join("");
+    const misses = g.recent_misses.map(x => `<div class="pair">
+        ${tweetCard("Underdog", state.handles.underdog, x.underdog, "")}
+        <div class="tweet none">RotoWire: no post on this</div></div>`).join("");
+    return `<details class="fg"${open ? " open" : ""}><summary><span class="fg-rank">#${g.rank}</span><h3>${esc(g.label)}</h3>
+        <span class="fg-stats">${fmtPct(g.share_of_time_behind)} of time behind · ${g.missed} missed (${fmtPct(g.missed_rate)})
+        · typical ${fmtMargin(g.median_lead_seconds)} · RotoWire first ${g.rotowire_first} of ${g.matched}</span></summary>
+      <div class="fg-body">
+        ${pairs ? `<h4>Races RotoWire lost by the most</h4>${pairs}` : ""}
+        ${misses ? `<h4>Recent stories RotoWire missed</h4>${misses}` : ""}
+      </div></details>`;
+  };
+  el.innerHTML = `<p class="type-note">What to work on, recomputed every run from the last ${fa.days} days (since ${since}).
+      Ranked by share of RotoWire's time behind on matched stories plus share of the stories it missed, so a kind
+      of news that is both slow and often missed comes first. Highlight clips, roundups and follow-ups are left out.</p>
+    <div class="type-wrap"><table><thead><tr><th data-nosort>#</th><th data-nosort>Kind of news</th>
+      <th data-nosort style="text-align:right">Matched</th><th data-nosort style="text-align:right">Typical margin</th>
+      <th data-nosort style="text-align:right">RotoWire first</th>
+      <th data-nosort style="text-align:right" title="Of all the minutes RotoWire trailed on matched stories">Share of time behind</th>
+      <th data-nosort style="text-align:right" title="Real stories only Underdog posted">RotoWire missed</th>
+      <th data-nosort style="text-align:right" title="Steps of a story both covered that only Underdog posted">Steps skipped</th>
+      <th data-nosort style="text-align:right" title="Underdog's median views on this kind of news: how much fantasy players care">UD views/post</th>
+      </tr></thead><tbody>${rows}</tbody></table></div>
+    <div style="margin-top:16px">${groups.map((g, i) => section(g, i < 3)).join("")}</div>`;
+}
+
 // ---- trend: median margin per day / week / month, zero line = even ----
 // Positive = RotoWire typically first. The goal is to get above the line.
 const TREND_GRAINS = [["day", "Day"], ["week", "Week"], ["month", "Month"]];
@@ -1569,6 +1653,7 @@ function showView(name) {
   if (name === "staff" && !((state.agg.staffing || {}).days || []).length) name = "feed";
   if (name === "games" && !((state.agg.game_windows || {}).windows || []).length) name = "feed";
   if (name === "practice" && !state.agg.practice) name = "feed";
+  if (name === "focus" && !((state.agg.focus || {}).groups || []).length) name = "feed";
   state.view = name;
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.view===name));
   VIEWS.forEach(v =>
@@ -1608,6 +1693,7 @@ function init() {
   renderStaff();
   renderGames();
   renderPractice();
+  renderFocus();
   renderCustom();
   renderGaps();
   renderDups();
