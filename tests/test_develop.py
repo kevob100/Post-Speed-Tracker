@@ -112,7 +112,7 @@ def test_multi_player_post_is_scored_for_each_player(tmp_path):
 
     s = _run(tmp_path, posts, OneDev())
     matched = sorted(v["story_id"] for v in s.values() if v["status"] == "matched")
-    assert matched == ["st_rw_chase_ud_both_ja-marr-chase", "st_rw_higgins_ud_both_tee-higgins"]
+    assert matched == ["st_rw_chase_ud_both_jamarr-chase", "st_rw_higgins_ud_both_tee-higgins"]
 
 
 def test_single_feed_session_needs_no_model_and_keeps_every_post(tmp_path):
@@ -308,3 +308,41 @@ def test_hour_rollup(tmp_path):
     assert hours[7] == {"hour": 7, "rotowire_posts": 0, "underdog_posts": 1, "matched": 1,
                         "rotowire_first": 0, "median_lead_seconds": -420.0}
     assert sum(h["matched"] for h in hours) == 2
+
+
+def test_name_variants_share_a_key():
+    assert normalize_name("D.J. Moore") == normalize_name("DJ Moore") == normalize_name("D. J. Moore")
+    assert normalize_name("Pat Surtain II") == normalize_name("Patrick Surtain") == "patrick surtain"
+    assert normalize_name("Ja'Marr Chase") == normalize_name("Ja’Marr Chase") == normalize_name("JaMarr Chase")
+    assert normalize_name("Thomas White") != normalize_name("Tommy White")   # two MLB players
+
+
+def test_punctuation_variants_match_across_feeds(tmp_path):
+    posts = [_post("ud_moore", UD, 0, players=("D.J. Moore",)),
+             _post("rw_moore", RW, 12, players=("DJ Moore",))]
+    s = _run(tmp_path, posts, FixedGrouper(["ud_moore", "rw_moore"]))
+    assert s["st_rw_moore_ud_moore"]["status"] == "matched"
+    assert s["st_rw_moore_ud_moore"]["time_delta_seconds"] == -12 * 60
+
+
+def test_roundup_matches_when_it_can_and_is_not_a_gap_when_it_cannot(tmp_path):
+    names = ("Terry McLaurin", "Keenan Allen", "DeVonta Smith", "Justin Jefferson")
+    posts = [_post("rw_round", RW, 10, players=names, event="status_change"),
+             _post("ud_smith", UD, 0, players=("DeVonta Smith",), event="status_change")]
+
+    class OneDev:
+        def group(self, player, posts):
+            return [{"label": player, "post_ids": [p["id"] for p in posts]}]
+
+    s = _run(tmp_path, posts, OneDev())
+    assert s["st_rw_round_ud_smith_devonta-smith"]["status"] == "matched"
+    lone = s["st_rw_round_keenan-allen"]
+    assert lone["status"] == "rotowire_only" and lone["roundup"] and lone["gap_kind"] == "roundup"
+    summary = agg._summary(list(s.values()))
+    assert summary["rotowire_only"] == 0 and summary["roundup_only"] == 3
+
+
+def test_single_team_list_is_not_a_roundup():
+    jets = [{"name": n, "team": "New York Jets"} for n in ("Breece Hall", "Mason Taylor", "Adonai Mitchell")]
+    assert not develop.is_roundup(jets)
+    assert develop.is_roundup(jets + [{"name": "Garrett Wilson", "team": "New York Jets"}])

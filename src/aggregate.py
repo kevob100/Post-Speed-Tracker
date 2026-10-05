@@ -88,6 +88,11 @@ def _is_dup(s: dict) -> bool:
     return bool(s.get("same_event_duplicate"))
 
 
+def _is_gap(s: dict, status: str) -> bool:
+    """A true coverage gap: one-sided, not a follow-up, not an unmatched roundup post."""
+    return s.get("status") == status and not _is_dup(s) and not s.get("roundup")
+
+
 def _summary(stories: list[dict]) -> dict:
     active = [s for s in stories if _is_active(s)]
     matched = [s for s in active if s.get("status") == "matched"]
@@ -100,7 +105,8 @@ def _summary(stories: list[dict]) -> dict:
     trails = [-d for d in deltas if d < 0]
 
     # Coverage gaps count TRUE gaps only (a post with no counterpart on the other feed);
-    # same-event duplicates that lost the 1-to-1 match are tallied separately.
+    # same-event duplicates that lost the 1-to-1 match are tallied separately, and so are
+    # unmatched roundup posts (one digest naming many players is not many exclusives).
     return {
         "matched": len(matched),
         "rotowire_first": rw_first,
@@ -112,8 +118,9 @@ def _summary(stories: list[dict]) -> dict:
         # Medians of the same splits: a handful of hour-long wins drag the means around.
         "median_win_lead_seconds": round(statistics.median(leads), 1) if leads else None,
         "median_win_trail_seconds": round(statistics.median(trails), 1) if trails else None,
-        "rotowire_only": sum(1 for s in active if s.get("status") == "rotowire_only" and not _is_dup(s)),
-        "underdog_only": sum(1 for s in active if s.get("status") == "underdog_only" and not _is_dup(s)),
+        "rotowire_only": sum(1 for s in active if _is_gap(s, "rotowire_only")),
+        "underdog_only": sum(1 for s in active if _is_gap(s, "underdog_only")),
+        "roundup_only": sum(1 for s in active if s.get("roundup") and not _is_dup(s)),
         "rotowire_duplicate": sum(1 for s in active if s.get("status") == "rotowire_only" and _is_dup(s)),
         "underdog_duplicate": sum(1 for s in active if s.get("status") == "underdog_only" and _is_dup(s)),
     }

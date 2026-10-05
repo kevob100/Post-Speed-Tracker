@@ -484,6 +484,7 @@ const COLS = [
 ];
 function storyTimeIso(s){ const t = storyTime(s); return t ? new Date(t).toISOString() : null; }
 function winnerBadge(s) {
+  if (s.roundup) return `<span class="chip">Roundup</span>`;
   if (s.status === "rotowire_only") return `<span class="chip">RW only</span>`;
   if (s.status === "underdog_only") return `<span class="chip">UD only</span>`;
   if (s.rotowire_first == null) return "—";
@@ -964,7 +965,7 @@ function renderGaps() {
   if (state.stories.some(s => s.gap_kind)) return renderGapsByWeek();
   const all = state.stories
     .filter(s => (s.status === "rotowire_only" || s.status === "underdog_only")
-                 && !s.same_event_duplicate && s.review_status !== "rejected")
+                 && !s.same_event_duplicate && !s.roundup && s.review_status !== "rejected")
     .sort((a,b) => storyTime(a) - storyTime(b));
   const rw = all.filter(s => s.status === "rotowire_only").length;
   const ud = all.length - rw;
@@ -1065,7 +1066,9 @@ function summarize(stories, fromT, toT) {
   // Split by who posted first: lead = RotoWire's head start (delta>0); trail = its lag.
   const leads = deltas.filter(d => d > 0);
   const trails = deltas.filter(d => d < 0).map(d => -d);
-  const count = (st, dup) => active.filter(s => s.status === st && isDup(s) === dup).length;
+  // Unmatched roundup posts are neither gaps nor follow-ups; they count in neither.
+  const count = (st, dup) => active.filter(s => s.status === st && isDup(s) === dup
+                                               && (dup || !s.roundup)).length;
   return {
     matched: matched.length,
     rotowire_first: rwFirst,

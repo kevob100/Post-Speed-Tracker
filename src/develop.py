@@ -43,6 +43,17 @@ ET = ZoneInfo("America/New_York")
 LATE_WINDOW_S = 24 * 3600
 
 
+def is_roundup(players: list[dict]) -> bool:
+    """A digest post listing many players ("Fantasy Football News Updates", "everyone who
+    left a game hurt"): 4+ players, or 3 from 3 different teams. A single-team list such
+    as "Jets ruled out: Hall, Mitchell, Taylor" stays ordinary news. A roundup still
+    matches the other feed's report on each player; when it does not, it is tagged
+    gap_kind "roundup" instead of counting as a coverage gap.
+    """
+    teams = {p.get("team") for p in players if p.get("team")}
+    return len(players) >= 4 or (len(players) == 3 and len(teams) >= 3)
+
+
 def mentions(news: list[dict]) -> list[dict]:
     """One (post, player) mention per player a news post names."""
     out: list[dict] = []
@@ -52,9 +63,11 @@ def mentions(news: list[dict]) -> list[dict]:
             players = [{"name": post.get("player"), "team": post.get("team"),
                         "player_key": post["player_key"]}]
         multi = len(players) > 1
+        roundup = is_roundup(players)
         for p in players:
             out.append({"post": post, "player": p.get("name"), "team": p.get("team"),
-                        "player_key": p["player_key"], "multi_player": multi})
+                        "player_key": p["player_key"], "multi_player": multi,
+                        "roundup": roundup})
     return out
 
 
@@ -210,6 +223,7 @@ def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str) -> None:
     after the lone post (other_side_later names that post and the delay). It may be a
     different development, which is why the post is shown rather than claimed as a match.
     gap_kind "missed": the other account said nothing about the player in that window.
+    gap_kind "roundup": the lone post is a roundup (see is_roundup), so it is not a gap.
     """
     by_player: dict[tuple, list[dict]] = {}
     for m in mentions(news):
@@ -222,6 +236,10 @@ def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str) -> None:
         if st["status"] == "matched" or st.get("same_event_duplicate"):
             continue
         lone = st["rotowire"] or st["underdog"]
+        if st.get("roundup"):
+            st["gap_kind"] = "roundup"
+            st["other_side_later"] = None
+            continue
         other = "ud" if st["rotowire"] else "rw"
         t0 = parse_dt(lone["created_at"])
         later = None
@@ -254,7 +272,8 @@ def _development_stories(ms, label, player, pkey, team, rw_handle, window_s, sou
                 "rotowire": _side(m["post"]) if is_rw else None,
                 "underdog": None if is_rw else _side(m["post"]),
                 "time_delta_seconds": None, "rotowire_first": None,
-                "match_confidence": None, "match_method": "none"}
+                "match_confidence": None, "match_method": "none",
+                "roundup": bool(m.get("roundup"))}
 
     out: list[dict] = []
     first_rw = _earliest(rw) if rw else None
