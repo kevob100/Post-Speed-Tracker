@@ -7,15 +7,16 @@
 <style>
   :root {
     --bg: #0f1419; --panel: #1a2029; --panel2: #222b36; --line: #2d3743;
-    --text: #e6edf3; --muted: #8b98a5; --green: #2ea043; --red: #e5534b;
+    --text: #e6edf3; --muted: #8b98a5; --green: #1fa2b8; --red: #dd6b28;  /* RotoWire teal / Underdog orange: CVD-safe pair */
     --accent: #4493f8; --chip: #2d3743;
+    color-scheme: dark;
   }
   * { box-sizing: border-box; }
   body {
     margin: 0; background: var(--bg); color: var(--text);
     font: 14px/1.45 -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   }
-  header { padding: 20px 24px 8px; }
+  header { padding: 20px 24px 8px; max-width: 1200px; margin: 0 auto; }
   h1 { font-size: 20px; margin: 0 0 2px; }
   .sub { color: var(--muted); font-size: 12px; }
 
@@ -23,52 +24,82 @@
   .sports { display: flex; gap: 6px; margin: 12px 0 4px; flex-wrap: wrap; }
   .sport-btn {
     background: var(--panel); color: var(--muted); border: 1px solid var(--line);
-    border-radius: 999px; padding: 6px 14px; font-size: 13px; font-weight: 600;
+    border-radius: 999px; padding: 6px 14px; font-size: 14px; font-weight: 600;
     cursor: pointer; user-select: none;
   }
   .sport-btn:hover { color: var(--text); }
   .sport-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .wrap { padding: 0 24px 48px; max-width: 1200px; }
+  .wrap { padding: 0 24px 48px; max-width: 1200px; margin: 0 auto; }
+  @media (max-width: 640px) { header { padding: 16px 16px 8px; } .wrap { padding: 0 16px 40px; } }
+  table, .kpi, .hb, svg text, .type-cell, .hcell, .strip { font-variant-numeric: tabular-nums; }
 
   /* KPI cards */
   .kpis { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 12px; margin: 16px 0 20px; }
   .kpi { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; }
-  .kpi .label { color: var(--muted); font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
-  .kpi .value { font-size: 26px; font-weight: 650; margin-top: 4px; }
-  .kpi .value small { font-size: 13px; color: var(--muted); font-weight: 400; }
+  .kpi .label { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
+  .kpi .value { font-size: 28px; font-weight: 650; margin-top: 4px; }
+  .kpi .value small { font-size: 14px; color: var(--muted); font-weight: 400; }
   .kpi .kpi-sub { color: var(--muted); font-size: 12px; margin-top: 2px; }
 
-  /* headline: who posted first over the last 30 days */
-  .kpis.has-headline { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  /* lead: the gap to Underdog, first era vs latest */
+  .lead { margin: 14px 0 12px; }
+  .lead .eyebrow { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: .5px; }
+  .lead h2 { font-size: 28px; font-weight: 650; margin: 2px 0 4px; line-height: 1.2; display: flex; flex-wrap: wrap;
+    align-items: baseline; gap: 0 12px; }
+  .lead h2 .from { color: var(--muted); font-weight: 500; }
+  .lead h2 .arrow { color: var(--muted); font-weight: 400; }
+  .lead h2 .to { color: var(--text); }
+  .lead p { color: var(--muted); font-size: 14px; margin: 0; }
+
+  /* who posted first over the last 30 days: a slim bar, labels in a key below */
+  .kpis.has-headline { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+  @media (max-width: 960px) { .kpis.has-headline { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
   @media (max-width: 640px) { .kpis.has-headline { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   .headline { grid-column: 1 / -1; background: var(--panel); border: 1px solid var(--line);
-    border-radius: 10px; padding: 14px 16px 16px; }
-  .hl-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 10px; }
-  .hl-head h2 { font-size: 15px; margin: 0; }
+    border-radius: 10px; padding: 12px 16px 12px; }
+  .hl-head { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; margin-bottom: 8px; }
+  .hl-head h3 { font-size: 14px; margin: 0; }
   .hl-head span { color: var(--muted); font-size: 12px; }
-  .hb { display: flex; gap: 3px; height: 58px; border-radius: 8px; overflow: hidden; }
-  .hb-seg { display: flex; flex-direction: column; justify-content: center; padding: 0 12px;
-    min-width: 72px; color: #fff; white-space: nowrap; }
-  .hb-seg b { font-size: 22px; font-weight: 650; line-height: 1.1; }
-  .hb-seg span { font-size: 11.5px; opacity: .9; }
+  .hb { display: flex; gap: 2px; height: 32px; border-radius: 6px; overflow: hidden; }
+  .hb-seg { display: flex; align-items: center; padding: 0 10px; min-width: 40px; color: #fff; white-space: nowrap;
+    font-size: 14px; font-weight: 650; }
   .hb-seg.rw { background: var(--green); }
-  .hb-seg.tie { background: #4a5563; align-items: center; text-align: center; }
-  .hb-seg.ud { background: var(--red); align-items: flex-end; text-align: right; }
+  .hb-seg.tie { background: #4a5563; justify-content: center; }
+  .hb-seg.ud { background: var(--red); justify-content: flex-end; }
+  .hb-key { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; font-size: 12px; color: var(--muted); }
+  .hb-key b { color: var(--text); font-weight: 650; }
+  .hb-key i { display: inline-block; width: 8px; height: 8px; border-radius: 2px; margin-right: 6px; }
+  .kpi .rows { display: grid; grid-template-columns: auto auto auto; gap: 2px 10px; margin-top: 6px; align-items: baseline;
+    justify-content: start; font-size: 12px; color: var(--muted); }
+  .kpi .rows b { font-size: 20px; font-weight: 650; color: var(--text); }
 
   /* tabs */
-  .tabs { display: flex; gap: 4px; border-bottom: 1px solid var(--line); margin-bottom: 16px;
-    overflow-x: auto; scrollbar-width: none; }
-  .tab { padding: 9px 14px; cursor: pointer; color: var(--muted); border-bottom: 2px solid transparent; user-select: none;
-    white-space: nowrap; }
+  .tabs-wrap { position: relative; border-bottom: 1px solid var(--line); margin-bottom: 16px; }
+  .tabs { display: flex; align-items: stretch; gap: 2px; overflow-x: auto; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display: none; }
+  /* edge fades show there is more to scroll; toggled by updateTabFade() */
+  .tabs-wrap::before, .tabs-wrap::after { content: ""; position: absolute; top: 0; bottom: 0; width: 40px;
+    pointer-events: none; opacity: 0; transition: opacity .15s; z-index: 1; }
+  .tabs-wrap::before { left: 0; background: linear-gradient(to right, var(--bg), transparent); }
+  .tabs-wrap::after { right: 0; background: linear-gradient(to left, var(--bg), transparent); }
+  .tabs-wrap.fade-l::before, .tabs-wrap.fade-r::after { opacity: 1; }
+  .tab { padding: 10px 10px; cursor: pointer; color: var(--muted); background: none; border: 0;
+    border-bottom: 2px solid transparent; font: inherit; white-space: nowrap; }
   .tab:hover { color: var(--text); }
+  .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
   .tab.active { color: var(--text); border-bottom-color: var(--accent); }
+  .tab-group { display: flex; align-items: center; padding: 0 2px 0 12px; color: var(--muted); opacity: .7;
+    font-size: 12px; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; }
+  .tab-group::before { content: ""; width: 1px; height: 16px; background: var(--line); margin-right: 12px; }
+  #tab-focus.hidden + .tab-group { padding-left: 0; }
+  #tab-focus.hidden + .tab-group::before { display: none; }
 
   /* filters */
   .filters { display: flex; flex-wrap: wrap; gap: 10px; margin-bottom: 14px; align-items: end; }
-  .filters label { display: flex; flex-direction: column; gap: 3px; font-size: 11px; color: var(--muted); }
+  .filters label { display: flex; flex-direction: column; gap: 3px; font-size: 12px; color: var(--muted); }
   .filters input, .filters select {
     background: var(--panel); color: var(--text); border: 1px solid var(--line);
-    border-radius: 6px; padding: 6px 8px; font-size: 13px;
+    border-radius: 6px; padding: 6px 8px; font-size: 14px;
   }
 
   #feed-wrap, #all-wrap { overflow-x: auto; }
@@ -84,11 +115,11 @@
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
 
-  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
-  .badge.rw { background: rgba(46,160,67,.15); color: var(--green); }
-  .badge.ud { background: rgba(229,83,75,.15); color: var(--red); }
+  .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
+  .badge.rw { background: rgba(31,162,184,.15); color: var(--green); }
+  .badge.ud { background: rgba(221,107,40,.15); color: var(--red); }
   .delta.pos { color: var(--green); } .delta.neg { color: var(--red); }
-  .chip { background: var(--chip); color: var(--muted); padding: 1px 7px; border-radius: 999px; font-size: 11px; }
+  .chip { background: var(--chip); color: var(--muted); padding: 1px 7px; border-radius: 999px; font-size: 12px; }
   .chip.role-followup { background: rgba(88,166,255,.15); color: var(--accent); }
   .chip.role-original { background: var(--chip); color: var(--muted); }
   .status-confirmed { color: var(--green); } .status-rejected { color: var(--red); }
@@ -104,11 +135,11 @@
   .bar-track { background: var(--panel2); border-radius: 5px; height: 16px; overflow: hidden; }
   .bar-fill { background: var(--green); height: 100%; }
   .cov { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
-  .cov h3 { font-size: 13px; margin: 0 0 6px; color: var(--muted); }
+  .cov h3 { font-size: 14px; margin: 0 0 6px; color: var(--muted); }
   .cov li { margin: 4px 0; }
 
   /* by news type grid */
-  .type-note { color: var(--muted); font-size: 12.5px; margin: 0 0 14px; }
+  .type-note { color: var(--muted); font-size: 12px; margin: 0 0 14px; }
   .type-wrap { overflow-x: auto; }
   .type-grid { border-collapse: separate; border-spacing: 2px; }
   .type-grid th, .type-grid td { border-bottom: 0; }
@@ -117,7 +148,7 @@
   .type-grid th:first-child { position: sticky; left: 0; z-index: 1; background: var(--bg); }
   .type-grid thead th { vertical-align: bottom; cursor: default; }
   .type-grid th.wk { text-align: center; }
-  .type-grid .wk-note { display: block; font-weight: 400; font-size: 10.5px; color: var(--muted); }
+  .type-grid .wk-note { display: block; font-weight: 400; font-size: 12px; color: var(--muted); }
   .type-grid th.season { border-left: 2px solid var(--line); }
   .type-cell { padding: 0; min-width: 104px; height: 50px; }
   .type-cell > div, .type-cell > button { display: flex; flex-direction: column; justify-content: center;
@@ -126,12 +157,12 @@
   .type-cell > button:hover { outline: 1px solid var(--muted); }
   .type-cell > button:focus-visible, .type-cell.picked > button { outline: 2px solid var(--accent); outline-offset: 1px; }
   .type-cell .pct { font-weight: 700; font-size: 14px; font-variant-numeric: tabular-nums; }
-  .type-cell .meta { font-size: 11px; opacity: .85; font-variant-numeric: tabular-nums; }
+  .type-cell .meta { font-size: 12px; opacity: .85; font-variant-numeric: tabular-nums; }
   .type-cell.low > button, .hatch-key { background-image: repeating-linear-gradient(45deg, transparent 0 5px,
     rgba(255,255,255,.08) 5px 7px); }
   .type-cell.empty-cell > div { color: var(--muted); background: var(--panel); }
   .type-cell.season { border-left: 2px solid var(--line); padding-left: 4px; }
-  .type-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 11.5px;
+  .type-legend { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; font-size: 12px;
     color: var(--muted); margin-top: 12px; }
   .type-legend .ramp { display: inline-flex; gap: 2px; }
   .type-legend .ramp i { width: 26px; height: 10px; border-radius: 2px; }
@@ -145,24 +176,24 @@
   .examples-head span { color: var(--muted); font-size: 12px; }
   table.examples td { vertical-align: top; }
   table.examples td.story { min-width: 260px; }
-  .who-tag { display: inline-block; font-size: 10.5px; font-weight: 700; color: var(--muted); margin-right: 6px; }
-  .muted-sm { color: var(--muted); font-size: 11px; }
+  .who-tag { display: inline-block; font-size: 12px; font-weight: 700; color: var(--muted); margin-right: 6px; }
+  .muted-sm { color: var(--muted); font-size: 12px; }
 
   /* by time of day */
   .hours { display: grid; grid-template-columns: 70px repeat(24, minmax(26px, 1fr)); gap: 2px;
     align-items: end; min-width: 760px; }
-  .hlab { color: var(--muted); font-size: 11px; align-self: center; }
+  .hlab { color: var(--muted); font-size: 12px; align-self: center; }
   .hcol { display: flex; flex-direction: column; justify-content: flex-end; }
   .hcol.down { justify-content: flex-start; }
   .hcol .hbar { width: 100%; background: var(--green); border-radius: 3px 3px 0 0; }
   .hcol.down .hbar { background: var(--red); border-radius: 0 0 3px 3px; }
   .hzero { grid-column: 2 / -1; height: 1px; background: var(--muted); opacity: .5; }
   .hcell { height: 42px; border-radius: 3px; display: flex; flex-direction: column; align-items: center;
-    justify-content: center; font-size: 11px; font-variant-numeric: tabular-nums; margin-top: 8px; }
-  .hcell span { font-size: 10px; opacity: .85; }
+    justify-content: center; font-size: 12px; font-variant-numeric: tabular-nums; margin-top: 8px; }
+  .hcell span { font-size: 12px; opacity: .85; }
   .hcell.none { background: var(--panel); color: var(--muted); }
   .hcell.low { background-image: repeating-linear-gradient(45deg, transparent 0 5px, rgba(255,255,255,.08) 5px 7px); }
-  .htick { color: var(--muted); font-size: 10.5px; text-align: center; }
+  .htick { color: var(--muted); font-size: 12px; text-align: center; }
   .key-sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; }
   .key-sw.rw { background: var(--green); } .key-sw.ud { background: var(--red); margin-left: 10px; }
   .hours-table { margin-top: 14px; }
@@ -170,26 +201,26 @@
   /* by staff: shift strip (who held each role, hour by hour) + people table */
   .seg-chips { display: flex; gap: 4px; flex-wrap: wrap; }
   .seg-chips button { background: var(--panel); color: var(--muted); border: 1px solid var(--line);
-    border-radius: 6px; padding: 6px 10px; font-size: 12.5px; cursor: pointer; }
+    border-radius: 6px; padding: 6px 10px; font-size: 12px; cursor: pointer; }
   .seg-chips button:hover { color: var(--text); }
   .seg-chips button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
   .strip { display: grid; gap: 3px; min-width: 760px; }
-  .strip .s-lab { color: var(--muted); font-size: 11.5px; align-self: center; padding-right: 6px; }
+  .strip .s-lab { color: var(--muted); font-size: 12px; align-self: center; padding-right: 6px; }
   .strip .s-span { background: var(--panel2); border: 1px solid var(--line); border-radius: 5px;
-    font-size: 11.5px; padding: 5px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    font-size: 12px; padding: 5px 6px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .strip .s-cell { height: 52px; border-radius: 5px; border: 1px solid var(--line); background: var(--panel);
     display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 1px;
-    font-size: 12.5px; cursor: pointer; color: var(--text); font: inherit; padding: 0; }
-  .strip .s-cell b { font-size: 13px; }
-  .strip .s-cell span { font-size: 10px; opacity: .85; }
+    font-size: 12px; cursor: pointer; color: var(--text); font: inherit; padding: 0; }
+  .strip .s-cell b { font-size: 14px; }
+  .strip .s-cell span { font-size: 12px; opacity: .85; }
   .strip .s-cell.on { outline: 2px solid var(--accent); outline-offset: 1px; }
   .strip .s-cell:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
-  .strip .s-tick { font-size: 10.5px; color: var(--muted); text-align: center; }
-  .small-n { color: var(--muted); font-size: 11px; margin-left: 6px; }
-  .bl { color: var(--muted); font-size: 11.5px; }
+  .strip .s-tick { font-size: 12px; color: var(--muted); text-align: center; }
+  .small-n { color: var(--muted); font-size: 12px; margin-left: 6px; }
+  .bl { color: var(--muted); font-size: 12px; }
 
   /* focus areas */
-  .focus-callout { margin: -6px 0 20px; font-size: 13px; color: var(--muted); }
+  .focus-callout { margin: -6px 0 20px; font-size: 14px; color: var(--muted); }
   .focus-callout b { color: var(--text); }
   .focus-callout a { cursor: pointer; }
   details.fg { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; margin: 0 0 10px; }
@@ -198,28 +229,28 @@
   details.fg > summary::-webkit-details-marker { display: none; }
   details.fg > summary h3 { font-size: 14px; margin: 0; }
   details.fg > summary .fg-rank { color: var(--muted); font-variant-numeric: tabular-nums; }
-  details.fg > summary .fg-stats { color: var(--muted); font-size: 12.5px; }
+  details.fg > summary .fg-stats { color: var(--muted); font-size: 12px; }
   details.fg[open] > summary { border-bottom: 1px solid var(--line); }
   .fg-body { padding: 12px 14px 14px; }
   .fg-body h4 { font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .4px; margin: 4px 0 8px; }
   .pair { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 10px; }
   @media (max-width: 760px) { .pair { grid-template-columns: 1fr; } }
-  .tweet { background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; font-size: 13px; }
-  .tweet .who { font-size: 11.5px; color: var(--muted); margin-bottom: 4px; display: flex; justify-content: space-between; gap: 8px; }
+  .tweet { background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; padding: 9px 11px; font-size: 14px; }
+  .tweet .who { font-size: 12px; color: var(--muted); margin-bottom: 4px; display: flex; justify-content: space-between; gap: 8px; }
   .tweet .who b { color: var(--text); }
   .tweet .txt { white-space: pre-line; }
   .tweet.none { color: var(--muted); font-style: italic; }
   tr.gw-row.on td { background: var(--panel2); }
-  .hours-table summary { color: var(--accent); cursor: pointer; font-size: 12.5px; margin-bottom: 8px; }
+  .hours-table summary { color: var(--accent); cursor: pointer; font-size: 12px; margin-bottom: 8px; }
 
   /* trend chart */
   .trend { padding: 14px; margin: 0 0 20px; }
   .trend-head { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 10px 16px; align-items: flex-start; }
   .trend-head h3 { font-size: 14px; margin: 0 0 2px; }
-  .trend-head p { color: var(--muted); font-size: 12.5px; margin: 0; }
+  .trend-head p { color: var(--muted); font-size: 12px; margin: 0; }
   .seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; flex: none; }
   .seg button { background: transparent; color: var(--muted); border: 0; padding: 6px 12px; font: inherit;
-    font-size: 12.5px; cursor: pointer; }
+    font-size: 12px; cursor: pointer; }
   .seg button + button { border-left: 1px solid var(--line); }
   .seg button.on { background: var(--panel2); color: var(--text); }
   .seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
@@ -227,11 +258,11 @@
   .trend-plot svg { display: block; max-width: 100%; }
   .t-grid { stroke: var(--line); stroke-width: 1; }
   .t-zero { stroke: var(--muted); stroke-width: 1.5; }
-  .t-tick { fill: var(--muted); font-size: 11px; font-variant-numeric: tabular-nums; }
-  .t-side { fill: var(--muted); font-size: 10.5px; }
+  .t-tick { fill: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
+  .t-side { fill: var(--muted); font-size: 12px; }
   .t-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
   .mode-row { display: flex; flex-wrap: wrap; gap: 8px 14px; align-items: center; margin: 4px 0 14px; }
-  .a-sub { font-size: 13px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin: 18px 0 8px; }
+  .a-sub { font-size: 14px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .5px; margin: 18px 0 8px; }
   .a-grid.a-main { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
   .a-grid.one { grid-template-columns: minmax(0, 1fr); }
   .a-col { fill: var(--green); } .a-col.thin { opacity: .4; }
@@ -243,13 +274,18 @@
   .a-panel svg { display: block; width: 100%; height: auto; }
   .a-bars { display: grid; gap: 12px; margin-top: 12px; }
   .a-bar { display: grid; grid-template-columns: minmax(120px, 34%) minmax(0, 1fr); gap: 10px; align-items: center; }
-  .a-bar-lab { display: flex; flex-direction: column; font-size: 13px; }
+  .a-bar-lab { display: flex; flex-direction: column; font-size: 14px; }
   .a-bar-track { display: flex; align-items: center; gap: 8px; }
-  .a-bar-fill { height: 16px; border-radius: 3px; background: var(--green); opacity: .5; }
+  .a-track { flex: 1; min-width: 0; height: 16px; border-radius: 4px; background: var(--panel2); overflow: hidden; }
+  .a-bar-fill { height: 16px; border-radius: 4px; background: var(--green); opacity: .5; }
+  .a-bar-val { min-width: 48px; text-align: right; }
+  .kpi-flag { color: var(--text); opacity: .75; margin-top: 6px; border-left: 2px solid var(--accent); padding-left: 8px; }
+  .a-kpis { grid-template-columns: repeat(4, minmax(0, 1fr)) !important; }
+  @media (max-width: 960px) { .a-kpis { grid-template-columns: repeat(2, minmax(0, 1fr)) !important; } }
   .a-bar-fill.strong { opacity: 1; }
   .a-bar-val { font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
   .a-flag { border-left: 2px solid var(--accent); background: var(--panel2); padding: 6px 10px; border-radius: 0 6px 6px 0;
-    font-size: 12.5px; margin: 10px 0 0; }
+    font-size: 12px; margin: 10px 0 0; }
   .a-strip { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; margin-top: 8px; }
   .a-legend { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
   .a-legend .sw { width: 8px; height: 8px; margin-right: 6px; }
@@ -266,7 +302,12 @@
   .t-dot.clipped { opacity: .9; stroke: var(--text); stroke-width: 1; }
   .t-end { fill: var(--text); font-size: 12px; font-weight: 650; font-variant-numeric: tabular-nums; }
   .t-mark { stroke: var(--text); stroke-width: 1; stroke-dasharray: 4 3; opacity: .6; }
-  .t-mark-label { fill: var(--text); font-size: 11px; font-weight: 600; }
+  .t-mark-label { fill: var(--text); font-size: 12px; font-weight: 600; }
+  .t-band { fill: var(--panel2); opacity: .7; }
+  .t-era { stroke: var(--muted); stroke-width: 1.5; stroke-dasharray: 6 4; }
+  .t-band-label { fill: var(--text); font-size: 12px; font-weight: 600; }
+  .halo { paint-order: stroke; stroke: var(--panel); stroke-width: 4px; stroke-linejoin: round; }
+  #eras > .trend-head:first-child { margin-top: 0 !important; }
   .t-cross { stroke: var(--muted); stroke-dasharray: 3 3; }
   .t-hit { fill: transparent; }
   .t-tip { position: absolute; top: 0; background: var(--panel2); border: 1px solid var(--line); border-radius: 6px;
@@ -274,7 +315,7 @@
   .t-tip b { display: block; margin-bottom: 2px; }
 
   /* ALL overview */
-  .all-title { font-size: 15px; margin: 4px 0 12px; color: var(--muted); }
+  .all-title { font-size: 16px; margin: 4px 0 12px; color: var(--muted); }
   #view-all table tbody tr.sport-row { cursor: pointer; }
   #view-all table tbody tr.sport-row:hover { background: var(--panel); }
   #view-all td.sport-name { font-weight: 650; }
@@ -283,7 +324,7 @@
     font-weight: 700; background: var(--panel);
   }
   #view-all tr.total-row td.sport-name { color: var(--accent); }
-  .go { color: var(--muted); font-size: 11px; }
+  .go { color: var(--muted); font-size: 12px; }
 </style>
 </head>
 <body>
@@ -299,27 +340,31 @@
 
   <!-- Per-sport views (shown when a single sport is selected) -->
   <div class="mode-row hidden" id="mode-row"><div class="seg" role="group" aria-label="Show">
-    <button type="button" data-m="timing">Timing</button><button type="button" data-m="audience">Audience</button></div>
-    <span class="bl">Timing: who posts first. Audience: followers and impressions.</span></div>
+    <button type="button" data-m="timing">Timing</button><button type="button" data-m="audience">Audience</button></div></div>
+  <section class="lead hidden" id="lead"></section>
+  <section class="panel trend" id="trend"></section>
   <div class="kpis" id="kpis"></div>
   <p class="focus-callout" id="focus-callout"></p>
-  <section class="panel trend" id="trend"></section>
+  <section class="panel trend hidden" id="eras"></section>
   <section id="audience-top" class="hidden"></section>
 
-  <div class="tabs" id="tabs">
-    <div class="tab active" data-view="feed">Story Feed</div>
-    <div class="tab hidden" data-view="focus" id="tab-focus">Focus areas</div>
-    <div class="tab" data-view="weekly">Weekly</div>
-    <div class="tab hidden" data-view="types" id="tab-types">By news type</div>
-    <div class="tab hidden" data-view="hours" id="tab-hours">By time of day</div>
-    <div class="tab hidden" data-view="staff" id="tab-staff">By staff</div>
-    <div class="tab hidden" data-view="games" id="tab-games">During games</div>
-    <div class="tab hidden" data-view="practice" id="tab-practice">Practice reports</div>
-    <div class="tab" data-view="monthly">Monthly</div>
-    <div class="tab" data-view="custom">Custom</div>
-    <div class="tab" data-view="gaps">Coverage Gaps</div>
-    <div class="tab" data-view="dups">Follow-ups</div>
-  </div>
+  <div class="tabs-wrap" id="tabs-wrap"><div class="tabs" id="tabs" role="tablist" aria-label="Views">
+    <button type="button" role="tab" class="tab hidden" data-view="focus" id="tab-focus">Focus areas</button>
+    <span class="tab-group" aria-hidden="true">Stories</span>
+    <button type="button" role="tab" class="tab" data-view="feed">Feed</button>
+    <button type="button" role="tab" class="tab" data-view="dups">Follow-ups</button>
+    <button type="button" role="tab" class="tab" data-view="gaps">Gaps</button>
+    <span class="tab-group" aria-hidden="true">Breakdowns</span>
+    <button type="button" role="tab" class="tab hidden" data-view="types" id="tab-types">News type</button>
+    <button type="button" role="tab" class="tab hidden" data-view="hours" id="tab-hours">Hour</button>
+    <button type="button" role="tab" class="tab hidden" data-view="staff" id="tab-staff">Staff</button>
+    <button type="button" role="tab" class="tab hidden" data-view="games" id="tab-games">Games</button>
+    <button type="button" role="tab" class="tab hidden" data-view="practice" id="tab-practice">Practice</button>
+    <span class="tab-group" aria-hidden="true">Over time</span>
+    <button type="button" role="tab" class="tab" data-view="weekly">Weekly</button>
+    <button type="button" role="tab" class="tab" data-view="monthly">Monthly</button>
+    <button type="button" role="tab" class="tab" data-view="custom">Custom</button>
+  </div></div>
 
   <section id="view-feed">
     <div class="filters">
@@ -440,13 +485,13 @@ function setMode(isAll) {
   document.getElementById("kpis").classList.toggle("hidden", isAll);
   document.getElementById("focus-callout").classList.toggle("hidden", isAll);
   document.getElementById("trend").classList.toggle("hidden", isAll);
-  document.getElementById("tabs").classList.toggle("hidden", isAll);
+  document.getElementById("tabs-wrap").classList.toggle("hidden", isAll);
   applyTopMode();
   if (isAll) {
     VIEWS.forEach(v =>
       document.getElementById("view-" + v).classList.add("hidden"));
   } else {
-    showView(state.view || "feed");   // restore the active tab, one visible at a time
+    showView(state.view || defaultView());   // restore the active tab, one visible at a time
   }
 }
 
@@ -555,42 +600,69 @@ function storyTime(s) {
   return ts.length ? Math.min(...ts) : 0;
 }
 
-// ---- KPI header ----
+// ---- lead + KPI header ----
+const fmtShortDay = d => d ? new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }) : "";
+
+// The lead: the typical margin in the first era vs the latest one (sports.<sport>.eras).
+function renderLead() {
+  const el = document.getElementById("lead");
+  const eras = (state.agg.eras || []).filter(e => e.median_lead_seconds != null);
+  if (eras.length < 2) { el.innerHTML = ""; el.dataset.empty = "1"; return; }
+  delete el.dataset.empty;
+  const a = eras[0], z = eras[eras.length - 1];
+  const win = e => e.from ? `since ${fmtShortDay(e.from)}` : `${fmtShortDay(e.first)} – ${fmtShortDay(e.last)}`;
+  el.innerHTML = `<div class="eyebrow">Gap to Underdog</div>
+    <h2><span class="from">${fmtMargin(a.median_lead_seconds)}</span><span class="arrow" aria-label="to">→</span><span class="to">${fmtMargin(z.median_lead_seconds)}</span></h2>
+    <p>Typical margin on stories both accounts posted: ${esc(a.label)} (${win(a)}) vs ${esc(z.label)} (${win(z)}).</p>`;
+}
+
 function renderKpis() {
+  renderLead();
   const h = state.agg.headline;
   const el = document.getElementById("kpis");
   el.classList.toggle("has-headline", !!(h && h.matched));
   if (!h || !h.matched) { el.innerHTML = ""; return; }
   const pct = r => r == null ? "—" : `${Math.round(r * 100)}%`;
-  const since = new Date(h.since + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
+  const since = fmtShortDay(h.since);
   // Who posted first on matched stories: RotoWire | tie (within a minute) | Underdog.
+  // Numbers sit inside a segment only when it is wide enough; the key below names every segment.
   const seg = (cls, n, rate, label) => rate ? `<div class="hb-seg ${cls}" style="flex:${n}"
-      title="${label}: ${n} of ${h.matched} matched stories (${pct(rate)})"><b>${pct(rate)}</b><span>${label}</span></div>` : "";
+      title="${label}: ${n} of ${h.matched} matched stories (${pct(rate)})">${rate >= 0.12 ? pct(rate) : ""}</div>` : "";
+  const key = (color, label, rate) => `<span><i style="background:${color}"></i>${label} <b>${pct(rate)}</b></span>`;
   const tile = (label, value, sub, tip) => `<div class="kpi" title="${esc(tip)}"><div class="label">${label}</div>
     <div class="value">${value}</div><div class="kpi-sub">${sub}</div></div>`;
+  // Practice reports: share of player practice days each side posted, pre and post practice.
+  const pr = state.agg.practice && state.agg.practice.phases;
+  const prTile = pr && pr.pre && pr.post ? `<div class="kpi" title="Of the player practice days in the last ${state.agg.practice.days} days, how often each account posted the pre-practice update (will he practice, seen or not) and the post-practice report (full, limited, DNP)">
+      <div class="label">Practice updates posted</div>
+      <div class="rows"><span></span><span>RW</span><span>UD</span>
+        <span>Pre</span><b>${pct(pr.pre.rotowire_posted_rate)}</b><span>${pct(pr.pre.underdog_posted_rate)}</span>
+        <span>Post</span><b>${pct(pr.post.rotowire_posted_rate)}</b><span>${pct(pr.post.underdog_posted_rate)}</span></div></div>` : "";
   el.innerHTML = `<div class="headline">
-      <div class="hl-head"><h2>Who posted first</h2>
+      <div class="hl-head"><h3>Who posted first</h3>
         <span>Last ${h.days} days (since ${since}) · ${h.matched} matched stories · a tie is within ${Math.round(h.tie_seconds / 60)} minute</span></div>
       <div class="hb" role="img" aria-label="RotoWire first ${pct(h.rotowire_first_rate)}, tie ${pct(h.tie_rate)}, Underdog first ${pct(h.underdog_first_rate)}">
         ${seg("rw", h.rotowire_first, h.rotowire_first_rate, "RotoWire first")}
         ${seg("tie", h.ties, h.tie_rate, "Tie")}
         ${seg("ud", h.underdog_first, h.underdog_first_rate, "Underdog first")}
       </div>
+      <div class="hb-key">${key("var(--green)", "RotoWire first", h.rotowire_first_rate)}${key("#4a5563", "Tie", h.tie_rate)}${key("var(--red)", "Underdog first", h.underdog_first_rate)}</div>
     </div>
+    ${prTile}
+    ${tile(`Typical margin · last ${h.days} days`, fmtMargin(h.median_lead_seconds), "median of matched stories",
+      "UD +1:50 means Underdog was typically 1:50 faster on the stories both posted")}
     ${tile("Stories matched", pct(h.matched_rate), `${h.matched} of ${h.stories} real stories`,
       "Stories both accounts posted, out of every real story either posted (highlight clips, roundups, follow-ups and skipped steps left out)")}
-    ${tile("RotoWire missed", pct(h.rotowire_missed_rate), `${h.rotowire_missed} stories only Underdog posted`,
-      "Real stories Underdog posted and RotoWire never matched")}
-    ${tile("Underdog missed", pct(h.underdog_missed_rate), `${h.underdog_missed} stories only RotoWire posted`,
+    ${tile("Only RotoWire posted", pct(h.underdog_missed_rate), `${h.underdog_missed} stories`,
       "Real stories RotoWire posted and Underdog never matched")}
-    ${tile("Typical margin", fmtMargin(h.median_lead_seconds), "median of matched stories",
-      "UD +1:50 means Underdog was typically 1:50 faster on the stories both posted")}`;
+    ${tile("Only Underdog posted", pct(h.rotowire_missed_rate), `${h.rotowire_missed} stories`,
+      "Real stories Underdog posted and RotoWire never matched")}`;
   const top = ((state.agg.focus || {}).groups || []).slice(0, 3);
   const call = document.getElementById("focus-callout");
   if (call) call.innerHTML = top.length ? `Focus on: ${top.map(g => `<b>${esc(g.label)}</b>`).join(", ")}.
-    <a id="focus-link">See examples →</a>` : "";
+    <a id="focus-link" href="#tabs">See examples →</a>` : "";
   const link = document.getElementById("focus-link");
-  if (link) link.onclick = () => { showView("focus"); document.getElementById("tabs").scrollIntoView({ behavior: "smooth" }); };
+  if (link) link.onclick = e => { e.preventDefault(); showView("focus"); document.getElementById("tabs").scrollIntoView({ behavior: "smooth" }); };
 }
 
 // ---- feed ----
@@ -717,8 +789,8 @@ function renderRollup(el, rows, periodLabel) {
 }
 
 // ---- by news type: season week x type grid of RotoWire's win rate ----
-// Single-hue ramp (magnitude): surface -> brand green. Win rates of 50%+ share the top step.
-const TYPE_RAMP = ["#1f2a2a", "#1e3b2b", "#1f4f2f", "#226434", "#277a3a", "#2ea043"];
+// Single-hue ramp (magnitude): surface -> RotoWire teal. Win rates of 50%+ share the top step.
+const TYPE_RAMP = ["#1c282e", "#1d404a", "#1d5965", "#1e7181", "#1e8a9c", "#1fa2b8"];
 const TYPE_MIN_STORIES = 10;   // cells below this are hatched: too few stories to read much into
 
 function fmtMargin(sec) {
@@ -877,11 +949,11 @@ function renderHours() {
 const _etTime = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
 const hhLabel = hh => { const h = +hh.slice(0, 2); return `${(h + 11) % 12 + 1}${h < 12 ? "a" : "p"}`; };
 const STAFF_MIN = 10;   // fewer matched stories than this: flagged as a small sample
-// Red when Underdog was typically first, green when RotoWire was; stronger = bigger margin.
+// Orange when Underdog was typically first, teal when RotoWire was; stronger = bigger margin.
 function marginBg(sec, n) {
   if (!n || sec == null) return "";
   const a = (0.18 + 0.55 * Math.min(1, Math.abs(sec) / 240)).toFixed(2);
-  return sec < 0 ? `rgba(229,83,75,${a})` : `rgba(46,160,67,${a})`;
+  return sec < 0 ? `rgba(221,107,40,${a})` : `rgba(31,162,184,${a})`;
 }
 
 // Stories behind a strip cell or window row: when each broke (ET), who won, the first post.
@@ -969,8 +1041,8 @@ function renderStaff() {
       <div class="s-lab">Result</div>${cells}
       <div></div>${slots.map(s => `<div class="s-tick">${hhLabel(s.start)}</div>`).join("")}
     </div></div>
-    <p class="type-note">Each hour: the number is matched stories, colour is the typical margin (red: Underdog
-      first, green: RotoWire first, stronger = bigger gap), "missed" is news only Underdog posted. Click an hour
+    <p class="type-note">Each hour: the number is matched stories, colour is the typical margin (orange: Underdog
+      first, teal: RotoWire first, stronger = bigger gap), "missed" is news only Underdog posted. Click an hour
       to list its stories. Hours are Eastern time.</p>`;
   }
 
@@ -1056,7 +1128,7 @@ function renderGames() {
       <div></div>${hrs.map(h => `<div class="s-tick">${lab(h.hour)}</div>`).join("")}
     </div></div>
     <p class="type-note">Number is matched stories that broke in that hour during a game window, with RotoWire's
-      win rate under it; colour is the typical margin (red: Underdog first, green: RotoWire first). Hover for misses.</p>` : "";
+      win rate under it; colour is the typical margin (orange: Underdog first, teal: RotoWire first). Hover for misses.</p>` : "";
 
   const fmtET = iso => _etTime.format(new Date(iso));
   const rows = [...wins].reverse().map(w => {
@@ -1192,11 +1264,12 @@ function renderFocus() {
 }
 
 // ---- trend: median margin per day / week / month, zero line = even ----
-// Positive = RotoWire typically first. The goal is to get above the line.
+// Positive = RotoWire typically first.
 const TREND_GRAINS = [["day", "Day"], ["week", "Week"], ["month", "Month"]];
 const TREND_CLAMP = Infinity;       // no cap: the axis fits the data, whatever its range
 const TREND_MIN_ROLLING = 20;       // a trailing window with fewer stories draws dotted and faint
 const TREND_MIN_DAY = 10;           // same for a single day in the Day view
+const ERA_MIN_WINS = 30;            // era win margins on fewer stories show "n<30"
 function trendGrain() {
   // Always opens on Week; a Day/Month pick lasts until the page is reloaded.
   return state.trendGrain || "week";
@@ -1207,15 +1280,20 @@ function erasTable() {
   const eras = state.agg.eras || [];
   if (eras.length < 2) return "";
   const hasSrc = eras.some(e => e.sourced);
-  const fmtD = d => d ? new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" }) : "";
+  const fmtD = fmtShortDay;
+  // A win margin on fewer than ERA_MIN_WINS stories is too thin to quote.
+  const small = n => n < ERA_MIN_WINS ? `<span class="bl" title="Only ${n} ${n === 1 ? "story" : "stories"}: too few to quote a margin">n&lt;${ERA_MIN_WINS}</span>` : "";
   const rows = eras.map(e => `<tr><td>${esc(e.label)}<div class="bl">${fmtD(e.first)} – ${fmtD(e.last)} · ${e.weeks} wks</div></td>
     <td class="num">${e.matched} <span class="bl">${e.matched_per_week}/wk</span></td>
     <td class="num">${e.rotowire_first} <span class="bl">${fmtPct(e.rotowire_first_rate)}</span></td>
     <td class="num">${fmtMargin(e.median_lead_seconds)}</td>
-    <td class="num">${fmtMS(e.median_win_lead_seconds)}</td><td class="num">${fmtMS(e.median_win_trail_seconds)}</td>
+    <td class="num">${small(e.rotowire_first) || fmtMS(e.median_win_lead_seconds)}</td>
+    <td class="num">${small(e.matched - e.rotowire_first) || fmtMS(e.median_win_trail_seconds)}</td>
     <td class="num">${e.rotowire_posts_per_week ?? "—"} / ${e.underdog_posts_per_week ?? "—"}</td>
     ${hasSrc ? `<td class="num">${fmtMS(e.rotowire_from_source_seconds)} / ${fmtMS(e.underdog_from_source_seconds)}</td>` : ""}</tr>`).join("");
-  return `<div class="type-wrap" style="margin-top:14px"><table><thead><tr><th data-nosort>Era</th>
+  return `<div class="trend-head" style="margin-top:22px"><div><h3>Before and after</h3>
+      <p>Each era of the news system, on the stories both accounts posted.</p></div></div>
+    <div class="type-wrap" style="margin-top:8px"><table><thead><tr><th data-nosort>Era</th>
     <th data-nosort style="text-align:right">Matched</th><th data-nosort style="text-align:right">RotoWire first</th>
     <th data-nosort style="text-align:right" title="Median of every matched story">Typical margin</th>
     <th data-nosort style="text-align:right" title="Median margin on the stories RotoWire posted first">RW wins by</th>
@@ -1307,8 +1385,9 @@ function renderTrend() {
   const thin = () => false;
   const last = rows[rows.length - 1];
 
-  const W = Math.max(320, el.clientWidth - 28), H = 240;
-  const m = { t: 14, r: 76, b: 30, l: 72 };
+  const W = Math.max(300, el.clientWidth - 28), H = 260;
+  const narrow = W < 560;
+  const m = { t: 14, r: narrow ? 70 : 84, b: 30, l: 72 };
   const iw = W - m.l - m.r, ih = H - m.t - m.b;
   // The axis fits every point on the line.
   const allVals = rows.map(lineVal).filter(v => v != null);
@@ -1355,7 +1434,8 @@ function renderTrend() {
     return `<circle cx="${x(i)}" cy="${y(v)}" r="${isDay ? 3 : 4}" class="t-dot ${faint ? "faint" : ""} ${low ? "hollow" : ""} ${clipped ? "clipped" : ""}"/>`;
   }).join("");
   const lastV = last && lineVal(last);
-  const endLabel = lastV != null ? `<text x="${x(rows.length - 1) + 10}" y="${y(lastV) + 4}" class="t-end">${fmtMargin(Math.round(lastV))}</text>` : "";
+  const endLabel = lastV != null ? `<text x="${x(rows.length - 1) + 8}" y="${y(lastV) + 4}" class="t-end">${fmtMargin(Math.round(lastV))}</text>
+    <text x="${x(rows.length - 1) + 8}" y="${y(lastV) + 18}" class="t-side">${isDay ? "latest day" : (narrow ? "" : "last ") + ROLL}</text>` : "";
   // Release markers: a dashed line at the bucket each release date falls in. A release
   // before the first bucket can't be placed, so it's named in a note instead.
   const keyOf = d => d;   // rows are days in every view
@@ -1368,12 +1448,51 @@ function renderTrend() {
     marks.push({ ...ms, i: idx });
   });
   const fmtDay = d => new Date(d + "T12:00:00Z").toLocaleString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
-  // Labels closer than ~150px stack downwards so they never overlap.
-  let lastX = -1e9, row = 0;
-  marks.forEach(mk => { const px = x(mk.i); row = px - lastX < 150 ? row + 1 : 0; mk.row = row; lastX = px; });
+  // A milestone that opens an era is named after that era, so chart and table agree.
+  const eras = state.agg.eras || [];
+  marks.forEach(mk => { const e = eras.find(e => e.from === mk.date); if (e) mk.label = e.label; });
+  // Labels sit along the bottom of the plot; ones closer than their width stack upwards.
+  const markText = mk => narrow ? fmtDay(mk.date) : `${mk.label} · ${fmtDay(mk.date)}`;
+  // Each label's horizontal extent (about 7px a character at 12px); a label that would touch
+  // one already placed moves up a row.
+  const placed = [];
+  marks.forEach(mk => {
+    mk.end = x(mk.i) + 6 + markText(mk).length * 7 > W - m.r;
+    const w = markText(mk).length * 7, px = x(mk.i);
+    const [a0, a1] = mk.end ? [px - 6 - w, px - 6] : [px + 6, px + 6 + w];
+    let r = 0;
+    while (placed.some(p => p.row === r && a0 < p.a1 + 8 && a1 > p.a0 - 8)) r++;
+    mk.row = r; placed.push({ row: r, a0, a1 });
+  });
   const markSvg = marks.map(mk => `<line x1="${x(mk.i)}" x2="${x(mk.i)}" y1="${m.t}" y2="${m.t + ih}" class="t-mark"/>
-    <text x="${x(mk.i) + (mk.i > rows.length * 0.75 ? -6 : 6)}" y="${m.t + 12 + mk.row * 14}" class="t-mark-label"
-      text-anchor="${mk.i > rows.length * 0.75 ? "end" : "start"}">${esc(mk.label)} · ${fmtDay(mk.date)}</text>`).join("");
+    <text x="${x(mk.i) + (mk.end ? -6 : 6)}" y="${m.t + ih - 8 - mk.row * 16}" class="t-mark-label halo"
+      text-anchor="${mk.end ? "end" : "start"}">${esc(markText(mk))}</text>`).join("");
+  // The first era (before mass adoption) is shaded, with its typical margin drawn across it.
+  let band = "", bandFg = "";
+  const e0 = eras[0];
+  if (eras.length > 1 && e0.until && e0.median_lead_seconds != null) {
+    let iEnd = -1;
+    rows.forEach((r, i) => { if (r.period < e0.until) iEnd = i; });
+    if (iEnd > 0) {
+      const x1 = x(iEnd), yv = y(e0.median_lead_seconds);
+      band = `<rect x="${m.l}" y="${m.t}" width="${x1 - m.l}" height="${ih}" class="t-band"/>`;
+      bandFg = `<line x1="${m.l}" x2="${x1}" y1="${yv}" y2="${yv}" class="t-era"/>
+        <text x="${(m.l + x1) / 2}" y="${yv - 7}" text-anchor="middle" class="t-band-label halo">${narrow ? "" : esc(e0.label) + ": "}typical ${fmtMargin(e0.median_lead_seconds)}</text>`;
+    }
+  }
+  // How far the 7-day gap has stayed over the last month, stated as a ceiling with a start date.
+  const r7 = rows.map(r => [r.period, r.rolling7_median_seconds]).filter(([, v]) => v != null);
+  let held = "";
+  if (r7.length > 30) {
+    const worst = Math.min(...r7.slice(-30).map(([, v]) => v));
+    if (worst < 0) {
+      const T = Math.ceil(-worst / 60) * 60;
+      const breach = r7.filter(([, v]) => v < -T).pop();
+      const startI = breach ? r7.findIndex(([d]) => d === breach[0]) + 1 : 0;
+      if (r7.length - startI > 30)
+        held = ` Since ${fmtDay(r7[startI][0])} the 7-day gap has stayed under ${T / 60} minute${T === 60 ? "" : "s"}.`;
+    }
+  }
   const earlyNote = early.length ? ` ${early.map(e => `${esc(e.label)} (${fmtDay(e.date)})`).join(", ")}
     went live before tracking started, so everything shown is after it.` : "";
   const hits = rows.map((r, i) => {
@@ -1383,17 +1502,23 @@ function renderTrend() {
 
   el.innerHTML = `<div class="trend-head">
       <div><h3>Typical margin over time</h3>
-        <p>Median of every matched story over the last ${ROLL}, day by day, reaching further back when news is thin so each point rests on at least ${MIN} stories${state.agg.analysis_start ? `, from ${fmtDay(state.agg.analysis_start)} on` : ""}. Above the line RotoWire was typically first; below it, Underdog. The goal is to get above the line.${earlyNote}</p></div>
+        <p>Median of every matched story over the last ${ROLL}, day by day, reaching further back when news is thin so each point rests on at least ${MIN} stories${state.agg.analysis_start ? `, from ${fmtDay(state.agg.analysis_start)} on` : ""}. Above the line RotoWire was typically first; below it, Underdog.${held}${earlyNote}</p></div>
       <div class="seg" role="group" aria-label="Group by">${TREND_GRAINS.map(([k, l]) =>
         `<button type="button" data-g="${k}" class="${k === grain ? "on" : ""}" aria-pressed="${k === grain}">${l}</button>`).join("")}</div>
     </div>
     <div class="trend-plot"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img"
       aria-label="Median margin by ${grain}; latest ${last ? esc(last.label) + " " + fmtMargin(Math.round(lastV)) : ""}">
-      <text x="${m.l + 6}" y="${y(0) - 7}" class="t-side">▲ RotoWire earlier</text>
-      <text x="${m.l + 6}" y="${y(0) + 15}" class="t-side">▼ Underdog earlier</text>
-      ${grid}${xlabels}${markSvg}<path d="${thinPath}" class="t-line thin"/><path d="${path}" class="t-line"/>${dots}${endLabel}
+      ${band}
+      <text x="${m.l + 6}" y="${y(0) - 7}" class="t-side halo">▲ RotoWire earlier</text>
+      <text x="${m.l + 6}" y="${y(0) + 15}" class="t-side halo">▼ Underdog earlier</text>
+      ${grid}${xlabels}${markSvg}<path d="${thinPath}" class="t-line thin"/><path d="${path}" class="t-line"/>${bandFg}${dots}${endLabel}
       <line class="t-cross hidden" y1="${m.t}" y2="${m.t + ih}"/>${hits}</svg>
-      <div class="t-tip hidden"></div></div>${sourceChart(rows, grain, W, fmtDay, marks)}${erasTable()}`;
+      <div class="t-tip hidden"></div></div>`;
+  // Before / after table and source timing live in their own panel, below the KPIs.
+  const erasEl = document.getElementById("eras");
+  erasEl.innerHTML = erasTable() + sourceChart(rows, grain, W, fmtDay, marks);
+  if (erasEl.innerHTML.trim()) delete erasEl.dataset.empty; else erasEl.dataset.empty = "1";
+  applyTopMode();
 
   el.querySelectorAll(".seg button").forEach(b => b.onclick = () => {
     state.trendGrain = b.dataset.g;
@@ -1458,7 +1583,7 @@ function renderCustom() {
        <label>To<input type="date" id="c-to" value="${state.customTo || ""}"></label>
        <label>&nbsp;<button id="c-clear" class="sport-btn" style="padding:6px 12px">Clear</button></label>
      </div>
-     <p style="color:var(--muted);font-size:13px;margin:0 0 12px">
+     <p style="color:var(--muted);font-size:14px;margin:0 0 12px">
        Metrics for ${ranged ? esc(rangeLabel) : "all dates"} — pick a range to scope the numbers.</p>
      <div class="kpis">${cards.map(([l,v,sub]) =>
        `<div class="kpi"><div class="label">${l}</div><div class="value">${v} <small>${sub||""}</small></div></div>`).join("")}</div>
@@ -1592,7 +1717,7 @@ function renderGaps() {
       <td><span class="chip">${feedOf(s)}</span></td>
       <td class="story">${ls ? textLink(ls.handle, ls.side, ls.side.text) : "—"}</td></tr>`;
   }).join("");
-  const intro = `<p style="color:var(--muted);font-size:13px;margin:0 0 12px">
+  const intro = `<p style="color:var(--muted);font-size:14px;margin:0 0 12px">
        News one feed posted and the other never matched — ${rw} RotoWire-only,
        ${ud} Underdog-only. The Story links to the tweet.</p>`;
   const table = rows.length
@@ -1631,7 +1756,7 @@ function renderDups() {
       <td class="story">${matchedSide ? textLink(matchedHandle, matchedSide, matchedText) : esc(matchedText || "—")}</td></tr>`;
   }).join("");
   document.getElementById("view-dups").innerHTML = dups.length
-    ? `<p style="color:var(--muted);font-size:13px;margin:0 0 12px">
+    ? `<p style="color:var(--muted);font-size:14px;margin:0 0 12px">
          Later posts about news one account already reported: an Underdog quote-tweet update
          or a second RotoWire tweet on the same development. They don't count toward speed
          or coverage gaps; this list is for spot-checking. <b>Type</b> flags whether this post is
@@ -1773,8 +1898,9 @@ function applyTopMode() {
   const has = !isAll && !!(state.agg && state.agg.audience);
   const mode = has && state.topMode === "audience" ? "audience" : "timing";
   document.getElementById("mode-row").classList.toggle("hidden", !has);
-  ["kpis", "focus-callout", "trend"].forEach(id =>
-    document.getElementById(id).classList.toggle("hidden", isAll || mode !== "timing"));
+  ["kpis", "focus-callout", "trend", "lead", "eras"].forEach(id => {
+    const node = document.getElementById(id);
+    node.classList.toggle("hidden", isAll || mode !== "timing" || node.dataset.empty === "1"); });
   document.getElementById("audience-top").classList.toggle("hidden", isAll || mode !== "audience");
   document.querySelectorAll("#mode-row button").forEach(b => {
     b.classList.toggle("on", b.dataset.m === mode); b.setAttribute("aria-pressed", b.dataset.m === mode); });
@@ -1801,9 +1927,13 @@ function renderAudience() {
   const kpi = (label, value, sub) => `<div class="kpi"><div class="label">${label}</div>
     <div class="value">${value}</div><div class="kpi-sub">${sub}</div></div>`;
 
-  // Follower growth since the first count, both sides (rate, so the bigger account isn't favoured).
+  // Follower growth from the first day both accounts were counted (rate, so the bigger account isn't favoured).
   const gr = g.rotowire, gu = g.underdog;
-  const faster = gr && gu && gr.gained_rate != null && gu.gained_rate != null ? gr.gained_rate >= gu.gained_rate : null;
+  const fr0 = fol.rotowire || [], fu0 = fol.underdog || [];
+  const common = fr0.length && fu0.length ? [fr0[0].date, fu0[0].date].sort().pop() : null;
+  const gainSince = (ser, d) => { const a0 = ser.find(p => p.date >= d), z = ser[ser.length - 1];
+    return a0 && z && z.date > a0.date ? z.followers / a0.followers - 1 : null; };
+  const folR = common && gainSince(fr0, common), folU = common && gainSince(fu0, common);
   // Impressions growth: each week's last 4 weeks of impressions vs the 4 weeks before
   // (complete weeks), so the comparison is about pace now, not an empty July baseline.
   const sum4 = (i, side) => weeks.slice(i - 3, i + 1).reduce((t, w) => t + (w[`${side}_total_views`] || 0), 0);
@@ -1811,15 +1941,21 @@ function renderAudience() {
     week: w.week, rw: sum4(i, "rotowire") / (sum4(i - 4, "rotowire") || 1) - 1,
     ud: sum4(i, "underdog") / (sum4(i - 4, "underdog") || 1) - 1 }).filter(Boolean);
   const gNow = growth[growth.length - 1];
+  // Any 3x step in RotoWire's median views per post, so the growth number carries its caveat.
+  let jump = null;
+  full.forEach((w, i) => { const p = full[i - 1];
+    if (p && p.rotowire_median_views && w.rotowire_median_views / p.rotowire_median_views >= 3
+        && (!jump || w.rotowire_median_views / p.rotowire_median_views > jump.f))
+      jump = { w, p, f: w.rotowire_median_views / p.rotowire_median_views }; });
 
-  const kpis = `<div class="kpis has-headline">
-    ${gr ? kpi("RotoWire followers", num(gr.followers), gr.per_day != null ? `+${num(gr.per_day)}/day, ${pctS(gr.gained_rate, 2)} since ${fmtD(gr.first_date)}` : "first count today") : ""}
+  const kpis = `<div class="kpis has-headline a-kpis">
+    ${gNow ? `<div class="kpi"><div class="label">Impressions growth · last 4 weeks vs prior 4</div>
+      <div class="value">RW ${pctS(gNow.rw, 0)}</div><div class="kpi-sub">UD ${pctS(gNow.ud, 0)}</div>
+      ${jump ? `<div class="kpi-sub kpi-flag">RotoWire's views per post jumped ${Math.round(jump.f)}x the week of ${fmtD(jump.w.week)}; see the note below.</div>` : ""}</div>` : ""}
+    ${gr ? kpi("RotoWire followers", num(gr.followers), gr.per_day != null ? `+${num(gr.per_day)} a day` : "first count today") : ""}
     ${lastW ? kpi("RotoWire impressions, last week", kfmt(lastW.rotowire_total_views),
       `${rwPrevAvg ? pctS(lastW.rotowire_total_views / rwPrevAvg - 1, 0) + " vs the 4 weeks before" : ""} · week of ${fmtD(lastW.week)}`) : ""}
-    ${faster != null ? kpi("Followers growing faster than UD?", faster ? "Yes" : "No",
-      `RW ${pctS(gr.gained_rate, 2)} vs UD ${pctS(gu.gained_rate, 2)} since ${fmtD(gr.first_date)}`) : ""}
-    ${gNow ? kpi("Impressions growing faster than UD?", gNow.rw >= gNow.ud ? "Yes" : "No",
-      `last 4 weeks vs the 4 before: RW ${pctS(gNow.rw, 0)}, UD ${pctS(gNow.ud, 0)}`) : ""}</div>`;
+    ${folR != null && folU != null ? kpi(`Follower growth since ${fmtD(common)}`, pctS(folR, 2), `UD ${pctS(folU, 2)}`) : ""}</div>`;
 
   // RotoWire impressions per week (bars), with any 3x step in views per post named.
   let impPanel = "";
@@ -1839,11 +1975,6 @@ function renderAudience() {
       if (i % every === 0 || i === weeks.length - 1)
         svg += `<text class="t-tick" x="${m.l + i * bw + bw / 2}" y="${H - 8}" text-anchor="middle">${fmtD(w.week)}</text>`;
     });
-    let jump = null;
-    full.forEach((w, i) => { const p = full[i - 1];
-      if (p && p.rotowire_median_views && w.rotowire_median_views / p.rotowire_median_views >= 3
-          && (!jump || w.rotowire_median_views / p.rotowire_median_views > jump.f))
-        jump = { w, p, f: w.rotowire_median_views / p.rotowire_median_views }; });
     impPanel = `<div class="panel a-panel"><h3>RotoWire impressions per week</h3>
       <p class="type-note">Views on RotoWire's news posts, counted once each post is ${a.mature_hours || 36} hours old (Monday weeks). Faded weeks have fewer than ${AUD_MIN_POSTS} posts.</p>
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire impressions per week">${svg}</svg>
@@ -1881,39 +2012,25 @@ function renderAudience() {
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire followers over time">${svg}</svg></div>`;
   }
 
-  // Comps: growth vs Underdog (indexed so the bigger account doesn't dwarf the smaller).
+  // Comps: impressions growth vs Underdog, the latest 4 weeks vs the 4 before, one bar each.
   let impComp = "";
-  if (growth.length > 1) {
-    const W = 560, H = 210, m = { t: 14, r: 78, b: 28, l: 52 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
-    const vals = growth.flatMap(gw => [gw.rw, gw.ud]);
-    let lo = Math.min(0, ...vals), hi = Math.max(0.1, ...vals);
-    const pad = (hi - lo) * 0.1; lo -= pad; hi += pad;
-    const x = i => m.l + i / (growth.length - 1) * iw, y = v => m.t + (hi - v) / (hi - lo) * ih;
-    const step = [0.1, 0.25, 0.5, 1, 2, 5, 10].find(s => (hi - lo) / s <= 6) || 10;
-    let svg = "";
-    for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) svg += `<line class="${Math.abs(v) < 1e-9 ? "t-zero" : "t-grid"}" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
-      <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${Math.abs(v) < 1e-9 ? "flat" : pctS(v, 0)}</text>`;
-    const lr = growth[growth.length - 1].rw, lu = growth[growth.length - 1].ud;
-    const gap = Math.abs(y(lr) - y(lu)) < 14 ? (y(lr) < y(lu) ? -7 : 7) : 0;
-    [["ud", "ud", "UD", -gap], ["rw", "rw", "RW", gap]].forEach(([k, c, l, dy]) => {
-      svg += `<path class="s-line ${c}" d="${growth.map((gw, i) => `${i ? "L" : "M"}${x(i).toFixed(1)},${y(gw[k]).toFixed(1)}`).join("")}"/>
-        <text class="s-end ${c}" x="${x(growth.length - 1) + 8}" y="${y(growth[growth.length - 1][k]) + 4 + dy}">${l} ${pctS(growth[growth.length - 1][k], 0)}</text>`; });
-    svg += growth.map((gw, i) => `<rect class="t-hit" x="${x(i) - iw / growth.length / 2}" y="${m.t}" width="${iw / growth.length}" height="${ih}">
-      <title>4 weeks to ${fmtD(gw.week)}: RotoWire ${pctS(gw.rw, 0)}, Underdog ${pctS(gw.ud, 0)} vs the 4 weeks before</title></rect>`).join("");
-    const every = Math.max(1, Math.ceil(growth.length / 6));
-    growth.forEach((gw, i) => { if (i % every === 0 || i === growth.length - 1)
-      svg += `<text class="t-tick" x="${x(i)}" y="${H - 8}" text-anchor="middle">${fmtD(gw.week)}</text>`; });
+  if (gNow) {
+    const maxG = Math.max(0.01, gNow.rw, gNow.ud);
+    const gbar = (label, v, cls) => `<div class="a-bar" title="${esc(`${label}: ${pctS(v, 0)} impressions, the 4 weeks to ${fmtD(gNow.week)} vs the 4 weeks before`)}">
+      <div class="a-bar-lab">${label}</div>
+      <div class="a-bar-track"><div class="a-track"><div class="a-bar-fill ${cls} strong" style="width:${(Math.max(0, v) / maxG * 100).toFixed(1)}%"></div></div>
+      <span class="a-bar-val">${pctS(v, 0)}</span></div></div>`;
     impComp = `<div class="panel a-panel"><h3>Impressions growth vs Underdog</h3>
-      <p class="type-note">Each account's impressions over the last 4 weeks vs the 4 weeks before. Above "flat" means growing; the higher line is growing faster.</p>
-      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Impressions growth, RotoWire vs Underdog">${svg}</svg></div>`;
+      <p class="type-note">Impressions in the 4 weeks to ${fmtD(gNow.week)} vs the 4 weeks before. Growth rate, so the bigger account isn't favoured.</p>
+      <div class="a-bars">${gbar("RotoWire", gNow.rw, "rw")}${gbar("Underdog", gNow.ud, "ud")}</div></div>`;
   }
   // Follower growth vs Underdog: percent gained since the first count, one line each.
   let folComp = "";
   const fu = fol.underdog || [];
-  if (fr.length > 1 && fu.length > 1) {
+  if (common && fr.filter(p => p.date >= common).length > 1 && fu.filter(p => p.date >= common).length > 1) {
     const W = 560, H = 210, m = { t: 14, r: 86, b: 28, l: 52 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
     const pctOf = ser => ser.map(p => ({ date: p.date, v: p.followers / ser[0].followers - 1 }));
-    const pr = pctOf(fr), pu = pctOf(fu), dates = [...new Set([...pr, ...pu].map(p => p.date))].sort();
+    const pr = pctOf(fr.filter(p => p.date >= common)), pu = pctOf(fu.filter(p => p.date >= common)), dates = [...new Set([...pr, ...pu].map(p => p.date))].sort();
     const hi = Math.max(0.001, ...pr.map(p => p.v), ...pu.map(p => p.v)) * 1.15;
     const x = d => m.l + dates.indexOf(d) / Math.max(1, dates.length - 1) * iw, y = v => m.t + (1 - v / hi) * ih;
     const step = [0.001, 0.0025, 0.005, 0.01, 0.025, 0.05, 0.1].find(st => hi / st <= 5) || 0.1;
@@ -1929,19 +2046,19 @@ function renderAudience() {
     svg += dates.map(d => `<text class="t-tick" x="${x(d)}" y="${H - 8}" text-anchor="middle">${fmtD(d)}</text>`)
       .filter((_, i) => i % Math.max(1, Math.ceil(dates.length / 6)) === 0 || i === dates.length - 1).join("");
     folComp = `<div class="panel a-panel"><h3>Follower growth vs Underdog</h3>
-      <p class="type-note">Percent gained since ${fmtD(fr[0].date)}, so the bigger account isn't favoured. The higher line is growing faster.</p>
+      <p class="type-note">Percent gained since ${fmtD(common)}, the first day both were counted, so the bigger account isn't favoured. The higher line is growing faster.</p>
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Follower growth, RotoWire vs Underdog">${svg}</svg></div>`;
   }
   const SH = [["rotowire_first", "RotoWire first"], ["tie", "Within 1 minute"], ["underdog_first", "Underdog first"],
     ["underdog_first_10m", "Underdog first by 10+ min"]].filter(([k]) => h[k] && h[k].stories);
-  const maxS = Math.max(0.01, ...SH.map(([k]) => h[k].rotowire_share || 0));
   const sharePanel = SH.length ? `<div class="panel a-panel"><h3>Views on the same story, as a share of Underdog's</h3>
     <p class="type-note">Matched stories by who posted first: the median of RotoWire's views ÷ Underdog's.</p>
     <div class="a-bars">${SH.map(([k, label]) => { const r = h[k];
       return `<div class="a-bar" title="${esc(`${label}: ${r.stories} stories. Median views RW ${num(r.rotowire_median_views)}, UD ${num(r.underdog_median_views)}`)}">
         <div class="a-bar-lab">${label}<span class="bl">${num(r.stories)} stories</span></div>
-        <div class="a-bar-track"><div class="a-bar-fill rw${k === "underdog_first_10m" ? " strong" : ""}" style="width:${(r.rotowire_share / maxS * 100).toFixed(1)}%"></div>
-        <span class="a-bar-val">${(r.rotowire_share * 100).toFixed(1)}%</span></div></div>`; }).join("")}</div></div>` : "";
+        <div class="a-bar-track"><div class="a-track"><div class="a-bar-fill rw${k === "underdog_first_10m" ? " strong" : ""}" style="width:${Math.min(100, r.rotowire_share * 100).toFixed(1)}%"></div></div>
+        <span class="a-bar-val">${(r.rotowire_share * 100).toFixed(0)}%</span></div></div>`; }).join("")}</div>
+    <p class="type-note" style="margin:8px 0 0">A full track would be the same views as Underdog.</p></div>` : "";
 
   el.innerHTML = `${kpis}
     <div class="a-grid one">${folPanel}${impPanel}</div>
@@ -1958,11 +2075,28 @@ function showView(name) {
   if (name === "staff" && !((state.agg.staffing || {}).days || []).length) name = "feed";
   if (name === "games" && !((state.agg.game_windows || {}).windows || []).length) name = "feed";
   if (name === "practice" && !state.agg.practice) name = "feed";
-  if (name === "focus" && !((state.agg.focus || {}).groups || []).length) name = "feed";
+  if (name === "focus" && !((state.agg.focus || {}).groups || []).length) name = "weekly";
   state.view = name;
-  document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.view===name));
-  VIEWS.forEach(v =>
-    document.getElementById("view-"+v).classList.toggle("hidden", v!==name));
+  document.querySelectorAll(".tab").forEach(t => {
+    const on = t.dataset.view === name;
+    t.classList.toggle("active", on); t.setAttribute("aria-selected", on); t.tabIndex = on ? 0 : -1;
+    t.setAttribute("aria-controls", "view-" + t.dataset.view); });
+  VIEWS.forEach(v => {
+    const sec = document.getElementById("view-" + v);
+    sec.classList.toggle("hidden", v !== name); sec.setAttribute("role", "tabpanel"); });
+  const act = document.querySelector(".tab.active");
+  if (act) act.scrollIntoView({ block: "nearest", inline: "nearest" });
+  updateTabFade();
+}
+// Opens on what to work on (Focus areas), or the weekly record when there is none.
+const defaultView = () => ((state.agg && state.agg.focus) || {}).groups?.length ? "focus" : "weekly";
+
+// Edge fades on the tab strip when tabs are scrolled out of view.
+function updateTabFade() {
+  const t = document.getElementById("tabs"), w = document.getElementById("tabs-wrap");
+  if (!t || !w) return;
+  w.classList.toggle("fade-l", t.scrollLeft > 2);
+  w.classList.toggle("fade-r", t.scrollLeft + t.clientWidth < t.scrollWidth - 2);
 }
 
 function init() {
@@ -1984,6 +2118,19 @@ function init() {
     ["f-from","f-to","f-event","f-player","f-conf","f-status"].forEach(id =>
       document.getElementById(id).addEventListener("input", renderFeed));
     document.querySelectorAll(".tab").forEach(t => t.onclick = () => showView(t.dataset.view));
+    // Arrow keys move between visible tabs (WAI-ARIA tabs pattern).
+    document.getElementById("tabs").addEventListener("keydown", e => {
+      const tabs = [...document.querySelectorAll(".tab:not(.hidden)")];
+      const i = tabs.indexOf(document.activeElement);
+      if (i < 0) return;
+      const j = { ArrowRight: i + 1, ArrowLeft: i - 1, Home: 0, End: tabs.length - 1 }[e.key];
+      if (j == null) return;
+      e.preventDefault();
+      const t = tabs[(j + tabs.length) % tabs.length];
+      showView(t.dataset.view); t.focus();
+    });
+    document.getElementById("tabs").addEventListener("scroll", updateTabFade, { passive: true });
+    window.addEventListener("resize", updateTabFade);
     document.querySelectorAll("#mode-row button").forEach(b => b.onclick = () => {
       state.topMode = b.dataset.m;
       try { localStorage.setItem("pst-top-mode", state.topMode); } catch (e) {}
@@ -2008,6 +2155,7 @@ function init() {
   renderCustom();
   renderGaps();
   renderDups();
+  if (state.sport !== ALL) showView(state.view || defaultView());
 }
 
 boot();
