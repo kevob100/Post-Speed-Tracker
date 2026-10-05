@@ -29,6 +29,16 @@ sports:
       after_hours: 3
       primetime_from: '19:00'
       primetime_after_hours: 4
+    # Staffing schedules (By staff tab), rebuilt from these Google Sheets each run
+    # (src/staffing_import.py). X Watcher is the source from 2026-10-04 on; the Breaking
+    # News Schedule (NFL + NFL News columns) fills earlier days. Aliases join the two
+    # sheets' spellings of one person.
+    staffing_sheets:
+      x_watcher_sheet: 1aHh9n2TMrB_SGi8voWNNj2yyqlCkPuq4Quc_AdLzdPI
+      breaking_news_sheet: 1ZUK_2o5l35Q7aSV_Xu_-4worspeBgEMekTmtB4dM8oE
+      since: '2026-04-01'
+      timezone: America/New_York
+      aliases: {Kevin: KOB, Eric: Eric C.}
     # Source tweet lookup (src/source.py): find the reporter tweet a matched story credits,
     # so each side gets an absolute time to post. Each story is searched once and cached.
     source_lookup:

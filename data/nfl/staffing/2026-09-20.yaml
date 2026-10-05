@@ -1,0 +1,55 @@
+# Generated from the breaking_news staffing sheet; edit the sheet, not this file.
+date: '2026-09-20'
+timezone: America/New_York
+source: breaking_news
+roles: {nfl: NFL desk, nfl_news: NFL News}
+slots:
+- start: 08:00
+  nfl: [Adam]
+- start: 09:00
+  nfl: [Eric C.]
+  nfl_news: [Cullum]
+- start: '10:00'
+  nfl:
+  - {name: Eric C., until: '10:30'}
+  - Adam
+  nfl_news: [Cullum, Dante, Dennis]
+- start: '11:00'
+  nfl: [Adam]
+  nfl_news: [Cullum, Dante, Dennis]
+- start: '12:00'
+  nfl: [Adam, Eric C.]
+  nfl_news: [Cullum, Dante]
+- start: '13:00'
+  nfl: [Adam, Eric C.]
+  nfl_news: [Cullum, Dante]
+- start: '14:00'
+  nfl: [Adam, Eric C.]
+  nfl_news: [Cullum, Dante]
+- start: '15:00'
+  nfl: [Cullum, Eric C.]
+  nfl_news: [Nick B., Dante]
+- start: '16:00'
+  nfl: [Cullum, Eric C.]
+  nfl_news: [Nick B., Dante]
+- start: '17:00'
+  nfl: [Cullum, Eric C.]
+  nfl_news: [Nick B., Dante]
+- start: '18:00'
+  nfl: [Sasha]
+  nfl_news: [Mensio, Nick B., Cullum]
+- start: '19:00'
+  nfl: [Sasha]
+  nfl_news: [Mensio, Nick B.]
+- start: '20:00'
+  nfl: [Sasha]
+  nfl_news: [Mensio, Nick B.]
+- start: '21:00'
+  nfl: [Sasha]
+  nfl_news: [Mensio, Nick B.]
+- start: '22:00'
+  nfl: [Sasha]
+  nfl_news: [Mensio, Nick B.]
+- start: '23:00'
+  nfl: [Sasha]
+  nfl_news: [Mensio, Nick B.]

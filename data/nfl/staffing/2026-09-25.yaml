@@ -1,0 +1,46 @@
+# Generated from the breaking_news staffing sheet; edit the sheet, not this file.
+date: '2026-09-25'
+timezone: America/New_York
+source: breaking_news
+roles: {nfl: NFL desk, nfl_news: NFL News}
+slots:
+- start: 08:00
+  nfl: [KOB]
+- start: 09:00
+  nfl: [KOB]
+- start: '10:00'
+  nfl: [Jerry, KOB]
+- start: '11:00'
+  nfl: [Jerry, KOB]
+- start: '12:00'
+  nfl: [Eric C., Jerry, KOB]
+- start: '13:00'
+  nfl: [Eric C., Jerry, KOB]
+- start: '14:00'
+  nfl: [Eric C., Jerry, KOB]
+- start: '15:00'
+  nfl: [Eric C., Jerry, KOB]
+- start: '16:00'
+  nfl: [Eric C., Jerry, KOB]
+  nfl_news: [Cullum, Dennis]
+- start: '17:00'
+  nfl: [Eric C., Jerry, KOB]
+  nfl_news: [Cullum, Dennis]
+- start: '18:00'
+  nfl: [Cullum]
+  nfl_news: [Dante, Dennis]
+- start: '19:00'
+  nfl: [Cullum]
+  nfl_news: [Dante, Dennis]
+- start: '20:00'
+  nfl: [Cullum]
+  nfl_news: [Dante, Dennis]
+- start: '21:00'
+  nfl: [Cullum]
+  nfl_news: [Dante, Dennis]
+- start: '22:00'
+  nfl: [Cullum]
+  nfl_news: [Dante, Dennis]
+- start: '23:00'
+  nfl: [Cullum]
+  nfl_news: [Dante]

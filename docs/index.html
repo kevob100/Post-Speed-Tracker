@@ -889,7 +889,9 @@ function renderStaff() {
   const dayKey = days.some(d => d.date === state.staffDay) || (state.staffDay === ALLDAYS && days.length > 1)
     ? state.staffDay : days[days.length - 1].date;
   const day = days.find(d => d.date === dayKey);
-  const roles = st.roles || {};
+  // A day shows only the roles its sheet has (X Watcher: tweets / distributor / writers;
+  // the older Breaking News Schedule: NFL desk / NFL News). All days lists every role.
+  const roles = (day && day.roles) || st.roles || {};
   const role = roles[state.staffRole] ? state.staffRole : Object.keys(roles)[0];
   const total = day ? day.total : st.all.total;
   const people = (day ? day.people : st.all.people)[role] || [];
@@ -972,7 +974,7 @@ function renderStaff() {
   el.innerHTML = `<p class="type-note">How RotoWire did against Underdog by who held each desk role when the news
       broke (the first post on either feed). A shared hour credits everyone on it. Only hours on the schedule count.</p>
     <div class="filters">
-      <label>Day<select id="f-staff-day">${days.map(d =>
+      <label>Day<select id="f-staff-day">${[...days].reverse().map(d =>
         `<option value="${d.date}"${d.date === dayKey ? " selected" : ""}>${fmtDay(d.date)}</option>`).join("")}
         ${days.length > 1 ? `<option value="${ALLDAYS}"${dayKey === ALLDAYS ? " selected" : ""}>All scheduled days</option>` : ""}</select></label>
     </div>

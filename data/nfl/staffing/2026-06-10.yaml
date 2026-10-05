@@ -1,0 +1,42 @@
+# Generated from the breaking_news staffing sheet; edit the sheet, not this file.
+date: '2026-06-10'
+timezone: America/New_York
+source: breaking_news
+roles: {nfl: NFL desk, nfl_news: NFL News}
+slots:
+- start: 08:00
+  nfl: [Ilango]
+- start: 09:00
+  nfl: [Ilango]
+- start: '10:00'
+  nfl: [Jerry, Ilango]
+- start: '11:00'
+  nfl: [Jerry, Ilango]
+- start: '12:00'
+  nfl: [Jerry, Ilango]
+- start: '13:00'
+  nfl: [Jerry, Ilango]
+- start: '14:00'
+  nfl: [Jerry, Ilango]
+- start: '15:00'
+  nfl: [Jerry, Ilango]
+  nfl_news: [Luke]
+- start: '16:00'
+  nfl: [Mike D.]
+  nfl_news: [Luke]
+- start: '17:00'
+  nfl: [Eric C.]
+- start: '18:00'
+  nfl: [Mensio]
+  nfl_news: [Nick R.]
+- start: '19:00'
+  nfl: [Mensio]
+  nfl_news: [Nick R.]
+- start: '20:00'
+  nfl: [Mensio]
+- start: '21:00'
+  nfl: [Mensio]
+- start: '22:00'
+  nfl: [Mensio]
+- start: '23:00'
+  nfl: [Mensio]

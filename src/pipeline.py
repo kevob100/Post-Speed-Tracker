@@ -24,7 +24,7 @@ import json
 from datetime import datetime
 import os
 
-from . import aggregate, classify, collect, develop, games, match, practice, source
+from . import aggregate, classify, collect, develop, games, match, practice, source, staffing_import
 from .config import (
     DOCS_DATA_DIR,
     load_config,
@@ -107,6 +107,12 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
     if meta.get("practice_phases") and has_key:
         n = len(practice.label_phases(data_dir))
         print(f"[practice]  {n} practice posts labelled pre/post")
+
+    if meta.get("staffing_sheets"):
+        try:
+            print(f"[staffing]  {staffing_import.sync(meta['staffing_sheets'], data_dir / 'staffing')}")
+        except Exception as e:  # keep the files from the last good sync
+            print(f"[staffing]  skipped: {e}")
 
     gw = meta.get("game_windows")
     if gw and gw.get("source") == "espn":

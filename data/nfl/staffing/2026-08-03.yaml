@@ -1,0 +1,42 @@
+# Generated from the breaking_news staffing sheet; edit the sheet, not this file.
+date: '2026-08-03'
+timezone: America/New_York
+source: breaking_news
+roles: {nfl: NFL desk, nfl_news: NFL News}
+slots:
+- start: 08:00
+  nfl: [Adam]
+- start: 09:00
+  nfl: [Adam]
+- start: '10:00'
+  nfl: [Mike D.]
+- start: '11:00'
+  nfl: [Mike D.]
+- start: '12:00'
+  nfl: [Mike D., Eric C.]
+- start: '13:00'
+  nfl: [Mike D., Eric C.]
+- start: '14:00'
+  nfl: [Mike D., Eric C.]
+- start: '15:00'
+  nfl: [Mike D., Eric C.]
+- start: '16:00'
+  nfl: [Mike D., Eric C.]
+- start: '17:00'
+  nfl: [Mike D., Eric C.]
+  nfl_news: [Dante]
+- start: '18:00'
+  nfl: [Paul]
+  nfl_news: [Jarrad, Dante]
+- start: '19:00'
+  nfl: [Paul]
+  nfl_news: [Jarrad, Dante]
+- start: '20:00'
+  nfl: [Paul]
+  nfl_news: [Jarrad, Dante]
+- start: '21:00'
+  nfl: [Paul]
+- start: '22:00'
+  nfl: [Paul]
+- start: '23:00'
+  nfl: [Paul]
