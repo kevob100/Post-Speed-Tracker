@@ -748,8 +748,8 @@ function renderHours() {
 const TREND_GRAINS = [["day", "Day"], ["week", "Week"], ["month", "Month"]];
 const TREND_CLAMP = 600;            // y-axis caps at ±10 min; values beyond sit on the edge
 function trendGrain() {
-  if (state.trendGrain) return state.trendGrain;
-  try { return localStorage.getItem("trendGrain") || "week"; } catch (e) { return "week"; }
+  // Always opens on Week; a Day/Month pick lasts until the page is reloaded.
+  return state.trendGrain || "week";
 }
 
 function renderTrend() {
@@ -844,7 +844,6 @@ function renderTrend() {
 
   el.querySelectorAll(".seg button").forEach(b => b.onclick = () => {
     state.trendGrain = b.dataset.g;
-    try { localStorage.setItem("trendGrain", b.dataset.g); } catch (e) {}
     renderTrend();
   });
   const tip = el.querySelector(".t-tip"), cross = el.querySelector(".t-cross");
