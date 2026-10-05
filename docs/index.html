@@ -236,10 +236,6 @@
   .a-grid.one { grid-template-columns: minmax(0, 1fr); }
   .a-col { fill: var(--green); } .a-col.thin { opacity: .4; }
   .a-bar-fill.ud { background: var(--red); }
-  .a-gains.big { margin-top: 14px; gap: 22px; }
-  .a-gains.big .a-gain-bars { height: 142px; }
-  .a-gains.big .a-gain i { width: 26px; }
-  .a-gain b { color: var(--text); font-weight: 600; font-variant-numeric: tabular-nums; }
   .a-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-bottom: 12px; }
   @media (max-width: 860px) { .a-grid, .a-grid.a-main { grid-template-columns: minmax(0, 1fr); } }
   .a-panel { padding: 14px; min-width: 0; }
@@ -256,13 +252,7 @@
     font-size: 12.5px; margin: 10px 0 0; }
   .a-strip { display: flex; flex-wrap: wrap; gap: 16px; align-items: flex-end; margin-top: 8px; }
   .a-legend { display: flex; flex-direction: column; gap: 4px; font-size: 12px; color: var(--muted); }
-  .a-legend .sw, .a-gain i { display: inline-block; border-radius: 2px; }
   .a-legend .sw { width: 8px; height: 8px; margin-right: 6px; }
-  .sw.rw, .a-gain i.rw { background: var(--green); } .sw.ud, .a-gain i.ud { background: var(--red); }
-  .a-gains { display: flex; gap: 14px; align-items: flex-end; overflow-x: auto; }
-  .a-gain { display: flex; flex-direction: column; align-items: center; gap: 4px; font-size: 11px; color: var(--muted); }
-  .a-gain-bars { display: flex; gap: 2px; align-items: flex-end; height: 46px; }
-  .a-gain i { width: 12px; }
   .s-line { fill: none; stroke-width: 2; stroke-linejoin: round; }
   .s-line.rw { stroke: var(--green); } .s-line.ud { stroke: var(--red); }
   .s-line.thin { stroke-width: 1.5; stroke-dasharray: 2 4; opacity: .55; }
@@ -1777,7 +1767,6 @@ function renderAllTable() {
 
 // ---- audience (top switch): RotoWire's followers and impressions, then growth vs Underdog ----
 const AUD_MIN_POSTS = 20;             // a week with fewer posts on a side is too thin to compare
-const AUD_FOLLOWER_CHART_DAYS = 28;   // below this, followers show as daily gains, not a chart
 
 function applyTopMode() {
   const isAll = state.sport === ALL || !state.agg;
@@ -1835,14 +1824,14 @@ function renderAudience() {
   // RotoWire impressions per week (bars), with any 3x step in views per post named.
   let impPanel = "";
   if (weeks.length) {
-    const W = 620, H = 220, m = { t: 14, r: 16, b: 28, l: 52 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const W = 1100, H = 230, m = { t: 14, r: 16, b: 28, l: 64 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
     const max = Math.max(1, ...weeks.map(w => w.rotowire_total_views || 0)) * 1.1;
     const step = [1e5, 2.5e5, 5e5, 1e6, 2.5e6, 5e6, 1e7].find(s => max / s <= 5) || 1e7;
     const bw = iw / weeks.length, y = v => m.t + (1 - v / max) * ih;
     let svg = "";
     for (let v = 0; v <= max; v += step) svg += `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
       <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${kfmt(v)}</text>`;
-    const every = Math.max(1, Math.ceil(weeks.length / 7));
+    const every = Math.max(1, Math.ceil(weeks.length / 14));
     weeks.forEach((w, i) => {
       const v = w.rotowire_total_views || 0, x0 = m.l + i * bw + 2, bh = Math.max(1, ih - (y(v) - m.t));
       svg += `<rect class="a-col${w.thin ? " thin" : ""}" x="${x0}" y="${y(v)}" width="${Math.max(2, bw - 4)}" height="${bh}" rx="3">
@@ -1862,30 +1851,31 @@ function renderAudience() {
         ${kfmt(jump.w.rotowire_median_views)} and stayed up. Worth confirming why before quoting these numbers.</p>` : ""}</div>`;
   }
 
-  // RotoWire followers: daily gains until there's enough history for a line.
+  // RotoWire followers, every daily count so far (the X API only gives today's number,
+  // so history starts when collection did).
   let folPanel = "";
-  if (fol.rotowire && fol.rotowire.length) {
-    const days = gr ? gr.days || 0 : 0;
-    const gains = side => (fol[side] || []).slice(1).map((p, i) => ({ date: p.date, gain: p.followers - fol[side][i].followers }));
-    if (days < AUD_FOLLOWER_CHART_DAYS) {
-      const rg = gains("rotowire").slice(-14), max = Math.max(1, ...rg.map(x => x.gain));
-      folPanel = `<div class="panel a-panel"><h3>RotoWire new followers per day</h3>
-        <p class="type-note">${num(gr.followers)} followers, +${num(gr.gained)} since ${fmtD(gr.first_date)}.</p>
-        <div class="a-gains big">${rg.map(x => `<div class="a-gain" title="${fmtD(x.date)}: +${num(x.gain)}">
-          <b>+${num(x.gain)}</b><div class="a-gain-bars"><i class="rw" style="height:${Math.max(2, x.gain / max * 140)}px"></i></div><span>${fmtD(x.date)}</span></div>`).join("")}</div>
-        <p class="type-note">Counted once a day since ${fmtD(gr.first_date)}; becomes a growth line at ${AUD_FOLLOWER_CHART_DAYS} days.</p></div>`;
-    } else {
-      const pts = fol.rotowire, W = 420, H = 220, m = { t: 14, r: 16, b: 28, l: 58 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
-      const lo = Math.min(...pts.map(p => p.followers)), hi = Math.max(...pts.map(p => p.followers));
-      const pad = Math.max(50, (hi - lo) * 0.1), y = v => m.t + (1 - (v - lo + pad) / (hi - lo + 2 * pad)) * ih;
-      const x = i => m.l + i / (pts.length - 1) * iw;
-      const svg = [lo, (lo + hi) / 2, hi].map(v => `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
-        <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${kfmt(v)}</text>`).join("")
-        + `<path class="t-line" d="${pts.map((p, i) => `${i ? "L" : "M"}${x(i)},${y(p.followers)}`).join("")}"/>`
-        + [0, pts.length - 1].map(i => `<text class="t-tick" x="${x(i)}" y="${H - 8}" text-anchor="${i ? "end" : "start"}">${fmtD(pts[i].date)}</text>`).join("");
-      folPanel = `<div class="panel a-panel"><h3>RotoWire followers</h3>
-        <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire followers over time">${svg}</svg></div>`;
-    }
+  const fr = fol.rotowire || [];
+  if (fr.length) {
+    const W = 1100, H = 230, m = { t: 16, r: 90, b: 28, l: 64 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const t = d => new Date(d + "T12:00:00Z").getTime();
+    const t0 = t(fr[0].date), t1 = Math.max(t(fr[fr.length - 1].date), t0 + 86400e3);
+    const lo0 = Math.min(...fr.map(p => p.followers)), hi0 = Math.max(...fr.map(p => p.followers));
+    const pad = Math.max(100, (hi0 - lo0) * 0.15), lo = lo0 - pad, hi = hi0 + pad;
+    const x = d => m.l + (t(d) - t0) / (t1 - t0) * iw, y = v => m.t + (hi - v) / (hi - lo) * ih;
+    const step = [50, 100, 250, 500, 1000, 2500, 5000, 10000].find(st => (hi - lo) / st <= 5) || 10000;
+    let svg = "";
+    for (let v = Math.ceil(lo / step) * step; v <= hi; v += step) svg += `<line class="t-grid" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
+      <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${num(v)}</text>`;
+    svg += `<path class="t-line" d="${fr.map((p, i) => `${i ? "L" : "M"}${x(p.date).toFixed(1)},${y(p.followers).toFixed(1)}`).join("")}"/>`;
+    svg += fr.map(p => `<circle class="t-dot" cx="${x(p.date)}" cy="${y(p.followers)}" r="3.5"><title>${fmtD(p.date)}: ${num(p.followers)} followers</title></circle>`).join("");
+    const lp = fr[fr.length - 1];
+    svg += `<text class="t-end" x="${x(lp.date) + 10}" y="${y(lp.followers) + 4}">${kfmt(lp.followers)}</text>`;
+    const every = Math.max(1, Math.ceil(fr.length / 8));
+    fr.forEach((p, i) => { if (i % every === 0 || i === fr.length - 1)
+      svg += `<text class="t-tick" x="${x(p.date)}" y="${H - 8}" text-anchor="middle">${fmtD(p.date)}</text>`; });
+    folPanel = `<div class="panel a-panel"><h3>RotoWire followers</h3>
+      <p class="type-note">Counted once a day since ${fmtD(fr[0].date)}${gr && gr.per_day != null ? `: +${num(gr.gained)} so far, about ${num(gr.per_day)} a day` : ""}.</p>
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire followers over time">${svg}</svg></div>`;
   }
 
   // Comps: growth vs Underdog (indexed so the bigger account doesn't dwarf the smaller).
@@ -1914,15 +1904,30 @@ function renderAudience() {
       <p class="type-note">Each account's impressions over the last 4 weeks vs the 4 weeks before. Above "flat" means growing; the higher line is growing faster.</p>
       <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Impressions growth, RotoWire vs Underdog">${svg}</svg></div>`;
   }
+  // Follower growth vs Underdog: percent gained since the first count, one line each.
   let folComp = "";
-  if (gr && gu) {
-    const rows = [["RotoWire", gr, "rw"], ["Underdog", gu, "ud"]];
-    const maxR = Math.max(1e-6, ...rows.map(([, x]) => x.gained_rate || 0));
+  const fu = fol.underdog || [];
+  if (fr.length > 1 && fu.length > 1) {
+    const W = 560, H = 210, m = { t: 14, r: 86, b: 28, l: 52 }, iw = W - m.l - m.r, ih = H - m.t - m.b;
+    const pctOf = ser => ser.map(p => ({ date: p.date, v: p.followers / ser[0].followers - 1 }));
+    const pr = pctOf(fr), pu = pctOf(fu), dates = [...new Set([...pr, ...pu].map(p => p.date))].sort();
+    const hi = Math.max(0.001, ...pr.map(p => p.v), ...pu.map(p => p.v)) * 1.15;
+    const x = d => m.l + dates.indexOf(d) / Math.max(1, dates.length - 1) * iw, y = v => m.t + (1 - v / hi) * ih;
+    const step = [0.001, 0.0025, 0.005, 0.01, 0.025, 0.05, 0.1].find(st => hi / st <= 5) || 0.1;
+    let svg = "";
+    for (let v = 0; v <= hi; v += step) svg += `<line class="${v ? "t-grid" : "t-zero"}" x1="${m.l}" x2="${W - m.r}" y1="${y(v)}" y2="${y(v)}"/>
+      <text class="t-tick" x="${m.l - 6}" y="${y(v) + 4}" text-anchor="end">${v ? pctS(v, step < 0.01 ? 2 : 1) : "0%"}</text>`;
+    const lr = pr[pr.length - 1], lu = pu[pu.length - 1];
+    const gap = Math.abs(y(lr.v) - y(lu.v)) < 14 ? (y(lr.v) < y(lu.v) ? -7 : 7) : 0;
+    [[pu, "ud", "UD", -gap], [pr, "rw", "RW", gap]].forEach(([ser, c, l, dy]) => {
+      const last = ser[ser.length - 1];
+      svg += `<path class="s-line ${c}" d="${ser.map((p, i) => `${i ? "L" : "M"}${x(p.date).toFixed(1)},${y(p.v).toFixed(1)}`).join("")}"/>
+        <text class="s-end ${c}" x="${x(last.date) + 8}" y="${y(last.v) + 4 + dy}">${l} ${pctS(last.v, 2)}</text>`; });
+    svg += dates.map(d => `<text class="t-tick" x="${x(d)}" y="${H - 8}" text-anchor="middle">${fmtD(d)}</text>`)
+      .filter((_, i) => i % Math.max(1, Math.ceil(dates.length / 6)) === 0 || i === dates.length - 1).join("");
     folComp = `<div class="panel a-panel"><h3>Follower growth vs Underdog</h3>
-      <p class="type-note">Percent gained since ${fmtD(gr.first_date)} (${gr.days} days of counts), so the bigger account isn't favoured.</p>
-      <div class="a-bars">${rows.map(([n, x, c]) => `<div class="a-bar"><div class="a-bar-lab">${n}<span class="bl">+${num(x.gained)} (${num(x.per_day)}/day)</span></div>
-        <div class="a-bar-track"><div class="a-bar-fill strong ${c}" style="width:${((x.gained_rate || 0) / maxR * 100).toFixed(1)}%"></div>
-        <span class="a-bar-val">${pctS(x.gained_rate, 2)}</span></div></div>`).join("")}</div></div>`;
+      <p class="type-note">Percent gained since ${fmtD(fr[0].date)}, so the bigger account isn't favoured. The higher line is growing faster.</p>
+      <svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Follower growth, RotoWire vs Underdog">${svg}</svg></div>`;
   }
   const SH = [["rotowire_first", "RotoWire first"], ["tie", "Within 1 minute"], ["underdog_first", "Underdog first"],
     ["underdog_first_10m", "Underdog first by 10+ min"]].filter(([k]) => h[k] && h[k].stories);
@@ -1936,7 +1941,7 @@ function renderAudience() {
         <span class="a-bar-val">${(r.rotowire_share * 100).toFixed(1)}%</span></div></div>`; }).join("")}</div></div>` : "";
 
   el.innerHTML = `${kpis}
-    <div class="a-grid a-main">${impPanel}${folPanel}</div>
+    <div class="a-grid one">${folPanel}${impPanel}</div>
     <h3 class="a-sub">Compared with Underdog</h3>
     <div class="a-grid">${impComp}${folComp}</div>
     ${sharePanel ? `<div class="a-grid one">${sharePanel}</div>` : ""}`;
