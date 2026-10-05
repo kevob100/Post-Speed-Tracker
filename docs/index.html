@@ -825,7 +825,7 @@ function renderStaff() {
     <div class="value">${value}${small ? ` <small>${small}</small>` : ""}</div></div>`;
   const missed = t => `${t.underdog_only}${t.underdog_only_borderline ? ` <small>(${t.underdog_only_borderline} borderline)</small>` : ""}`;
   const kpis = `<div class="kpis">
-    ${kpi("Matched stories", total.matched)}
+    ${kpi("Matched stories", total.matched, total.rotowire_posts != null ? `of ${total.rotowire_posts} RW news posts` : "")}
     ${kpi("RotoWire first", fmtPct(total.rotowire_first_rate), `${total.rotowire_first}/${total.matched}`)}
     ${kpi("Typical margin", fmtMargin(total.median_lead_seconds))}
     ${kpi("RotoWire missed", missed(total))}
@@ -849,7 +849,8 @@ function renderStaff() {
       }).join("");
     };
     const cells = slots.map((s, i) => {
-      const tip = `${hhLabel(s.start)} ET: ${s.matched} matched, RotoWire first on ${s.rotowire_first}` +
+      const posts = s.rotowire_posts != null ? ` · news posts RW ${s.rotowire_posts}, UD ${s.underdog_posts}` : "";
+      const tip = `${hhLabel(s.start)} ET${posts}: ${s.matched} matched, RotoWire first on ${s.rotowire_first}` +
         `${s.matched ? ", typical " + fmtMargin(s.median_lead_seconds) : ""}; ${s.underdog_only} missed` +
         `${s.underdog_only_borderline ? ` (${s.underdog_only_borderline} borderline)` : ""}; ${s.underdog_update_only} steps skipped`;
       const miss = s.underdog_only ? `${s.underdog_only} missed` : "";
@@ -871,14 +872,20 @@ function renderStaff() {
   const slot = day && day.slots.find(s => s.start === state.staffHour);
   const detail = slot ? storyList(`${hhLabel(slot.start)} ET`, slot.story_ids) : "";
 
+  const vol = people.some(p => p.rotowire_posts != null);
   const prow = p => `<tr><td>${esc(p.name)}${p.matched < STAFF_MIN ? `<span class="small-n" title="Fewer than ${STAFF_MIN} matched stories: too few to judge">small sample</span>` : ""}</td>
-    <td class="num">${p.hours.toFixed(1)}</td><td class="num">${p.matched}</td>
+    <td class="num">${p.hours.toFixed(1)}</td>
+    ${vol ? `<td class="num">${p.rotowire_posts ?? 0}</td><td class="num">${p.underdog_posts ?? 0}</td>` : ""}
+    <td class="num">${p.matched}</td>
     <td class="num">${p.rotowire_first} <span class="bl">${fmtPct(p.rotowire_first_rate)}</span></td>
     <td class="num">${fmtMargin(p.median_lead_seconds)}</td>
     <td class="num">${p.underdog_only}${p.underdog_only_borderline ? ` <span class="bl">(${p.underdog_only_borderline} borderline)</span>` : ""}</td>
     <td class="num">${p.underdog_update_only ?? 0}</td><td class="num">${p.rotowire_only}</td></tr>`;
   const table = `<div class="type-wrap"><table><thead><tr><th data-nosort>Person</th>
-    <th data-nosort style="text-align:right">Hours on</th><th data-nosort style="text-align:right">Matched</th>
+    <th data-nosort style="text-align:right">Hours on</th>
+    ${vol ? `<th data-nosort style="text-align:right" title="News posts RotoWire made while this person was on (link replies and other non-news left out)">RW news posts</th>
+    <th data-nosort style="text-align:right" title="News posts Underdog made while this person was on">UD news posts</th>` : ""}
+    <th data-nosort style="text-align:right">Matched</th>
     <th data-nosort style="text-align:right">RotoWire first</th>
     <th data-nosort style="text-align:right" title="Median of the matched stories; UD +1:40 means Underdog was typically 1:40 faster">Typical margin</th>
     <th data-nosort style="text-align:right" title="News only Underdog posted. Borderline = highlight clips and in-game notes the classifier would otherwise drop">RotoWire missed</th>

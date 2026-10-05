@@ -97,14 +97,24 @@ def _summary_plus(summary, sts: list[dict]) -> dict:
     return out
 
 
-def rollup(stories: list[dict], schedules: list[dict], story_time, summary) -> dict:
+def rollup(stories: list[dict], schedules: list[dict], story_time, summary,
+           tweets: list[dict] | None = None, rotowire_handle: str | None = None) -> dict:
     """Per day: an hour-by-hour line and a per-role, per-person table, plus all days pooled.
 
-    summary is aggregate._summary (same metric rules as the rest of the dashboard).
+    summary is aggregate._summary (same metric rules as the rest of the dashboard). With
+    tweets, every row also carries rotowire_posts / underdog_posts: the news posts each
+    account made while that person (or hour) was on, so a low match count can be read
+    against how much news there was. Link replies and other non-news posts are left out.
     """
     base = summary
     summary = lambda sts: _summary_plus(base, sts)  # noqa: E731
     credited = credit(stories, schedules, story_time)
+    news = [t for t in (tweets or []) if t.get("is_news")]
+    posted = credit(news, schedules, lambda t: parse_dt(t["created_at"]))
+
+    def volume(posts: list[dict]) -> dict:
+        rw = sum(1 for t in posts if t.get("account") == rotowire_handle)
+        return {"rotowire_posts": rw, "underdog_posts": len(posts) - rw}
     days = []
     pooled: dict[str, dict[str, list[dict]]] = {}
     hours_by_person: dict[str, dict[str, float]] = {}
@@ -112,6 +122,7 @@ def rollup(stories: list[dict], schedules: list[dict], story_time, summary) -> d
         tz = ZoneInfo(sched.get("timezone") or "America/New_York")
         roles = sched.get("roles") or {}
         mine = [(st, r) for st, sc, r in credited if sc is sched]
+        my_posts = [(t, r) for t, sc, r in posted if sc is sched]
         slots = []
         for slot in sched["slots"]:
             h = int(str(slot["start"])[:2])
@@ -123,6 +134,9 @@ def rollup(stories: list[dict], schedules: list[dict], story_time, summary) -> d
                                     if isinstance(e, dict)] for r in roles},
                    "story_ids": [st["story_id"] for st in in_slot]}
             row.update(summary(in_slot))
+            if tweets is not None:
+                row.update(volume([t for t, _ in my_posts
+                                   if parse_dt(t["created_at"]).astimezone(tz).hour == h]))
             slots.append(row)
             for r in roles:
                 for e in slot.get(r) or []:
@@ -149,9 +163,13 @@ def rollup(stories: list[dict], schedules: list[dict], story_time, summary) -> d
                 row = {"name": name,
                        "hours": round(hours_by_person.get(f"{sched['date']}|{r}|{name}", {"h": 0})["h"], 2)}
                 row.update(summary(per.get(name, [])))
+                if tweets is not None:
+                    row.update(volume([t for t, rr in my_posts if name in rr.get(r, [])]))
                 rows.append(row)
             people[r] = rows
         total = summary([st for st, _ in mine])
+        if tweets is not None:
+            total.update(volume([t for t, _ in my_posts]))
         days.append({"date": sched["date"], "timezone": sched.get("timezone") or "America/New_York",
                      "roles": roles, "slots": slots, "people": people, "total": total})
 
@@ -166,6 +184,8 @@ def rollup(stories: list[dict], schedules: list[dict], story_time, summary) -> d
                       if k.split("|")[1] == r and k.split("|")[2] == name)
             row = {"name": name, "hours": round(hrs, 2)}
             row.update(summary(sts))
+            if tweets is not None:
+                row.update(volume([t for t, _, rr in posted if name in rr.get(r, [])]))
             rows.append(row)
         all_people[r] = rows
     return {"roles": roles_all, "days": days, "all": {"people": all_people,

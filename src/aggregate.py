@@ -444,7 +444,9 @@ def build_aggregates(
     # Speed and coverage by who was on the desk, for days with a schedule file.
     schedules = staffing.load_schedules(data_dir)
     if schedules:
-        aggregates["staffing"] = staffing.rollup(stories, schedules, _story_time, _summary)
+        aggregates["staffing"] = staffing.rollup(
+            stories, schedules, _story_time, _summary,
+            tweets=load_jsonl(data_dir / "tweets.jsonl"), rotowire_handle=rotowire_handle)
 
     docs_data_dir.mkdir(parents=True, exist_ok=True)
     _write_json(docs_data_dir / "stories.json", stories)
