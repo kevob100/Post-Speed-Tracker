@@ -7,7 +7,9 @@ name: daily-pipeline
 
 on:
   schedule:
-    - cron: "0 11 * * *"   # 11:00 UTC daily; bump frequency later within rate limits
+    # 05:01 UTC = 1:01am ET in daylight time, 12:01am ET in standard time. Cron is UTC-only,
+    # so this stays after midnight ET all year and each run captures the full previous day.
+    - cron: "1 5 * * *"
   workflow_dispatch: {}      # allow manual runs from the Actions tab
 
 permissions:
