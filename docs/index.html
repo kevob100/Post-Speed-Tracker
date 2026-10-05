@@ -169,6 +169,7 @@
   .strip .s-tick { font-size: 10.5px; color: var(--muted); text-align: center; }
   .small-n { color: var(--muted); font-size: 11px; margin-left: 6px; }
   .bl { color: var(--muted); font-size: 11.5px; }
+  tr.gw-row.on td { background: var(--panel2); }
   .hours-table summary { color: var(--accent); cursor: pointer; font-size: 12.5px; margin-bottom: 8px; }
 
   /* trend chart */
@@ -237,6 +238,7 @@
     <div class="tab hidden" data-view="types" id="tab-types">By news type</div>
     <div class="tab hidden" data-view="hours" id="tab-hours">By time of day</div>
     <div class="tab hidden" data-view="staff" id="tab-staff">By staff</div>
+    <div class="tab hidden" data-view="games" id="tab-games">During games</div>
     <div class="tab" data-view="monthly">Monthly</div>
     <div class="tab" data-view="custom">Custom</div>
     <div class="tab" data-view="gaps">Coverage Gaps</div>
@@ -262,6 +264,7 @@
   <section id="view-types" class="hidden"></section>
   <section id="view-hours" class="hidden"></section>
   <section id="view-staff" class="hidden"></section>
+  <section id="view-games" class="hidden"></section>
   <section id="view-monthly" class="hidden"></section>
   <section id="view-custom" class="hidden"></section>
   <section id="view-gaps" class="hidden"></section>
@@ -367,7 +370,7 @@ function setMode(isAll) {
   }
 }
 
-const VIEWS = ["feed","weekly","types","hours","staff","monthly","custom","gaps","dups"];
+const VIEWS = ["feed","weekly","types","hours","staff","games","monthly","custom","gaps","dups"];
 
 // ---- formatting helpers ----
 const pad = n => String(n).padStart(2, "0");
@@ -778,6 +781,28 @@ function marginBg(sec, n) {
   return sec < 0 ? `rgba(229,83,75,${a})` : `rgba(46,160,67,${a})`;
 }
 
+// Stories behind a strip cell or window row: when each broke (ET), who won, the first post.
+function storyList(title, ids) {
+  const rows = ids.map(storyById).filter(Boolean)
+    .filter(s => !s.same_event_duplicate && s.review_status !== "rejected")
+    .sort((a, b) => storyTime(a) - storyTime(b));
+  const what = s => s.status === "matched" ? (s.rotowire_first ? "RotoWire first" : "Underdog first")
+    : s.roundup ? "Roundup" : s.gap_kind === "update" ? (s.underdog ? "Step RW skipped" : "Step UD skipped")
+    : s.underdog ? "RotoWire missed" : "RotoWire only";
+  const body = rows.map(s => {
+    const lead = s.underdog && (!s.rotowire || !s.rotowire_first) ? s.underdog : s.rotowire;
+    const handle = lead === s.underdog ? state.handles.underdog : state.handles.rotowire;
+    return `<tr><td>${_etTime.format(new Date(storyTime(s)))}</td><td>${esc(s.player || "?")}${borderlineChip(lead)}</td>
+      <td><span class="chip">${what(s)}</span></td>
+      <td class="num">${s.status === "matched" ? fmtMargin(s.time_delta_seconds) : "—"}</td>
+      <td class="story">${textLink(handle, lead, lead && lead.text)}</td></tr>`;
+  }).join("");
+  return `<h3 style="font-size:14px;margin:18px 0 8px">${esc(title)} · ${rows.length} ${rows.length === 1 ? "story" : "stories"}</h3>
+    ${rows.length ? `<div class="type-wrap"><table><thead><tr><th data-nosort>Broke (ET)</th><th data-nosort>Player</th>
+      <th data-nosort>Result</th><th data-nosort style="text-align:right">Margin</th><th data-nosort>First post</th></tr></thead>
+      <tbody>${body}</tbody></table></div>` : `<div class="empty">No stories.</div>`}`;
+}
+
 function renderStaff() {
   const st = state.agg.staffing || {};
   const days = st.days || [];
@@ -843,28 +868,8 @@ function renderStaff() {
   }
 
   // Stories behind the selected hour.
-  let detail = "";
   const slot = day && day.slots.find(s => s.start === state.staffHour);
-  if (slot) {
-    const rows = slot.story_ids.map(storyById).filter(Boolean)
-      .filter(s => !s.same_event_duplicate && s.review_status !== "rejected")
-      .sort((a, b) => storyTime(a) - storyTime(b));
-    const what = s => s.status === "matched" ? (s.rotowire_first ? "RotoWire first" : "Underdog first")
-      : s.roundup ? "Roundup" : s.gap_kind === "update" ? (s.underdog ? "Step RW skipped" : "Step UD skipped")
-      : s.underdog ? "RotoWire missed" : "RotoWire only";
-    const body = rows.map(s => {
-      const lead = s.underdog && (!s.rotowire || !s.rotowire_first) ? s.underdog : s.rotowire;
-      const handle = lead === s.underdog ? state.handles.underdog : state.handles.rotowire;
-      return `<tr><td>${_etTime.format(new Date(storyTime(s)))}</td><td>${esc(s.player || "?")}${borderlineChip(lead)}</td>
-        <td><span class="chip">${what(s)}</span></td>
-        <td class="num">${s.status === "matched" ? fmtMargin(s.time_delta_seconds) : "—"}</td>
-        <td class="story">${textLink(handle, lead, lead && lead.text)}</td></tr>`;
-    }).join("");
-    detail = `<h3 style="font-size:14px;margin:18px 0 8px">${hhLabel(slot.start)} ET · ${rows.length} ${rows.length === 1 ? "story" : "stories"}</h3>
-      ${rows.length ? `<div class="type-wrap"><table><thead><tr><th data-nosort>Broke (ET)</th><th data-nosort>Player</th>
-        <th data-nosort>Result</th><th data-nosort style="text-align:right">Margin</th><th data-nosort>First post</th></tr></thead>
-        <tbody>${body}</tbody></table></div>` : `<div class="empty">No stories this hour.</div>`}`;
-  }
+  const detail = slot ? storyList(`${hhLabel(slot.start)} ET`, slot.story_ids) : "";
 
   const prow = p => `<tr><td>${esc(p.name)}${p.matched < STAFF_MIN ? `<span class="small-n" title="Fewer than ${STAFF_MIN} matched stories: too few to judge">small sample</span>` : ""}</td>
     <td class="num">${p.hours.toFixed(1)}</td><td class="num">${p.matched}</td>
@@ -898,6 +903,72 @@ function renderStaff() {
   el.querySelectorAll(".seg-chips button").forEach(b => b.onclick = () => { state.staffRole = b.dataset.r; renderStaff(); });
   el.querySelectorAll(".s-cell").forEach(c => c.onclick = () => {
     state.staffHour = state.staffHour === c.dataset.h ? null : c.dataset.h; renderStaff();
+  });
+}
+
+// ---- during games: kickoff - 2h to kickoff + 3h (+4h primetime), from ESPN kickoffs ----
+function renderGames() {
+  const gw = state.agg.game_windows || {};
+  const wins = gw.windows || [];
+  document.getElementById("tab-games").classList.toggle("hidden", !wins.length);
+  const el = document.getElementById("view-games");
+  if (!wins.length) { el.innerHTML = ""; return; }
+
+  const missed = t => `${t.underdog_only}`;
+  const cmp = (label, t, hrs) => `<tr><td>${label}</td><td class="num">${hrs}</td><td class="num">${t.matched}</td>
+    <td class="num">${t.rotowire_first} <span class="bl">${fmtPct(t.rotowire_first_rate)}</span></td>
+    <td class="num">${fmtMargin(t.median_lead_seconds)}</td><td class="num">${missed(t)}</td>
+    <td class="num">${t.underdog_update_only ?? 0}</td><td class="num">${t.rotowire_only}</td></tr>`;
+  const head = `<th data-nosort style="text-align:right">Matched</th><th data-nosort style="text-align:right">RotoWire first</th>
+    <th data-nosort style="text-align:right">Typical margin</th>
+    <th data-nosort style="text-align:right" title="News only Underdog posted">RotoWire missed</th>
+    <th data-nosort style="text-align:right" title="Steps of a story both covered that only Underdog posted">Steps skipped</th>
+    <th data-nosort style="text-align:right">RotoWire exclusive</th>`;
+  const compare = `<div class="type-wrap"><table><thead><tr><th data-nosort></th><th data-nosort style="text-align:right">Hours</th>${head}</tr></thead>
+    <tbody>${cmp("During games", gw.inside, gw.inside_hours)}${cmp("Rest of the week", gw.outside, "—")}</tbody></table></div>`;
+
+  // Clock hours (ET) across every game window so far.
+  const hrs = gw.hours || [];
+  const lab = h => `${(h + 11) % 12 + 1}${h < 12 ? "a" : "p"}`;
+  const strip = hrs.length ? `<h3 style="font-size:14px;margin:22px 0 8px">By hour, during games</h3>
+    <div class="type-wrap"><div class="strip" style="grid-template-columns:120px repeat(${hrs.length}, minmax(40px, 1fr))">
+      <div class="s-lab">Result</div>${hrs.map(h => {
+        const tip = `${lab(h.hour)} ET in game windows: ${h.matched} matched, RotoWire first on ${h.rotowire_first}` +
+          `${h.matched ? ", typical " + fmtMargin(h.median_lead_seconds) : ""}; ${h.underdog_only} missed; ${h.underdog_update_only} steps skipped`;
+        const bg = marginBg(h.median_lead_seconds, h.matched);
+        return `<div class="s-cell" style="cursor:default${bg ? ";background:" + bg : ""}" title="${esc(tip)}" aria-label="${esc(tip)}">
+          <b>${h.matched || ""}</b><span>${h.matched ? fmtPct(h.rotowire_first / h.matched) + " RW" : ""}</span></div>`;
+      }).join("")}
+      <div></div>${hrs.map(h => `<div class="s-tick">${lab(h.hour)}</div>`).join("")}
+    </div></div>
+    <p class="type-note">Number is matched stories that broke in that hour during a game window, with RotoWire's
+      win rate under it; colour is the typical margin (red: Underdog first, green: RotoWire first). Hover for misses.</p>` : "";
+
+  const fmtET = iso => _etTime.format(new Date(iso));
+  const rows = [...wins].reverse().map(w => {
+    const names = w.games.map(g => g.name).join(", ");
+    return `<tr class="gw-row${state.gameWin === w.start ? " on" : ""}" data-w="${w.start}" style="cursor:pointer">
+      <td>${esc(w.label)}</td><td>${fmtET(w.start)} – ${fmtET(w.end)}</td>
+      <td title="${esc(names)}">${w.games.length === 1 ? esc(names) : `${w.games.length} games`}</td>
+      <td class="num">${w.matched}</td><td class="num">${w.rotowire_first} <span class="bl">${fmtPct(w.rotowire_first_rate)}</span></td>
+      <td class="num">${fmtMargin(w.median_lead_seconds)}</td><td class="num">${missed(w)}</td>
+      <td class="num">${w.underdog_update_only ?? 0}</td><td class="num">${w.rotowire_only}</td></tr>`;
+  }).join("");
+  const sel = wins.find(w => w.start === state.gameWin);
+  const detail = sel ? storyList(`${sel.label}, ${fmtET(sel.start)} – ${fmtET(sel.end)} ET`, sel.story_ids) : "";
+
+  el.innerHTML = `<p class="type-note">How RotoWire compares while NFL games are on. A game's window runs from 2 hours
+      before kickoff (injury reports land about 90 minutes before), rounded down to the hour, to 3 hours after
+      (4 hours for a 7pm ET or later kickoff), rounded up; overlapping windows merge. Kickoffs come from ESPN, so
+      international and other one-off games are included. Times are Eastern.</p>
+    ${compare}${strip}
+    <h3 style="font-size:14px;margin:22px 0 8px">Game windows</h3>
+    <div class="type-wrap"><table><thead><tr><th data-nosort>Day</th><th data-nosort>Window (ET)</th><th data-nosort>Games</th>${head}</tr></thead>
+      <tbody>${rows}</tbody></table></div>
+    <p class="type-note">Click a window to list its stories.</p>${detail}`;
+
+  el.querySelectorAll(".gw-row").forEach(r => r.onclick = () => {
+    state.gameWin = state.gameWin === r.dataset.w ? null : r.dataset.w; renderGames();
   });
 }
 
@@ -1368,6 +1439,7 @@ function showView(name) {
   if (name === "types" && !(state.agg.news_types || {}).types?.length) name = "feed";
   if (name === "hours" && !(state.agg.hours || []).length) name = "feed";
   if (name === "staff" && !((state.agg.staffing || {}).days || []).length) name = "feed";
+  if (name === "games" && !((state.agg.game_windows || {}).windows || []).length) name = "feed";
   state.view = name;
   document.querySelectorAll(".tab").forEach(t => t.classList.toggle("active", t.dataset.view===name));
   VIEWS.forEach(v =>
@@ -1405,6 +1477,7 @@ function init() {
   renderTypes();
   renderHours();
   renderStaff();
+  renderGames();
   renderCustom();
   renderGaps();
   renderDups();

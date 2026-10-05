@@ -26,7 +26,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from . import staffing
+from . import games, staffing
 from .config import DATA_DIR, DOCS_DATA_DIR
 from .news_type import LABELS as NEWS_TYPE_LABELS
 from .news_type import news_type
@@ -396,6 +396,7 @@ def build_aggregates(
     season_weeks: dict | None = None,
     rotowire_handle: str | None = None,
     milestones: list[dict] | None = None,
+    game_windows: dict | None = None,
 ) -> dict:
     stories_path = stories_path or (data_dir / "stories.jsonl")
     reviews_path = reviews_path or (data_dir / "reviews.jsonl")
@@ -427,6 +428,18 @@ def build_aggregates(
             tweets = load_jsonl(data_dir / "tweets.jsonl")
             aggregates["hype"] = _hype_rollup(tweets, season_weeks, rotowire_handle)
             aggregates["hours"] = _hour_rollup(stories, tweets, season_weeks, rotowire_handle)
+
+    # How RotoWire compares while NFL games are on (sports with game_windows configured).
+    if game_windows:
+        games_list = games.load_games(data_dir)
+        if games_list:
+            since = None
+            if season_weeks:
+                tz = ZoneInfo(season_weeks.get("timezone") or "America/New_York")
+                since = datetime.fromisoformat(str(season_weeks["start"])).replace(tzinfo=tz)
+            aggregates["game_windows"] = games.rollup(
+                stories, games_list, game_windows, _story_time, _summary,
+                since=since, until=datetime.now(ZoneInfo("UTC")))
 
     # Speed and coverage by who was on the desk, for days with a schedule file.
     schedules = staffing.load_schedules(data_dir)

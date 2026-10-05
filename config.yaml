@@ -9,6 +9,18 @@ sports:
     # Hype kinds counted as news anyway (err toward matching more). The post keeps its
     # label as `borderline` so it can be reviewed. soundbite and other (clips) stay out.
     include_hype_kinds: [rumor, in_game_note, non_fantasy]
+    # Game windows (By game windows tab): kickoffs from ESPN, cached in data/nfl/games.json.
+    # Window = kickoff - before_hours (rounded down to the hour) to kickoff + after_hours
+    # (primetime_after_hours from primetime_from on), rounded up. Injury reports land ~90m
+    # before kickoff, hence 2h before.
+    game_windows:
+      source: espn
+      season: 2026
+      timezone: America/New_York
+      before_hours: 2
+      after_hours: 3
+      primetime_from: '19:00'
+      primetime_after_hours: 4
     # One-time fetch of quote-tweet links for posts stored before collection kept them.
     reference_backfill_since: '2026-09-01'
     # NFL weeks run Tuesday to Monday. The 6am ET rollover keeps late Monday-night news

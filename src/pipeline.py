@@ -21,9 +21,10 @@ Run: python -m src.pipeline [--sport mlb]
 from __future__ import annotations
 
 import json
+from datetime import datetime
 import os
 
-from . import aggregate, classify, collect, develop, match
+from . import aggregate, classify, collect, develop, games, match
 from .config import (
     DOCS_DATA_DIR,
     load_config,
@@ -93,10 +94,16 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
     matched = sum(1 for s in stories if s["status"] == "matched")
     print(f"[resolve]   stories={len(stories)} matched={matched} method={method}")
 
+    gw = meta.get("game_windows")
+    if gw and gw.get("source") == "espn":
+        n = games.refresh_games(data_dir, int(gw.get("season") or datetime.now().year))
+        print(f"[games]     {n} games")
+
     agg = aggregate.build_aggregates(data_dir=data_dir, docs_data_dir=docs_dir,
                                      season_weeks=meta.get("season_weeks"),
                                      rotowire_handle=accounts["rotowire"]["handle"],
-                                     milestones=cfg.get("milestones"))
+                                     milestones=cfg.get("milestones"),
+                                     game_windows=gw)
     s = agg["summary"]
     print(
         f"[aggregate] matched={s['matched']} rw_first_rate={s['rotowire_first_rate']} "
