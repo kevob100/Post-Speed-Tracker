@@ -84,3 +84,24 @@ def test_no_citation_cached_as_none_and_cap_defers(tmp_path):
     res = source.find_sources(FakeClient(), tmp_path, OWN, {"max_searches_per_run": 0})
     assert res == {"stories": 2, "new": 1, "found": 0, "searches": 0, "pending": 1}
     assert [r["method"] for r in load_jsonl(tmp_path / "sources.jsonl")] == ["none"]
+
+
+def test_time_budget_defers_and_progress_is_saved_mid_run(tmp_path):
+    write_jsonl(tmp_path / "tweets.jsonl", [])
+    write_jsonl(tmp_path / "stories.jsonl", [
+        _story(f"st{i}", f"r{i}", "2026-10-05T15:42:00.000Z", "per @A", f"u{i}", "2026-10-05T15:36:00.000Z", "via @A")
+        for i in range(5)])
+    # Out of time before the first search: everything waits for the next run.
+    res = source.find_sources(FakeClient(), tmp_path, OWN, {"max_minutes": 0})
+    assert res["searches"] == 0 and res["pending"] == 5
+
+    class Dies(FakeClient):   # the run is cut off on the 4th search
+        def search_all(self, *a, **k):
+            if len(self.queries) == 3:
+                raise KeyboardInterrupt
+            return super().search_all(*a, **k)
+    try:
+        source.find_sources(Dies(), tmp_path, OWN, {"save_every": 2})
+    except KeyboardInterrupt:
+        pass
+    assert len(load_jsonl(tmp_path / "sources.jsonl")) == 2   # saved after the 2nd search

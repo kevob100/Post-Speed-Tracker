@@ -24,6 +24,8 @@ concurrency:
 jobs:
   run:
     runs-on: ubuntu-latest
+    # A healthy run takes under an hour; fail fast instead of sitting out GitHub's 6-hour limit.
+    timeout-minutes: 120
     outputs:
       page_artifact: ${{ steps.upload.outputs.artifact_id }}
     steps:
@@ -39,6 +41,7 @@ jobs:
 
       - name: Run pipeline
         env:
+          PYTHONUNBUFFERED: "1"   # stream progress into the log, so a stall shows where it is
           # X dev app with the biggest budget; the access token is @RotoWireNFL's, which also
           # unlocks its own posts' non-public metrics. X_BEARER_TOKEN is only the fallback.
           X_NFL_API_KEY: ${{ secrets.X_NFL_API_KEY }}

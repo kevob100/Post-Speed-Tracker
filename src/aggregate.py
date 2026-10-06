@@ -716,8 +716,13 @@ def build_aggregates(
     # Audience: followers, views per post, views on head-to-head stories.
     if rotowire_handle:
         followers = load_jsonl(data_dir / "followers.jsonl")
-        # Account totals: Sprout Social for every sport; the account's own X Analytics export
-        # wins for every field it has on the dates it covers (Sprout still adds link clicks).
+        # Account totals: Sprout Social for every sport and every field it has, so each metric
+        # keeps one definition over time (Sprout updates daily; an X Analytics export is a
+        # one-off file). The export only fills fields Sprout lacks: profile visits, bookmarks,
+        # shares. Where both exist they agree on impressions, likes and replies, but the
+        # export's post count drops about half of @RotoWireNFL's posts from mid-July 2026 on
+        # (the pipeline's own count matches Sprout's), and the two define engagements and
+        # reposts differently.
         sprout_rows = load_jsonl(data_dir / "sprout_daily.jsonl")
         export = x_analytics.load_daily(data_dir / "x_analytics") if (data_dir / "x_analytics").exists() else {}
         x_daily = sprout.daily_metrics(sprout_rows)
@@ -726,7 +731,9 @@ def build_aggregates(
         dead = {k for k in {k for r in export.values() for k in r}
                 if not any(r.get(k) for r in export.values())} - {"new_follows", "unfollows"}
         for d, row in export.items():
-            x_daily[d] = {**x_daily.get(d, {}), **{k: v for k, v in row.items() if k not in dead}}
+            mine = x_daily.get(d)
+            fill = {k: v for k, v in row.items() if k not in dead and (not mine or k not in mine)}
+            x_daily[d] = {**fill, **(mine or {})}
         sources = [n for n, has in (("X Analytics", export), ("Sprout Social", sprout_rows)) if has]
         aggregates["audience"] = _audience(
             [s for s in stories if not season_weeks or _story_time(s) >= datetime.fromisoformat(

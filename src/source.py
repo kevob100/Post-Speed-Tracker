@@ -20,6 +20,7 @@ Run: python -m src.source --sport nfl
 from __future__ import annotations
 
 import re
+import time
 from datetime import timedelta
 from pathlib import Path
 
@@ -27,7 +28,10 @@ from .store import load_jsonl, now_iso, parse_dt, write_jsonl
 
 HANDLE_RE = re.compile(r"@(\w{1,15})")
 SUFFIXES = {"jr", "sr", "ii", "iii", "iv", "v"}
-DEFAULTS = {"window_hours": 6, "max_searches_per_run": 1500}
+# Full-archive search allows about one request every 3 seconds, so searches are bounded by
+# count and by wall time, and progress is saved as it goes: a run that is cut off keeps what it
+# found and the next run carries on from there.
+DEFAULTS = {"window_hours": 6, "max_searches_per_run": 300, "max_minutes": 20, "save_every": 25}
 
 
 def cited_handles(text: str, own: set[str]) -> list[str]:
@@ -95,6 +99,8 @@ def find_sources(client, data_dir: Path, own_handles: list[str], cfg: dict | Non
     names = client.users_by_ids(authors) if authors else {}
 
     new, found, searches, pending = 0, 0, 0, 0
+    deadline = time.monotonic() + cfg["max_minutes"] * 60
+    save = lambda: write_jsonl(path, sorted(cache.values(), key=lambda r: r["story_id"]))  # noqa: E731
     for s in todo:
         first = min(parse_dt(s["rotowire"]["created_at"]), parse_dt(s["underdog"]["created_at"]))
         q = looked.get(quoted.get(_key(s)) or "")
@@ -115,9 +121,11 @@ def find_sources(client, data_dir: Path, own_handles: list[str], cfg: dict | Non
             cache[_key(s)] = row(s)
             new += 1
             continue
-        if searches >= cfg["max_searches_per_run"]:
+        if searches >= cfg["max_searches_per_run"] or time.monotonic() > deadline:
             pending += 1
             continue
+        if searches and searches % cfg["save_every"] == 0:
+            save()
         query = f"({' OR '.join(f'from:{h}' for h in handles[:8])}) \"{name}\" -is:retweet"
         start = first - timedelta(hours=cfg["window_hours"])
         searches += 1
@@ -146,7 +154,7 @@ def find_sources(client, data_dir: Path, own_handles: list[str], cfg: dict | Non
         if r.get("source_author_id") and not r.get("source_handle"):
             r["source_handle"] = names.get(r["source_author_id"])
 
-    write_jsonl(path, sorted(cache.values(), key=lambda r: r["story_id"]))
+    save()
     return {"stories": len(stories), "new": new, "found": found, "searches": searches,
             "pending": pending}
 

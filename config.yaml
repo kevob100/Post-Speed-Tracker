@@ -46,7 +46,8 @@ sports:
     # so each side gets an absolute time to post. Each story is searched once and cached.
     source_lookup:
       window_hours: 6
-      max_searches_per_run: 1500
+      max_searches_per_run: 300
+      max_minutes: 20
     # One-time fetch of quote-tweet links for posts stored before collection kept them.
     reference_backfill_since: '2026-09-01'
     # NFL weeks run Tuesday to Monday. The 6am ET rollover keeps late Monday-night news
