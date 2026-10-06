@@ -4,7 +4,7 @@ A schedule file is human-owned (the pipeline never writes it) and lists, for eac
 one day, who held each desk role:
 
   date: '2026-10-04'
-  timezone: America/New_York
+  timezone: America/Chicago
   roles: {tweets: Tweets (L1-2), distributor: Distributor (L3-5), writers: Writers}
   slots:
   - {start: '13:00', tweets: [{name: Adam, until: '13:50'}, Cullum], ...}
@@ -25,6 +25,7 @@ from zoneinfo import ZoneInfo
 
 import yaml
 
+from .config import DEFAULT_TZ
 from .store import parse_dt
 
 
@@ -71,7 +72,7 @@ def credit(stories: list[dict], schedules: list[dict], story_time) -> list[tuple
     for st in stories:
         t = story_time(st)
         for sched in schedules:
-            tz = ZoneInfo(sched.get("timezone") or "America/New_York")
+            tz = ZoneInfo(sched.get("timezone") or DEFAULT_TZ)
             local = t.astimezone(tz)
             if local.date().isoformat() != sched["date"]:
                 continue
@@ -122,7 +123,7 @@ def rollup(stories: list[dict], schedules: list[dict], story_time, summary,
     pooled: dict[str, dict[str, list[dict]]] = {}
     hours_by_person: dict[str, dict[str, float]] = {}
     for sched in schedules:
-        tz = ZoneInfo(sched.get("timezone") or "America/New_York")
+        tz = ZoneInfo(sched.get("timezone") or DEFAULT_TZ)
         roles = sched.get("roles") or {}
         mine = [(st, r) for st, sc, r in credited if sc is sched]
         my_posts = [(t, r) for t, sc, r in posted if sc is sched]
@@ -173,7 +174,7 @@ def rollup(stories: list[dict], schedules: list[dict], story_time, summary,
         total = summary([st for st, _ in mine])
         if tweets is not None:
             total.update(volume([t for t, _ in my_posts]))
-        days.append({"date": sched["date"], "timezone": sched.get("timezone") or "America/New_York",
+        days.append({"date": sched["date"], "timezone": sched.get("timezone") or DEFAULT_TZ,
                      "roles": roles, "slots": slots, "people": people, "total": total})
 
     roles_all: dict[str, str] = {}

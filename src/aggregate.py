@@ -27,7 +27,7 @@ from pathlib import Path
 from zoneinfo import ZoneInfo
 
 from . import develop, focus, games, practice, source, sprout, staffing, x_analytics
-from .config import DATA_DIR, DOCS_DATA_DIR
+from .config import DATA_DIR, DEFAULT_TZ, DOCS_DATA_DIR
 from .news_type import LABELS as NEWS_TYPE_LABELS
 from .news_type import news_type
 from .store import load_jsonl, now_iso, parse_dt
@@ -175,7 +175,7 @@ def season_week_of(weeks_cfg: dict):
       preseason_label: bucket for anything before Week 1 (default 'Preseason')
     Weeks are 7 days. start/end are local dates (end inclusive) for display.
     """
-    tz = ZoneInfo(weeks_cfg.get("timezone") or "America/New_York")
+    tz = ZoneInfo(weeks_cfg.get("timezone") or DEFAULT_TZ)
     hh, mm = (int(x) for x in str(weeks_cfg.get("boundary") or "00:00").split(":"))
     start = datetime.fromisoformat(str(weeks_cfg["start"])).replace(hour=hh, minute=mm, tzinfo=tz)
     pre = weeks_cfg.get("preseason_label") or "Preseason"
@@ -281,7 +281,7 @@ def _hour_rollup(stories: list[dict], tweets: list[dict], weeks_cfg: dict,
     matched stories, bucketed by the hour of the story's FIRST post.
     """
     of = season_week_of(weeks_cfg)
-    tz = ZoneInfo(weeks_cfg.get("timezone") or "America/New_York")
+    tz = ZoneInfo(weeks_cfg.get("timezone") or DEFAULT_TZ)
     rows = [{"hour": h, "rotowire_posts": 0, "underdog_posts": 0, "rotowire_all": 0,
              "underdog_all": 0, "rotowire_links": 0, "underdog_links": 0, "_d": []} for h in range(24)]
     for t in tweets:
@@ -316,13 +316,13 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
 
     For each day / week / month: matched story count, how many RotoWire was first on, and
     the median time_delta_seconds (positive = RotoWire earlier). Days and months use the
-    season timezone (US Eastern by default). Weeks follow the season calendar when there is
+    season timezone (US Central by default). Weeks follow the season calendar when there is
     one (NFL Tue-Mon with its rollover hour, numbered Week 1+, earlier weeks labelled by
     start date) and ISO weeks otherwise. The day series also carries a trailing 7-day median
     (over the stories themselves, not an average of daily medians) to show the trend
     through day-to-day noise.
     """
-    tz = ZoneInfo((weeks_cfg or {}).get("timezone") or "America/New_York")
+    tz = ZoneInfo((weeks_cfg or {}).get("timezone") or DEFAULT_TZ)
     matched = sorted(
         ((_story_time(s), s["time_delta_seconds"]) for s in stories
          if _is_active(s) and s.get("status") == "matched" and s.get("time_delta_seconds") is not None),
@@ -411,9 +411,28 @@ def _trend(stories: list[dict], weeks_cfg: dict | None) -> dict:
         local = dt.astimezone(tz)
         return local.strftime("%Y-%m"), local.strftime("%b %Y")
 
+    weeks, months = series(week_of, trailing=4), series(month_of, trailing=3)
+    # The table under the chart: each period's full record (who was first, the margins,
+    # stories only one side posted), bucketed exactly like the chart.
+    for rows_, key_of in ((days, day_of), (weeks, week_of), (months, month_of)):
+        groups: dict[str, list[dict]] = {}
+        for s in stories:
+            if _is_active(s):
+                groups.setdefault(key_of(_story_time(s))[0], []).append(s)
+        for row in rows_:
+            g = groups.get(row["period"], [])
+            sm = _summary(g)
+            d = [s["time_delta_seconds"] for s in g if s.get("status") == "matched"
+                 and s.get("time_delta_seconds") is not None]
+            row["detail"] = {
+                "rotowire_first": sum(1 for x in d if x > TIE_SECONDS),
+                "ties": sum(1 for x in d if abs(x) <= TIE_SECONDS),
+                "underdog_first": sum(1 for x in d if x < -TIE_SECONDS),
+                **{k: sm[k] for k in ("median_win_lead_seconds", "median_win_trail_seconds",
+                                      "rotowire_only", "underdog_only")}}
+
     # Trailing windows: 4 weeks, 3 months (days use a calendar 7 days, above).
-    return {"day": days, "week": series(week_of, trailing=4),
-            "month": series(month_of, trailing=3)}
+    return {"day": days, "week": weeks, "month": months}
 
 
 # Minimum stories behind a trend point, per nominal window length in days.
@@ -514,10 +533,10 @@ def _audience(stories: list[dict], tweets: list[dict], followers: list[dict], rw
               sprout_followers: list[dict] | None = None, account_sources: list[str] | None = None,
               x_export: dict | None = None) -> dict:
     """Followers, views per news post by week, and views on head-to-head stories."""
-    tz = ZoneInfo((weeks_cfg or {}).get("timezone") or "America/New_York")
+    tz = ZoneInfo((weeks_cfg or {}).get("timezone") or DEFAULT_TZ)
     side = lambda t: "rotowire" if t.get("account") == rw_handle else "underdog"  # noqa: E731
 
-    # Weekly median views per news post (Monday weeks, ET).
+    # Weekly median views per news post (Monday weeks, US Central).
     weeks: dict[str, dict[str, list[int]]] = {}
     for t in tweets:
         v = _mature_views(t) if t.get("is_news") else None
@@ -608,9 +627,9 @@ def _audience(stories: list[dict], tweets: list[dict], followers: list[dict], rw
 
 def _eras(stories: list[dict], eras: list[dict], rotowire_handle: str | None,
           tweets: list[dict]) -> list[dict]:
-    """One summary row per era ({label, from?, until?}, US Eastern dates, until exclusive),
+    """One summary row per era ({label, from?, until?}, US Central dates, until exclusive),
     with weeks covered and news posts per week so a quiet era reads as quiet."""
-    tz = ZoneInfo("America/New_York")
+    tz = ZoneInfo(DEFAULT_TZ)
     day = lambda d: datetime.fromisoformat(str(d)).replace(tzinfo=tz) if d else None  # noqa: E731
     out = []
     for era in eras:
@@ -653,7 +672,7 @@ def build_aggregates(
     eras: list[dict] | None = None,
     practice_phases: bool = False,
 ) -> dict:
-    """analysis_start (sports.<sport>.analysis_start, a US Eastern date): every metric counts
+    """analysis_start (sports.<sport>.analysis_start, a US Central date): every metric counts
     only stories and posts from that day on. Earlier stories stay in stories.json for the
     feed, flagged before_start."""
     stories_path = stories_path or (data_dir / "stories.jsonl")
@@ -665,7 +684,7 @@ def build_aggregates(
     attach_owned_metrics(all_stories, load_jsonl(data_dir / "tweets.jsonl"))
     start = None
     if analysis_start:
-        start = datetime.fromisoformat(str(analysis_start)).replace(tzinfo=ZoneInfo("America/New_York"))
+        start = datetime.fromisoformat(str(analysis_start)).replace(tzinfo=ZoneInfo(DEFAULT_TZ))
         for st in all_stories:
             st["before_start"] = _story_time(st) < start
     stories = [st for st in all_stories if not st.get("before_start")]
@@ -737,7 +756,7 @@ def build_aggregates(
         sources = [n for n, has in (("X Analytics", export), ("Sprout Social", sprout_rows)) if has]
         aggregates["audience"] = _audience(
             [s for s in stories if not season_weeks or _story_time(s) >= datetime.fromisoformat(
-                str(season_weeks["start"])).replace(tzinfo=ZoneInfo("America/New_York")) - timedelta(days=42)],
+                str(season_weeks["start"])).replace(tzinfo=ZoneInfo(DEFAULT_TZ)) - timedelta(days=42)],
             load_jsonl(data_dir / "tweets.jsonl"), followers, rotowire_handle, season_weeks,
             # Follower history from Sprout only where there is no export: the two disagree by
             # a few hundred at the seam, which would draw as a fake drop.
@@ -755,7 +774,7 @@ def build_aggregates(
         if games_list:
             since = None
             if season_weeks:
-                tz = ZoneInfo(season_weeks.get("timezone") or "America/New_York")
+                tz = ZoneInfo(season_weeks.get("timezone") or DEFAULT_TZ)
                 since = datetime.fromisoformat(str(season_weeks["start"])).replace(tzinfo=tz)
             aggregates["game_windows"] = games.rollup(
                 stories, games_list, game_windows, _story_time, _summary,

@@ -26,9 +26,10 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from .config import DEFAULT_TZ
 from .store import append_jsonl, load_jsonl, now_iso, parse_dt
 
-ET = ZoneInfo("America/New_York")
+LOCAL = ZoneInfo(DEFAULT_TZ)
 PHASES = ("pre", "post")
 PRACTICE_RE = re.compile(r"practic|walkthrough|participant|\bDNP\b|injury report|individual drills|"
                          r"open to the media|media-viewing|on the side|in uniform|suited up", re.I)
@@ -133,7 +134,7 @@ def label_phases(data_dir: Path, labeler=None, llm: bool = True) -> dict[str, st
 def practice_days(posts: list[dict], phases: dict[str, str], rw_handle: str,
                   key_of=lambda p: [x["player_key"] for x in (p.get("players") or []) if x.get("player_key")]
                   ) -> list[dict]:
-    """One row per (player, ET date): each side's first pre and first post update."""
+    """One row per (player, US Central date): each side's first pre and first post update."""
     days: dict[tuple, dict] = {}
     for p in posts:
         phase = phases.get(p["id"])
@@ -141,7 +142,7 @@ def practice_days(posts: list[dict], phases: dict[str, str], rw_handle: str,
             continue
         side = "rotowire" if p["account"] == rw_handle else "underdog"
         t = parse_dt(p["created_at"])
-        date = t.astimezone(ET).date().isoformat()
+        date = t.astimezone(LOCAL).date().isoformat()
         for key in key_of(p) or [p.get("player_key")]:
             if not key:
                 continue
@@ -183,9 +184,9 @@ def rollup(data_dir: Path, rw_handle: str, phases: dict[str, str], now: datetime
         rows = practice_days(posts, phases, rw_handle, key_of)
     else:
         rows = practice_days(posts, phases, rw_handle)
-    since = (now - timedelta(days=days)).astimezone(ET).date().isoformat()
+    since = (now - timedelta(days=days)).astimezone(LOCAL).date().isoformat()
     recent = [r for r in rows if r["date"] >= since]
-    list_since = (now - timedelta(days=list_days)).astimezone(ET).date().isoformat()
+    list_since = (now - timedelta(days=list_days)).astimezone(LOCAL).date().isoformat()
     return {"days": days, "since": since, "tie_seconds": tie_s,
             "phases": {ph: _phase_summary(recent, ph, tie_s) for ph in PHASES},
             "recent": [r for r in rows if r["date"] >= list_since]}

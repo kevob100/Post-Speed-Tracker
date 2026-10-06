@@ -11,6 +11,8 @@ ROOT = Path(__file__).resolve().parent.parent
 CONFIG_PATH = ROOT / "config.yaml"
 DATA_DIR = ROOT / "data"
 DOCS_DATA_DIR = ROOT / "docs" / "data"
+# The desk works in US Central, so every day, week, hour and displayed time is Central.
+DEFAULT_TZ = "America/Chicago"
 
 # override=True so values in .env win over empty/stale vars inherited from the
 # shell profile (e.g. an exported ANTHROPIC_API_KEY=''). On CI there is no .env

@@ -19,7 +19,7 @@ from __future__ import annotations
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from .config import DATA_DIR, load_config, sport_accounts
+from .config import DATA_DIR, DEFAULT_TZ, load_config, sport_accounts
 from .store import load_jsonl, load_state, now_iso, parse_dt, save_state, write_jsonl
 from .xapi import OwnerClient, XClient
 
@@ -171,7 +171,7 @@ def _archive_backfill(client, accounts: dict, state: dict, by_id: dict[str, dict
 
 
 def _snapshot_followers(client: XClient, accounts: dict, data_dir: Path) -> None:
-    """Record each account's follower count once per day (US Eastern date).
+    """Record each account's follower count once per day (US Central date).
 
     data/<sport>/followers.jsonl gets one row per account per date; a second run on the
     same date replaces that date's row, so the file stays one-per-day. The X API only
@@ -187,7 +187,7 @@ def _snapshot_followers(client: XClient, accounts: dict, data_dir: Path) -> None
     except Exception as e:  # never fail the pipeline over a follower count
         print(f"Follower snapshot skipped: {e}")
         return
-    today = datetime.now(ZoneInfo("America/New_York")).date().isoformat()
+    today = datetime.now(ZoneInfo(DEFAULT_TZ)).date().isoformat()
     path = data_dir / "followers.jsonl"
     rows = [r for r in load_jsonl(path)
             if not (r.get("date") == today and r.get("user_id") in metrics)]

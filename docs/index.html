@@ -253,6 +253,16 @@
   .tweet.none { color: var(--muted); font-style: italic; }
   tr.gw-row.on td { background: var(--panel2); }
   .hours-table summary { color: var(--accent); cursor: pointer; font-size: 12px; margin-bottom: 8px; }
+  .period-table { margin-top: 14px; }
+  .period-table table { width: 100%; }
+  .period-table td, .period-table th { white-space: nowrap; }
+  .period-table td.story { white-space: normal; min-width: 220px; }
+  tr.p-click { cursor: pointer; }
+  tr.p-click:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  tr.p-row.on td { background: var(--panel2); }
+  .p-caret { display: inline-block; width: 14px; color: var(--muted); }
+  tr.p-detail > td { background: var(--bg); padding: 4px 0 14px 14px; }
+  .p-stories th, .p-stories td { font-size: 12px; }
 
   /* trend chart */
   .trend { padding: 14px; margin: 0 0 20px; }
@@ -975,7 +985,7 @@ function renderHours() {
     <td class="num">${fmtMargin(h.median_lead_seconds)}</td></tr>`).join("");
 
   el.innerHTML = `<p class="type-note">When each account posts news, and how often RotoWire was first, by
-    hour of the day (Eastern time, Week 1 on). Top: ${all ? "every post collected per hour, nothing left out"
+    hour of the day (Central time, Week 1 on). Top: ${all ? "every post collected per hour, nothing left out"
     : "news posts per hour; hype and other non-news posts are left out"}, RotoWire above the line and
     Underdog below. Bottom: RotoWire's win rate on the stories that broke that hour, with the story
     count. Hover for the typical margin.</p>
@@ -1003,8 +1013,8 @@ function renderHours() {
 }
 
 // ---- by staff: who held each desk role when the news broke ----
-// Times on this tab are US Eastern (the schedule's timezone), unlike the CT feed.
-const _etTime = new Intl.DateTimeFormat("en-US", { timeZone: "America/New_York", hour: "numeric", minute: "2-digit" });
+// Clock times (no date) in US Central, like every other time on the dashboard.
+const _ctTime = new Intl.DateTimeFormat("en-US", { timeZone: "America/Chicago", hour: "numeric", minute: "2-digit" });
 const hhLabel = hh => { const h = +hh.slice(0, 2); return `${(h + 11) % 12 + 1}${h < 12 ? "a" : "p"}`; };
 const STAFF_MIN = 10;   // fewer matched stories than this: flagged as a small sample
 // Orange when Underdog was typically first, teal when RotoWire was; stronger = bigger margin.
@@ -1026,7 +1036,7 @@ function storyList(title, ids) {
   const body = rows.map(s => {
     const lead = s.underdog && (!s.rotowire || !s.rotowire_first) ? s.underdog : s.rotowire;
     const handle = lead === s.underdog ? state.handles.underdog : state.handles.rotowire;
-    return `<tr><td>${_etTime.format(new Date(storyTime(s)))}</td><td>${esc(s.player || "?")}${borderlineChip(lead)}</td>
+    return `<tr><td>${_ctTime.format(new Date(storyTime(s)))}</td><td>${esc(s.player || "?")}${borderlineChip(lead)}</td>
       <td><span class="chip">${what(s)}</span></td>
       <td class="num">${s.status === "matched" ? fmtMargin(s.time_delta_seconds) : "—"}</td>
       <td class="story">${textLink(handle, lead, lead && lead.text)}</td></tr>`;
@@ -1086,7 +1096,7 @@ function renderStaff() {
     };
     const cells = slots.map((s, i) => {
       const posts = s.rotowire_posts != null ? ` · news posts RW ${s.rotowire_posts} (+${s.rotowire_links ?? 0} detail links), UD ${s.underdog_posts}` : "";
-      const tip = `${hhLabel(s.start)} ET${posts}: ${s.matched} matched, RotoWire first on ${s.rotowire_first}` +
+      const tip = `${hhLabel(s.start)} CT${posts}: ${s.matched} matched, RotoWire first on ${s.rotowire_first}` +
         `${s.matched ? ", typical " + fmtMargin(s.median_lead_seconds) : ""}; ${s.underdog_only} missed` +
         `${s.underdog_only_borderline ? ` (${s.underdog_only_borderline} borderline)` : ""}; ${s.underdog_update_only} steps skipped`;
       const miss = s.underdog_only ? `${s.underdog_only} missed` : "";
@@ -1101,12 +1111,12 @@ function renderStaff() {
     </div></div>
     <p class="type-note">Each hour: the number is matched stories, colour is the typical margin (orange: Underdog
       first, teal: RotoWire first, stronger = bigger gap), "missed" is news only Underdog posted. Click an hour
-      to list its stories. Hours are Eastern time.</p>`;
+      to list its stories. Hours are Central time.</p>`;
   }
 
   // Stories behind the selected hour.
   const slot = day && day.slots.find(s => s.start === state.staffHour);
-  const detail = slot ? storyList(`${hhLabel(slot.start)} ET`, slot.story_ids) : "";
+  const detail = slot ? storyList(`${hhLabel(slot.start)} CT`, slot.story_ids) : "";
 
   const vol = people.some(p => p.rotowire_posts != null);
   const prow = p => `<tr><td>${esc(p.name)}${p.matched < STAFF_MIN ? `<span class="small-n" title="Fewer than ${STAFF_MIN} matched stories: too few to judge">small sample</span>` : ""}</td>
@@ -1177,7 +1187,7 @@ function renderGames() {
   const strip = hrs.length ? `<h3 style="font-size:14px;margin:22px 0 8px">By hour, during games</h3>
     <div class="type-wrap"><div class="strip" style="grid-template-columns:120px repeat(${hrs.length}, minmax(40px, 1fr))">
       <div class="s-lab">Result</div>${hrs.map(h => {
-        const tip = `${lab(h.hour)} ET in game windows: ${h.matched} matched, RotoWire first on ${h.rotowire_first}` +
+        const tip = `${lab(h.hour)} CT in game windows: ${h.matched} matched, RotoWire first on ${h.rotowire_first}` +
           `${h.matched ? ", typical " + fmtMargin(h.median_lead_seconds) : ""}; ${h.underdog_only} missed; ${h.underdog_update_only} steps skipped`;
         const bg = marginBg(h.median_lead_seconds, h.matched);
         return `<div class="s-cell" style="cursor:default${bg ? ";background:" + bg : ""}" title="${esc(tip)}" aria-label="${esc(tip)}">
@@ -1188,23 +1198,23 @@ function renderGames() {
     <p class="type-note">Number is matched stories that broke in that hour during a game window, with RotoWire's
       win rate under it; colour is the typical margin (orange: Underdog first, teal: RotoWire first). Hover for misses.</p>` : "";
 
-  const fmtET = iso => _etTime.format(new Date(iso));
+  const fmtCT = iso => _ctTime.format(new Date(iso));
   const rows = [...wins].reverse().map(w => {
     const names = w.games.map(g => g.name).join(", ");
     return `<tr class="gw-row${state.gameWin === w.start ? " on" : ""}" data-w="${w.start}" style="cursor:pointer">
-      <td>${esc(w.label)}</td><td>${fmtET(w.start)} – ${fmtET(w.end)}</td>
+      <td>${esc(w.label)}</td><td>${fmtCT(w.start)} – ${fmtCT(w.end)}</td>
       <td title="${esc(names)}">${w.games.length === 1 ? esc(names) : `${w.games.length} games`}</td>
       <td class="num">${w.matched}</td><td class="num">${w.rotowire_first} <span class="bl">${fmtPct(w.rotowire_first_rate)}</span></td>
       <td class="num">${fmtMargin(w.median_lead_seconds)}</td><td class="num">${missed(w)}</td>
       <td class="num">${w.underdog_update_only ?? 0}</td><td class="num">${w.rotowire_only}</td></tr>`;
   }).join("");
   const sel = wins.find(w => w.start === state.gameWin);
-  const detail = sel ? storyList(`${sel.label}, ${fmtET(sel.start)} – ${fmtET(sel.end)} ET`, sel.story_ids) : "";
+  const detail = sel ? storyList(`${sel.label}, ${fmtCT(sel.start)} – ${fmtCT(sel.end)} CT`, sel.story_ids) : "";
 
   el.innerHTML = `<p class="type-note">How RotoWire compares while NFL games are on. A game's window runs from 2 hours
       before kickoff (injury reports land about 90 minutes before), rounded down to the hour, to 3 hours after
-      (4 hours for a 7pm ET or later kickoff), rounded up; overlapping windows merge. Kickoffs come from ESPN, so
-      international and other one-off games are included. Times are Eastern.</p>
+      (4 hours for a 6pm CT or later kickoff), rounded up; overlapping windows merge. Kickoffs come from ESPN, so
+      international and other one-off games are included. Times are Central.</p>
     ${compare}${strip}
     <h3 style="font-size:14px;margin:22px 0 8px">Game windows</h3>
     <div class="type-wrap"><table><thead><tr><th data-nosort>Day</th><th data-nosort>Window (ET)</th><th data-nosort>Games</th>${head}</tr></thead>
@@ -1236,7 +1246,7 @@ function renderPractice() {
       <td class="num">${fmtMargin(p.median_lead_seconds)}</td></tr>`;
   };
   const cell = (side, handle) => side
-    ? `<a href="${tweetUrl(handle, side.tweet_id)}" target="_blank" rel="noopener" title="${esc(side.text)}">${_etTime.format(new Date(side.created_at))}</a>` : `<span class="bl">—</span>`;
+    ? `<a href="${tweetUrl(handle, side.tweet_id)}" target="_blank" rel="noopener" title="${esc(side.text)}">${_ctTime.format(new Date(side.created_at))}</a>` : `<span class="bl">—</span>`;
   const verdict = r => {
     const out = [];
     ["pre", "post"].forEach(ph => {
@@ -1254,7 +1264,7 @@ function renderPractice() {
   el.innerHTML = `<p class="type-note">Each practice day has two updates fantasy players want: before or during
       practice (is he out there?) and after it (how much did he do?). RotoWire tries to post both. This tracks
       them separately, per player per practice day, so a day one side skipped shows up as exactly that.
-      Last ${pr.days} days (since ${since}); a tie is within ${Math.round(pr.tie_seconds / 60)} minute. Times are Eastern.</p>
+      Last ${pr.days} days (since ${since}); a tie is within ${Math.round(pr.tie_seconds / 60)} minute. Times are Central.</p>
     <div class="type-wrap"><table><thead><tr><th data-nosort>Update</th><th data-nosort style="text-align:right">Player-days</th>
       <th data-nosort style="text-align:right">RotoWire posted</th><th data-nosort style="text-align:right">Underdog posted</th>
       <th data-nosort style="text-align:right">Only RotoWire</th><th data-nosort style="text-align:right">Only Underdog</th>
@@ -1272,9 +1282,9 @@ function renderPractice() {
 // ---- focus areas: which kinds of news cost RotoWire the most (recomputed every run) ----
 function tweetCard(who, handle, side, extra) {
   if (!side) return `<div class="tweet none">${who}: no post</div>`;
-  const when = new Date(side.created_at).toLocaleString("en-US", { timeZone: "America/New_York",
+  const when = new Date(side.created_at).toLocaleString("en-US", { timeZone: "America/Chicago",
     month: "numeric", day: "numeric", hour: "numeric", minute: "2-digit" });
-  return `<div class="tweet"><div class="who"><b>${who}</b><span>${when} ET${extra ? " · " + extra : ""}</span></div>
+  return `<div class="tweet"><div class="who"><b>${who}</b><span>${when} CT${extra ? " · " + extra : ""}</span></div>
     <div class="txt"><a href="${tweetUrl(handle, side.tweet_id)}" target="_blank" rel="noopener">${esc(side.text)}</a></div></div>`;
 }
 
@@ -1409,6 +1419,71 @@ function sourceChart(rows, grain, W, fmtDay, marks) {
     <div class="trend-plot"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img"
       aria-label="Median minutes from source tweet to post, RotoWire and Underdog">
       ${grid}${xlabels}${markSvg}${paths("ud")}${paths("rw")}${ends}</svg></div>`;
+}
+
+// ---- by-period table under the margin chart ----
+// The chart's own buckets (aggregate._trend: US Central days, season weeks, months), newest
+// first, with each period's full record. A day row opens that day's stories underneath.
+const ctDate = ms => new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago" }).format(ms);
+function periodLabel(r, grain) {
+  if (grain === "day") {
+    const d = new Date(r.period + "T12:00:00Z");
+    return `${d.toLocaleDateString("en-US", { weekday: "short", timeZone: "UTC" })} ${esc(r.label)}`;
+  }
+  if (grain === "week") {
+    const end = new Date(new Date(r.period + "T12:00:00Z").getTime() + 6 * 864e5).toISOString().slice(0, 10);
+    return /^Week/.test(r.label) ? `${esc(r.label)} <span class="bl">${fmtWeekRange(r.period, end)}</span>` : fmtWeekRange(r.period, end);
+  }
+  return esc(r.label);
+}
+function periodTable(grain) {
+  const rows = ((state.agg.trend || {})[grain] || []).filter(r => r.detail && (r.matched || r.detail.rotowire_only || r.detail.underdog_only));
+  if (!rows.length || !rows[0].detail) return "";
+  const noun = { day: "day", week: "week", month: "month" }[grain];
+  const head = [["", "Period"], ["n", "Matched"], ["n", "RW first"], ["n", "Tie"], ["n", "UD first"],
+    ["n", "Typical margin", "Median of every matched story; UD +1:30 means Underdog was typically 1:30 faster"],
+    ["n", "RW wins by", "Median margin on the stories RotoWire posted first"],
+    ["n", "UD wins by", "Median margin on the stories Underdog posted first"],
+    ["n", "RW only", "Real stories only RotoWire posted"], ["n", "UD only", "Real stories only Underdog posted"]]
+    .map(([n, l, t]) => `<th data-nosort${n ? ' style="text-align:right"' : ""}${t ? ` title="${t}"` : ""}>${l}</th>`).join("");
+  const pct = (a, b) => b ? ` <span class="bl">${Math.round(a / b * 100)}%</span>` : "";
+  const body = rows.slice().reverse().map(r => { const d = r.detail, open = grain === "day" && state.periodOpen === r.period;
+    return `<tr class="p-row${grain === "day" ? " p-click" : ""}${open ? " on" : ""}" data-p="${r.period}"${grain === "day" ? ` tabindex="0" aria-expanded="${open}"` : ""}>
+      <td>${grain === "day" ? `<span class="p-caret" aria-hidden="true">${open ? "▾" : "▸"}</span>` : ""}${periodLabel(r, grain)}</td>
+      <td class="num">${r.matched}</td><td class="num">${d.rotowire_first}${pct(d.rotowire_first, r.matched)}</td>
+      <td class="num">${d.ties}${pct(d.ties, r.matched)}</td><td class="num">${d.underdog_first}${pct(d.underdog_first, r.matched)}</td>
+      <td class="num"><b>${fmtMargin(r.median_lead_seconds)}</b></td>
+      <td class="num">${fmtMS(d.median_win_lead_seconds)}</td><td class="num">${fmtMS(d.median_win_trail_seconds)}</td>
+      <td class="num">${d.rotowire_only}</td><td class="num">${d.underdog_only}</td></tr>
+      ${open ? `<tr class="p-detail"><td colspan="10">${dayStories(r.period)}</td></tr>` : ""}`; }).join("");
+  return `<details class="hours-table period-table"${state.periodTableOpen ? " open" : ""}>
+    <summary>Show by ${noun} as a table</summary>
+    ${grain === "day" ? `<p class="type-note">Central-time days, newest first. Open a day to see its stories.</p>` : ""}
+    <div class="type-wrap"><table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table></div></details>`;
+}
+// One day's stories: every matched story and every real one-sided story, in time order.
+function dayStories(day) {
+  const list = state.stories.filter(s => s.review_status !== "rejected" && s.review_status !== "merged"
+      && !s.same_event_duplicate && storyTime(s) && ctDate(storyTime(s)) === day
+      && (s.status === "matched" || (!s.roundup && !NOT_GAPS.includes(s.gap_kind))))
+    .sort((a, b) => storyTime(a) - storyTime(b));
+  if (!list.length) return `<div class="bl">No stories that day.</div>`;
+  return `<table class="p-stories"><thead><tr><th data-nosort>Player</th><th data-nosort>Story</th><th data-nosort>RotoWire</th>
+    <th data-nosort>Underdog</th><th data-nosort style="text-align:right">Margin</th><th data-nosort>First</th></tr></thead><tbody>${
+    list.map(s => `<tr><td>${esc(s.player || "—")}</td><td class="story">${esc(s.canonical_label || "—")}</td>
+      <td>${timeLink(state.handles.rotowire, s.rotowire)}</td><td>${timeLink(state.handles.underdog, s.underdog)}</td>
+      <td class="num">${s.status === "matched" ? fmtMargin(s.time_delta_seconds) : "—"}</td><td>${winnerBadge(s)}</td></tr>`).join("")}
+    </tbody></table>`;
+}
+function wirePeriodTable(el) {
+  const det = el.querySelector(".period-table");
+  if (!det) return;
+  det.addEventListener("toggle", () => { state.periodTableOpen = det.open; });
+  det.querySelectorAll("tr.p-click").forEach(tr => {
+    const go = () => { state.periodOpen = state.periodOpen === tr.dataset.p ? null : tr.dataset.p; renderTrend(); };
+    tr.onclick = go;
+    tr.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); go(); } };
+  });
 }
 
 function renderTrend() {
@@ -1565,7 +1640,7 @@ function renderTrend() {
       <text x="${m.l + 6}" y="${y(0) + 15}" class="t-side halo">▼ Underdog earlier</text>
       ${grid}${xlabels}${markSvg}<path d="${thinPath}" class="t-line thin"/><path d="${path}" class="t-line"/>${bandFg}${dots}${endLabel}
       <line class="t-cross hidden" y1="${m.t}" y2="${m.t + ih}"/>${hits}</svg>
-      <div class="t-tip hidden"></div></div>`;
+      <div class="t-tip hidden"></div></div>${periodTable(grain)}`;
   // Before / after table and source timing live in their own panel, below the KPIs.
   const erasEl = document.getElementById("eras");
   erasEl.innerHTML = erasTable() + sourceChart(rows, grain, W, fmtDay, marks);
@@ -1576,6 +1651,7 @@ function renderTrend() {
     state.trendGrain = b.dataset.g;
     renderTrend();
   });
+  wirePeriodTable(el);
   const tip = el.querySelector(".t-tip"), cross = el.querySelector(".t-cross");
   el.querySelectorAll(".t-hit").forEach(h => {
     h.onmouseenter = () => {

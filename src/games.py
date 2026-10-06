@@ -19,6 +19,8 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from .config import DEFAULT_TZ
+
 
 ESPN = "https://site.api.espn.com/apis/site/v2/sports/football/nfl/scoreboard"
 # (seasontype, weeks): 2 = regular season, 3 = postseason.
@@ -63,7 +65,7 @@ def load_games(data_dir: Path) -> list[dict]:
 
 def windows(games: list[dict], cfg: dict) -> list[dict]:
     """Merged game windows: [{start, end (UTC datetimes), games: [{name, kickoff}]}]."""
-    tz = ZoneInfo(cfg.get("timezone") or "America/New_York")
+    tz = ZoneInfo(cfg.get("timezone") or DEFAULT_TZ)
     before = timedelta(hours=float(cfg.get("before_hours", 2)))
     after = timedelta(hours=float(cfg.get("after_hours", 3)))
     late_after = timedelta(hours=float(cfg.get("primetime_after_hours", 4)))
@@ -93,7 +95,7 @@ def windows(games: list[dict], cfg: dict) -> list[dict]:
 def rollup(stories: list[dict], games: list[dict], cfg: dict, story_time, summary,
            since: datetime | None = None, until: datetime | None = None) -> dict:
     """Per window, inside vs outside game windows, and by clock hour inside them."""
-    tz = ZoneInfo(cfg.get("timezone") or "America/New_York")
+    tz = ZoneInfo(cfg.get("timezone") or DEFAULT_TZ)
     wins = [w for w in windows(games, cfg)
             if (since is None or w["end"] > since) and (until is None or w["start"] < until)]
     timed = [(story_time(s), s) for s in stories]

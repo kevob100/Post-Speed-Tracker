@@ -28,6 +28,8 @@ from pathlib import Path
 import requests
 import yaml
 
+from .config import DEFAULT_TZ
+
 EXPORT = "https://docs.google.com/spreadsheets/d/{id}/export?format=xlsx"
 DAYS = ("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
 X_ROLES = {"tweets": "Tweets (L1-2)", "distributor": "Distributor (L3-5)", "writers": "Writers"}
@@ -226,7 +228,7 @@ def sync(cfg: dict, folder: Path, today: date | None = None) -> dict:
         days.update(x_watcher(wb, Names(known, aliases), today))   # X Watcher wins
     # The month tabs are planned weeks ahead; a day with no news yet only clutters the tab.
     days = {d: v for d, v in days.items() if d <= today.isoformat()}
-    return write(days, folder, cfg.get("timezone") or "America/New_York")
+    return write(days, folder, cfg.get("timezone") or DEFAULT_TZ)
 
 
 if __name__ == "__main__":

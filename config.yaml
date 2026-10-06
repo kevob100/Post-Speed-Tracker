@@ -6,7 +6,7 @@ sports:
     # Score each news development once (first post per side) instead of the closest
     # pair of posts. See src/develop.py.
     match_mode: developments
-    # Eras compared under the trend chart (US Eastern dates; `until` is exclusive).
+    # Eras compared under the trend chart (US Central dates; `until` is exclusive).
     # Jul 24 is mass adoption: the day the desk switched over to the new news system for NFL.
     eras:
     - {label: Before mass adoption, until: '2026-07-24'}
@@ -24,10 +24,10 @@ sports:
     game_windows:
       source: espn
       season: 2026
-      timezone: America/New_York
+      timezone: America/Chicago
       before_hours: 2
       after_hours: 3
-      primetime_from: '19:00'
+      primetime_from: '18:00'   # 7pm ET
       primetime_after_hours: 4
     # A one-sided Underdog post about a player RotoWire has never posted about counts as
     # "below RotoWire's bar" (not missed) only when he ranks outside Sleeper's top N.
@@ -40,7 +40,7 @@ sports:
       x_watcher_sheet: 1aHh9n2TMrB_SGi8voWNNj2yyqlCkPuq4Quc_AdLzdPI
       breaking_news_sheet: 1ZUK_2o5l35Q7aSV_Xu_-4worspeBgEMekTmtB4dM8oE
       since: '2026-04-01'
-      timezone: America/New_York
+      timezone: America/Chicago   # the sheets are written in Central
       aliases: {Kevin: KOB, Eric: Eric C.}
     # Source tweet lookup (src/source.py): find the reporter tweet a matched story credits,
     # so each side gets an absolute time to post. Each story is searched once and cached.
@@ -50,12 +50,12 @@ sports:
       max_minutes: 20
     # One-time fetch of quote-tweet links for posts stored before collection kept them.
     reference_backfill_since: '2026-09-01'
-    # NFL weeks run Tuesday to Monday. The 6am ET rollover keeps late Monday-night news
+    # NFL weeks run Tuesday to Monday. The 5am CT rollover keeps late Monday-night news
     # with that week's games. Anything before Week 1 rolls up as Preseason.
     season_weeks:
       start: '2026-09-08'
-      boundary: '06:00'
-      timezone: America/New_York
+      boundary: '05:00'
+      timezone: America/Chicago
     accounts:
       rotowire:
         handle: RotoWireNFL
@@ -112,7 +112,7 @@ sports:
         handle: UnderdogGolf
         user_id: '1550241147787829250'
 # RotoWire workflow releases, drawn as markers on the dashboard's trend chart. Add the next
-# release here (date = the day it went live, US Eastern).
+# release here (date = the day it went live, US Central).
 milestones:
 - date: '2026-05-01'
   label: News system 1.0

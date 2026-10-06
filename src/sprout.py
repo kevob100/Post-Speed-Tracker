@@ -20,6 +20,7 @@ from zoneinfo import ZoneInfo
 
 import requests
 
+from .config import DEFAULT_TZ
 from .store import load_jsonl, load_state, save_state, write_jsonl
 
 BASE = "https://api.sproutsocial.com/v1"
@@ -75,10 +76,10 @@ def fetch(profile_id: int | str, start: date, end: date, session: requests.Sessi
 
 def sync(data_dir: Path, profile_id: int | str, since: str, refresh_days: int = 7,
          session: requests.Session | None = None, today: date | None = None) -> str:
-    """Bring data/<sport>/sprout_daily.jsonl up to yesterday (US Eastern)."""
+    """Bring data/<sport>/sprout_daily.jsonl up to yesterday (US Central)."""
     path = data_dir / "sprout_daily.jsonl"
     rows = {r["date"]: r for r in load_jsonl(path)}
-    today = today or datetime.now(ZoneInfo("America/New_York")).date()
+    today = today or datetime.now(ZoneInfo(DEFAULT_TZ)).date()
     end = today - timedelta(days=1)
     first = date.fromisoformat(str(since))
     # Fill from `since` once (state remembers it, so a profile Sprout only started tracking
