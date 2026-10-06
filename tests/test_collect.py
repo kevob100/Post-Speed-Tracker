@@ -238,3 +238,39 @@ def test_get_retries_timeouts(monkeypatch):
     c = xapi.XClient(bearer_token="t", session=Sess())
     assert c._get("/tweets/search/all", {})["data"][0]["id"] == "1"
     assert Sess.calls == [90, 90, 90]
+
+
+def test_oauth1_signature_matches_x_docs_example():
+    from src import xapi
+    # The worked example from X's "Creating a signature" docs.
+    h = xapi.oauth1_header(
+        "POST", "https://api.twitter.com/1.1/statuses/update.json",
+        {"include_entities": "true", "status": "Hello Ladies + Gentlemen, a signed OAuth request!"},
+        "xvz1evFS4wEEPTGEFPHBog", "kAcSOqF21Fu85e7zjz7ZN2U4ZRhfV3WpwPAoE3Z7kBw",
+        "370773112-GmHxMAgYyLbNEtIKZeRNFsMKPR9EyMZeS9weJAEb", "LswwdoUaIvS8ltyTt5jkRh4J50vUPVVHtR2YPi5kE",
+        nonce="kYjzVBB8Y0ZFabxSWbWovY3uYSQ2pTgmZeNu2VS4cg", timestamp="1318622958")
+    assert 'oauth_signature="hCtSmYh%2BiHYCEqBWrE7C7hYmtUk%3D"' in h
+
+
+def test_owned_metrics_only_for_token_owner_and_freeze_with_public_metrics():
+    from src.collect import _owned_metrics
+
+    class Owner:
+        user_id = "1"
+        def owned_metrics(self, ids):
+            self.asked = sorted(ids)
+            return {i: {"public_metrics": {}, "non_public_metrics": {"url_link_clicks": 5},
+                        "organic_metrics": {"impression_count": 9}} for i in ids}
+
+    accounts = {"rotowire": {"handle": "RW", "user_id": "1"}, "underdog": {"handle": "UD", "user_id": "2"}}
+    by_id = {"a": {**_tweet("a", 2, 10), "account": "RW", "metrics_frozen": False},
+             "b": {**_tweet("b", 20, 10), "account": "RW", "metrics_frozen": True},
+             "c": {**_tweet("c", 2, 10), "account": "UD", "metrics_frozen": False},
+             "d": {**_tweet("d", 24 * 40, 10), "account": "RW", "metrics_frozen": True}}
+    o = Owner()
+    _owned_metrics(o, accounts, by_id)
+    assert o.asked == ["a", "b"]                      # not Underdog's, not past X's 30-day limit
+    assert by_id["a"]["non_public_metrics"] == {"url_link_clicks": 5}
+    assert by_id["a"]["owned_metrics_frozen"] is False and by_id["b"]["owned_metrics_frozen"] is True
+    _owned_metrics(o, accounts, by_id)
+    assert o.asked == ["a"]                            # frozen posts are not fetched again

@@ -25,7 +25,7 @@ from datetime import datetime
 import os
 
 from . import (aggregate, classify, collect, develop, games, match, positions, practice, source,
-               staffing_import)
+               sprout, staffing_import, xapi)
 from .config import (
     DOCS_DATA_DIR,
     load_config,
@@ -35,7 +35,7 @@ from .config import (
     sports,
 )
 from .store import load_jsonl, now_iso
-from .xapi import XClient
+from .xapi import OwnerClient, XClient
 
 
 def run_sport(sport: str, cfg: dict | None = None) -> dict:
@@ -51,7 +51,7 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
     data_dir.mkdir(parents=True, exist_ok=True)
 
     print(f"=== {sport} ===")
-    coll = collect.collect(data_dir=data_dir, sport=sport, accounts=accounts)
+    coll = collect.collect(data_dir=data_dir, sport=sport, accounts=accounts, owner=OwnerClient.from_env())
     print(f"[collect]   {coll}")
 
     has_key = bool(os.getenv("ANTHROPIC_API_KEY"))
@@ -104,7 +104,7 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
     print(f"[resolve]   stories={len(stories)} matched={matched} method={method}")
 
     # Source tweet times for matched stories (needs X search; cached per story).
-    if meta.get("source_lookup") and os.getenv("X_BEARER_TOKEN"):
+    if meta.get("source_lookup") and xapi.has_credentials():
         try:
             res = source.find_sources(XClient(), data_dir,
                                       [a["handle"] for a in accounts.values()], meta["source_lookup"])
@@ -121,6 +121,15 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
             print(f"[staffing]  {staffing_import.sync(meta['staffing_sheets'], data_dir / 'staffing')}")
         except Exception as e:  # keep the files from the last good sync
             print(f"[staffing]  skipped: {e}")
+
+    # RotoWire's daily account history (followers, impressions, clicks) from Sprout Social.
+    profile = accounts["rotowire"].get("sprout_profile_id")
+    if profile and sprout.has_credentials():
+        sp = cfg.get("sprout") or {}
+        try:
+            print(f"[sprout]    {sprout.sync(data_dir, profile, sp.get('since', '2025-10-01'), sp.get('refresh_days', 7))}")
+        except Exception as e:  # keep the rows from the last good sync
+            print(f"[sprout]    skipped: {e}")
 
     gw = meta.get("game_windows")
     if gw and gw.get("source") == "espn":

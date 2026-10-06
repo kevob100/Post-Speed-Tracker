@@ -1961,9 +1961,12 @@ function renderAudience() {
   // X Analytics export (bars), on the same timeline with the same news-system markers.
   const acct = (a.rotowire_account_impressions || []).filter(w => w.days === 7);
   const ACCT_METRICS = [["followers", "Followers"], ["impressions", "Impressions"], ["engagements", "Engagements"],
-    ["profile_visits", "Profile visits"], ["posts", "Posts"]].filter(([k]) => k === "followers" || acct.some(w => w[k] != null));
+    ["link_clicks", "Link clicks"], ["profile_visits", "Profile visits"], ["posts", "Posts"]].filter(([k]) => k === "followers" || acct.some(w => w[k] != null));
   const metric = ACCT_METRICS.some(([k]) => k === state.acctMetric) ? state.acctMetric : "followers";
   const metricLabel = ACCT_METRICS.find(([k]) => k === metric)[1];
+  const SRC_LABEL = { sprout: "From Sprout Social", x_analytics: "From X Analytics" };
+  // X Analytics (the account's own export) wins on the days it covers; Sprout Social fills the rest.
+  const acctFrom = (a.account_sources || []).join(" and ") || "X Analytics";
 
   // Followers all time (X Analytics export, then the pipeline's daily count), or a weekly export
   // metric, with the news-system milestones marked, drawn at the panel's real width.
@@ -2066,13 +2069,13 @@ function renderAudience() {
     const hoverPts = isF
       ? fr.map((p, i) => ({ cx: x(p.date), cy: y(p.followers), html: `<b>${fmtY(p.date)}</b><div>${num(p.followers)} followers</div>
           ${i ? `<div>${p.followers - fr[i - 1].followers >= 0 ? "+" : "−"}${num(Math.abs(p.followers - fr[i - 1].followers))} that day</div>` : ""}
-          <div class="bl">${p.source === "x_analytics" ? "From X Analytics" : "Counted by the pipeline"}</div>` }))
+          <div class="bl">${SRC_LABEL[p.source] || "Counted by the pipeline"}</div>` }))
       : wk.map(w => ({ cx: (Math.max(m.l, x(w.week)) + Math.min(W - m.r, x(isoAdd(w.week, 7)))) / 2, cy: y(w.v),
-          html: `<b>Week of ${fmtY(w.week)}</b><div>${num(w.v)} ${metricLabel.toLowerCase()}</div><div class="bl">From X Analytics</div>` }));
+          html: `<b>Week of ${fmtY(w.week)}</b><div>${num(w.v)} ${metricLabel.toLowerCase()}</div><div class="bl">From ${acctFrom}</div>` }));
     const hitsF = `<line class="t-cross hidden" y1="${m.t}" y2="${m.t + ih}"/><circle class="f-dot hidden" r="4"/>
       <rect class="t-hit f-hit" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}"/>`;
     state.folHover = { pts: hoverPts, m, W };
-    const fromExport = fr[0].source === "x_analytics";
+    const firstCounted = (fr.find(p => !p.source) || lp).date;
     const jumpGain = jumps.reduce((s2, j) => s2 + j.gain, 0), total = lp.followers - fr[0].followers;
     // Short form unless both ends round to the same thing (only a few days counted).
     const fmtF = v => kfmt(fr[0].followers) === kfmt(lp.followers) ? num(v) : kfmt(v);
@@ -2080,10 +2083,12 @@ function renderAudience() {
       <h2><span class="from">${fmtF(fr[0].followers)}</span><span class="arrow" aria-label="to">→</span><span class="to">${fmtF(lp.followers)}</span></h2>
       <p>Since ${fmtY(fr[0].date)}${jumps.length && total > 0 ? `; ${Math.round(jumpGain / total * 100)}% of the gain came on ${jumps.length === 1 ? "one jump" : jumps.length + " jumps"} marked on the chart` : ""}.</p></section>`;
     const note = isF
-      ? (fromExport
-        ? `Daily, from RotoWire's X Analytics export (new follows minus unfollows, walked back from the first real count) up to ${fmtD((fr.find(p => p.source !== "x_analytics") || lp).date)}, then counted by the pipeline.`
+      ? (fr[0].source === "sprout"
+        ? `Daily counts from Sprout Social up to ${fmtD(firstCounted)}, then counted by the pipeline.`
+        : fr[0].source === "x_analytics"
+        ? `Daily, from RotoWire's X Analytics export (new follows minus unfollows, walked back from the first real count) up to ${fmtD(firstCounted)}, then counted by the pipeline.`
         : `Counted once a day since ${fmtD(fr[0].date)}.`)
-      : `Weekly totals for the whole account (Monday weeks, complete weeks only), from its X Analytics export.`;
+      : `Weekly totals for the whole account (Monday weeks, complete weeks only), from ${acctFrom}.`;
     folPanel = `<div class="panel a-panel"><div class="trend-head"><div><h3>RotoWire ${metricLabel.toLowerCase()} over time</h3>
       <p class="type-note">${note}</p></div>
       ${ACCT_METRICS.length > 1 ? `<div class="seg acct-seg" role="group" aria-label="Metric">${ACCT_METRICS.map(([k, l]) =>

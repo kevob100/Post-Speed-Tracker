@@ -39,7 +39,15 @@ jobs:
 
       - name: Run pipeline
         env:
+          # X dev app with the biggest budget; the access token is @RotoWireNFL's, which also
+          # unlocks its own posts' non-public metrics. X_BEARER_TOKEN is only the fallback.
+          X_NFL_API_KEY: ${{ secrets.X_NFL_API_KEY }}
+          X_NFL_API_SECRET: ${{ secrets.X_NFL_API_SECRET }}
+          X_NFL_ACCESS_TOKEN: ${{ secrets.X_NFL_ACCESS_TOKEN }}
+          X_NFL_ACCESS_SECRET: ${{ secrets.X_NFL_ACCESS_SECRET }}
           X_BEARER_TOKEN: ${{ secrets.X_BEARER_TOKEN }}
+          SPROUT_SOCIAL_TOKEN: ${{ secrets.SPROUT_SOCIAL_TOKEN }}
+          SPROUT_CUSTOMER_ID: ${{ secrets.SPROUT_CUSTOMER_ID }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         # The pipeline is idempotent (since_id state + classification/verdict caches),
         # so retrying is safe and cheap — it absorbs transient X/Anthropic API hiccups

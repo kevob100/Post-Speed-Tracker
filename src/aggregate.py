@@ -26,7 +26,7 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from . import develop, focus, games, practice, source, staffing, x_analytics
+from . import develop, focus, games, practice, source, sprout, staffing, x_analytics
 from .config import DATA_DIR, DOCS_DATA_DIR
 from .news_type import LABELS as NEWS_TYPE_LABELS
 from .news_type import news_type
@@ -494,7 +494,9 @@ def _mature_views(t: dict | None) -> int | None:
 
 
 def _audience(stories: list[dict], tweets: list[dict], followers: list[dict], rw_handle: str,
-              weeks_cfg: dict | None, tie_s: int = TIE_SECONDS, x_daily: dict | None = None) -> dict:
+              weeks_cfg: dict | None, tie_s: int = TIE_SECONDS, x_daily: dict | None = None,
+              sprout_followers: list[dict] | None = None, account_sources: list[str] | None = None,
+              x_export: dict | None = None) -> dict:
     """Followers, views per news post by week, and views on head-to-head stories."""
     tz = ZoneInfo((weeks_cfg or {}).get("timezone") or "America/New_York")
     side = lambda t: "rotowire" if t.get("account") == rw_handle else "underdog"  # noqa: E731
@@ -546,9 +548,17 @@ def _audience(stories: list[dict], tweets: list[dict], followers: list[dict], rw
         series.setdefault(f["account"], []).append({"date": f["date"], "followers": f["followers_count"]})
     for pts in series.values():
         pts.sort(key=lambda p: p["date"])
-    # RotoWire's history before collection started, from its own X Analytics export.
-    if x_daily and series.get("rotowire"):
-        series["rotowire"] = x_analytics.backfill(series["rotowire"], x_daily)
+    # RotoWire's history before collection started: the account's own X Analytics export
+    # (net follows walked back from the first real count), then Sprout Social's daily counts
+    # for anything earlier. Sprout's counts run about a day off the export's around big
+    # jumps, so the export wins where it reaches. x_export defaults to x_daily for callers
+    # that pass only the export.
+    walk = x_export if x_export is not None else x_daily
+    if walk and series.get("rotowire"):
+        series["rotowire"] = x_analytics.backfill(series["rotowire"], walk)
+    if sprout_followers and series.get("rotowire"):
+        first = series["rotowire"][0]["date"]
+        series["rotowire"] = [p for p in sprout_followers if p["date"] < first] + series["rotowire"]
     # Growth compares like with like: only the dates every account has a count for.
     common = max(pts[0]["date"] for pts in series.values()) if series else None
     growth = {}
@@ -576,7 +586,8 @@ def _audience(stories: list[dict], tweets: list[dict], followers: list[dict], rw
             if isinstance(v, (int, float)):
                 w[k] = w.get(k, 0) + v
     return {"followers": series, "growth": growth, "views_by_week": views, "head_to_head": h2h,
-            "rotowire_account_impressions": list(acct_weeks.values()), "mature_hours": MATURE_HOURS}
+            "rotowire_account_impressions": list(acct_weeks.values()),
+            "account_sources": account_sources or [], "mature_hours": MATURE_HOURS}
 
 
 def _eras(stories: list[dict], eras: list[dict], rotowire_handle: str | None,
@@ -688,11 +699,22 @@ def build_aggregates(
     # Audience: followers, views per post, views on head-to-head stories.
     if rotowire_handle:
         followers = load_jsonl(data_dir / "followers.jsonl")
+        # Account totals: Sprout Social for every sport; the account's own X Analytics export
+        # wins for every field it has on the dates it covers (Sprout still adds link clicks).
+        sprout_rows = load_jsonl(data_dir / "sprout_daily.jsonl")
+        export = x_analytics.load_daily(data_dir / "x_analytics") if (data_dir / "x_analytics").exists() else {}
+        x_daily = sprout.daily_metrics(sprout_rows)
+        for d, row in export.items():
+            x_daily[d] = {**x_daily.get(d, {}), **row}
+        sources = [n for n, has in (("X Analytics", export), ("Sprout Social", sprout_rows)) if has]
         aggregates["audience"] = _audience(
             [s for s in stories if not season_weeks or _story_time(s) >= datetime.fromisoformat(
                 str(season_weeks["start"])).replace(tzinfo=ZoneInfo("America/New_York")) - timedelta(days=42)],
             load_jsonl(data_dir / "tweets.jsonl"), followers, rotowire_handle, season_weeks,
-            x_daily=x_analytics.load_daily(data_dir / "x_analytics") if (data_dir / "x_analytics").exists() else None)
+            # Follower history from Sprout only where there is no export: the two disagree by
+            # a few hundred at the seam, which would draw as a fake drop.
+            x_daily=x_daily or None, sprout_followers=None if export else sprout.follower_counts(sprout_rows),
+            account_sources=sources, x_export=export)
 
     # Before / after comparison (sports.<sport>.eras).
     if eras:

@@ -8,6 +8,9 @@ Per run, for each account:
 Then a metrics pass:
   4. Re-fetch public_metrics for every non-frozen post (so both accounts are
      compared at equal maturity), then freeze any post >= freeze_hours old.
+  5. For the account that owns the X app's access token (@RotoWireNFL), store its own
+     posts' non-public metrics (impressions, engagements, link and profile clicks) on the
+     same schedule; X only serves these for posts under 30 days old.
 
 Run: python -m src.collect
 """
@@ -18,7 +21,9 @@ from pathlib import Path
 
 from .config import DATA_DIR, load_config, sport_accounts
 from .store import load_jsonl, load_state, now_iso, parse_dt, save_state, write_jsonl
-from .xapi import XClient
+from .xapi import OwnerClient, XClient
+
+OWNED_MAX_AGE = timedelta(days=29)   # X serves non-public metrics for posts under 30 days old
 
 
 def _backfill_start_time(cfg: dict, sport: str | None = None) -> str:
@@ -55,6 +60,7 @@ def collect(
     per_account_limit: int | None = None,
     sport: str = "mlb",
     accounts: dict | None = None,
+    owner: OwnerClient | None = None,
 ) -> dict:
     cfg = load_config()
     client = client or XClient()
@@ -116,6 +122,8 @@ def collect(
         _archive_backfill(client, accounts, state, by_id, fetched_this_run, f"{archive_start}T00:00:00Z")
 
     _refresh_and_freeze(client, by_id, fetched_this_run, freeze_hours)
+    if owner:
+        _owned_metrics(owner, accounts, by_id)
     _backfill_references(client, by_id, _reference_backfill_since(cfg, sport))
     _snapshot_followers(client, accounts, data_dir)
 
@@ -196,6 +204,33 @@ def _snapshot_followers(client: XClient, accounts: dict, data_dir: Path) -> None
     print("Followers: " + ", ".join(f"{ids[u][1]} {m.get('followers_count')}" for u, m in metrics.items()))
 
 
+def _owned_metrics(owner: OwnerClient, accounts: dict, by_id: dict[str, dict]) -> None:
+    """Non-public metrics for the token owner's own posts, refreshed until the post's public
+    metrics freeze (one last fetch at freeze time) so both are read at the same age. Posts
+    already frozen when this first runs get one fetch, flagged by owned_metrics_at."""
+    handles = {a["handle"] for a in accounts.values() if str(a.get("user_id")) == owner.user_id}
+    if not handles:
+        return
+    now = datetime.now(timezone.utc)
+    ids = [r["id"] for r in by_id.values()
+           if r["account"] in handles and not r.get("owned_metrics_frozen")
+           and now - parse_dt(r["created_at"]) < OWNED_MAX_AGE]
+    if not ids:
+        return
+    try:
+        found = owner.owned_metrics(ids)
+    except Exception as e:  # never fail the pipeline over the extra metrics
+        print(f"Owned metrics skipped: {e}")
+        return
+    for tid, m in found.items():
+        r = by_id[tid]
+        r["non_public_metrics"] = m["non_public_metrics"]
+        r["organic_metrics"] = m["organic_metrics"]
+        r["owned_metrics_at"] = now_iso()
+        r["owned_metrics_frozen"] = r["metrics_frozen"]
+    print(f"Owned metrics for {len(found)}/{len(ids)} {'/'.join(sorted(handles))} posts")
+
+
 def _reference_backfill_since(cfg: dict, sport: str | None) -> str | None:
     meta = (cfg.get("sports") or {}).get(sport or "", {}) or {}
     date = meta.get("reference_backfill_since")
@@ -268,4 +303,5 @@ if __name__ == "__main__":
     )
     parser.add_argument("--sport", default="mlb", help="Sport key from config (default: mlb).")
     args = parser.parse_args()
-    collect(per_account_limit=args.limit, sport=args.sport, data_dir=sport_data_dir(args.sport))
+    collect(per_account_limit=args.limit, sport=args.sport, data_dir=sport_data_dir(args.sport),
+            owner=OwnerClient.from_env())

@@ -58,6 +58,7 @@ sports:
     accounts:
       rotowire:
         handle: RotoWireNFL
+        sprout_profile_id: 5872832
         user_id: '2542083714'
       underdog:
         handle: UnderdogNFL
@@ -68,6 +69,7 @@ sports:
     accounts:
       rotowire:
         handle: RotoWireMLB
+        sprout_profile_id: 5872860
         user_id: '2426328866'
       underdog:
         handle: UnderdogMLB
@@ -79,6 +81,7 @@ sports:
     accounts:
       rotowire:
         handle: RotoWireNBA
+        sprout_profile_id: 5872842
         user_id: '2291803664'
       underdog:
         handle: UnderdogNBA
@@ -90,6 +93,7 @@ sports:
     accounts:
       rotowire:
         handle: RotoWireWNBA
+        sprout_profile_id: 6132781
         user_id: '1136446644822642688'
       underdog:
         handle: UnderdogWNBA
@@ -101,6 +105,7 @@ sports:
     accounts:
       rotowire:
         handle: RotoWireGolf
+        sprout_profile_id: 5872851
         user_id: '758773982753587204'
       underdog:
         handle: UnderdogGolf
@@ -134,6 +139,12 @@ matching:
     - role_change
 impressions:
   freeze_hours: 12
+# Sprout Social (src/sprout.py): RotoWire's daily followers and account totals for every
+# sport, via each rotowire account's sprout_profile_id. Filled from `since` once, then the
+# last refresh_days are re-read each run.
+sprout:
+  since: '2025-10-01'
+  refresh_days: 7
 collection:
   backfill_start_date: '2026-05-29'
   # One-time history from full-archive search for every active account, from this date up

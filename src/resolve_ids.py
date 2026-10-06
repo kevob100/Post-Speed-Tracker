@@ -3,7 +3,7 @@ it back into config.yaml.
 
 Collection keys timelines by user_id (not handle), so this must be run once before the
 first collect when an account's user_id is missing. It is idempotent — re-running simply
-re-confirms the ids. Requires X_BEARER_TOKEN.
+re-confirms the ids. Requires the X app credentials (see .env.example).
 
 Run: python -m src.resolve_ids
 """
