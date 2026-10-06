@@ -22,6 +22,13 @@
     transition: border-color .15s; }
   .topbar.stuck { border-bottom-color: var(--line); }
   .topbar .sports { margin-bottom: 8px; }
+  /* Sport pills, then the page switch: Speed (the head-to-head) or Audience (RotoWire's account). */
+  .top-row { display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 6px 16px; }
+  .page-seg { margin: 4px 0; }
+  .page-seg button { font-size: 14px; padding: 6px 14px; font-weight: 600; }
+  /* Audience page: everything that compares post times steps aside. */
+  body.page-audience #lead, body.page-audience #trend, body.page-audience #kpis, body.page-audience #eras,
+  body.page-audience #tabs-wrap, body.page-audience [id^="view-"]:not(#view-all) { display: none !important; }
   h1 { font-size: 20px; margin: 0 0 2px; }
   .sub { color: var(--muted); font-size: 12px; }
 
@@ -38,7 +45,8 @@
   @media (max-width: 640px) { header { padding: 12px 16px 4px; } .wrap { padding: 0 16px 40px; }
     /* keep the pinned bar short on a phone: one-line subtitle, smaller title and pills */
     header h1 { font-size: 16px; } header .sub { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .topbar .sports { margin: 8px 0 6px; } .sport-btn { padding: 4px 12px; } }
+    .topbar .sports { margin: 8px 0 6px; } .sport-btn { padding: 4px 12px; }
+    .page-seg { margin: 0 0 6px; } .page-seg button { font-size: 12px; padding: 5px 12px; } }
   table, .kpi, .hb, svg text, .type-cell, .hcell, .strip { font-variant-numeric: tabular-nums; }
 
   /* KPI cards */
@@ -231,9 +239,6 @@
   .bl { color: var(--muted); font-size: 12px; }
 
   /* focus areas */
-  .focus-callout { margin: -6px 0 20px; font-size: 14px; color: var(--muted); }
-  .focus-callout b { color: var(--text); }
-  .focus-callout a { cursor: pointer; }
   details.fg { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; margin: 0 0 10px; }
   details.fg > summary { list-style: none; cursor: pointer; padding: 12px 14px; display: flex; flex-wrap: wrap;
     align-items: baseline; gap: 4px 14px; }
@@ -282,7 +287,7 @@
   .t-tick { fill: var(--muted); font-size: 12px; font-variant-numeric: tabular-nums; }
   .t-side { fill: var(--muted); font-size: 12px; }
   .t-line { fill: none; stroke: var(--accent); stroke-width: 2; stroke-linejoin: round; }
-  #audience-top:not(.hidden) + .timing-lead { margin-top: 36px; }
+  #audience-top { margin-top: 8px; }
   .a-grid.a-main { grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); }
   .a-grid.one { grid-template-columns: minmax(0, 1fr); }
   .a-col { fill: var(--green); } .a-col.thin { opacity: .4; }
@@ -364,7 +369,9 @@
   <h1>Post-Speed Tracker</h1>
   <div class="sub" id="subtitle">RotoWire vs Underdog — news-speed comparison.
     <span id="generated"></span></div>
-  <div class="sports" id="sport-switcher"></div>
+  <div class="top-row"><div class="sports" id="sport-switcher"></div>
+    <div class="seg page-seg hidden" id="page-seg" role="group" aria-label="Page">
+      <button type="button" data-page="speed">Speed</button><button type="button" data-page="audience">Audience</button></div></div>
 </header></div>
 <div class="wrap">
   <!-- ALL-sports overview (shown when the ALL pill is selected) -->
@@ -375,7 +382,6 @@
   <section class="lead timing-lead hidden" id="lead"></section>
   <section class="panel trend" id="trend"></section>
   <div class="kpis" id="kpis"></div>
-  <p class="focus-callout" id="focus-callout"></p>
   <section class="panel trend hidden" id="eras"></section>
 
   <div class="tabs-wrap" id="tabs-wrap"><div class="tabs" id="tabs" role="tablist" aria-label="Views">
@@ -527,7 +533,6 @@ async function loadAll() {
 function setMode(isAll) {
   document.getElementById("view-all").classList.toggle("hidden", !isAll);
   document.getElementById("kpis").classList.toggle("hidden", isAll);
-  document.getElementById("focus-callout").classList.toggle("hidden", isAll);
   document.getElementById("trend").classList.toggle("hidden", isAll);
   document.getElementById("tabs-wrap").classList.toggle("hidden", isAll);
   applyTopMode();
@@ -702,12 +707,6 @@ function renderKpis() {
         <span>UD only</span><b>${pct(h.rotowire_missed_rate)}</b><span>${h.rotowire_missed} stories</span></div></div>`;
   el.style.setProperty("--n", el.querySelectorAll(":scope > .kpi").length || 1);
   fitBarLabels();
-  const top = ((state.agg.focus || {}).groups || []).slice(0, 3);
-  const call = document.getElementById("focus-callout");
-  if (call) call.innerHTML = top.length ? `Focus on: ${top.map(g => `<b>${esc(g.label)}</b>`).join(", ")}.
-    <a id="focus-link" href="#tabs">See examples →</a>` : "";
-  const link = document.getElementById("focus-link");
-  if (link) link.onclick = e => { e.preventDefault(); showView("focus"); document.getElementById("tabs").scrollIntoView({ behavior: "smooth" }); };
 }
 
 // Hide a segment's number when it does not fit inside the segment.
@@ -2029,11 +2028,29 @@ const AUD_MIN_DAYS = 30;              // follower history shorter than this hide
 // Audience sits at the top of a sport's page, timing below it; the ALL overview shows neither.
 function applyTopMode() {
   const isAll = state.sport === ALL || !state.agg;
-  ["kpis", "focus-callout", "trend", "lead", "eras"].forEach(id => {
+  ["kpis", "trend", "lead", "eras"].forEach(id => {
     const node = document.getElementById(id);
     node.classList.toggle("hidden", isAll || node.dataset.empty === "1"); });
   const aud = document.getElementById("audience-top");
-  aud.classList.toggle("hidden", isAll || !state.agg.audience || aud.dataset.empty === "1");
+  // Speed is the main page; Audience is offered only when the sport has account history.
+  const hasAud = !isAll && !!state.agg.audience && aud.dataset.empty !== "1";
+  const page = hasAud && state.page === "audience" ? "audience" : "speed";
+  document.body.classList.toggle("page-audience", page === "audience");
+  aud.classList.toggle("hidden", page !== "audience");
+  const seg = document.getElementById("page-seg");
+  seg.classList.toggle("hidden", !hasAud);
+  seg.querySelectorAll("button").forEach(b => {
+    const on = b.dataset.page === page;
+    b.classList.toggle("on", on); b.setAttribute("aria-pressed", on);
+    b.onclick = () => {
+      if (state.page === b.dataset.page) return;
+      state.page = b.dataset.page;
+      window.scrollTo(0, 0);
+      applyTopMode();
+      // Charts measure their panel, so draw the one that just became visible.
+      if (state.page === "audience") renderAudience(); else { renderTrend(); updateTabFade(); }
+    };
+  });
 }
 
 function renderAudience() {
