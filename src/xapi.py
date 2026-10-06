@@ -59,12 +59,17 @@ class XClient:
         self.bearer = bearer_token or app_bearer()
         self.session = session or requests.Session()
         self.session.headers.update({"Authorization": f"Bearer {self.bearer}"})
+        self._last_search = 0.0
 
     def _get(self, path: str, params: dict | None = None, max_retries: int = 5) -> dict:
         url = f"{BASE}{path}"
         # Full-archive search pages for big accounts can take well over 30s to answer.
         timeout = 90 if path.startswith("/tweets/search") else 30
         for attempt in range(max_retries):
+            # Full-archive search also allows only 1 request per second, across searches.
+            if path.startswith("/tweets/search/all"):
+                time.sleep(max(0.0, self._last_search + 1.1 - time.monotonic()))
+                self._last_search = time.monotonic()
             try:
                 resp = self.session.get(url, params=params, timeout=timeout)
             except (requests.Timeout, requests.ConnectionError):
@@ -74,7 +79,11 @@ class XClient:
                 continue
             if resp.status_code == 429:
                 reset = resp.headers.get("x-rate-limit-reset")
-                wait = self._backoff_seconds(reset, attempt)
+                # Requests left in the 15-minute window means a per-second limit was hit: a
+                # short pause, not a wait until the window resets.
+                left = resp.headers.get("x-rate-limit-remaining")
+                wait = 2.0 * (attempt + 1) if left and left.isdigit() and int(left) > 0 \
+                    else self._backoff_seconds(reset, attempt)
                 time.sleep(wait)
                 continue
             if resp.status_code >= 500:
@@ -230,6 +239,7 @@ class OwnerClient(XClient):
                  session: requests.Session | None = None):
         self.creds = (consumer_key, consumer_secret, token, token_secret)
         self.session = session or requests.Session()
+        self._last_search = 0.0
         # Access tokens are "<user id>-<secret part>", so the owner needs no API call.
         self.user_id = token.split("-", 1)[0]
 

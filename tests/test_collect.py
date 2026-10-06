@@ -274,3 +274,27 @@ def test_owned_metrics_only_for_token_owner_and_freeze_with_public_metrics():
     assert by_id["a"]["owned_metrics_frozen"] is False and by_id["b"]["owned_metrics_frozen"] is True
     _owned_metrics(o, accounts, by_id)
     assert o.asked == ["a"]                            # frozen posts are not fetched again
+
+
+def test_429_with_requests_left_pauses_briefly(monkeypatch):
+    from src import xapi
+    slept = []
+    monkeypatch.setattr(xapi.time, "sleep", lambda s: slept.append(s))
+
+    class R:
+        def __init__(self, code, left):
+            self.status_code, self.text = code, ""
+            self.headers = {"x-rate-limit-remaining": left, "x-rate-limit-reset": str(int(xapi.time.time()) + 800)}
+        def json(self):
+            return {"data": []}
+
+    class Sess:
+        headers = {}
+        def __init__(self): self.n = 0
+        def get(self, url, params=None, timeout=None):
+            self.n += 1
+            return R(429, "250") if self.n == 1 else R(200, "249")
+
+    c = xapi.XClient(bearer_token="t", session=Sess())
+    assert c._get("/tweets/search/all", {}) == {"data": []}
+    assert max(slept) < 5        # not the ~800s window reset
