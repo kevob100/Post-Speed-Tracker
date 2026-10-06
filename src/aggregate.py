@@ -480,6 +480,22 @@ def _headline(stories: list[dict], now: datetime, days: int = HEADLINE_DAYS,
     }
 
 
+def attach_owned_metrics(stories: list[dict], tweets: list[dict]) -> None:
+    """Copy the non-public metrics X gives the account owner (collect._owned_metrics) onto each
+    story side whose post has them: link clicks, profile clicks, engagements."""
+    owned = {t["id"]: t["non_public_metrics"] for t in tweets if t.get("non_public_metrics")}
+    if not owned:
+        return
+    for st in stories:
+        for key in ("rotowire", "underdog"):
+            sd = st.get(key)
+            m = owned.get((sd or {}).get("tweet_id"))
+            if m:
+                sd["link_clicks"] = m.get("url_link_clicks", 0)
+                sd["profile_clicks"] = m.get("user_profile_clicks", 0)
+                sd["engagements"] = m.get("engagements", 0)
+
+
 MATURE_HOURS = 36   # impressions captured within this long of posting are comparable
 
 
@@ -646,6 +662,7 @@ def build_aggregates(
     all_stories = apply_reviews(load_jsonl(stories_path), load_jsonl(reviews_path))
     # Source tweet times (cached by src/source.py; never calls the X API here).
     source.attach(all_stories, data_dir)
+    attach_owned_metrics(all_stories, load_jsonl(data_dir / "tweets.jsonl"))
     start = None
     if analysis_start:
         start = datetime.fromisoformat(str(analysis_start)).replace(tzinfo=ZoneInfo("America/New_York"))
@@ -704,8 +721,12 @@ def build_aggregates(
         sprout_rows = load_jsonl(data_dir / "sprout_daily.jsonl")
         export = x_analytics.load_daily(data_dir / "x_analytics") if (data_dir / "x_analytics").exists() else {}
         x_daily = sprout.daily_metrics(sprout_rows)
+        # A column the export reports as zero on every day (media and video views for
+        # @RotoWireNFL) is one X does not track for the account, not a real zero.
+        dead = {k for k in {k for r in export.values() for k in r}
+                if not any(r.get(k) for r in export.values())} - {"new_follows", "unfollows"}
         for d, row in export.items():
-            x_daily[d] = {**x_daily.get(d, {}), **row}
+            x_daily[d] = {**x_daily.get(d, {}), **{k: v for k, v in row.items() if k not in dead}}
         sources = [n for n, has in (("X Analytics", export), ("Sprout Social", sprout_rows)) if has]
         aggregates["audience"] = _audience(
             [s for s in stories if not season_weeks or _story_time(s) >= datetime.fromisoformat(

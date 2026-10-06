@@ -218,3 +218,12 @@ def test_audience_rotowire_account_impressions_by_week():
         {"week": "2026-04-06", "days": 2, "new_follows": 1, "unfollows": 0, "impressions": 15},
         {"week": "2026-04-13", "days": 1, "new_follows": 0, "unfollows": 0, "impressions": 7}]
     assert agg._audience([], [], followers, "RotoWireNFL", None)["rotowire_account_impressions"] == []
+
+
+def test_attach_owned_metrics_to_story_sides():
+    stories = [{"rotowire": {"tweet_id": "1"}, "underdog": {"tweet_id": "2"}}, {"rotowire": None, "underdog": {"tweet_id": "3"}}]
+    tweets = [{"id": "1", "non_public_metrics": {"url_link_clicks": 8, "user_profile_clicks": 1, "engagements": 13}},
+              {"id": "2", "public_metrics": {}}]
+    agg.attach_owned_metrics(stories, tweets)
+    assert stories[0]["rotowire"] == {"tweet_id": "1", "link_clicks": 8, "profile_clicks": 1, "engagements": 13}
+    assert "link_clicks" not in stories[0]["underdog"]

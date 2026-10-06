@@ -109,7 +109,7 @@ def daily_metrics(rows: list[dict]) -> dict[str, dict]:
             continue
         out[r["date"]] = {"new_follows": r.get("net_follows") or 0, "unfollows": 0,
                           **{k: r[k] for k in ("impressions", "engagements", "likes", "replies", "reposts",
-                                               "link_clicks", "media_views", "video_views", "posts")
+                                               "link_clicks", "content_clicks", "media_views", "video_views", "posts")
                              if r.get(k) is not None}}
     return out
 

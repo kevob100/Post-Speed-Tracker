@@ -124,6 +124,7 @@
   td.num { text-align: right; font-variant-numeric: tabular-nums; }
   a { color: var(--accent); text-decoration: none; }
   a:hover { text-decoration: underline; }
+  .has-tip { cursor: help; text-decoration: underline dotted var(--line); text-underline-offset: 3px; }
 
   .badge { display: inline-block; padding: 2px 8px; border-radius: 999px; font-size: 12px; font-weight: 600; }
   .badge.rw { background: rgba(31,162,184,.15); color: var(--green); }
@@ -293,6 +294,15 @@
   .f-mark-name { fill: var(--text); font-size: 12px; font-weight: 650; }
   .f-mark-date { fill: var(--muted); font-size: 12px; }
   .acct-seg { flex-wrap: wrap; max-width: 100%; }
+  /* Account chart picker: its own row under the title, the group switch then that group's metrics. */
+  .acct-pick { flex-basis: 100%; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; min-width: 0; }
+  .acct-chips { padding-left: 12px; border-left: 1px solid var(--line); }
+  @media (max-width: 560px) {
+    .acct-chips { padding-left: 0; border-left: 0; }
+    .acct-seg { flex-wrap: nowrap; overflow-x: auto; }
+    .acct-seg button { padding: 6px 8px; white-space: nowrap; }
+  }
+  .a-col.neg { fill: var(--muted); }
   .f-jump { fill: var(--green); stroke: var(--panel); stroke-width: 2; }
   .a-bar-fill.strong { opacity: 1; }
   .a-bar-val { font-weight: 650; font-variant-numeric: tabular-nums; white-space: nowrap; }
@@ -711,9 +721,21 @@ const COLS = [
   ["winner", "Winner", s => winnerBadge(s), false],
   ["rw_impr", "RW impr", s => fmtNum(s.rotowire?.impression_count), true],
   ["ud_impr", "UD impr", s => fmtNum(s.underdog?.impression_count), true],
+  // RotoWire's own post metrics (non-public; X gives them only to the account owner, @RotoWireNFL).
+  ["rw_eng", "RW eng.", s => rwOwned(s.rotowire, "engagements"), true, hasOwned],
+  ["rw_profile", "RW profile clicks", s => rwOwned(s.rotowire, "profile_clicks"), true, hasOwned],
   ["match_confidence", "Conf", s => s.match_confidence!=null ? s.match_confidence.toFixed(2) : "—", true],
   ["review_status", "Review", s => `<span class="status-${s.review_status}">${s.review_status}</span>`, false],
 ];
+// RotoWire's engagements or profile clicks on a post. Hover gives the share of its views and,
+// when the post has any, its link clicks (news posts rarely carry a link).
+function hasOwned() { return state.stories.some(s => s.rotowire?.engagements != null); }
+function rwOwned(sd, k) {
+  if (sd?.[k] == null) return "—";
+  const tip = [sd.impression_count ? `${(sd[k] / sd.impression_count * 100).toFixed(1)}% of views` : "",
+    sd.link_clicks ? `${fmtNum(sd.link_clicks)} link click${sd.link_clicks === 1 ? "" : "s"}` : ""].filter(Boolean).join(" · ");
+  return tip ? `<span class="has-tip" title="${tip}">${fmtNum(sd[k])}</span>` : fmtNum(sd[k]);
+}
 function storyTimeIso(s){ const t = storyTime(s); return t ? new Date(t).toISOString() : null; }
 function winnerBadge(s) {
   if (s.roundup) return `<span class="chip">Roundup</span>`;
@@ -731,6 +753,8 @@ function sortVal(s, key) {
     case "ud_time": return +new Date(side(s,"underdog")||0);
     case "rw_impr": return s.rotowire?.impression_count ?? -1;
     case "ud_impr": return s.underdog?.impression_count ?? -1;
+    case "rw_eng": return s.rotowire?.engagements ?? -1;
+    case "rw_profile": return s.rotowire?.profile_clicks ?? -1;
     case "winner": return s.rotowire_first ? 1 : 0;
     default: return s[key] ?? "";
   }
@@ -765,11 +789,12 @@ function renderFeed() {
   });
   const wrap = document.getElementById("feed-wrap");
   if (!rows.length) { wrap.innerHTML = `<div class="empty">No stories match. Once matching (Phase 3) writes stories.jsonl, rows appear here.</div>`; return; }
-  const head = COLS.map(([k,label,,num]) => {
+  const cols = COLS.filter(c => !c[4] || c[4]());
+  const head = cols.map(([k,label,,num]) => {
     const cls = (k===state.sortKey ? "sorted "+(state.sortAsc?"asc":"") : "");
     return `<th class="${cls}" data-key="${k}" ${num?'style="text-align:right"':''}>${label}</th>`;
   }).join("");
-  const body = rows.map(s => "<tr>" + COLS.map(([k,,fn,num]) =>
+  const body = rows.map(s => "<tr>" + cols.map(([k,,fn,num]) =>
     `<td class="${num?'num':''}${k==='canonical_label'?' story':''}">${fn(s)}</td>`).join("") + "</tr>").join("");
   wrap.innerHTML = `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
   wrap.querySelectorAll("th[data-key]").forEach(th => th.onclick = () => {
@@ -1941,7 +1966,7 @@ function renderAudience() {
   el.dataset.empty = "";
   applyTopMode();   // show the panel first so the follower chart measures its real width
   if (!a) { el.innerHTML = ""; return; }
-  const kfmt = n => n == null ? "—" : n >= 1e6 ? (n / 1e6).toFixed(1) + "M" : n >= 1000 ? (n / 1000).toFixed(n >= 1e5 ? 0 : 1) + "k" : String(Math.round(n));
+  const kfmt = n => n == null ? "—" : n < 0 ? "−" + kfmt(-n) : n >= 1e6 ? (n / 1e6).toFixed(1) + "M" : n >= 1000 ? (n / 1000).toFixed(n >= 1e5 ? 0 : 1) + "k" : String(Math.round(n));
   const num = n => n == null ? "—" : Math.round(n).toLocaleString("en-US");
   const fmtD = d => new Date(d + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
   const fol = a.followers || {};
@@ -1957,13 +1982,41 @@ function renderAudience() {
         && (!jump || w.rotowire_median_views / p.rotowire_median_views > jump.f))
       jump = { w, p, f: w.rotowire_median_views / p.rotowire_median_views }; });
 
-  // One account chart with a metric picker: followers (daily line) or a weekly total from the
-  // X Analytics export (bars), on the same timeline with the same news-system markers.
+  // One account chart with a metric picker: followers (daily line) or a weekly account total
+  // (bars), on the same timeline with the same news-system markers. Metrics sit in groups;
+  // a metric with no data for this sport (or only zeros) is left out, and so is an empty group.
   const acct = (a.rotowire_account_impressions || []).filter(w => w.days === 7);
-  const ACCT_METRICS = [["followers", "Followers"], ["impressions", "Impressions"], ["engagements", "Engagements"],
-    ["link_clicks", "Link clicks"], ["profile_visits", "Profile visits"], ["posts", "Posts"]].filter(([k]) => k === "followers" || acct.some(w => w[k] != null));
+  const mval = (w, k) => k === "net_follows" ? (w.new_follows == null ? null : w.new_follows - (w.unfollows || 0)) : w[k];
+  const ACCT_GROUPS = [
+    ["Audience", [["followers", "Followers"], ["net_follows", "Net follows"]]],
+    ["Reach", [["impressions", "Impressions"], ["media_views", "Media views"], ["video_views", "Video views"]]],
+    ["Engagement", [["engagements", "Engagements"], ["likes", "Likes"], ["replies", "Replies"], ["reposts", "Reposts"],
+      ["bookmarks", "Bookmarks"], ["shares", "Shares"]]],
+    ["Clicks", [["link_clicks", "Link clicks"], ["content_clicks", "Content clicks"], ["profile_visits", "Profile visits"]]],
+    ["Posts", [["posts", "Posts"]]],
+  ].map(([g, ms]) => [g, ms.filter(([k]) => k === "followers" || acct.some(w => mval(w, k)))]).filter(([, ms]) => ms.length);
+  const ACCT_METRICS = ACCT_GROUPS.flatMap(([, ms]) => ms);
   const metric = ACCT_METRICS.some(([k]) => k === state.acctMetric) ? state.acctMetric : "followers";
   const metricLabel = ACCT_METRICS.find(([k]) => k === metric)[1];
+  const group = ACCT_GROUPS.find(([, ms]) => ms.some(([k]) => k === metric));
+  // What each weekly metric counts, under the chart title.
+  const DEF = {
+    net_follows: "Follows gained minus follows lost each week.",
+    impressions: "Times any RotoWire post was seen.",
+    media_views: "Plays and views of images and videos in posts.",
+    video_views: "Video plays.",
+    engagements: "Every interaction with a post: likes, replies, reposts, clicks, expands and more.",
+    likes: "", replies: "", reposts: "", bookmarks: "", shares: "",
+    link_clicks: "Clicks on links in posts, the traffic sent to rotowire.com and elsewhere.",
+    content_clicks: "Clicks on the post itself (to open it or its media) rather than on its links.",
+    profile_visits: "Visits to the RotoWire profile.",
+    posts: "Posts published.",
+  };
+  // Rates in the tooltip: per post for anything a post earns, and a share of impressions for interactions.
+  const PER_POST = new Set(["impressions", "media_views", "video_views", "engagements", "likes", "replies", "reposts",
+    "bookmarks", "shares", "link_clicks", "content_clicks", "profile_visits"]);
+  const OF_IMPR = new Set(["engagements", "likes", "replies", "reposts", "bookmarks", "shares", "link_clicks",
+    "content_clicks", "profile_visits"]);
   const SRC_LABEL = { sprout: "From Sprout Social", x_analytics: "From X Analytics" };
   // X Analytics (the account's own export) wins on the days it covers; Sprout Social fills the rest.
   const acctFrom = (a.account_sources || []).join(" and ") || "X Analytics";
@@ -2014,10 +2067,11 @@ function renderAudience() {
     m.t += Math.max(0, ...lane.map(L => L.row)) * LANE_ROW;
     const H = m.t + 258, ih = H - m.t - m.b;
     const isF = metric === "followers", WEEK = 7 * 86400e3;
-    const wk = isF ? [] : acct.filter(w => t(w.week) >= t0 - WEEK && t(w.week) <= t1).map(w => ({ week: w.week, v: w[metric] || 0 }));
+    const wk = isF ? [] : acct.filter(w => t(w.week) >= t0 - WEEK && t(w.week) <= t1 && mval(w, metric) != null)
+      .map(w => ({ week: w.week, v: mval(w, metric), w }));
     const vals = isF ? fr.map(p => p.followers) : wk.map(w => w.v);
     const hiV = Math.max(1, ...vals), loV = Math.min(...vals);
-    const lo = isF ? Math.max(0, loV - (hiV - loV) * 0.05) : 0, hi = isF ? hiV + (hiV - loV) * 0.08 : hiV * 1.1;
+    const lo = isF ? Math.max(0, loV - (hiV - loV) * 0.05) : Math.min(0, loV * 1.1), hi = isF ? hiV + (hiV - loV) * 0.08 : hiV * 1.1;
     const y = v => m.t + (hi - v) / (hi - lo) * ih;
     const step = [10, 25, 50, 100, 250, 500, 1e3, 2.5e3, 5e3, 1e4, 2.5e4, 5e4, 1e5, 2.5e5, 5e5, 1e6, 2.5e6, 5e6, 1e7]
       .find(st => (hi - lo) / st <= 5) || 1e7;
@@ -2064,14 +2118,21 @@ function renderAudience() {
       ? `<path class="t-line" d="${fr.map((p, i) => `${i ? "L" : "M"}${x(p.date).toFixed(1)},${y(p.followers).toFixed(1)}`).join("")}"/>${jumpSvg}
          <text class="t-end" x="${x(lp.date) + 8}" y="${y(lp.followers) + 4}">${kfmt(lp.followers)}</text>`
       : wk.map(w => { const xa = Math.max(m.l, x(w.week)), xb = Math.min(W - m.r, x(isoAdd(w.week, 7)));
-          return `<rect class="a-col" x="${xa + 1}" y="${y(w.v)}" width="${Math.max(1, xb - xa - 2)}" height="${Math.max(1, y(0) - y(w.v))}" rx="2"/>`; }).join("");
+          return `<rect class="a-col${w.v < 0 ? " neg" : ""}" x="${xa + 1}" y="${Math.min(y(w.v), y(0))}" width="${Math.max(1, xb - xa - 2)}" height="${Math.max(1, Math.abs(y(0) - y(w.v)))}" rx="2"/>`; }).join("")
+        + (lo < 0 ? `<line class="t-zero" x1="${m.l}" x2="${W - m.r}" y1="${y(0)}" y2="${y(0)}"/>` : "");
     // Hover: the nearest day (followers) or week (bars) gets a crosshair, dot and tooltip.
     const hoverPts = isF
       ? fr.map((p, i) => ({ cx: x(p.date), cy: y(p.followers), html: `<b>${fmtY(p.date)}</b><div>${num(p.followers)} followers</div>
           ${i ? `<div>${p.followers - fr[i - 1].followers >= 0 ? "+" : "−"}${num(Math.abs(p.followers - fr[i - 1].followers))} that day</div>` : ""}
           <div class="bl">${SRC_LABEL[p.source] || "Counted by the pipeline"}</div>` }))
-      : wk.map(w => ({ cx: (Math.max(m.l, x(w.week)) + Math.min(W - m.r, x(isoAdd(w.week, 7)))) / 2, cy: y(w.v),
-          html: `<b>Week of ${fmtY(w.week)}</b><div>${num(w.v)} ${metricLabel.toLowerCase()}</div><div class="bl">From ${acctFrom}</div>` }));
+      : wk.map((w, i) => { const prev = wk[i - 1], posts = w.w.posts, impr = w.w.impressions;
+          const chg = prev && prev.v > 0 && w.v >= 0 ? Math.round((w.v / prev.v - 1) * 100) : null;
+          return { cx: (Math.max(m.l, x(w.week)) + Math.min(W - m.r, x(isoAdd(w.week, 7)))) / 2, cy: y(w.v),
+          html: `<b>Week of ${fmtY(w.week)}</b><div>${metric === "net_follows" && w.v > 0 ? "+" : ""}${num(w.v)} ${metricLabel.toLowerCase()}</div>
+            ${PER_POST.has(metric) && posts ? `<div>${(w.v / posts).toLocaleString("en-US", { maximumFractionDigits: w.v / posts < 10 ? 1 : 0 })} per post</div>` : ""}
+            ${OF_IMPR.has(metric) && impr ? `<div>${(w.v / impr * 100).toFixed(2)}% of impressions</div>` : ""}
+            ${chg != null ? `<div>${chg >= 0 ? "+" : "−"}${Math.abs(chg)}% on the week before</div>` : ""}
+            <div class="bl">From ${acctFrom}</div>` }; });
     const hitsF = `<line class="t-cross hidden" y1="${m.t}" y2="${m.t + ih}"/><circle class="f-dot hidden" r="4"/>
       <rect class="t-hit f-hit" x="${m.l}" y="${m.t}" width="${iw}" height="${ih}"/>`;
     state.folHover = { pts: hoverPts, m, W };
@@ -2088,11 +2149,13 @@ function renderAudience() {
         : fr[0].source === "x_analytics"
         ? `Daily, from RotoWire's X Analytics export (new follows minus unfollows, walked back from the first real count) up to ${fmtD(firstCounted)}, then counted by the pipeline.`
         : `Counted once a day since ${fmtD(fr[0].date)}.`)
-      : `Weekly totals for the whole account (Monday weeks, complete weeks only), from ${acctFrom}.`;
+      : `${DEF[metric] ? DEF[metric] + " " : ""}Weekly totals for the whole account (Monday weeks, complete weeks only), from ${acctFrom}.`;
     folPanel = `<div class="panel a-panel"><div class="trend-head"><div><h3>RotoWire ${metricLabel.toLowerCase()} over time</h3>
       <p class="type-note">${note}</p></div>
-      ${ACCT_METRICS.length > 1 ? `<div class="seg acct-seg" role="group" aria-label="Metric">${ACCT_METRICS.map(([k, l]) =>
-        `<button type="button" data-k="${k}" class="${k === metric ? "on" : ""}" aria-pressed="${k === metric}">${l}</button>`).join("")}</div>` : ""}</div>
+      ${ACCT_METRICS.length > 1 ? `<div class="acct-pick"><div class="seg acct-seg" role="group" aria-label="Metric group">${ACCT_GROUPS.map(([g, ms]) =>
+        `<button type="button" data-k="${(g === group[0] ? ms.find(([k]) => k === metric) : ms[0])[0]}" class="${g === group[0] ? "on" : ""}" aria-pressed="${g === group[0]}">${g}</button>`).join("")}</div>
+        ${group[1].length > 1 ? `<div class="seg-chips acct-chips" role="group" aria-label="${group[0]} metric">${group[1].map(([k, l]) =>
+        `<button type="button" data-k="${k}" class="${k === metric ? "on" : ""}" aria-pressed="${k === metric}">${l}</button>`).join("")}</div>` : ""}</div>` : ""}</div>
       <div class="trend-plot"><svg width="${W}" height="${H}" viewBox="0 0 ${W} ${H}" role="img" aria-label="RotoWire ${metricLabel.toLowerCase()} over time">
         ${band}${grid}${xt}${markSvg}${marksData}${hitsF}</svg><div class="t-tip hidden"></div></div>
       ${jump && metric === "impressions" ? `<p class="a-flag">Week of ${fmtD(jump.w.week)}: median views per news post jumped from ${kfmt(jump.p.rotowire_median_views)} to
@@ -2101,7 +2164,7 @@ function renderAudience() {
 
   el.innerHTML = folPanel ? `${folLead}<div class="a-grid one">${folPanel}</div>` : "";
   wireFollowerHover(el);
-  el.querySelectorAll(".acct-seg button").forEach(b => b.onclick = () => { state.acctMetric = b.dataset.k; renderAudience(); });
+  el.querySelectorAll(".acct-seg button, .acct-chips button").forEach(b => b.onclick = () => { state.acctMetric = b.dataset.k; renderAudience(); });
   applyTopMode();
 }
 
