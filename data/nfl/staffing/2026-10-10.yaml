@@ -1,0 +1,40 @@
+# Generated from the breaking_news staffing sheet; edit the sheet, not this file.
+date: '2026-10-10'
+timezone: America/Chicago
+source: breaking_news
+roles: {nfl: NFL desk, nfl_news: NFL News}
+slots:
+- start: 09:00
+  nfl: [Cullum]
+- start: '10:00'
+  nfl: [Cullum]
+- start: '11:00'
+  nfl: [Cullum]
+- start: '12:00'
+  nfl: [Cullum]
+- start: '13:00'
+  nfl: [Cullum]
+- start: '14:00'
+  nfl: [Cullum, Eric C.]
+- start: '15:00'
+  nfl: [Cullum, Eric C.]
+- start: '16:00'
+  nfl: [Eric C.]
+- start: '17:00'
+  nfl: [Eric C.]
+- start: '18:00'
+  nfl: [Mensio]
+  nfl_news: [Cullum]
+- start: '19:00'
+  nfl: [Mensio]
+  nfl_news: [Cullum]
+- start: '20:00'
+  nfl: [Mensio]
+  nfl_news: [Cullum]
+- start: '21:00'
+  nfl: [Mensio]
+  nfl_news: [Cullum]
+- start: '22:00'
+  nfl: [Mensio]
+- start: '23:00'
+  nfl: [Mensio]
