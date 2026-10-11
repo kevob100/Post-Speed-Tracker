@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-10-10T11:03:22.134792+00:00",
+  "generated_at": "2026-10-11T11:17:43.839447+00:00",
   "analysis_start": null,
   "summary": {
-    "matched": 1215,
+    "matched": 1216,
     "rotowire_first": 140,
-    "rotowire_first_rate": 0.1152,
-    "median_lead_seconds": -371,
-    "mean_lead_seconds": -533.7,
+    "rotowire_first_rate": 0.1151,
+    "median_lead_seconds": -371.0,
+    "mean_lead_seconds": -533.5,
     "avg_lead_seconds": 455.9,
-    "avg_trail_seconds": 662.6,
+    "avg_trail_seconds": 662.3,
     "median_win_lead_seconds": 99.5,
-    "median_win_trail_seconds": 430,
+    "median_win_trail_seconds": 429.0,
     "rotowire_only": 1231,
-    "underdog_only": 657,
+    "underdog_only": 658,
     "roundup_only": 0,
     "rotowire_update_only": 0,
     "underdog_update_only": 0,
@@ -22,21 +22,21 @@
   "headline": {
     "days": 30,
     "tie_seconds": 60,
-    "since": "2026-09-10",
+    "since": "2026-09-11",
     "matched": 107,
     "rotowire_first": 8,
-    "ties": 21,
-    "underdog_first": 78,
+    "ties": 20,
+    "underdog_first": 79,
     "rotowire_first_rate": 0.0748,
-    "tie_rate": 0.1963,
-    "underdog_first_rate": 0.729,
+    "tie_rate": 0.1869,
+    "underdog_first_rate": 0.7383,
     "median_lead_seconds": -279,
-    "stories": 278,
-    "matched_rate": 0.3849,
-    "rotowire_missed": 93,
-    "rotowire_missed_rate": 0.3345,
-    "underdog_missed": 78,
-    "underdog_missed_rate": 0.2806
+    "stories": 273,
+    "matched_rate": 0.3919,
+    "rotowire_missed": 90,
+    "rotowire_missed_rate": 0.3297,
+    "underdog_missed": 76,
+    "underdog_missed_rate": 0.2784
   },
   "weekly": [
     {
@@ -554,17 +554,17 @@
     },
     {
       "period": "2026-W41",
-      "matched": 3,
+      "matched": 4,
       "rotowire_first": 0,
       "rotowire_first_rate": 0.0,
-      "median_lead_seconds": -140,
-      "mean_lead_seconds": -551,
+      "median_lead_seconds": -198.0,
+      "mean_lead_seconds": -477.2,
       "avg_lead_seconds": null,
-      "avg_trail_seconds": 551,
+      "avg_trail_seconds": 477.2,
       "median_win_lead_seconds": null,
-      "median_win_trail_seconds": 140,
+      "median_win_trail_seconds": 198.0,
       "rotowire_only": 3,
-      "underdog_only": 15,
+      "underdog_only": 16,
       "roundup_only": 0,
       "rotowire_update_only": 0,
       "underdog_update_only": 0,
@@ -689,17 +689,17 @@
     },
     {
       "period": "2026-10",
-      "matched": 12,
+      "matched": 13,
       "rotowire_first": 2,
-      "rotowire_first_rate": 0.1667,
-      "median_lead_seconds": -381.0,
-      "mean_lead_seconds": -451.8,
+      "rotowire_first_rate": 0.1538,
+      "median_lead_seconds": -363,
+      "mean_lead_seconds": -436.8,
       "avg_lead_seconds": 50.5,
-      "avg_trail_seconds": 552.3,
+      "avg_trail_seconds": 525.4,
       "median_win_lead_seconds": 50.5,
-      "median_win_trail_seconds": 504.5,
+      "median_win_trail_seconds": 399,
       "rotowire_only": 5,
-      "underdog_only": 26,
+      "underdog_only": 27,
       "roundup_only": 0,
       "rotowire_update_only": 0,
       "underdog_update_only": 0,
@@ -8239,23 +8239,23 @@
       {
         "period": "2026-10-10",
         "label": "Oct 10",
-        "matched": 0,
+        "matched": 1,
         "rotowire_first": 0,
-        "median_lead_seconds": null,
-        "rolling1_median_seconds": -381.0,
+        "median_lead_seconds": -256,
+        "rolling1_median_seconds": -361.5,
         "rolling1_matched": 10,
         "rolling1_days": 8.5,
         "rolling1_sourced": 0,
         "rolling1_rw_from_source": null,
         "rolling1_ud_from_source": null,
-        "rolling7_median_seconds": -309.0,
+        "rolling7_median_seconds": -277.5,
         "rolling7_matched": 30,
-        "rolling7_days": 14.2,
+        "rolling7_days": 14.1,
         "rolling7_sourced": 0,
         "rolling7_rw_from_source": null,
         "rolling7_ud_from_source": null,
-        "rolling30_median_seconds": -289.0,
-        "rolling30_matched": 106,
+        "rolling30_median_seconds": -279,
+        "rolling30_matched": 107,
         "rolling30_days": 30.0,
         "rolling30_sourced": 0,
         "rolling30_rw_from_source": null,
@@ -8263,8 +8263,47 @@
         "sourced": 0,
         "rw_from_source": null,
         "ud_from_source": null,
-        "rolling_median_seconds": -309.0,
-        "rolling_matched": 6,
+        "rolling_median_seconds": -277.5,
+        "rolling_matched": 7,
+        "detail": {
+          "rotowire_first": 0,
+          "ties": 0,
+          "underdog_first": 1,
+          "median_win_lead_seconds": null,
+          "median_win_trail_seconds": 256,
+          "rotowire_only": 0,
+          "underdog_only": 1
+        }
+      },
+      {
+        "period": "2026-10-11",
+        "label": "Oct 11",
+        "matched": 0,
+        "rotowire_first": 0,
+        "median_lead_seconds": null,
+        "rolling1_median_seconds": -361.5,
+        "rolling1_matched": 10,
+        "rolling1_days": 9.5,
+        "rolling1_sourced": 0,
+        "rolling1_rw_from_source": null,
+        "rolling1_ud_from_source": null,
+        "rolling7_median_seconds": -277.5,
+        "rolling7_matched": 30,
+        "rolling7_days": 15.1,
+        "rolling7_sourced": 0,
+        "rolling7_rw_from_source": null,
+        "rolling7_ud_from_source": null,
+        "rolling30_median_seconds": -299,
+        "rolling30_matched": 103,
+        "rolling30_days": 30.0,
+        "rolling30_sourced": 0,
+        "rolling30_rw_from_source": null,
+        "rolling30_ud_from_source": null,
+        "sourced": 0,
+        "rw_from_source": null,
+        "ud_from_source": null,
+        "rolling_median_seconds": -277.5,
+        "rolling_matched": 4,
         "detail": {
           "rotowire_first": 0,
           "ties": 0,
@@ -8766,19 +8805,19 @@
       {
         "period": "2026-10-05",
         "label": "Wk of Oct 5",
-        "matched": 3,
+        "matched": 4,
         "rotowire_first": 0,
-        "median_lead_seconds": -140,
-        "rolling_median_seconds": -263.5,
-        "rolling_matched": 96,
+        "median_lead_seconds": -198.0,
+        "rolling_median_seconds": -256,
+        "rolling_matched": 97,
         "detail": {
           "rotowire_first": 0,
           "ties": 0,
-          "underdog_first": 3,
+          "underdog_first": 4,
           "median_win_lead_seconds": null,
-          "median_win_trail_seconds": 140,
+          "median_win_trail_seconds": 198.0,
           "rotowire_only": 3,
-          "underdog_only": 15
+          "underdog_only": 16
         }
       }
     ],
@@ -8912,19 +8951,19 @@
       {
         "period": "2026-10",
         "label": "Oct 2026",
-        "matched": 12,
+        "matched": 13,
         "rotowire_first": 2,
-        "median_lead_seconds": -381.0,
-        "rolling_median_seconds": -250,
-        "rolling_matched": 405,
+        "median_lead_seconds": -363,
+        "rolling_median_seconds": -250.0,
+        "rolling_matched": 406,
         "detail": {
           "rotowire_first": 0,
           "ties": 2,
-          "underdog_first": 10,
+          "underdog_first": 11,
           "median_win_lead_seconds": 50.5,
-          "median_win_trail_seconds": 504.5,
+          "median_win_trail_seconds": 399,
           "rotowire_only": 5,
-          "underdog_only": 26
+          "underdog_only": 27
         }
       }
     ]
@@ -9043,6 +9082,16 @@
       "date": "2026-10-10",
       "account": "underdog",
       "followers_count": 211757
+    },
+    {
+      "date": "2026-10-11",
+      "account": "rotowire",
+      "followers_count": 13407
+    },
+    {
+      "date": "2026-10-11",
+      "account": "underdog",
+      "followers_count": 211719
     }
   ],
   "audience": {
@@ -10912,6 +10961,10 @@
         {
           "date": "2026-10-10",
           "followers": 13412
+        },
+        {
+          "date": "2026-10-11",
+          "followers": 13407
         }
       ],
       "underdog": [
@@ -10954,27 +11007,31 @@
         {
           "date": "2026-10-10",
           "followers": 211757
+        },
+        {
+          "date": "2026-10-11",
+          "followers": 211719
         }
       ]
     },
     "growth": {
       "rotowire": {
         "first_date": "2026-10-01",
-        "last_date": "2026-10-10",
-        "days": 9,
-        "followers": 13412,
-        "gained": -20,
-        "gained_rate": -0.00149,
-        "per_day": -2.2
+        "last_date": "2026-10-11",
+        "days": 10,
+        "followers": 13407,
+        "gained": -25,
+        "gained_rate": -0.00186,
+        "per_day": -2.5
       },
       "underdog": {
         "first_date": "2026-10-01",
-        "last_date": "2026-10-10",
-        "days": 9,
-        "followers": 211757,
-        "gained": 192,
-        "gained_rate": 0.00091,
-        "per_day": 21.3
+        "last_date": "2026-10-11",
+        "days": 10,
+        "followers": 211719,
+        "gained": 154,
+        "gained_rate": 0.00073,
+        "per_day": 15.4
       }
     },
     "views_by_week": [
@@ -11151,12 +11208,12 @@
       },
       {
         "week": "2026-10-05",
-        "rotowire_posts": 22,
-        "rotowire_median_views": 1426,
-        "rotowire_total_views": 32114,
-        "underdog_posts": 29,
+        "rotowire_posts": 23,
+        "rotowire_median_views": 1427,
+        "rotowire_total_views": 34110,
+        "underdog_posts": 31,
         "underdog_median_views": 80189,
-        "underdog_total_views": 3389521
+        "underdog_total_views": 3547325
       }
     ],
     "head_to_head": {
@@ -11173,9 +11230,9 @@
         "rotowire_share": 0.0268
       },
       "underdog_first": {
-        "stories": 541,
-        "rotowire_median_views": 1763,
-        "underdog_median_views": 73944,
+        "stories": 542,
+        "rotowire_median_views": 1764,
+        "underdog_median_views": 73984,
         "rotowire_share": 0.0244
       },
       "underdog_first_10m": {
@@ -11185,9 +11242,9 @@
         "rotowire_share": 0.0253
       },
       "all": {
-        "stories": 719,
+        "stories": 720,
         "rotowire_median_views": 1785,
-        "underdog_median_views": 74085,
+        "underdog_median_views": 74089,
         "rotowire_share": 0.0247
       }
     },
@@ -12042,19 +12099,19 @@
       },
       {
         "week": "2026-10-05",
-        "days": 5,
-        "new_follows": 1,
+        "days": 6,
+        "new_follows": -19,
         "unfollows": 0,
-        "impressions": 120428,
-        "engagements": 899,
-        "likes": 65,
-        "replies": 52,
-        "reposts": 18,
-        "link_clicks": 365,
-        "content_clicks": 273,
-        "media_views": 211,
+        "impressions": 129607,
+        "engagements": 977,
+        "likes": 73,
+        "replies": 53,
+        "reposts": 19,
+        "link_clicks": 388,
+        "content_clicks": 295,
+        "media_views": 234,
         "video_views": 0,
-        "posts": 115
+        "posts": 119
       }
     ],
     "account_sources": [
