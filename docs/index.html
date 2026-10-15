@@ -104,7 +104,7 @@
   .tab:hover { color: var(--text); }
   .tab:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
   .tab.active { color: var(--text); border-bottom-color: var(--accent); }
-  .tab-group { display: flex; align-items: center; padding: 0 2px 0 12px; color: var(--muted); opacity: .7;
+  .tab-group { display: flex; align-items: center; padding: 0 2px 0 12px; color: var(--muted);
     font-size: 12px; text-transform: uppercase; letter-spacing: .5px; white-space: nowrap; }
   .tab-group::before { content: ""; width: 1px; height: 16px; background: var(--line); margin-right: 12px; }
   .tabs > .tab-group:not(.hidden):first-of-type, #tab-focus.hidden + .tab-group { padding-left: 0; }
@@ -510,10 +510,17 @@
   .sm-key i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; margin-right: 6px; vertical-align: 3px; }
   #sum svg, #det-cols svg { display: block; width: 100%; height: auto; overflow: visible; }
   #sum svg text { font-size: 11px; font-variant-numeric: tabular-nums; }
-  .sm-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
-  @media (max-width: 900px) { .sm-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  .sm-chip { border-top: 3px solid var(--c); padding-top: 8px; }
-  .sm-chip.hand, .dc-col.hand { border-top-style: dashed; }
+  .sm-cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+  @media (max-width: 900px) { .sm-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  @media (max-width: 560px) { .sm-cols { grid-template-columns: minmax(0, 1fr); } }
+  .sm-col { background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--c); border-radius: 10px; }
+  .sm-col.hand, .dc-col.hand { border-top-style: dashed; }
+  .sm-col-top { padding: 12px 14px; border-bottom: 1px solid var(--line); }
+  .sm-col-tix { padding: 10px 14px 8px; }
+  .sm-col-h { font-size: 11px; font-weight: 600; color: var(--muted); margin-bottom: 2px; }
+  .sm-band { display: grid; grid-template-columns: minmax(180px, 1fr) repeat(2, minmax(0, 1.5fr)); margin-top: 12px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; }
+  .sm-band > div { padding: 12px 14px; } .sm-band > div + div { border-left: 1px solid var(--line); }
+  @media (max-width: 760px) { .sm-band { grid-template-columns: minmax(0, 1fr); } .sm-band > div + div { border-left: 0; border-top: 1px solid var(--line); } }
   .sm-metric { font-size: 24px; font-weight: 650; font-variant-numeric: tabular-nums; }
   .sm-tgt { font-size: 12px; color: var(--muted); margin-top: 2px; } .sm-tgt b { color: var(--text); }
   .sm-note { color: var(--muted); font-size: 12px; margin: 8px 0 0; }
@@ -526,12 +533,8 @@
   .pill.todo { background: var(--panel2); color: var(--muted); }
   .pill.none { border: 1px dashed var(--line); color: var(--muted); }
   .pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
-  .sm-road { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
-  @media (max-width: 900px) { .sm-road { grid-template-columns: minmax(0, 1fr); } }
-  .sm-road .sm-card { border-top: 3px solid var(--c); padding: 12px 14px; }
-  .sm-road h4 { margin: 0 0 8px; font-size: 13px; }
   .sm-tk { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: baseline; padding: 6px 0; border-top: 1px solid var(--line); font-size: 12px; }
-  .sm-tk:first-of-type { border-top: 0; }
+  .sm-tk:first-of-type, .sm-col-h + .sm-tk { border-top: 0; }
   .sm-ba { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
   @media (max-width: 900px) { .sm-ba { grid-template-columns: minmax(0, 1fr); } }
   .sm-ba h4 { margin: 0 0 2px; font-size: 13px; }
@@ -550,7 +553,6 @@
   .dc-f .d { font-size: 12px; color: var(--muted); } .dc-f .d b { color: var(--text); }
   .dc-pend { color: var(--muted); font-size: 12px; border: 1px dashed var(--line); border-radius: 6px; padding: 1px 6px; display: inline-block; }
   .dc-prio { display: inline-block; font-size: 11px; font-weight: 700; color: #0f1419; background: #f0a070; border-radius: 4px; padding: 0 6px; margin-left: 4px; vertical-align: 1px; }
-  .sm-work { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
   .sm-wk-h { display: flex; gap: 6px; align-items: center; } .sm-wk-t { font-weight: 600; margin: 6px 0 2px; }
   #insider { padding: 16px 18px 18px; margin: 0 0 20px; }
   #insider h2 { font-size: 20px; font-weight: 650; margin: 0 0 4px; }
@@ -2966,6 +2968,10 @@ function smPill(it, short) {
   if (!it.key) return `<span class="pill none">${esc(short ? "no ticket" : it.title)}</span>`;
   return `<a class="pill ${cls}" href="${it.url}" target="_blank" rel="noopener" title="${esc((it.title || "") + " · " + (it.status || ""))}">${it.key}${short ? "" : " " + esc(it.title || "")}</a>`;
 }
+const SM_CAT = { done: "done", indeterminate: "prog", new: "todo" };
+function smTix(items) {
+  return `<div class="sm-col-tix"><div class="sm-col-h">What we're doing about it</div>${items.length ? items.map(it => `<div class="sm-tk">${it.key ? `<span class="pill ${SM_CAT[it.category] || "todo"}">${esc(it.status || "?")}</span><a href="${it.url}" target="_blank" rel="noopener">${it.key} ${esc(it.title || "")}</a>` : `<span class="pill none">No ticket</span><span>${esc(it.title)}</span>`}</div>`).join("") : `<div class="sm-tk"><span class="lbl">Nothing ticketed yet</span></div>`}</div>`;
+}
 function smRoad(S, step) { return ((S.roadmap || {}).steps || []).find(x => x.step === step) || { items: [] }; }
 // Break-even: shrink every Monitor step by the same share until the typical gap closes.
 function smTargets(P) {
@@ -3041,29 +3047,25 @@ function renderSummary() {
         ${s3.length ? `<div class="dc-f"><div class="t">Being done about it</div><div class="pills">${s3.map(i => smPill(i)).join("")}</div></div>` : ""}
       </div>
     </div>
-    <div class="sm-strip">
-      ${SM_STEPS.map(([k, c, name], i) => `<div class="sm-chip" style="--c:var(--${c})"><div class="lbl">${i + 1} · ${name}</div>
+    <div class="sm-cols">
+      ${SM_STEPS.map(([k, c, name], i) => `<div class="sm-col" style="--c:var(--${c})"><div class="sm-col-top"><div class="lbl">${i + 1} · ${name}</div>
         <div class="sm-metric">${dkFmt((st[k] || {}).median || 0)}</div><div class="sm-tgt">To tie Underdog: <b>${dkFmt(T.steps[i])}</b></div>
-        <div class="sm-delta">${k === "sent_to_monitor" && tu && tu.on.arrival.median != null ? `${dkFmt(tu.on.arrival.median)} with turbo on` : k === "open_to_x" && w.edited_pct != null ? `${Math.round(w.edited_pct)}% edited` : k === biggest ? "the biggest piece" : ""}</div></div>`).join("")}
-      <div class="sm-chip hand" style="--c:var(--hand)"><div class="lbl">Added by hand</div>
+        <div class="sm-delta">${k === "sent_to_monitor" && tu && tu.on.arrival.median != null ? `${dkFmt(tu.on.arrival.median)} with turbo on` : k === "open_to_x" && w.edited_pct != null ? `${Math.round(w.edited_pct)}% edited` : k === biggest ? "the biggest piece" : ""}</div></div>
+        ${smTix(smRoad(S, c).items)}</div>`).join("")}
+      <div class="sm-col hand" style="--c:var(--hand)"><div class="sm-col-top"><div class="lbl">Added by hand</div>
         <div class="sm-metric">${wk.full ? Math.round(wk.full.pct) : Math.round(P.manual_pct)}%</div>
         <div class="sm-tgt">of posts${wk.full ? `, week of ${smDay(wk.full.week)}` : ""}${wk.peak && wk.full && wk.peak !== wk.full ? ` · <span class="up">▼ from ${Math.round(wk.peak.pct)}%</span> (${smDay(wk.peak.week)})` : ""}</div>
         <div class="sm-delta">${P.manual.from_source.median != null ? `${dkFmt(P.manual.from_source.median)} from source` : ""}${T.hand != null ? ` · to tie: <b style="color:var(--text)">${dkFmt(T.hand)}</b>` : ""}</div></div>
+        ${smTix(smRoad(S, "hand").items)}</div>
     </div>
-    <p class="sm-note">Steps are posts from a Monitor tweet, medians over the last ${d.window.days} days. "To tie" is break-even: if every step shrinks by the same share to those times, we'd post first on half the stories both accounts post.</p>
-
     ${(() => { const wkr = smRoad(S, "work").items.filter(i => i.key); if (!wkr.length) return "";
       const done = wkr.filter(i => i.category === "done").length;
-      return `<h2 class="sm-h">Taking manual work off the desk</h2>
-      <p class="sm-note">Not one of the three steps: jobs editors did by hand on every post, now automated so their time goes to posting. ${done} of ${wkr.length} done.</p>
-      <div class="sm-work">${wkr.map(i => `<div class="sm-card"><div class="sm-wk-h">${smPill({ ...i, title: "" }, true)}<span class="pill ${{ done: "done", indeterminate: "prog", new: "todo" }[i.category] || "todo"}">${esc(i.status || "?")}</span></div>
+      return `<div class="sm-band"><div><div class="lbl">Manual work off the desk</div><div class="sm-metric">${done} of ${wkr.length}</div>
+        <div class="sm-tgt">Not timed: jobs editors did by hand on every post, automated so their time goes to posting</div></div>
+        ${wkr.map(i => `<div><div class="sm-wk-h">${smPill({ ...i, title: "" }, true)}<span class="pill ${SM_CAT[i.category] || "todo"}">${esc(i.status || "?")}</span></div>
         <div class="sm-wk-t">${esc(i.title || "")}</div>${i.replaces ? `<div class="lbl">${i.category === "done" ? "Replaced" : "Replaces"}: ${esc(i.replaces)}</div>` : ""}</div>`).join("")}</div>`; })()}
-
-    <h2 class="sm-h">What we're doing about it</h2>
-    <p class="sm-note">The tickets behind each step.${S.roadmap.fetched_at ? ` Statuses from Jira as of ${esc(fmtTime(S.roadmap.fetched_at))}.` : ""}${S.initiative ? (() => { const I = S.initiative, p = I.epics.reduce((n, e) => n + e.prioritized.length, 0), b = I.epics.reduce((n, e) => n + e.backlog.length, 0);
+    <p class="sm-note">Steps are posts from a Monitor tweet, medians over the last ${d.window.days} days. "To tie" is break-even: if every step shrinks by the same share to those times, we'd post first on half the stories both accounts post.${S.roadmap.fetched_at ? ` Ticket statuses from Jira as of ${esc(fmtTime(S.roadmap.fetched_at))}.` : ""}${S.initiative ? (() => { const I = S.initiative, p = I.epics.reduce((n, e) => n + e.prioritized.length, 0), b = I.epics.reduce((n, e) => n + e.backlog.length, 0);
       return ` Across the whole initiative: <b style="color:var(--text)">${p} prioritized</b> in ${I.sprints.map(x => esc(x.name.replace(/^\d{4}\.Q\d\./, ""))).join(" and ")}, ${b} in backlog; <a href="#" id="sm-to-road">see the Roadmap tab</a>.`; })() : ""}</p>
-    <div class="sm-road">${S.roadmap.steps.filter(r => r.step !== "work").map(r => `<div class="sm-card" style="--c:var(--${r.step === "hand" ? "hand" : r.step})"><h4>${esc(r.label)}</h4>
-      ${r.items.map(it => `<div class="sm-tk">${it.key ? `<span class="pill ${{ done: "done", indeterminate: "prog", new: "todo" }[it.category] || "todo"}">${esc(it.status || "?")}</span><a href="${it.url}" target="_blank" rel="noopener">${it.key} ${esc(it.title || "")}</a>` : `<span class="pill none">No ticket</span><span>${esc(it.title)}</span>`}</div>`).join("")}</div>`).join("")}</div>
 
     <h2 class="sm-h">Is it working?</h2>
     <p class="sm-note">Each shipped change on the metric it targets: the 2 weeks before it went live against since. Lower is better on all of these.</p>
