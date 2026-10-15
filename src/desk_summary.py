@@ -184,6 +184,10 @@ def roadmap(data_dir: Path, cfg_roadmap: list[dict]) -> dict:
     stored = {t["key"]: t for t in _stored(data_dir)}
     fetched = json.loads((data_dir / "jira_tickets.json").read_text()).get("fetched_at") \
         if (data_dir / "jira_tickets.json").exists() else None
+    ini = _initiative_issues(data_dir)
+    for i in ini.get("issues", []):  # the nightly initiative pull is the fresher source
+        stored[i["key"]] = {**stored.get(i["key"], {}), "summary": i["summary"], "status": i["status"], "category": i["category"]}
+    fetched = ini.get("fetched_at") or fetched
     steps = []
     for st in cfg_roadmap or []:
         items = []
@@ -208,4 +212,96 @@ def build(cfg: dict, data_dir: Path, rows: list[dict], stories: list[dict], manu
         "changes": changes(cfg.get("changes"), now, rows=rows, stories=m, edit_rows=edit_rows,
                            turbo=turbo, manual_pct=manual_pct),
         "roadmap": roadmap(data_dir, cfg.get("roadmap")),
+        "initiative": initiative(data_dir, cfg.get("initiative") or {}),
     }
+
+
+# ---------------------------------------------------------------- initiative breakdown
+
+INITIATIVE_FILE = "jira_initiative.json"
+FIELDS = "summary,status,issuetype,parent,assignee,customfield_10010,priority,resolutiondate"
+
+
+def _jira_search(jql: str) -> list[dict]:
+    email, token = os.environ["JIRA_EMAIL"], os.environ["JIRA_API_TOKEN"]
+    auth = "Basic " + base64.b64encode(f"{email}:{token}".encode()).decode()
+    out, page = [], None
+    while True:
+        q = {"jql": jql, "fields": FIELDS, "maxResults": 100}
+        if page:
+            q["nextPageToken"] = page
+        req = urllib.request.Request(f"{JIRA}/rest/api/3/search/jql?{urllib.parse.urlencode(q)}",
+                                     headers={"Authorization": auth, "Accept": "application/json"})
+        with urllib.request.urlopen(req, timeout=60) as r:
+            body = json.loads(r.read())
+        out += body.get("issues", [])
+        page = body.get("nextPageToken")
+        if not page or body.get("isLast"):
+            return out
+
+
+def _slim(i: dict) -> dict:
+    f = i["fields"]
+    return {"key": i["key"], "summary": f["summary"], "type": f["issuetype"]["name"],
+            "parent": (f.get("parent") or {}).get("key"), "status": f["status"]["name"],
+            "category": f["status"]["statusCategory"]["key"],
+            "assignee": (f.get("assignee") or {}).get("displayName"),
+            "priority": (f.get("priority") or {}).get("name"), "resolved": f.get("resolutiondate"),
+            "sprints": [{"id": sp.get("id"), "name": sp.get("name"), "state": sp.get("state"),
+                         "start": sp.get("startDate"), "end": sp.get("endDate")} for sp in f.get("customfield_10010") or []]}
+
+
+def sync_initiative(data_dir: Path, root: str) -> str:
+    """Every epic under the initiative and every ticket under those epics, read-only."""
+    if not (os.environ.get("JIRA_EMAIL") and os.environ.get("JIRA_API_TOKEN")):
+        return "no JIRA_EMAIL / JIRA_API_TOKEN, kept stored initiative"
+    epics = [_slim(i) for i in _jira_search(f"parent = {root} ORDER BY key ASC")]
+    kids = [_slim(i) for i in _jira_search(f"parent in ({','.join(e['key'] for e in epics)}) ORDER BY key ASC")] if epics else []
+    (data_dir / INITIATIVE_FILE).write_text(json.dumps(
+        {"fetched_at": now_iso(), "root": root, "issues": epics + kids}, ensure_ascii=False, indent=1))
+    return f"{len(epics)} epics, {len(kids)} tickets"
+
+
+def _initiative_issues(data_dir: Path) -> dict:
+    p = data_dir / INITIATIVE_FILE
+    return json.loads(p.read_text()) if p.exists() else {}
+
+
+def initiative(data_dir: Path, cfg: dict) -> dict | None:
+    """Epics under the initiative with their tickets split three ways. Prioritized means
+    assigned to the dev who builds this work and in an open sprint (active or next): that
+    is the commitment for that sprint. Everything else not done is backlog."""
+    ini = _initiative_issues(data_dir)
+    if not ini.get("issues"):
+        return None
+    who = (cfg or {}).get("prioritize_assignee")
+    issues = ini["issues"]
+    epics = [i for i in issues if i["type"] == "Epic"]
+    open_sprints: dict = {}
+    rows = []
+    for e in epics:
+        kids = [i for i in issues if i["parent"] == e["key"]]
+        pri, back, done = [], [], []
+        for k in kids:
+            sp = [x for x in k["sprints"] if x["state"] in ("active", "future")]
+            t = {"key": k["key"], "summary": k["summary"], "type": k["type"], "status": k["status"],
+                 "category": k["category"], "assignee": k["assignee"], "priority": k["priority"],
+                 "resolved": k["resolved"], "url": f"{JIRA}/browse/{k['key']}"}
+            if k["category"] == "done":
+                done.append(t)
+            elif sp and (not who or k["assignee"] == who):
+                cur = sorted(sp, key=lambda x: (x["state"] != "active", x.get("start") or ""))[0]
+                t["sprint"] = cur["name"]
+                t["sprint_state"] = cur["state"]
+                open_sprints[cur["name"]] = {"name": cur["name"], "state": cur["state"], "start": cur.get("start"), "end": cur.get("end")}
+                pri.append(t)
+            else:
+                back.append(t)
+        done.sort(key=lambda t: t["resolved"] or "", reverse=True)
+        rows.append({"key": e["key"], "summary": e["summary"], "status": e["status"], "category": e["category"],
+                     "url": f"{JIRA}/browse/{e['key']}", "prioritized": pri, "backlog": back, "done": done})
+    rows.sort(key=lambda r: (r["category"] == "done", -len(r["prioritized"]), -len(r["backlog"]), r["key"]))
+    return {"root": ini.get("root"), "label": (cfg or {}).get("label"), "fetched_at": ini.get("fetched_at"),
+            "url": f"{JIRA}/browse/{ini.get('root')}", "assignee": who,
+            "sprints": sorted(open_sprints.values(), key=lambda x: (x["state"] != "active", x.get("start") or "")),
+            "epics": rows}

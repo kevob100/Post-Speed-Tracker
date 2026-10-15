@@ -39,6 +39,13 @@ sports:
         - {day: 3, start: '12:00', end: '18:00'}
         - {day: 4, start: '12:00', end: '19:00'}
         - {day: 5, start: '12:00', end: '17:00'}
+      # The Jira initiative this work rolls up to (Roadmap tab), pulled nightly: its epics
+      # and every ticket under them. Prioritized = assigned to prioritize_assignee and in
+      # an open sprint (active or next); everything else not done is backlog.
+      initiative:
+        root: RD-8097
+        label: Breaking News AI
+        prioritize_assignee: Matthew Kulina
       # Shipped changes the Summary's "Is it working?" cards measure: the metric(s) each
       # targets, 14 days before `live` vs since. Metrics: arrival_turbo, arrival, open_to_x,
       # edited_pct, change_pct, margin, manual_pct. The first `main: true` leads the card.

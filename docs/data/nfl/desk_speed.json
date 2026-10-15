@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T19:59:31.800354+00:00",
+  "generated_at": "2026-10-15T20:04:43.989273+00:00",
   "window": {
     "from": "2026-09-16",
     "to": "2026-10-15",
@@ -5741,7 +5741,7 @@
       }
     ],
     "roadmap": {
-      "fetched_at": "2026-10-15T20:30:00+00:00",
+      "fetched_at": "2026-10-15T21:00:00+00:00",
       "steps": [
         {
           "step": "s1",
@@ -5866,8 +5866,8 @@
               "title": "Add Line posts in the speed data",
               "note": null,
               "replaces": null,
-              "status": "In Review",
-              "category": "indeterminate",
+              "status": "Done",
+              "category": "done",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8163"
             }
           ]
@@ -5893,6 +5893,2033 @@
               "status": "In Progress",
               "category": "indeterminate",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8113"
+            }
+          ]
+        }
+      ]
+    },
+    "initiative": {
+      "root": "RD-8097",
+      "label": "Breaking News AI",
+      "fetched_at": "2026-10-15T21:00:00+00:00",
+      "url": "https://gdcgroup.atlassian.net/browse/RD-8097",
+      "assignee": "Matthew Kulina",
+      "sprints": [
+        {
+          "name": "2026.Q4.S20",
+          "state": "active",
+          "start": "2026-10-01T13:00:41.495Z",
+          "end": "2026-10-14T21:00:00.000Z"
+        },
+        {
+          "name": "2026.Q4.S21",
+          "state": "future",
+          "start": "2026-10-15T13:00:00.000Z",
+          "end": "2026-10-28T21:00:00.000Z"
+        }
+      ],
+      "epics": [
+        {
+          "key": "RD-8099",
+          "summary": "Breaking News AI: Tweet Speed",
+          "status": "In Progress",
+          "category": "indeterminate",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-8099",
+          "prioritized": [
+            {
+              "key": "RD-8090",
+              "summary": "Breaking News AI: Templated NFL Practice Report Posts",
+              "type": "Story",
+              "status": "In Progress",
+              "category": "indeterminate",
+              "assignee": "Matthew Kulina",
+              "priority": "Highest",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8090",
+              "sprint": "2026.Q4.S20",
+              "sprint_state": "active"
+            },
+            {
+              "key": "RD-8091",
+              "summary": "Breaking News AI: Templated NFL Game Day Posts",
+              "type": "Story",
+              "status": "In Review",
+              "category": "indeterminate",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8091",
+              "sprint": "2026.Q4.S20",
+              "sprint_state": "active"
+            },
+            {
+              "key": "RD-8114",
+              "summary": "Breaking News AI: Read NFL Injury Report Images",
+              "type": "Story",
+              "status": "In Refinement",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8114",
+              "sprint": "2026.Q4.S20",
+              "sprint_state": "active"
+            },
+            {
+              "key": "RD-8164",
+              "summary": "Desk Speed: Earliest Monitor Tweet About the Same Player",
+              "type": "Task",
+              "status": "In Review",
+              "category": "indeterminate",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8164",
+              "sprint": "2026.Q4.S21",
+              "sprint_state": "future"
+            },
+            {
+              "key": "RD-8168",
+              "summary": "Breaking News AI: Record Which Template Wrote Each Draft",
+              "type": "Task",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8168",
+              "sprint": "2026.Q4.S21",
+              "sprint_state": "future"
+            },
+            {
+              "key": "RD-8169",
+              "summary": "Breaking News AI: Add Templates and Their Revision History to the MCP",
+              "type": "Task",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8169",
+              "sprint": "2026.Q4.S21",
+              "sprint_state": "future"
+            }
+          ],
+          "backlog": [
+            {
+              "key": "RD-8094",
+              "summary": "Breaking News AI: NFL Practice Report Watchlist and Auto Updates",
+              "type": "Story",
+              "status": "In Progress",
+              "category": "indeterminate",
+              "assignee": "Matthew Kulina",
+              "priority": "Highest",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8094"
+            }
+          ],
+          "done": [
+            {
+              "key": "RD-8163",
+              "summary": "Desk Speed: Include Add Line Posts in the MCP Timeline",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-10-15T21:02:50.410+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8163"
+            },
+            {
+              "key": "RD-8092",
+              "summary": "Breaking News AI: Templated NFL Transaction Posts",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-13T23:11:00.041+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8092"
+            },
+            {
+              "key": "RD-7653",
+              "summary": "Link to Player RW Admin Page in Drawer",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-10-08T20:08:48.117+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7653"
+            },
+            {
+              "key": "RD-7652",
+              "summary": "Player and Team Row + No Team Option",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-10-08T20:08:45.950+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7652"
+            },
+            {
+              "key": "RD-8033",
+              "summary": "News Admin: Retrain X Post Prompt on KOB's Tweets",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-08T20:06:28.729+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8033"
+            },
+            {
+              "key": "RD-7693",
+              "summary": "News Admin: X Post Image Variety",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-08T20:06:18.648+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7693"
+            },
+            {
+              "key": "RD-7660",
+              "summary": "X Post Toolbar Layout",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Kevin O'Brien",
+              "priority": "Medium",
+              "resolved": "2026-10-08T19:26:52.813+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7660"
+            },
+            {
+              "key": "RD-8049",
+              "summary": "News Monitor Speed: Cap Tweets Processed Per Story",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Kevin O'Brien",
+              "priority": "Highest",
+              "resolved": "2026-10-08T18:23:41.078+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8049"
+            },
+            {
+              "key": "RD-7910",
+              "summary": "RD-7693 #1: identify NFL card producer and approve variant spec",
+              "type": "Task",
+              "status": "Cancelled",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-08T18:22:59.371+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7910"
+            },
+            {
+              "key": "RD-8013",
+              "summary": "News Admin: X Post Cited-Text Style for @RotoWireNBA and @RotowireNHL",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-08T17:51:18.964+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8013"
+            },
+            {
+              "key": "RD-8036",
+              "summary": "News Monitor Speed: Turbo Scan Mode for Peak Windows",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-08T00:31:27.985+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8036"
+            },
+            {
+              "key": "RD-8034",
+              "summary": "News Admin: Always Include \"Via @Account\" in X Post",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-08T00:31:03.121+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8034"
+            },
+            {
+              "key": "RD-7685",
+              "summary": "Cosmetic Cleanup Batch",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-10-08T00:29:39.117+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7685"
+            },
+            {
+              "key": "RD-7674",
+              "summary": "Dismiss Scrolls to Reason Field",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-10-08T00:29:11.759+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7674"
+            },
+            {
+              "key": "RD-7673",
+              "summary": "LLM-Training Note Above Dismiss Reason",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-10-08T00:28:47.452+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7673"
+            },
+            {
+              "key": "RD-7671",
+              "summary": "Move Drawer Dismiss Left of Title",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-10-08T00:28:26.880+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7671"
+            },
+            {
+              "key": "RD-7668",
+              "summary": "Enter Accepts Confirmation Modals",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-10-08T00:28:03.521+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7668"
+            },
+            {
+              "key": "RD-7661",
+              "summary": "Last Update Highlight + Sticky Drawer Footer",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Kevin O'Brien",
+              "priority": "Medium",
+              "resolved": "2026-10-08T00:27:44.509+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7661"
+            },
+            {
+              "key": "RD-7651",
+              "summary": "Transaction Flag in Editor Drawer",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-08T00:27:15.015+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7651"
+            }
+          ]
+        },
+        {
+          "key": "RD-8145",
+          "summary": "Breaking News AI: NBA Injury Report",
+          "status": "Ready for Work",
+          "category": "new",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-8145",
+          "prioritized": [
+            {
+              "key": "RD-8146",
+              "summary": "Breaking News AI: NBA Player Priority Tiers",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8146",
+              "sprint": "2026.Q4.S21",
+              "sprint_state": "future"
+            },
+            {
+              "key": "RD-8147",
+              "summary": "Breaking News AI: Read the NBA Injury Report and Flag Changes",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8147",
+              "sprint": "2026.Q4.S21",
+              "sprint_state": "future"
+            },
+            {
+              "key": "RD-8148",
+              "summary": "Breaking News AI: NBA Injury Report Review Screen with Send All",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8148",
+              "sprint": "2026.Q4.S21",
+              "sprint_state": "future"
+            },
+            {
+              "key": "RD-8149",
+              "summary": "Breaking News AI: Approved NBA Injury Updates Write to the Admin",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8149",
+              "sprint": "2026.Q4.S21",
+              "sprint_state": "future"
+            }
+          ],
+          "backlog": [],
+          "done": []
+        },
+        {
+          "key": "RD-8100",
+          "summary": "News Admin: Desk QoL and UI",
+          "status": "Ready for Work",
+          "category": "new",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-8100",
+          "prioritized": [
+            {
+              "key": "RD-8112",
+              "summary": "News Admin: Note Editor as a Modal with Step Tabs",
+              "type": "Story",
+              "status": "In Progress",
+              "category": "indeterminate",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8112",
+              "sprint": "2026.Q4.S20",
+              "sprint_state": "active"
+            },
+            {
+              "key": "RD-8113",
+              "summary": "News Admin: Slack Ping on Every Post on X",
+              "type": "Story",
+              "status": "In Progress",
+              "category": "indeterminate",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8113",
+              "sprint": "2026.Q4.S20",
+              "sprint_state": "active"
+            }
+          ],
+          "backlog": [
+            {
+              "key": "RD-7648",
+              "summary": "Mobile Pass: Feed Cards + Drawer",
+              "type": "Task",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-30T21:12:20.039+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7648"
+            },
+            {
+              "key": "RD-7650",
+              "summary": "Team Schedule in Return-Date Calendar",
+              "type": "Task",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7650"
+            },
+            {
+              "key": "RD-8037",
+              "summary": "News Admin: Injury Report Quick View for Key Players",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8037"
+            }
+          ],
+          "done": [
+            {
+              "key": "RD-8096",
+              "summary": "Breaking News AI: Automatic More Details Reply on NFL Posts",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-13T23:11:00.588+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8096"
+            }
+          ]
+        },
+        {
+          "key": "RD-8115",
+          "summary": "Breaking News AI: Post Design and Reporting",
+          "status": "Ready for Work",
+          "category": "new",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-8115",
+          "prioritized": [
+            {
+              "key": "RD-8160",
+              "summary": "Reply Tweet More Details Link: Clean URL, No Preview Card",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8160",
+              "sprint": "2026.Q4.S20",
+              "sprint_state": "active"
+            }
+          ],
+          "backlog": [
+            {
+              "key": "RD-7338",
+              "summary": "App Push Notifications: Which Players and When",
+              "type": "Story",
+              "status": "In Refinement",
+              "category": "new",
+              "assignee": null,
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7338"
+            },
+            {
+              "key": "RD-7649",
+              "summary": "Processing-Time Report Page",
+              "type": "Task",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7649"
+            },
+            {
+              "key": "RD-7911",
+              "summary": "X Post Media Controls: Auto, Card or Text Only",
+              "type": "Task",
+              "status": "Idea",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7911"
+            },
+            {
+              "key": "RD-7912",
+              "summary": "NFL X Post Card Layouts",
+              "type": "Task",
+              "status": "Idea",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7912"
+            },
+            {
+              "key": "RD-7913",
+              "summary": "Action Photo Inventory and Social Use Audit",
+              "type": "Task",
+              "status": "Idea",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7913"
+            },
+            {
+              "key": "RD-8087",
+              "summary": "News Admin: X Post Cited-Text Style for @RotoWireNHL",
+              "type": "Story",
+              "status": "Idea",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8087"
+            },
+            {
+              "key": "RD-8095",
+              "summary": "NFL Stale Players Report: Placeholder Posts",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8095"
+            }
+          ],
+          "done": []
+        },
+        {
+          "key": "RD-8098",
+          "summary": "Breaking News AI: Processing Improvements",
+          "status": "Ready for Work",
+          "category": "new",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-8098",
+          "prioritized": [
+            {
+              "key": "RD-7580",
+              "summary": "Add Reply Tweets to Player Note Monitor",
+              "type": "Story",
+              "status": "In Progress",
+              "category": "indeterminate",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-01T22:21:16.830+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7580",
+              "sprint": "2026.Q4.S20",
+              "sprint_state": "active"
+            }
+          ],
+          "backlog": [
+            {
+              "key": "RD-7238",
+              "summary": "Marking Rumors as Player Notes",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7238"
+            },
+            {
+              "key": "RD-8093",
+              "summary": "Breaking News AI: One Player, Facts Only in Every NFL Post",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8093"
+            }
+          ],
+          "done": [
+            {
+              "key": "RD-8111",
+              "summary": "News Monitor: Investigate Tweets That Never Reach the Monitor",
+              "type": "Spike",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-10-13T18:33:13.135+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8111"
+            }
+          ]
+        },
+        {
+          "key": "RD-5898",
+          "summary": "Breaking News AI Pipeline (v1)",
+          "status": "Done",
+          "category": "done",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-5898",
+          "prioritized": [],
+          "backlog": [],
+          "done": [
+            {
+              "key": "RD-6389",
+              "summary": "Save Injury Status/Details in New Updates",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-05-01T18:35:39.832+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6389"
+            },
+            {
+              "key": "RD-6353",
+              "summary": "Teach Tool the RotoWire Style Guide",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-05-01T15:44:20.846+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6353"
+            },
+            {
+              "key": "RD-6452",
+              "summary": "Exclude Inactive Players for Note Generation",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-04-30T20:02:40.307+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6452"
+            },
+            {
+              "key": "RD-6345",
+              "summary": "Add Source Citation to Breaking News Tool",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-04-23T18:58:31.286+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6345"
+            },
+            {
+              "key": "RD-5903",
+              "summary": "Initial Setup & Infrastructure",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-5903"
+            },
+            {
+              "key": "RD-5904",
+              "summary": "Scraper Implementation & Scheduling",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-5904"
+            },
+            {
+              "key": "RD-5905",
+              "summary": "Article Generation & Prompt Tuning",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-5905"
+            },
+            {
+              "key": "RD-5906",
+              "summary": "\tApproval Workflow & UI",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-5906"
+            },
+            {
+              "key": "RD-5908",
+              "summary": "Logging, Error Handling & Documentation",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-5908"
+            },
+            {
+              "key": "RD-6352",
+              "summary": "Change Team Functionality",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6352"
+            }
+          ]
+        },
+        {
+          "key": "RD-6490",
+          "summary": "Breaking News AI: Coverage & Quality Enhancements",
+          "status": "Done",
+          "category": "done",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-6490",
+          "prioritized": [],
+          "backlog": [],
+          "done": [
+            {
+              "key": "RD-6788",
+              "summary": "Notification Sound for High Priority Updates",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-08-06T22:53:20.871+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6788"
+            },
+            {
+              "key": "RD-7229",
+              "summary": "No NFL Team Assigned",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Highest",
+              "resolved": "2026-08-05T22:43:24.877+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7229"
+            },
+            {
+              "key": "RD-6782",
+              "summary": "Incorporate Headline Split into News Monitor",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Highest",
+              "resolved": "2026-07-16T21:28:20.410+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6782"
+            },
+            {
+              "key": "RD-7233",
+              "summary": "Investigate CFB Level 1 Monitor Miss",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-07-16T18:52:25.459+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7233"
+            },
+            {
+              "key": "RD-7230",
+              "summary": "Error Messages When Submitting",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-07-16T18:11:57.800+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7230"
+            },
+            {
+              "key": "RD-6785",
+              "summary": "Prompting/Feedback Ideas + Checklist",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-07-16T17:52:09.788+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6785"
+            },
+            {
+              "key": "RD-6787",
+              "summary": "News For Players Not in Database",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-07-16T17:41:23.790+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6787"
+            },
+            {
+              "key": "RD-6791",
+              "summary": "Source Inconsistencies Triggered By Specific Phrases",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-07-16T17:39:17.083+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6791"
+            },
+            {
+              "key": "RD-6786",
+              "summary": "City/School Names Presenting as Players",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-07-16T17:39:07.756+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6786"
+            },
+            {
+              "key": "RD-6784",
+              "summary": "Issues With Days of the Week",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-07-16T17:38:47.756+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6784"
+            },
+            {
+              "key": "RD-6344",
+              "summary": "News/Headline Style Adjustments - First/Last Name & Team/School/City Name Guidelines",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-07-16T17:37:31.412+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6344"
+            },
+            {
+              "key": "RD-6530",
+              "summary": "Incorporate Banned Word List Into AI Prompting",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-07-16T17:37:19.608+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6530"
+            },
+            {
+              "key": "RD-6793",
+              "summary": "Names With Accent Marks Getting Ignored",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-07-16T17:36:43.596+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6793"
+            },
+            {
+              "key": "RD-6794",
+              "summary": "Too Many CFB Players/Notes Getting Picked Up By NFL",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-07-15T16:48:00.620+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6794"
+            },
+            {
+              "key": "RD-6783",
+              "summary": "Siphoning/Denoting High Priority Notes in Monitor",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-07-02T14:20:00.487+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6783"
+            },
+            {
+              "key": "RD-6543",
+              "summary": "Ability to Select Custom List of Sports By User",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-07-02T14:18:43.029+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6543"
+            },
+            {
+              "key": "RD-6796",
+              "summary": "NFL Terms Style Guide",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-06-29T17:51:39.967+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6796"
+            },
+            {
+              "key": "RD-6781",
+              "summary": "Positive Dismissal Differentiation on Breaking News Monitor",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-06-25T21:06:51.970+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6781"
+            },
+            {
+              "key": "RD-6717",
+              "summary": "Link News Monitor on Sport Admins",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-06-25T19:23:58.004+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6717"
+            },
+            {
+              "key": "RD-6532",
+              "summary": "Display URL Within Source Section -- No Need to Navigate Away",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-06-24T15:13:44.045+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6532"
+            },
+            {
+              "key": "RD-6792",
+              "summary": "Offer Calendar Option for Return Dates",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-06-17T15:47:23.093+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6792"
+            },
+            {
+              "key": "RD-6735",
+              "summary": "\"Add Line\" for Non-Twitter News Sources",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-06-08T15:34:21.672+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6735"
+            },
+            {
+              "key": "RD-6777",
+              "summary": "Editor Feedback -- \"Submit\" Too Close To \"Dismiss\"",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-05-29T18:10:30.973+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6777"
+            },
+            {
+              "key": "RD-6778",
+              "summary": "CFB Player Search -- Incomplete?",
+              "type": "Bug",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-05-21T19:29:08.690+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6778"
+            },
+            {
+              "key": "RD-6544",
+              "summary": "Quick Change -- NCFB > CFB",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-05-08T16:33:29.402+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6544"
+            },
+            {
+              "key": "RD-6541",
+              "summary": "CFB Team Search Not Working",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-05-08T15:35:01.823+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6541"
+            },
+            {
+              "key": "RD-6519",
+              "summary": "Add NFL to Breaking News Scanner",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-05-08T15:34:57.601+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6519"
+            },
+            {
+              "key": "RD-6514",
+              "summary": "Add College Football to Twitter Scanner",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-05-08T15:34:26.608+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6514"
+            },
+            {
+              "key": "RD-6542",
+              "summary": "Carry Injury Data for CFB",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-05-08T15:18:20.222+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6542"
+            },
+            {
+              "key": "RD-5907",
+              "summary": "Source & League Management",
+              "type": "Task",
+              "status": "Cancelled",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-05-05T15:13:50.913+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-5907"
+            },
+            {
+              "key": "RD-6446",
+              "summary": "Add WNBA to Twitter Scanner",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-05-05T15:13:35.822+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6446"
+            },
+            {
+              "key": "RD-6415",
+              "summary": "Headline Prompting Notes & Guidelines",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-05-02T02:44:55.357+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6415"
+            }
+          ]
+        },
+        {
+          "key": "RD-6683",
+          "summary": "Splitting Off Headlines in Player Notes",
+          "status": "Done",
+          "category": "done",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-6683",
+          "prioritized": [],
+          "backlog": [],
+          "done": [
+            {
+              "key": "RD-6894",
+              "summary": "Moving/Updating Priorities in Player Note Box",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Andrew Parr",
+              "priority": "Medium",
+              "resolved": "2026-06-15T19:13:14.823+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6894"
+            },
+            {
+              "key": "RD-6647",
+              "summary": "Splitting Off Headlines in NFL Player Notes",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Andrew Parr",
+              "priority": "Medium",
+              "resolved": "2026-05-29T17:41:47.354+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6647"
+            },
+            {
+              "key": "RD-6646",
+              "summary": "Splitting Off Headlines in MLB Player Notes",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Andrew Parr",
+              "priority": "Medium",
+              "resolved": "2026-05-29T17:09:46.638+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6646"
+            }
+          ]
+        },
+        {
+          "key": "RD-7377",
+          "summary": "Breaking News AI 2.0: Coverage Expansion + Accuracy Improvements",
+          "status": "Done",
+          "category": "done",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-7377",
+          "prioritized": [],
+          "backlog": [],
+          "done": [
+            {
+              "key": "RD-6715",
+              "summary": "News Monitor Integrations in Breaking News Editor",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-10-08T00:06:02.667+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6715"
+            },
+            {
+              "key": "RD-7409",
+              "summary": "Add NBA to Scanner",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-28T04:11:17.776+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7409"
+            },
+            {
+              "key": "RD-6795",
+              "summary": "Possible to Clean Up RT Clutter?",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-08-31T21:49:29.135+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6795"
+            },
+            {
+              "key": "RD-6354",
+              "summary": "Duplicate Updates/Context Safeguards",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-08-31T21:49:21.835+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-6354"
+            },
+            {
+              "key": "RD-7231",
+              "summary": "Learn Style/Technique/Tendencies of Top NFL Writers",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-08-31T21:49:06.860+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7231"
+            },
+            {
+              "key": "RD-7554",
+              "summary": "Auto-Link Sources in Player Note Monitor",
+              "type": "Story",
+              "status": "Cancelled",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-08-31T19:05:52.447+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7554"
+            },
+            {
+              "key": "RD-7566",
+              "summary": "Make Player Note Monitor rows appear instantaneously",
+              "type": "Story",
+              "status": "Cancelled",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-08-31T19:05:49.207+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7566"
+            },
+            {
+              "key": "RD-7581",
+              "summary": "Injury Status syncing between Admin and Monitor",
+              "type": "Story",
+              "status": "Cancelled",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-08-31T19:05:46.148+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7581"
+            },
+            {
+              "key": "RD-7339",
+              "summary": "Team logo not rendering in NFL X auto-replies",
+              "type": "Bug",
+              "status": "Cancelled",
+              "category": "done",
+              "assignee": "Andrew Parr",
+              "priority": "Low",
+              "resolved": "2026-08-31T18:57:37.534+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7339"
+            },
+            {
+              "key": "RD-7532",
+              "summary": "NFL X/Twitter-Only Section of News Monitor",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-08-26T15:42:36.741+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7532"
+            },
+            {
+              "key": "RD-7497",
+              "summary": "Adding X Graphics to News Monitor",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-08-20T16:22:56.490+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7497"
+            },
+            {
+              "key": "RD-7239",
+              "summary": "Linking In Player Notes",
+              "type": "Bug",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-08-19T14:30:22.507+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7239"
+            },
+            {
+              "key": "RD-7366",
+              "summary": "Add Soccer Leagues to Scanner",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-08-19T14:20:56.646+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7366"
+            },
+            {
+              "key": "RD-7314",
+              "summary": "Adding Graphics to NFL X Posts",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Andrew Parr",
+              "priority": "Urgent",
+              "resolved": "2026-08-14T14:37:53.227+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7314"
+            }
+          ]
+        },
+        {
+          "key": "RD-7641",
+          "summary": "News Admin: Editor V2 Launch",
+          "status": "Done",
+          "category": "done",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-7641",
+          "prioritized": [],
+          "backlog": [],
+          "done": [
+            {
+              "key": "RD-7903",
+              "summary": "Desk sign-off walkthrough (Kevin O'Brien) for the editor-v2 cutover",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-01T20:33:43.328+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7903"
+            },
+            {
+              "key": "RD-8035",
+              "summary": "News Monitor Speed: Generate X Post Before the Rest of the Note",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-01T00:51:17.424+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8035"
+            },
+            {
+              "key": "RD-7896",
+              "summary": "RD-7642 remainder: admin-wide performance pass (loading, filter, sort, dismiss, submit)",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-10-01T00:50:38.851+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7896"
+            },
+            {
+              "key": "RD-7983",
+              "summary": "Editor V2 launch: isolated simulated end-to-end rehearsal across Rotowire dev and E2E repos",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-01T00:49:28.865+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7983"
+            },
+            {
+              "key": "RD-7982",
+              "summary": "Editor V2 launch: submission failure observability through RotoWire MCP",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-01T00:49:06.854+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7982"
+            },
+            {
+              "key": "RD-7935",
+              "summary": "Test DB isolation: force sqlite in phpunit so exported DB vars cannot wipe a real DB",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-30T21:11:08.895+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7935"
+            },
+            {
+              "key": "RD-7670",
+              "summary": "Step 1 / 2 / 3 Labels in Drawer",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-30T21:11:07.723+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7670"
+            },
+            {
+              "key": "RD-7663",
+              "summary": "Auto-Link URLs in News and Analysis",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-30T21:11:06.902+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7663"
+            },
+            {
+              "key": "RD-7678",
+              "summary": "Hide Current RW Status Row in Drawer",
+              "type": "Task",
+              "status": "Cancelled",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-24T02:52:37.183+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7678"
+            },
+            {
+              "key": "RD-7677",
+              "summary": "Park Post Headline Button",
+              "type": "Task",
+              "status": "Cancelled",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-24T02:52:33.369+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7677"
+            },
+            {
+              "key": "RD-7942",
+              "summary": "editor-2: server-side priority ordering — priority players always on top + tier shown on group bars",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-24T02:52:29.482+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7942"
+            },
+            {
+              "key": "RD-7941",
+              "summary": "NFL: matcher never backfills team from matched player — team + RW logo gone from feed",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-24T02:52:25.780+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7941"
+            },
+            {
+              "key": "RD-7940",
+              "summary": "editor-2: toolbar rebuild phase 1+2 — clarity pass + facet foundation",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-24T02:52:21.659+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7940"
+            },
+            {
+              "key": "RD-7934",
+              "summary": "editor-2: Save This Search toolbar control (named presets)",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-24T02:52:18.305+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7934"
+            },
+            {
+              "key": "RD-7675",
+              "summary": "Scraper Lists Panel Collapsed by Default",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-24T02:52:14.415+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7675"
+            },
+            {
+              "key": "RD-7665",
+              "summary": "Auto-Link Cited Source from Source Database",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-24T02:52:10.295+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7665"
+            },
+            {
+              "key": "RD-7655",
+              "summary": "Group Card Details: Single-Update Cards, Oldest First, First-Reported Timestamp",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-24T02:52:07.208+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7655"
+            },
+            {
+              "key": "RD-7944",
+              "summary": "editor-2: schedule-driven NFL game badges — gold \"Browns @ Bills\" filter badges during game windows (future)",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-24T02:14:19.741+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7944"
+            },
+            {
+              "key": "RD-7943",
+              "summary": "editor-2: NFL team multi-select filter (Teams menu) — ground work for schedule-driven game badges",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-24T02:14:13.359+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7943"
+            },
+            {
+              "key": "RD-7679",
+              "summary": "Player Column with Team in Feed",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-21T20:28:43.002+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7679"
+            },
+            {
+              "key": "RD-7689",
+              "summary": "Grouped View Progress Sections (In Progress / Not Started)",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-21T20:28:38.210+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7689"
+            },
+            {
+              "key": "RD-7684",
+              "summary": "Default to Light Theme",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-21T20:28:33.566+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7684"
+            },
+            {
+              "key": "RD-7277",
+              "summary": "NFL Headline Slack Channels",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-20T19:20:45.159+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7277"
+            },
+            {
+              "key": "RD-7909",
+              "summary": "RD-7692 #4: observable, concurrency-safe post-time similarity guard",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-20T17:40:23.875+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7909"
+            },
+            {
+              "key": "RD-7908",
+              "summary": "RD-7692 #3: candidate selection in the X composer",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-20T05:52:01.816+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7908"
+            },
+            {
+              "key": "RD-7907",
+              "summary": "RD-7692 #2: two X candidates and deterministic frame preferences in generation",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-20T05:09:43.548+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7907"
+            },
+            {
+              "key": "RD-7906",
+              "summary": "RD-7692 #1: X-post diversity baseline and posting coverage (analysis command)",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-20T03:56:02.924+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7906"
+            },
+            {
+              "key": "RD-7692",
+              "summary": "News Admin: X Post Output Diversity",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-20T03:06:56.617+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7692"
+            },
+            {
+              "key": "RD-7897",
+              "summary": "RD-7643 remainder: bulk actions on grouped cards (Dismiss others / Dismiss all N / Undismiss N)",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-20T02:50:49.401+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7897"
+            },
+            {
+              "key": "RD-7905",
+              "summary": "editor-2 drawer parity: priority control + L1/L2 gating, link-players + conflict modal, Clear Status, flatpickr, L1 alert",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-20T01:22:14.067+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7905"
+            },
+            {
+              "key": "RD-7904",
+              "summary": "editor-2 toolbar parity: league chips, search, source filter, Ignored/Everything buckets, pagination",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-19T23:47:10.505+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7904"
+            },
+            {
+              "key": "RD-7669",
+              "summary": "Alerts Explanation in Hover Title",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-19T22:43:19.875+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7669"
+            },
+            {
+              "key": "RD-7654",
+              "summary": "Injury Fields Above Priority in Drawer",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-19T22:43:18.128+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7654"
+            },
+            {
+              "key": "RD-7662",
+              "summary": "5-Level Priority Widget for Every Sport",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-19T22:43:16.449+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7662"
+            },
+            {
+              "key": "RD-7682",
+              "summary": "Split the Filter Button",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-19T22:42:51.032+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7682"
+            },
+            {
+              "key": "RD-7681",
+              "summary": "Show Only Wired-In Leagues",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-19T22:42:49.462+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7681"
+            },
+            {
+              "key": "RD-7680",
+              "summary": "Sports Chip Order Matches Admin Header",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-19T22:42:48.127+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7680"
+            },
+            {
+              "key": "RD-7667",
+              "summary": "Move Filter Button Next to Search",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-19T22:42:46.348+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7667"
+            },
+            {
+              "key": "RD-7666",
+              "summary": "Rename Add a Line Filter to Manual-Only",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-19T22:42:44.982+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7666"
+            },
+            {
+              "key": "RD-7659",
+              "summary": "Sports Chips: First Five + More Toggle",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-19T22:42:43.597+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7659"
+            },
+            {
+              "key": "RD-7658",
+              "summary": "Two-Row Toolbar",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-19T22:42:42.434+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7658"
+            },
+            {
+              "key": "RD-7656",
+              "summary": "Fresh-Session Defaults",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-19T22:42:40.627+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7656"
+            },
+            {
+              "key": "RD-7683",
+              "summary": "Remove Don't Use Player Linking Checkbox",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-19T22:42:10.815+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7683"
+            },
+            {
+              "key": "RD-7676",
+              "summary": "Horizon Link in Monitor Nav",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-19T22:42:09.384+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7676"
+            },
+            {
+              "key": "RD-7672",
+              "summary": "Remove Same Story Tag from Group Members",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": "2026-09-19T22:42:07.578+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7672"
+            },
+            {
+              "key": "RD-7664",
+              "summary": "Undismiss Broken in Dismissed View",
+              "type": "Bug",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-19T22:42:04.558+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7664"
+            },
+            {
+              "key": "RD-7902",
+              "summary": "Cutover: EDITOR_V2_ENABLED flag + deploy.sh wiring + /editor redirect",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-19T22:38:51.670+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7902"
+            },
+            {
+              "key": "RD-7657",
+              "summary": "Finished Groups Reachable via Status Filter",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-19T19:42:07.870+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7657"
+            },
+            {
+              "key": "RD-7900",
+              "summary": "editor-2 drawer: Create note, rerun match, post headline actions (v1 parity)",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-09-19T18:55:29.061+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7900"
+            },
+            {
+              "key": "RD-7899",
+              "summary": "editor-2 drawer: Dismiss and undo-dismiss actions (v1 parity)",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-19T18:55:29.008+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7899"
+            },
+            {
+              "key": "RD-7898",
+              "summary": "editor-2 drawer: Submit to RotoWire action (v1 parity)",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-19T17:13:07.603+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7898"
+            },
+            {
+              "key": "RD-7645",
+              "summary": "Post on X: Confirm, Gray Out, Re-Enable on Edit",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-19T01:48:07.337+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7645"
+            },
+            {
+              "key": "RD-7643",
+              "summary": "Group by Player Feed View",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Highest",
+              "resolved": "2026-09-18T21:42:43.324+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7643"
+            },
+            {
+              "key": "RD-7642",
+              "summary": "News Monitor Speed: Tweet-First Fast Path",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Highest",
+              "resolved": "2026-09-18T21:42:41.996+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7642"
+            },
+            {
+              "key": "RD-7647",
+              "summary": "Feed Sort Toggle (Newest / Oldest First)",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-18T21:26:10.150+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7647"
+            },
+            {
+              "key": "RD-7646",
+              "summary": "Submit Injury Status Button",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-18T21:26:08.840+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7646"
+            },
+            {
+              "key": "RD-7644",
+              "summary": "3-Step Tracker (Tweet / Injury / Note)",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-17T19:57:06.456+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7644"
+            },
+            {
+              "key": "RD-7859",
+              "summary": "RD-7643: wire grouped endpoint into editor-2 player cards",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": null,
+              "priority": "Medium",
+              "resolved": "2026-09-17T17:34:19.997+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7859"
+            },
+            {
+              "key": "RD-7852",
+              "summary": "RD-7643 backend: group_key migration + grouped query implementation",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": null,
+              "priority": "Medium",
+              "resolved": "2026-09-15T22:22:21.974+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7852"
+            },
+            {
+              "key": "RD-7851",
+              "summary": "editor-2: React/TanStack shell route (parallel to /editor, no removal)",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": null,
+              "priority": "Medium",
+              "resolved": "2026-09-15T22:22:16.760+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7851"
+            },
+            {
+              "key": "RD-7784",
+              "summary": "Injury fields are human-owned: stop auto-populating them",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Highest",
+              "resolved": "2026-09-11T20:25:49.334+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7784"
+            },
+            {
+              "key": "RD-7340",
+              "summary": "Untether NFL articles from auto-posting to the @RotoWireNFL X account",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Andrew Parr",
+              "priority": "High",
+              "resolved": "2026-09-10T22:32:48.857+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7340"
             }
           ]
         }

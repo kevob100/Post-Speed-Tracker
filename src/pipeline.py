@@ -162,6 +162,12 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
                 print(f"[desk]      {desk_summary.sync_tickets(data_dir, keys)}")
             except Exception as e:  # keep the last stored statuses
                 print(f"[desk]      ticket sync skipped: {e}")
+            root = (ds_cfg.get("initiative") or {}).get("root")
+            if root:
+                try:
+                    print(f"[desk]      {desk_summary.sync_initiative(data_dir, root)}")
+                except Exception as e:  # keep the last stored initiative
+                    print(f"[desk]      initiative sync skipped: {e}")
             built = desk_speed.build(data_dir, docs_dir, stories_out, cfg=ds_cfg)
             print(f"[desk]      built: {built['paths']['all']['race']['n'] if built else 0} shared stories, "
                   f"{built['paths']['manual_pct'] if built else '-'}% added by hand")

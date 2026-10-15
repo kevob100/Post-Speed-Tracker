@@ -27,7 +27,7 @@
   .page-seg { margin: 4px 0; }
   .page-seg button { font-size: 14px; padding: 6px 14px; font-weight: 600; }
   /* Audience page: everything that compares post times steps aside. */
-  body.page-audience #lead, body.page-audience #trend, body.page-audience #kpis, body.page-audience #desk, body.page-audience #edits, body.page-audience #sum, body.page-audience #det-cols, body.page-audience #insider, body.page-audience #pagetabs, body.page-audience #credits, body.page-audience #eras,
+  body.page-audience #lead, body.page-audience #trend, body.page-audience #kpis, body.page-audience #desk, body.page-audience #edits, body.page-audience #sum, body.page-audience #road, body.page-audience #det-cols, body.page-audience #insider, body.page-audience #pagetabs, body.page-audience #credits, body.page-audience #eras,
   body.page-audience #tabs-wrap, body.page-audience [id^="view-"]:not(#view-all) { display: none !important; }
   h1 { font-size: 20px; margin: 0 0 2px; }
   .sub { color: var(--muted); font-size: 12px; }
@@ -481,6 +481,23 @@
   body.sp-sum #sum { display: block; }
   body.sp-sum .wrap > :not(#pagetabs):not(#sum) { display: none !important; }
   body.sp-det #lead { display: none !important; }
+  #road { display: none; }
+  body.sp-road #road { display: block; }
+  body.sp-road .wrap > :not(#pagetabs):not(#road) { display: none !important; }
+  .rm-head h2 { font-size: 20px; margin: 0 0 4px; } .rm-head p { color: var(--muted); margin: 0 0 16px; font-size: 13px; }
+  .rm-sprints { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 12px; margin-bottom: 18px; }
+  .rm-sp .n { font-size: 26px; font-weight: 650; font-variant-numeric: tabular-nums; }
+  .rm-tbl { width: 100%; border-collapse: collapse; font-size: 13px; }
+  .rm-tbl th { text-align: left; color: var(--muted); font-weight: 500; font-size: 12px; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .rm-tbl td { padding: 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
+  .rm-tbl td.k { white-space: nowrap; } .rm-tbl td .lbl { font-size: 12px; }
+  .rm-epics { display: grid; gap: 12px; }
+  .rm-ep h3 { font-size: 15px; margin: 0; } .rm-ep .meta { color: var(--muted); font-size: 12px; margin: 2px 0 8px; }
+  .rm-ep details { margin-top: 8px; } .rm-ep summary { cursor: pointer; color: var(--muted); font-size: 12px; }
+  .rm-ep summary:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .rm-list { list-style: none; padding: 0; margin: 6px 0 0; }
+  .rm-list li { display: grid; grid-template-columns: auto auto 1fr; gap: 8px; align-items: baseline; padding: 5px 0; border-top: 1px solid var(--line); font-size: 13px; }
+  .rm-list li:first-child { border-top: 0; }
   #sum .lbl, #det-cols .lbl { font-size: 12px; color: var(--muted); }
   #sum .up, #det-cols .up { color: var(--good, #4fbf8a); } #sum .worse { color: #f0a070; }
   .sm-top { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 14px; }
@@ -556,9 +573,10 @@
 
   <!-- Per-sport views (shown when a single sport is selected) -->
   <div class="pagetabs hidden" id="pagetabs" role="tablist" aria-label="Report">
-    <button type="button" role="tab" data-t="sum">Summary</button><button type="button" role="tab" data-t="det">Details</button>
+    <button type="button" role="tab" data-t="sum">Summary</button><button type="button" role="tab" data-t="det">Details</button><button type="button" role="tab" data-t="road">Roadmap</button>
   </div>
   <section id="sum" aria-label="Summary"></section>
+  <section id="road" aria-label="Roadmap"></section>
   <section id="audience-top" class="hidden"></section>
   <section class="lead timing-lead hidden" id="lead"></section>
   <section class="hidden" id="det-cols" aria-label="What drives each step"></section>
@@ -731,7 +749,7 @@ function setMode(isAll) {
   document.getElementById("view-all").classList.toggle("hidden", !isAll);
   document.getElementById("kpis").classList.toggle("hidden", isAll);
   document.getElementById("trend").classList.toggle("hidden", isAll);
-  if (isAll) { document.body.classList.remove("sp-sum", "sp-det"); document.getElementById("pagetabs").classList.add("hidden"); document.getElementById("desk").classList.add("hidden"); document.getElementById("credits").classList.add("hidden"); document.getElementById("edits").classList.add("hidden"); }
+  if (isAll) { document.body.classList.remove("sp-sum", "sp-det", "sp-road"); document.getElementById("pagetabs").classList.add("hidden"); document.getElementById("desk").classList.add("hidden"); document.getElementById("credits").classList.add("hidden"); document.getElementById("edits").classList.add("hidden"); }
   document.getElementById("tabs-wrap").classList.toggle("hidden", isAll);
   applyTopMode();
   if (isAll) {
@@ -2537,6 +2555,7 @@ function init() {
   renderEdits();
   renderCredits();
   renderSummary();
+  renderRoad();
   renderDetCols();
   renderInsider();
   applySpeedTab();
@@ -3029,7 +3048,8 @@ function renderSummary() {
         <div class="sm-wk-t">${esc(i.title || "")}</div>${i.replaces ? `<div class="lbl">${i.category === "done" ? "Replaced" : "Replaces"}: ${esc(i.replaces)}</div>` : ""}</div>`).join("")}</div>`; })()}
 
     <h2 class="sm-h">What we're doing about it</h2>
-    <p class="sm-note">Every open and shipped ticket, by the step it targets.${S.roadmap.fetched_at ? ` Statuses from Jira as of ${esc(fmtTime(S.roadmap.fetched_at))}.` : ""}</p>
+    <p class="sm-note">The tickets behind each step.${S.roadmap.fetched_at ? ` Statuses from Jira as of ${esc(fmtTime(S.roadmap.fetched_at))}.` : ""}${S.initiative ? (() => { const I = S.initiative, p = I.epics.reduce((n, e) => n + e.prioritized.length, 0), b = I.epics.reduce((n, e) => n + e.backlog.length, 0);
+      return ` Across the whole initiative: <b style="color:var(--text)">${p} prioritized</b> in ${I.sprints.map(x => esc(x.name.replace(/^\d{4}\.Q\d\./, ""))).join(" and ")}, ${b} in backlog; <a href="#" id="sm-to-road">see the Roadmap tab</a>.`; })() : ""}</p>
     <div class="sm-road">${S.roadmap.steps.filter(r => r.step !== "work").map(r => `<div class="sm-card" style="--c:var(--${r.step === "hand" ? "hand" : r.step})"><h4>${esc(r.label)}</h4>
       ${r.items.map(it => `<div class="sm-tk">${it.key ? `<span class="pill ${{ done: "done", indeterminate: "prog", new: "todo" }[it.category] || "todo"}">${esc(it.status || "?")}</span><a href="${it.url}" target="_blank" rel="noopener">${it.key} ${esc(it.title || "")}</a>` : `<span class="pill none">No ticket</span><span>${esc(it.title)}</span>`}</div>`).join("")}</div>`).join("")}</div>
 
@@ -3039,6 +3059,8 @@ function renderSummary() {
       <div class="lbl">live ${smDay(c.live)}${c.too_soon ? ` · ${c.days_since} day${c.days_since === 1 ? "" : "s"} in, too soon to call` : ""}</div>
       ${[...c.metrics].sort((a, b) => b.main - a.main).map(m => `<div class="sm-m"><div class="t">${esc(m.label)}${m.main && c.metrics.length > 1 ? " <span>· main metric</span>" : ""}</div>${smBars(m)}</div>`).join("")}</div>`).join("")}</div>`;
   smChart(document.getElementById("sm-chart"), S);
+  const tr = document.getElementById("sm-to-road");
+  if (tr) tr.onclick = e => { e.preventDefault(); const b = document.querySelector('#pagetabs [data-t="road"]'); if (b) b.click(); };
 }
 function renderDetCols() {
   const host = document.getElementById("det-cols"), d = state.desk, S = d && d.summary;
@@ -3085,10 +3107,12 @@ function applySpeedTab() {
   if (!state.speedTab) { try { state.speedTab = localStorage.getItem("pst-tab") || "sum"; } catch (e) { state.speedTab = "sum"; } }
   const on = state.sport !== ALL && !!(state.desk && state.desk.summary) && !document.body.classList.contains("page-audience");
   tabs.classList.toggle("hidden", !on);
-  document.body.classList.toggle("sp-sum", on && state.speedTab !== "det");
-  document.body.classList.toggle("sp-det", on && state.speedTab === "det");
+  const tab = ["sum", "det", "road"].includes(state.speedTab) ? state.speedTab : "sum";
+  document.body.classList.toggle("sp-sum", on && tab === "sum");
+  document.body.classList.toggle("sp-det", on && tab === "det");
+  document.body.classList.toggle("sp-road", on && tab === "road");
   tabs.querySelectorAll("button").forEach(b => {
-    const sel = b.dataset.t === (state.speedTab === "det" ? "det" : "sum");
+    const sel = b.dataset.t === tab;
     b.classList.toggle("on", sel); b.setAttribute("aria-selected", sel);
     b.onclick = () => {
       if (sel) return;
@@ -3096,11 +3120,44 @@ function applySpeedTab() {
       try { localStorage.setItem("pst-tab", b.dataset.t); } catch (e) { /* private window */ }
       applySpeedTab(); window.scrollTo(0, 0);
       // Charts measure their panel, so redraw whatever just became visible.
-      if (state.speedTab === "sum") renderSummary(); else { renderTrend(); renderDesk(); renderEdits(); updateTabFade(); }
+      if (state.speedTab === "sum") renderSummary(); else if (state.speedTab === "road") renderRoad(); else { renderTrend(); renderDesk(); renderEdits(); updateTabFade(); }
     };
   });
 }
 addEventListener("resize", () => { clearTimeout(window._smResize); window._smResize = setTimeout(() => { if (state.desk && document.body.classList.contains("sp-sum")) renderSummary(); }, 150); });
+
+// ---------------------------------------------------------------- Roadmap
+// The whole initiative from Jira: each epic and every ticket under it. Prioritized means
+// assigned to the dev and in an open sprint (that sprint's commitment); the rest is backlog.
+const rmCls = c => ({ done: "done", indeterminate: "prog", new: "todo" }[c] || "todo");
+const rmSprint = sp => { const d = x => x ? smDay(x.slice(0, 10)) : "?"; return `${esc(sp.name)} · ${d(sp.start)}–${d(sp.end)}`; };
+function renderRoad() {
+  const host = document.getElementById("road"), I = state.desk && state.desk.summary && state.desk.summary.initiative;
+  if (!host) return;
+  if (!I) { host.innerHTML = ""; return; }
+  const open = I.epics.filter(e => e.category !== "done"), closed = I.epics.filter(e => e.category === "done");
+  const pri = I.epics.flatMap(e => e.prioritized.map(t => ({ ...t, epic: e })));
+  const back = I.epics.reduce((n, e) => n + e.backlog.length, 0);
+  const row = t => `<tr><td class="k"><a href="${t.url}" target="_blank" rel="noopener">${t.key}</a></td><td>${esc(t.summary)}<div class="lbl">${esc(t.epic.summary)}</div></td>
+    <td><span class="pill ${rmCls(t.category)}">${esc(t.status)}</span></td><td class="lbl">${esc(t.priority || "")}</td></tr>`;
+  const li = t => `<li><a href="${t.url}" target="_blank" rel="noopener">${t.key}</a><span class="pill ${rmCls(t.category)}">${esc(t.status)}</span><span>${esc(t.summary)}${t.assignee && t.assignee !== I.assignee ? ` <span class="lbl">· ${esc(t.assignee)}</span>` : ""}</span></li>`;
+  const epic = e => `<div class="sm-card rm-ep"><h3><a href="${e.url}" target="_blank" rel="noopener">${e.key}</a> ${esc(e.summary)}</h3>
+    <div class="meta"><span class="pill ${rmCls(e.category)}">${esc(e.status)}</span> · ${e.prioritized.length} prioritized · ${e.backlog.length} in backlog · ${e.done.length} done</div>
+    ${e.prioritized.length ? `<ul class="rm-list">${e.prioritized.map(t => li({ ...t, status: t.status + " · " + t.sprint.replace(/^\d{4}\.Q\d\./, "") })).join("")}</ul>` : `<div class="lbl">Nothing prioritized in an open sprint.</div>`}
+    ${e.backlog.length ? `<details><summary>Backlog (${e.backlog.length})</summary><ul class="rm-list">${e.backlog.map(li).join("")}</ul></details>` : ""}
+    ${e.done.length ? `<details><summary>Done (${e.done.length})</summary><ul class="rm-list">${e.done.map(li).join("")}</ul></details>` : ""}</div>`;
+  host.innerHTML = `<div class="rm-head"><h2><a href="${I.url}" target="_blank" rel="noopener">${esc(I.root)}</a> ${esc(I.label || "")}</h2>
+    <p>Every epic in the initiative and every ticket under it. <b style="color:var(--text)">Prioritized</b> means assigned to ${esc(I.assignee || "the dev")} and in an open sprint: that sprint's commitment. Everything else not done is backlog.${I.fetched_at ? ` From Jira as of ${esc(fmtTime(I.fetched_at))}.` : ""}</p></div>
+    <div class="rm-sprints">${I.sprints.map(sp => { const n = pri.filter(t => t.sprint === sp.name);
+      return `<div class="sm-card rm-sp"><div class="lbl">${sp.state === "active" ? "Current sprint" : "Next sprint"} · ${rmSprint(sp)}</div><div class="n">${n.length}</div>
+        <div class="lbl">prioritized · ${n.filter(t => t.category === "indeterminate").length} in progress · ${n.filter(t => t.category === "new").length} not started</div></div>`; }).join("")}
+      <div class="sm-card rm-sp"><div class="lbl">Backlog</div><div class="n">${back}</div><div class="lbl">not done, not in an open sprint</div></div></div>
+    ${I.sprints.map(sp => { const n = pri.filter(t => t.sprint === sp.name); return n.length ? `<h2 class="sm-h">${sp.state === "active" ? "Current sprint" : "Next sprint"}: ${esc(sp.name)}</h2>
+      <div class="sm-card scroll" style="overflow-x:auto"><table class="rm-tbl"><thead><tr><th>Ticket</th><th>What · epic</th><th>Status</th><th>Priority</th></tr></thead><tbody>${n.map(row).join("")}</tbody></table></div>` : ""; }).join("")}
+    <h2 class="sm-h">By epic</h2>
+    <div class="rm-epics">${open.map(epic).join("")}</div>
+    ${closed.length ? `<details class="sm-card" style="margin-top:12px"><summary style="cursor:pointer">Completed epics (${closed.length})</summary><div class="rm-epics" style="margin-top:10px">${closed.map(epic).join("")}</div></details>` : ""}`;
+}
 </script>
 </body>
 </html>
