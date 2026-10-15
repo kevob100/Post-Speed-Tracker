@@ -3079,8 +3079,9 @@ function renderEdits() {
   if (!host) return;
   if (!E || !E.daily || !E.daily.length) { host.classList.add("hidden"); host.innerHTML = ""; return; }
   host.classList.remove("hidden");
-  const w = E.last30 || E.last7, days = E.daily.filter(d => d.scored);
-  const ox = days.filter(d => d.open_to_x && d.open_to_x.n >= 3);
+  // A day needs ED_MIN scored posts to show: 2 of 4 edited reads as a 50% day and means nothing.
+  const ED_MIN = 10, w = E.last30 || E.last7, days = E.daily.filter(d => d.scored), ok = d => d.scored >= ED_MIN;
+  const ox = E.daily.filter(d => d.open_to_x && d.open_to_x.n >= 3);
   // One marker per day: versions that went live the same day share a label.
   const marks = Object.values(E.versions.filter(v => v.posts >= 5).reduce((acc, v) => {
     (acc[v.first_day] = acc[v.first_day] || { day: v.first_day, label: "" }).label += (acc[v.first_day].label ? "/" : "") + edVer(v.version);
@@ -3088,7 +3089,7 @@ function renderEdits() {
   const shown = ed.more ? E.examples : E.examples.slice(0, 6);
   host.innerHTML = `
     <h2 id="ed-h">We edit ${Math.round(w.edited_pct)}% of AI-drafted posts before they go out</h2>
-    <p class="dek">Last 30 days, ${w.scored} posts. On average editors change <b>${Math.round(w.change_pct)}%</b> of the draft's text. Both lines should fall as the templates get better, and that's what brings down the time from opening a tweet to posting it. Dotted lines mark when each template version went live.</p>
+    <p class="dek">Last 30 days, ${w.scored} posts. On average editors change <b>${Math.round(w.change_pct)}%</b> of the draft's text. Both lines should fall as the templates get better, and that's what brings down the time from opening a tweet to posting it. Dotted lines mark when each template version went live. Days with fewer than ${ED_MIN} posts are left out.</p>
     <div id="ed-c1"></div>
     <div class="dk-key"><span><i style="background:var(--e1)"></i>Posts edited</span><span><i style="background:var(--e2)"></i>Share of the draft changed (average)</span></div>
     ${(() => { const bp = E.by_path, MIN = 30; if (!bp) return "";
@@ -3110,10 +3111,11 @@ function renderEdits() {
     ${E.examples.length > 6 ? `<button type="button" class="cr-more" id="ed-more">${ed.more ? "Show fewer" : `Show ${E.examples.length - 6} more`}</button>` : ""}`;
   const mb = document.getElementById("ed-more"); if (mb) mb.onclick = () => { ed.more = !ed.more; renderEdits(); };
   edChart(document.getElementById("ed-c1"), days, [
-    { name: "Edited", color: "var(--e1)", get: d => d.edited_pct },
-    { name: "Changed", color: "var(--e2)", get: d => d.change_pct },
+    { name: "Edited", color: "var(--e1)", get: d => ok(d) ? d.edited_pct : null },
+    { name: "Changed", color: "var(--e2)", get: d => ok(d) ? d.change_pct : null },
   ], { max: 100, ticks: [0, 25, 50, 75, 100], fmt: t => t + "%", marks, shadeUntil: E.stored_since, label: "Share of posts edited and share of draft changed, by day",
-       tip: d => `<b>${edDay(d.day)}</b> ${d.scored} posts<br>Edited ${d.edited_pct}% · draft changed ${d.change_pct}%` });
+       tip: d => ok(d) ? `<b>${edDay(d.day)}</b> ${d.scored} posts<br>Edited ${d.edited_pct}% · draft changed ${d.change_pct}%`
+         : `<b>${edDay(d.day)}</b> ${d.scored} posts<br><span>under ${ED_MIN}, not counted</span>` });
   const c2 = document.getElementById("ed-c2");
   if (!ox.length) c2.innerHTML = `<p class="dk-empty">Not enough days yet.</p>`;
   else { const mx = Math.max(60, ...ox.map(d => d.open_to_x.median)) * 1.15, step = mx > 240 ? 60 : 30;
@@ -3154,28 +3156,26 @@ function smWeeks(d) {
   const full = [...wk].reverse().find(w => w !== partial) || null, peak = wk.reduce((m, w) => (!m || w.pct > m.pct ? w : m), null);
   return { full, peak };
 }
-// Rolling: 30-day median, 7-day dashed. By day: each day's own median as one line; a day with
+// Rolling: the 7-day median. By day: each day's own median as one line; a day with
 // fewer than SM_DAY_MIN shared stories doesn't count and leaves a gap.
 const SM_DAY_MIN = 10;
 let smMode = (() => { try { return localStorage.getItem("sm-mode") || "rolling"; } catch (e) { return "rolling"; } })();
 function smChart(host, S) {
   host.innerHTML = "";
-  const R = S.margin.rolling, daily = smMode === "daily", k = daily ? 3 : 2, W = host.clientWidth || 700, H = 200, L = 56, Rr = 76, T = 14, B = 22;
-  const val = r => daily ? (r[4] >= SM_DAY_MIN ? r[3] : null) : r[2];
+  const R = S.margin.rolling, daily = smMode === "daily", W = host.clientWidth || 700, H = 200, L = 56, Rr = 76, T = 14, B = 22;
+  const val = r => daily ? (r[4] >= SM_DAY_MIN ? r[3] : null) : r[1];
   const vals = R.map(val).filter(v => v != null), srt = [...vals].sort((a, b) => a - b), q = f => srt[Math.floor(f * (srt.length - 1))];
-  // Scale to the main line; a single bad week on the 7-day line is clipped at the top. By day
-  // scales to the middle 90% of days, so one bad day is clipped instead of flattening the rest.
-  const top = daily ? q(0.95) * 1.15 : Math.max(...vals) * 1.25, bot = daily ? q(0.05) : Math.min(...vals);
+  // Scale to the middle 90% of points, so one bad day or week is clipped instead of flattening the rest.
+  const top = q(0.95) * 1.15, bot = q(0.05);
   const lo = Math.min(0, Math.floor(bot / 60) * 60), hi = Math.max(180, Math.ceil(top / 60) * 60);
   const step = hi - lo > 600 ? 120 : 60;
   const x = i => L + i * (W - L - Rr) / (R.length - 1), y = v => T + ((Math.min(Math.max(v, lo), hi) - lo) / (hi - lo)) * (H - T - B);
-  const svg = dkEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": daily ? "Margin behind Underdog, each day's median" : "Typical margin behind Underdog, rolling 30 and 7 days" }, host);
+  const svg = dkEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": daily ? "Margin behind Underdog, each day's median" : "Margin behind Underdog, rolling 7-day median" }, host);
   for (let t = Math.ceil(lo / step) * step; t <= hi; t += step) { dkEl("line", { x1: L, x2: W - Rr, y1: y(t), y2: y(t), stroke: "#2d3743" }, svg);
     dkEl("text", { x: L - 6, y: y(t) + 4, fill: "#8b98a5", "text-anchor": "end" }, svg).textContent = t ? smUD(t) : "even"; }
   R.forEach((r, i) => { if (i % 14 === 0 || i === R.length - 1) dkEl("text", { x: x(i), y: H - 4, fill: "#8b98a5", "text-anchor": "middle" }, svg).textContent = smDay(r[0]); });
   // One line through the days that have a value; a skipped day is just not a point.
   const path = f => R.map((r, i) => [i, f(r)]).filter(p => p[1] != null).map((p, j) => `${j ? "L" : "M"}${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join("");
-  if (!daily) dkEl("path", { d: path(r => r[1]), fill: "none", stroke: "#4493f8", "stroke-width": 1.5, "stroke-dasharray": "3 3", opacity: 0.4 }, svg);
   dkEl("path", { d: path(val), fill: "none", stroke: "#4493f8", "stroke-width": daily ? 2 : 2.5, "stroke-linejoin": "round" }, svg);
   const last = [...R].reverse().find(r => val(r) != null);
   if (last) dkEl("text", { x: x(R.indexOf(last)) + 8, y: y(val(last)) + 4, fill: "#e6edf3", "font-weight": 600 }, svg).textContent = smUD(val(last));
@@ -3184,11 +3184,11 @@ function smChart(host, S) {
     hit.style.pointerEvents = "all";
     dkTip(hit, daily
       ? `<b>${smDay(r[0])}</b> ${r[4] >= SM_DAY_MIN ? smUD(r[3]) : "not counted"}<br><span>${r[4]} shared ${r[4] === 1 ? "story" : "stories"}${r[4] < SM_DAY_MIN ? `, under ${SM_DAY_MIN}` : ""}</span>`
-      : `<b>${smDay(r[0])}</b> 30-day ${smUD(r[2])}<br><span>7-day ${smUD(r[1])}</span>`); });
+      : `<b>${smDay(r[0])}</b> 7-day ${smUD(r[1])}`); });
   const key = document.getElementById("sm-key");
   if (key) key.innerHTML = daily
     ? `<span><i style="border-color:#4493f8"></i>each day's median</span><span>days with fewer than ${SM_DAY_MIN} shared stories are left out</span>`
-    : `<span><i style="border-color:#4493f8"></i>30-day rolling median</span><span><i style="border-color:#4493f8;opacity:.4;border-top-style:dashed"></i>7-day</span>`;
+    : `<span><i style="border-color:#4493f8"></i>7-day rolling median</span>`;
 }
 function smBars(m) {
   const pct = m.unit === "%", b = m.before.value, a = m.after && m.after.value;
@@ -3216,7 +3216,7 @@ function renderSummary() {
         <div class="lbl">Typical margin behind Underdog · last 30 days</div>
         <div class="sm-hero">${smUD(cur.median)}</div>
         <div class="sm-delta">${dl(cur.median, pri.median)} vs prior 30 days${base != null ? ` · ${dl(cur.median, base)} vs before the new system` : ""} · RotoWire first on ${Math.round(cur.rw_first_pct)}%, ties ${Math.round(cur.tie_pct)}% · ${cur.n} shared stories</div>
-        <div class="seg-chips sm-mode" role="group" aria-label="Chart view"><button type="button" data-m="rolling">Rolling</button><button type="button" data-m="daily">By day</button></div>
+        <div class="seg-chips sm-mode" role="group" aria-label="Chart view"><button type="button" data-m="rolling">7-day</button><button type="button" data-m="daily">By day</button></div>
         <div id="sm-chart" style="margin-top:8px"></div>
         <div class="sm-key" id="sm-key"></div>
       </div>
