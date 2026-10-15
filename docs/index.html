@@ -508,6 +508,8 @@
   .sm-spot { background: linear-gradient(0deg, rgba(240,160,112,.06), rgba(240,160,112,.06)), var(--panel); border-color: #5a3a28; }
   .sm-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; color: var(--muted); margin-top: 6px; }
   .sm-key i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; margin-right: 6px; vertical-align: 3px; }
+  .sm-mode { margin-top: 10px; }
+  .sm-mode button { padding: 4px 10px; }
   #sum svg, #det-cols svg { display: block; width: 100%; height: auto; overflow: visible; }
   #sum svg text { font-size: 11px; font-variant-numeric: tabular-nums; }
   .sm-cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
@@ -554,6 +556,43 @@
   .dc-pend { color: var(--muted); font-size: 12px; border: 1px dashed var(--line); border-radius: 6px; padding: 1px 6px; display: inline-block; }
   .dc-prio { display: inline-block; font-size: 11px; font-weight: 700; color: #0f1419; background: #f0a070; border-radius: 4px; padding: 0 6px; margin-left: 4px; vertical-align: 1px; }
   .sm-wk-h { display: flex; gap: 6px; align-items: center; } .sm-wk-t { font-weight: 600; margin: 6px 0 2px; }
+  /* One day, story by story */
+  #day { padding: 16px 18px 18px; margin: 0 0 20px; }
+  #day h2 { font-size: 20px; font-weight: 650; margin: 0 0 4px; }
+  #day .dek { color: var(--muted); margin: 0 0 12px; }
+  .dy-bar { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; margin-bottom: 10px; }
+  .dy-pick { display: inline-flex; align-items: center; gap: 4px; }
+  .dy-pick button, .dy-pick select { background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 6px;
+    font: inherit; font-size: 13px; padding: 5px 9px; cursor: pointer; }
+  .dy-pick button:disabled { opacity: .4; cursor: default; }
+  .dy-pick button:focus-visible, .dy-pick select:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+  .dy-stats { font-size: 13px; color: var(--muted); } .dy-stats b { color: var(--text); font-variant-numeric: tabular-nums; }
+  .dy-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(260px, 340px); gap: 16px; }
+  @media (max-width: 900px) { .dy-grid { grid-template-columns: minmax(0, 1fr); } }
+  #dy-chart svg { display: block; width: 100%; height: auto; overflow: visible; }
+  #dy-chart svg text { font-size: 11px; font-variant-numeric: tabular-nums; }
+  #dy-chart .pt { cursor: pointer; }
+  .dy-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .dy-key i { display: inline-block; width: 9px; height: 9px; margin-right: 6px; vertical-align: -1px; border-radius: 50%; }
+  .dy-key i.sq { border-radius: 2px; background: none; border: 1.5px solid var(--muted); }
+  .dy-det { background: var(--panel2); border: 1px solid var(--line); border-radius: 8px; padding: 12px 14px; font-size: 13px; align-self: start; }
+  .dy-det h3 { font-size: 14px; margin: 0 0 2px; }
+  .dy-det .big { font-size: 22px; font-weight: 650; font-variant-numeric: tabular-nums; margin: 6px 0 2px; }
+  .dy-tl { display: grid; grid-template-columns: auto 1fr auto; gap: 3px 10px; margin: 10px 0; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .dy-tl .lbl { color: var(--muted); }
+  .dy-steps { border-top: 1px solid var(--line); padding-top: 8px; margin-top: 8px; }
+  .dy-steps .row { display: flex; justify-content: space-between; gap: 8px; font-size: 12px; padding: 2px 0; font-variant-numeric: tabular-nums; }
+  .dy-steps .row.max b { color: #f0a070; }
+  .dy-tw { border-top: 1px solid var(--line); padding-top: 8px; margin-top: 8px; font-size: 12px; }
+  .dy-tw p { margin: 2px 0 8px; white-space: pre-wrap; overflow-wrap: anywhere; }
+  .dy-slow { width: 100%; border-collapse: collapse; margin-top: 14px; font-size: 13px; }
+  .dy-slow th { text-align: left; font-size: 12px; font-weight: 600; color: var(--muted); padding: 6px 8px; border-bottom: 1px solid var(--line); }
+  .dy-slow td { padding: 6px 8px; border-bottom: 1px solid var(--line); vertical-align: top; white-space: normal; }
+  .dy-slow th { cursor: default; white-space: nowrap; }
+  .dy-slow td.n { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .dy-slow tr { cursor: pointer; } .dy-slow tr:hover td, .dy-slow tr.on td { background: var(--panel2); }
+  .dy-slow .why { color: var(--muted); font-size: 12px; }
+  @media (max-width: 640px) { .dy-slow .hide-sm { display: none; } }
   #insider { padding: 16px 18px 18px; margin: 0 0 20px; }
   #insider h2 { font-size: 20px; font-weight: 650; margin: 0 0 4px; }
   #insider .dek { color: var(--muted); margin: 0 0 12px; }
@@ -583,6 +622,7 @@
   <section class="lead timing-lead hidden" id="lead"></section>
   <section class="hidden" id="det-cols" aria-label="What drives each step"></section>
   <section class="panel trend" id="trend"></section>
+  <section class="panel hidden" id="day" aria-labelledby="day-h"></section>
   <div class="kpis" id="kpis"></div>
   <section class="panel hidden" id="desk" aria-labelledby="desk-h"></section>
   <section class="panel hidden" id="edits" aria-labelledby="ed-h"></section>
@@ -751,7 +791,7 @@ function setMode(isAll) {
   document.getElementById("view-all").classList.toggle("hidden", !isAll);
   document.getElementById("kpis").classList.toggle("hidden", isAll);
   document.getElementById("trend").classList.toggle("hidden", isAll);
-  if (isAll) { document.body.classList.remove("sp-sum", "sp-det", "sp-road"); document.getElementById("pagetabs").classList.add("hidden"); document.getElementById("desk").classList.add("hidden"); document.getElementById("credits").classList.add("hidden"); document.getElementById("edits").classList.add("hidden"); }
+  if (isAll) { document.body.classList.remove("sp-sum", "sp-det", "sp-road"); document.getElementById("pagetabs").classList.add("hidden"); document.getElementById("desk").classList.add("hidden"); document.getElementById("credits").classList.add("hidden"); document.getElementById("edits").classList.add("hidden"); document.getElementById("day").classList.add("hidden"); }
   document.getElementById("tabs-wrap").classList.toggle("hidden", isAll);
   applyTopMode();
   if (isAll) {
@@ -2553,6 +2593,7 @@ function init() {
     `<span id="generated">${gen ? "Updated " + esc(fmtTime(gen)) : ""}</span>`;
   renderKpis();
   renderTrend();
+  renderDay();
   renderDesk();
   renderEdits();
   renderCredits();
@@ -2907,6 +2948,132 @@ function edChart(host, days, series, opts) {
     dkTip(r, opts.tip(d)); });
 }
 
+// ---- One day, story by story (Details) ----
+// Every story both accounts posted on one Central-time day, one dot each: when Underdog posted
+// across, how far behind or ahead we were up and down. Our own desk times come from
+// desk_speed.json "posts", joined on our tweet id.
+const DY_MIN = 10, DY_CAP = 1200, DY_TIE = 60;
+const dyDayFmt = new Intl.DateTimeFormat("en-CA", { timeZone: "America/Chicago", year: "numeric", month: "2-digit", day: "2-digit" });
+const dyHourFmt = new Intl.DateTimeFormat("en-US", { timeZone: "America/Chicago", hour: "numeric", minute: "2-digit", hour12: false });
+const dyDay = iso => dyDayFmt.format(new Date(iso));
+const dyMin = iso => { const [h, m] = dyHourFmt.format(new Date(iso)).split(":").map(Number); return (h % 24) * 60 + m; };
+const dyClock = iso => new Date(iso).toLocaleTimeString("en-US", { timeZone: "America/Chicago", hour: "numeric", minute: "2-digit" });
+const dyGap = s => (new Date(s.rotowire.created_at) - new Date(s.underdog.created_at)) / 1000;
+const dyWho = g => g > DY_TIE ? "ud" : g < -DY_TIE ? "rw" : "tie";
+const dyLbl = g => Math.abs(g) <= DY_TIE ? `tie (${g > 0 ? "+" : g < 0 ? "−" : ""}${dkFmt(Math.abs(g))})` : smUD(g);
+const dyTw = (h, id) => id ? `https://x.com/${h}/status/${id}` : null;
+let dyPick = { day: null, id: null };
+function dyStories() {
+  const seen = new Set();
+  return (state.stories || []).filter(s => s.status === "matched" && s.rotowire && s.underdog).filter(s => {
+    const k = s.rotowire.tweet_id; if (seen.has(k)) return false; seen.add(k); return true; });  // a roundup counts once
+}
+// Where our time went on one post: the biggest of the steps we can see.
+function dyWhy(s, P) {
+  const p = P[s.rotowire.tweet_id];
+  if (!p) return { txt: "no desk record", steps: null };
+  if (p.hand) return { txt: `added by hand, ${p.total != null ? dkFmt(p.total) + " from source" : "no source time"}`, steps: null, hand: true };
+  const steps = [["Sent to in Monitor", p.monitor], ["In Monitor to opened", p.open], ["Opened to posted", p.post]];
+  const known = steps.filter(x => x[1] != null);
+  if (!known.length) return { txt: "steps not recorded", steps };
+  const big = known.reduce((a, b) => b[1] > a[1] ? b : a);
+  return { txt: `${big[0].toLowerCase()}: ${dkFmt(big[1])}`, steps, big: big[0] };
+}
+function renderDay() {
+  const el = document.getElementById("day"), d = state.desk;
+  if (!el) return;
+  const all = dyStories();
+  if (!d || !all.length || state.sport === ALL) { el.classList.add("hidden"); el.innerHTML = ""; return; }
+  const P = d.posts || {};
+  const byDay = {};
+  all.forEach(s => (byDay[dyDay(s.underdog.created_at)] ||= []).push(s));
+  const days = Object.keys(byDay).filter(k => byDay[k].length >= DY_MIN).sort().reverse();
+  if (!days.length) { el.classList.add("hidden"); el.innerHTML = ""; return; }
+  if (!days.includes(dyPick.day)) dyPick = { day: days[0], id: null };
+  const rows = byDay[dyPick.day].map(s => ({ s, g: dyGap(s), t: dyMin(s.underdog.created_at), why: dyWhy(s, P) })).sort((a, b) => a.t - b.t);
+  if (!rows.some(r => r.s.rotowire.tweet_id === dyPick.id)) dyPick.id = [...rows].sort((a, b) => b.g - a.g)[0].s.rotowire.tweet_id;
+  const gs = rows.map(r => r.g).sort((a, b) => a - b), med = gs[Math.floor((gs.length - 1) / 2)] / 2 + gs[Math.ceil((gs.length - 1) / 2)] / 2;
+  const first = rows.filter(r => r.g < -DY_TIE).length, ties = rows.filter(r => Math.abs(r.g) <= DY_TIE).length;
+  const i = days.indexOf(dyPick.day);
+  const dayName = k => new Date(k + "T12:00:00Z").toLocaleDateString("en-US", { weekday: "short", month: "numeric", day: "numeric", timeZone: "UTC" });
+  const slow = [...rows].sort((a, b) => b.g - a.g).filter(r => r.g > DY_TIE).slice(0, 8);
+  el.classList.remove("hidden");
+  el.innerHTML = `<h2 id="day-h">One day, story by story</h2>
+    <p class="dek">Every story both accounts posted that day, by when Underdog posted it. Lower means we were further behind. Pick a dot to see where our time went. Days with fewer than ${DY_MIN} shared stories aren't listed.</p>
+    <div class="dy-bar"><div class="dy-pick"><button type="button" id="dy-prev" aria-label="Earlier day" ${i >= days.length - 1 ? "disabled" : ""}>‹</button>
+      <select id="dy-sel" aria-label="Day">${days.map(k => `<option value="${k}" ${k === dyPick.day ? "selected" : ""}>${dayName(k)} · ${byDay[k].length} stories</option>`).join("")}</select>
+      <button type="button" id="dy-next" aria-label="Later day" ${i <= 0 ? "disabled" : ""}>›</button></div>
+      <div class="dy-stats">Median <b>${smUD(med)}</b> · first on <b>${first}</b> of ${rows.length} · ties <b>${ties}</b> · ${rows.length - first - ties} behind</div></div>
+    <div class="dy-grid"><div><div id="dy-chart"></div>
+      <div class="dy-key"><span><i style="background:var(--green)"></i>we posted first</span><span><i style="background:#8b98a5"></i>tie, within ${DY_TIE}s</span><span><i style="background:var(--red)"></i>Underdog first</span><span><i class="sq"></i>square: added by hand</span></div></div>
+      <div class="dy-det" id="dy-det" aria-live="polite"></div></div>
+    ${slow.length ? `<table class="dy-slow"><thead><tr><th>Underdog posted</th><th>Story</th><th style="text-align:right">Behind by</th><th class="hide-sm">Where our time went</th></tr></thead><tbody>
+      ${slow.map(r => `<tr data-id="${r.s.rotowire.tweet_id}" class="${r.s.rotowire.tweet_id === dyPick.id ? "on" : ""}"><td class="n" style="text-align:left">${dyClock(r.s.underdog.created_at)}</td><td>${esc(r.s.canonical_label || r.s.player || "")}</td><td class="n">${dkFmt(r.g)}</td><td class="why hide-sm">${esc(r.why.txt)}</td></tr>`).join("")}</tbody></table>` : ""}`;
+  const go = k => { dyPick = { day: k, id: null }; renderDay(); };
+  document.getElementById("dy-sel").onchange = e => go(e.target.value);
+  document.getElementById("dy-prev").onclick = () => go(days[i + 1]);
+  document.getElementById("dy-next").onclick = () => go(days[i - 1]);
+  el.querySelectorAll(".dy-slow tr[data-id]").forEach(tr => tr.onclick = () => { dyPick.id = tr.dataset.id; dyDraw(rows, P); });
+  dyDraw(rows, P);
+}
+function dyDraw(rows, P) {
+  const host = document.getElementById("dy-chart");
+  host.innerHTML = "";
+  document.querySelectorAll(".dy-slow tr[data-id]").forEach(tr => tr.classList.toggle("on", tr.dataset.id === dyPick.id));
+  const W = host.clientWidth || 700, H = W < 500 ? 240 : 320, L = 56, R = 12, T = 12, B = 24;
+  const t0 = Math.floor(Math.min(...rows.map(r => r.t)) / 60) * 60, t1 = Math.max(t0 + 120, Math.ceil((Math.max(...rows.map(r => r.t)) + 1) / 60) * 60);
+  // Fit the scale to stories within DY_CAP either way; anything past that sits on an edge row
+  // labeled "more", and the panel and tooltip carry its real time.
+  const inner = rows.map(r => r.g).filter(g => Math.abs(g) <= DY_CAP);
+  let lo = Math.min(-60, Math.floor(Math.min(0, ...inner) / 60) * 60), hi = Math.max(180, Math.ceil(Math.max(0, ...inner) / 60) * 60);
+  const step = hi - lo > 900 ? 300 : hi - lo > 420 ? 120 : 60;
+  lo = Math.floor(lo / step) * step; hi = Math.ceil(hi / step) * step;
+  const edgeLo = rows.some(r => r.g < lo), edgeHi = rows.some(r => r.g > hi), pad = step * 0.6;
+  const yLo = edgeLo ? lo - pad : lo, yHi = edgeHi ? hi + pad : hi;
+  const x = t => L + (t - t0) / (t1 - t0) * (W - L - R), y = g => T + (Math.min(Math.max(g, yLo), yHi) - yLo) / (yHi - yLo) * (H - T - B);
+  const svg = dkEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Each shared story that day: when Underdog posted it and our margin" }, host);
+  for (let g = lo; g <= hi; g += step) {
+    dkEl("line", { x1: L, x2: W - R, y1: y(g), y2: y(g), stroke: g ? "#2d3743" : "#5b6672", "stroke-dasharray": g ? "" : "4 3" }, svg);
+    dkEl("text", { x: L - 6, y: y(g) + 4, fill: "#8b98a5", "text-anchor": "end" }, svg).textContent = g ? smUD(g) : "even";
+  }
+  if (edgeLo) dkEl("text", { x: L - 6, y: y(yLo) + 4, fill: "#8b98a5", "text-anchor": "end" }, svg).textContent = "more";
+  if (edgeHi) dkEl("text", { x: L - 6, y: y(yHi) + 4, fill: "#8b98a5", "text-anchor": "end" }, svg).textContent = "more";
+  const span = (t1 - t0) / 60, every = span > 12 ? 3 : span > 6 ? 2 : 1;
+  for (let t = t0; t <= t1; t += 60 * every) { const h = (t / 60) % 24;
+    dkEl("text", { x: x(t), y: H - 6, fill: "#8b98a5", "text-anchor": "middle" }, svg).textContent = `${h % 12 || 12}${h < 12 ? "a" : "p"}`; }
+  const col = { rw: "var(--green)", tie: "#8b98a5", ud: "var(--red)" };
+  // Picked dot last so it draws on top.
+  [...rows].sort((a, b) => (a.s.rotowire.tweet_id === dyPick.id) - (b.s.rotowire.tweet_id === dyPick.id)).forEach(r => {
+    const on = r.s.rotowire.tweet_id === dyPick.id, cx = x(r.t), cy = y(r.g), c = col[dyWho(r.g)];
+    const a = r.why.hand ? { x: cx - 4.5, y: cy - 4.5, width: 9, height: 9, rx: 1.5 } : { cx, cy, r: 5 };
+    const pt = dkEl(r.why.hand ? "rect" : "circle", { ...a, fill: c, stroke: on ? "#e6edf3" : "#1a2029", "stroke-width": on ? 2.5 : 1.5, class: "pt", tabindex: 0, role: "button",
+      "aria-label": `${r.s.canonical_label || ""}, ${dyLbl(r.g)}` }, svg);
+    const hit = dkEl("circle", { cx, cy, r: 11, fill: "transparent", class: "pt" }, svg);
+    const tip = `<b>${esc(r.s.canonical_label || r.s.player || "")}</b><br>${dyLbl(r.g)} · <span>Underdog ${dyClock(r.s.underdog.created_at)}</span>`;
+    [pt, hit].forEach(n => { dkTip(n, tip); n.onclick = () => { dyPick.id = r.s.rotowire.tweet_id; dyDraw(rows, P); }; });
+    pt.onkeydown = e => { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); pt.onclick(); } };
+  });
+  const r = rows.find(q => q.s.rotowire.tweet_id === dyPick.id);
+  document.getElementById("dy-det").innerHTML = r ? dyDetail(r, P) : "";
+}
+function dyDetail(r, P) {
+  const s = r.s, p = P[s.rotowire.tweet_id], src = s.source;
+  const fromSrc = (iso, sec) => sec != null ? dkFmt(sec) + " after source" : "";
+  const tl = [src && src.created_at ? ["Source", `@${esc(src.handle || "?")}`, dyClock(src.created_at), dyTw(src.handle, src.tweet_id)] : null,
+    ["Underdog", fromSrc(null, s.underdog_secs_from_source), dyClock(s.underdog.created_at), dyTw(state.handles.underdog, s.underdog.tweet_id)],
+    ["RotoWire", fromSrc(null, s.rotowire_secs_from_source), dyClock(s.rotowire.created_at), dyTw(state.handles.rotowire, s.rotowire.tweet_id)]].filter(Boolean);
+  const steps = r.why.steps ? `<div class="dy-steps"><div class="lbl" style="color:var(--muted);font-size:12px;margin-bottom:2px">Our desk time</div>
+      ${r.why.steps.map(([n, v]) => `<div class="row ${n === r.why.big ? "max" : ""}"><span>${n}</span><b>${v == null ? "not recorded" : dkFmt(v)}</b></div>`).join("")}
+      ${p && p.edited ? `<div class="row"><span>Draft edited</span><b>${esc(p.edited)}</b></div>` : ""}</div>`
+    : `<div class="dy-steps"><div class="row"><span>${r.why.hand ? "Added by hand" : "Desk record"}</span><b>${r.why.hand && p.total != null ? dkFmt(p.total) + " from source" : esc(r.why.txt)}</b></div></div>`;
+  return `<h3>${esc(s.canonical_label || s.player || "")}</h3>
+    <div class="lbl" style="color:var(--muted);font-size:12px">${esc((s.news_type || s.event_class || "").replace(/_/g, " "))}</div>
+    <div class="big">${dyLbl(r.g)}</div>
+    <div class="dy-tl">${tl.map(([a, b, c, u]) => `<span class="lbl">${a}</span><span>${b}</span>${u ? `<a href="${u}" target="_blank" rel="noopener">${c}</a>` : `<span>${c}</span>`}`).join("")}</div>
+    ${steps}
+    <div class="dy-tw"><div class="lbl" style="color:var(--muted)">Underdog</div><p>${esc(s.underdog.text || "")}</p><div class="lbl" style="color:var(--muted)">RotoWire</div><p>${esc(s.rotowire.text || "")}</p></div>`;
+}
+addEventListener("resize", () => { clearTimeout(window._dyResize); window._dyResize = setTimeout(() => { if (state.desk && document.body.classList.contains("sp-det")) renderDay(); }, 150); });
 function renderEdits() {
   const host = document.getElementById("edits"), E = state.desk && state.desk.edits;
   if (!host) return;
@@ -2987,28 +3154,41 @@ function smWeeks(d) {
   const full = [...wk].reverse().find(w => w !== partial) || null, peak = wk.reduce((m, w) => (!m || w.pct > m.pct ? w : m), null);
   return { full, peak };
 }
+// Rolling: 30-day median, 7-day dashed. By day: each day's own median as one line; a day with
+// fewer than SM_DAY_MIN shared stories doesn't count and leaves a gap.
+const SM_DAY_MIN = 10;
+let smMode = (() => { try { return localStorage.getItem("sm-mode") || "rolling"; } catch (e) { return "rolling"; } })();
 function smChart(host, S) {
-  const R = S.margin.rolling, W = host.clientWidth || 700, H = 200, L = 56, Rr = 76, T = 14, B = 22;
-  // Scale to the 30-day line; a single bad week on the 7-day line is clipped at the top.
-  const vals = R.map(r => r[2]).filter(v => v != null), max = Math.max(180, Math.ceil(Math.max(...vals) * 1.25 / 60) * 60);
-  const x = i => L + i * (W - L - Rr) / (R.length - 1), y = v => T + (Math.min(Math.max(v, 0), max) / max) * (H - T - B);
-  const svg = dkEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Typical margin behind Underdog, rolling 30 and 7 days" }, host);
-  for (let t = 0; t <= max; t += 60) { dkEl("line", { x1: L, x2: W - Rr, y1: y(t), y2: y(t), stroke: "#2d3743" }, svg);
-    dkEl("text", { x: L - 6, y: y(t) + 4, fill: "#8b98a5", "text-anchor": "end" }, svg).textContent = t ? `UD +${dkFmt(t)}` : "even"; }
+  host.innerHTML = "";
+  const R = S.margin.rolling, daily = smMode === "daily", k = daily ? 3 : 2, W = host.clientWidth || 700, H = 200, L = 56, Rr = 76, T = 14, B = 22;
+  const val = r => daily ? (r[4] >= SM_DAY_MIN ? r[3] : null) : r[2];
+  const vals = R.map(val).filter(v => v != null), srt = [...vals].sort((a, b) => a - b), q = f => srt[Math.floor(f * (srt.length - 1))];
+  // Scale to the main line; a single bad week on the 7-day line is clipped at the top. By day
+  // scales to the middle 90% of days, so one bad day is clipped instead of flattening the rest.
+  const top = daily ? q(0.95) * 1.15 : Math.max(...vals) * 1.25, bot = daily ? q(0.05) : Math.min(...vals);
+  const lo = Math.min(0, Math.floor(bot / 60) * 60), hi = Math.max(180, Math.ceil(top / 60) * 60);
+  const step = hi - lo > 600 ? 120 : 60;
+  const x = i => L + i * (W - L - Rr) / (R.length - 1), y = v => T + ((Math.min(Math.max(v, lo), hi) - lo) / (hi - lo)) * (H - T - B);
+  const svg = dkEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": daily ? "Margin behind Underdog, each day's median" : "Typical margin behind Underdog, rolling 30 and 7 days" }, host);
+  for (let t = Math.ceil(lo / step) * step; t <= hi; t += step) { dkEl("line", { x1: L, x2: W - Rr, y1: y(t), y2: y(t), stroke: "#2d3743" }, svg);
+    dkEl("text", { x: L - 6, y: y(t) + 4, fill: "#8b98a5", "text-anchor": "end" }, svg).textContent = t ? smUD(t) : "even"; }
   R.forEach((r, i) => { if (i % 14 === 0 || i === R.length - 1) dkEl("text", { x: x(i), y: H - 4, fill: "#8b98a5", "text-anchor": "middle" }, svg).textContent = smDay(r[0]); });
-  (S.changes || []).forEach(c => { const i = R.findIndex(r => r[0] >= c.live); if (i < 0) return;
-    const ln = dkEl("line", { x1: x(i), x2: x(i), y1: T - 4, y2: H - B, stroke: "#8b98a5", "stroke-dasharray": "1 3" }, svg);
-    const hit = dkEl("rect", { x: x(i) - 6, y: T - 4, width: 12, height: H - B - T + 4, fill: "transparent" }, svg);
-    dkTip(hit, `<b>${esc(c.key)} ${esc(c.label)}</b><br><span>live ${smDay(c.live)}</span>`); });
-  const path = k => R.map((r, i) => [i, r[k]]).filter(p => p[1] != null).map((p, j) => `${j ? "L" : "M"}${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join("");
-  dkEl("path", { d: path(1), fill: "none", stroke: "#4493f8", "stroke-width": 1.5, "stroke-dasharray": "3 3", opacity: 0.4 }, svg);
-  dkEl("path", { d: path(2), fill: "none", stroke: "#4493f8", "stroke-width": 2.5, "stroke-linejoin": "round" }, svg);
-  const last = [...R].reverse().find(r => r[2] != null);
-  if (last) dkEl("text", { x: x(R.indexOf(last)) + 8, y: y(last[2]) + 4, fill: "#e6edf3", "font-weight": 600 }, svg).textContent = smUD(last[2]);
+  // One line through the days that have a value; a skipped day is just not a point.
+  const path = f => R.map((r, i) => [i, f(r)]).filter(p => p[1] != null).map((p, j) => `${j ? "L" : "M"}${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join("");
+  if (!daily) dkEl("path", { d: path(r => r[1]), fill: "none", stroke: "#4493f8", "stroke-width": 1.5, "stroke-dasharray": "3 3", opacity: 0.4 }, svg);
+  dkEl("path", { d: path(val), fill: "none", stroke: "#4493f8", "stroke-width": daily ? 2 : 2.5, "stroke-linejoin": "round" }, svg);
+  const last = [...R].reverse().find(r => val(r) != null);
+  if (last) dkEl("text", { x: x(R.indexOf(last)) + 8, y: y(val(last)) + 4, fill: "#e6edf3", "font-weight": 600 }, svg).textContent = smUD(val(last));
   const band = (W - L - Rr) / Math.max(1, R.length - 1);
   R.forEach((r, i) => { const hit = dkEl("rect", { x: x(i) - band / 2, y: T, width: band, height: H - T - B, fill: "transparent" }, svg);
     hit.style.pointerEvents = "all";
-    dkTip(hit, `<b>${smDay(r[0])}</b> 30-day ${smUD(r[2])}<br><span>7-day ${smUD(r[1])}</span>`); });
+    dkTip(hit, daily
+      ? `<b>${smDay(r[0])}</b> ${r[4] >= SM_DAY_MIN ? smUD(r[3]) : "not counted"}<br><span>${r[4]} shared ${r[4] === 1 ? "story" : "stories"}${r[4] < SM_DAY_MIN ? `, under ${SM_DAY_MIN}` : ""}</span>`
+      : `<b>${smDay(r[0])}</b> 30-day ${smUD(r[2])}<br><span>7-day ${smUD(r[1])}</span>`); });
+  const key = document.getElementById("sm-key");
+  if (key) key.innerHTML = daily
+    ? `<span><i style="border-color:#4493f8"></i>each day's median</span><span>days with fewer than ${SM_DAY_MIN} shared stories are left out</span>`
+    : `<span><i style="border-color:#4493f8"></i>30-day rolling median</span><span><i style="border-color:#4493f8;opacity:.4;border-top-style:dashed"></i>7-day</span>`;
 }
 function smBars(m) {
   const pct = m.unit === "%", b = m.before.value, a = m.after && m.after.value;
@@ -3036,14 +3216,15 @@ function renderSummary() {
         <div class="lbl">Typical margin behind Underdog · last 30 days</div>
         <div class="sm-hero">${smUD(cur.median)}</div>
         <div class="sm-delta">${dl(cur.median, pri.median)} vs prior 30 days${base != null ? ` · ${dl(cur.median, base)} vs before the new system` : ""} · RotoWire first on ${Math.round(cur.rw_first_pct)}%, ties ${Math.round(cur.tie_pct)}% · ${cur.n} shared stories</div>
+        <div class="seg-chips sm-mode" role="group" aria-label="Chart view"><button type="button" data-m="rolling">Rolling</button><button type="button" data-m="daily">By day</button></div>
         <div id="sm-chart" style="margin-top:8px"></div>
-        <div class="sm-key"><span><i style="border-color:#4493f8"></i>30-day rolling median</span><span><i style="border-color:#4493f8;opacity:.4;border-top-style:dashed"></i>7-day</span><span><i style="border-color:#8b98a5;border-top-style:dotted"></i>change shipped</span></div>
+        <div class="sm-key" id="sm-key"></div>
       </div>
       <div class="sm-card sm-spot">
         <div class="lbl">Top priority now</div>
         <div class="sm-hero">${w.edited_pct == null ? "–" : Math.round(w.edited_pct) + "%"}</div>
         <div style="font-weight:600">of AI-drafted posts get edited before they go out</div>
-        <div class="sm-delta" style="margin-top:6px">${w.change_pct == null ? "" : `${Math.round(w.change_pct)}% of the draft rewritten on average. `}Every post that goes out untouched cuts the posting step. Last 30 days, ${w.scored || 0} posts.</div>
+        <div class="sm-delta" style="margin-top:6px">${w.change_pct == null ? "" : `${Math.round(w.change_pct)}% of the draft rewritten on average. `}Every post that goes out untouched cuts the posting step. Last 30 days, ${w.scored || 0} posts. <a href="#edits" id="sm-to-edits">See it by day and template in Details</a>.</div>
         ${s3.length ? `<div class="dc-f"><div class="t">Being done about it</div><div class="pills">${s3.map(i => smPill(i)).join("")}</div></div>` : ""}
       </div>
     </div>
@@ -3072,9 +3253,16 @@ function renderSummary() {
     <div class="sm-ba">${(S.changes || []).map(c => `<div class="sm-card"><h4><a href="https://gdcgroup.atlassian.net/browse/${esc(c.key)}" target="_blank" rel="noopener">${esc(c.key)} ${esc(c.label)}</a></h4>
       <div class="lbl">live ${smDay(c.live)}${c.too_soon ? ` · ${c.days_since} day${c.days_since === 1 ? "" : "s"} in, too soon to call` : ""}</div>
       ${[...c.metrics].sort((a, b) => b.main - a.main).map(m => `<div class="sm-m"><div class="t">${esc(m.label)}${m.main && c.metrics.length > 1 ? " <span>· main metric</span>" : ""}</div>${smBars(m)}</div>`).join("")}</div>`).join("")}</div>`;
-  smChart(document.getElementById("sm-chart"), S);
+  const smDraw = () => { host.querySelectorAll(".sm-mode button").forEach(b => { b.classList.toggle("on", b.dataset.m === smMode); b.setAttribute("aria-pressed", b.dataset.m === smMode); });
+    smChart(document.getElementById("sm-chart"), S); };
+  host.querySelectorAll(".sm-mode button").forEach(b => b.onclick = () => { smMode = b.dataset.m; try { localStorage.setItem("sm-mode", smMode); } catch (e) {} smDraw(); });
+  smDraw();
   const tr = document.getElementById("sm-to-road");
   if (tr) tr.onclick = e => { e.preventDefault(); const b = document.querySelector('#pagetabs [data-t="road"]'); if (b) b.click(); };
+  const te = document.getElementById("sm-to-edits");
+  if (te) te.onclick = e => { e.preventDefault(); const b = document.querySelector('#pagetabs [data-t="det"]'); if (b) b.click();
+    const ed = document.getElementById("edits"), bar = document.querySelector(".topbar");
+    if (ed) requestAnimationFrame(() => window.scrollTo({ top: ed.getBoundingClientRect().top + window.scrollY - (bar ? bar.offsetHeight : 0) - 12, behavior: "smooth" })); };
 }
 function renderDetCols() {
   const host = document.getElementById("det-cols"), d = state.desk, S = d && d.summary;
@@ -3137,7 +3325,7 @@ function applySpeedTab() {
       try { localStorage.setItem("pst-tab", b.dataset.t); } catch (e) { /* private window */ }
       applySpeedTab(); window.scrollTo(0, 0);
       // Charts measure their panel, so redraw whatever just became visible.
-      if (state.speedTab === "sum") renderSummary(); else if (state.speedTab === "road") renderRoad(); else { renderTrend(); renderDesk(); renderEdits(); updateTabFade(); }
+      if (state.speedTab === "sum") renderSummary(); else if (state.speedTab === "road") renderRoad(); else { renderTrend(); renderDay(); renderDesk(); renderEdits(); updateTabFade(); }
     };
   });
 }

@@ -368,6 +368,23 @@ def _week(t: str) -> str:
     return (d - timedelta(days=d.weekday())).isoformat()  # Monday of the week
 
 
+def _post_steps(stories: list[dict], rows: list[dict]) -> dict[str, dict]:
+    """Each of our posts' own desk times, keyed by our tweet id, for the one-day story view.
+    Monitor posts carry the three steps; Add Line posts only the total from source."""
+    out = {}
+    for s, r in _join(stories, rows):
+        hand, opened = _is_manual(r), r.get("draft_to_open_seconds")
+        out[s["rotowire"]["tweet_id"]] = {
+            "hand": hand,
+            "monitor": None if hand else r.get("arrival_seconds"),
+            "open": None if hand or opened is None else (r.get("ingest_to_draft_seconds") or 0) + opened,
+            "post": None if hand else r.get("open_to_x_seconds"),
+            "total": r.get("tweet_to_x_seconds"),
+            "edited": r.get("tweet_edited"),
+        }
+    return out
+
+
 def build(data_dir: Path, docs_dir: Path, stories: list[dict], now: datetime | None = None,
           cfg: dict | None = None) -> dict | None:
     all_rows = [r for r in load_jsonl(data_dir / "desk_timeline.jsonl") if r.get("posted_to_x_at")]
@@ -405,6 +422,7 @@ def build(data_dir: Path, docs_dir: Path, stories: list[dict], now: datetime | N
         "manual_weekly": weekly,
         "edits": _edits(data_dir, all_rows, now),
         "weekdays": [],
+        "posts": _post_steps(hist, all_rows),
     }
     def manual_pct(a, b):
         sub = [s for s in ours if a <= parse_dt(s["rotowire"]["created_at"]) < b]

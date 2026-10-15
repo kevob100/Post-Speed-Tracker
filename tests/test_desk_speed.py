@@ -90,3 +90,15 @@ def test_one_per_post_collapses_roundups():
     c = _story(3, "2026-10-12T19:00:00Z")
     out = ds._one_per_post([a, b, c])
     assert [s["story_id"] for s in out] == [2, 3]  # earliest matched Underdog post kept
+
+
+def test_post_steps_keys_each_post_by_our_tweet_and_splits_monitor_from_add_line():
+    from src.desk_speed import _post_steps
+    stories = [{"rotowire": {"tweet_id": "a", "created_at": "2026-10-14T15:00:00Z"}},
+               {"rotowire": {"tweet_id": "b", "created_at": "2026-10-14T16:00:00Z"}}]
+    rows = [{"posted_to_x_at": "2026-10-14T15:00:01Z", "arrival_seconds": 30, "ingest_to_draft_seconds": 5,
+             "draft_to_open_seconds": 40, "open_to_x_seconds": 50, "tweet_to_x_seconds": 125, "tweet_edited": "yes"},
+            {"posted_to_x_at": "2026-10-14T16:00:00Z", "manual": True, "arrival_seconds": 0, "tweet_to_x_seconds": 300}]
+    out = _post_steps(stories, rows)
+    assert out["a"] == {"hand": False, "monitor": 30, "open": 45, "post": 50, "total": 125, "edited": "yes"}
+    assert out["b"] == {"hand": True, "monitor": None, "open": None, "post": None, "total": 300, "edited": None}

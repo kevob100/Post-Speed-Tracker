@@ -32,3 +32,16 @@ def test_turbo_windows_use_sunday_zero():
     turbo = {"timezone": "America/New_York", "windows": [{"day": 0, "start": "11:00", "end": "18:00"}]}
     assert dsum.in_windows("2026-10-11T16:00:00Z", turbo)       # Sun 12pm ET
     assert not dsum.in_windows("2026-10-12T16:00:00Z", turbo)   # Mon 12pm ET
+
+
+def test_margin_rows_carry_each_days_own_median_and_count():
+    from datetime import datetime, timezone
+
+    def s(day, rw, ud):  # minute offsets on 2026-10-<day>
+        return {"status": "matched", "rotowire": {"created_at": f"2026-10-{day}T12:{rw:02d}:00Z"},
+                "underdog": {"created_at": f"2026-10-{day}T12:{ud:02d}:00Z"}}
+    stories = [s(13, 5, 0), s(13, 3, 0), s(13, 1, 0), s(14, 0, 2)]
+    rows = {r[0]: r for r in dsum.margin(stories, datetime(2026, 10, 15, 20, tzinfo=timezone.utc))["rolling"]}
+    assert rows["2026-10-13"][3:] == [180, 3]   # median of 300, 180, 60 seconds behind
+    assert rows["2026-10-14"][3:] == [-120, 1]  # RotoWire first by 2 minutes
+    assert rows["2026-10-15"][3:] == [None, 0]

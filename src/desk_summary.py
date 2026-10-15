@@ -31,6 +31,7 @@ JIRA = "https://gdcgroup.atlassian.net"
 BEFORE_DAYS = 14
 MIN_AFTER_DAYS = 5
 TIE_SECONDS = 60
+TZ = ZoneInfo("America/Chicago")  # the page shows Central time
 
 
 def _med(xs):
@@ -48,7 +49,8 @@ def _at(s: dict) -> datetime:
 
 def margin(stories: list[dict], now: datetime) -> dict:
     """Typical margin (median per-story gap; positive = Underdog ahead) for the last 30 days
-    and the 30 before, and daily rolling 7- and 30-day medians for the last 90 days."""
+    and the 30 before, and for each of the last 90 days: rolling 7- and 30-day medians, then
+    that day's own median and story count."""
     m = [s for s in stories if s.get("status") == "matched" and s.get("rotowire") and s.get("underdog")]
     pts = sorted((_at(s), _gap(s)) for s in m)
 
@@ -61,12 +63,15 @@ def margin(stories: list[dict], now: datetime) -> dict:
                 "ud_first_pct": round(100 * sum(x > TIE_SECONDS for x in g) / n, 1) if n else None}
 
     rolling = []
-    d = (now - timedelta(days=90)).date()
-    while d <= now.date():
-        end = datetime(d.year, d.month, d.day, tzinfo=timezone.utc) + timedelta(days=1)
+    today = now.astimezone(TZ).date()
+    d = today - timedelta(days=90)
+    while d <= today:  # days run midnight to midnight Central, like every time on the page
+        end = datetime(d.year, d.month, d.day, tzinfo=TZ) + timedelta(days=1)
         r7 = [x for t, x in pts if end - timedelta(days=7) <= t < end]
         r30 = [x for t, x in pts if end - timedelta(days=30) <= t < end]
-        rolling.append([d.isoformat(), _med(r7) if len(r7) >= 15 else None, _med(r30) if len(r30) >= 30 else None])
+        r1 = [x for t, x in pts if end - timedelta(days=1) <= t < end]
+        rolling.append([d.isoformat(), _med(r7) if len(r7) >= 15 else None, _med(r30) if len(r30) >= 30 else None,
+                        _med(r1) if r1 else None, len(r1)])
         d += timedelta(days=1)
     return {"last30": window(now - timedelta(days=30), now),
             "prior30": window(now - timedelta(days=60), now - timedelta(days=30)),
