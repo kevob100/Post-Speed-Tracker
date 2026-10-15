@@ -24,6 +24,28 @@ sports:
     # Desk Speed panel (src/desk_speed.py): News Admin's per-tweet desk timeline, pulled
     # with ROTOWIRE_MCP_TOKEN. Skipped quietly without the token.
     desk_speed: {league: nfl}
+    # Who Underdog credits (src/credits.py). Underdog often credits by reporter name
+    # ("Schefter: ...") rather than handle; these map the names it uses to accounts. A
+    # name prefix not listed here is read as a coach/GM press-conference quote.
+    # monitor_list_id is the X list the News Admin Monitor ingests for NFL (owned by KOB).
+    underdog_credits:
+      monitor_list_id: '103681593'
+      names:
+        Schefter: AdamSchefter
+        Rap: RapSheet
+        Rapoport: RapSheet
+        Fowler: JFowlerESPN
+        Schultz: Schultz_Report
+        Pelissero: TomPelissero
+        Garafolo: MikeGarafolo
+        Glazer: JayGlazer
+        Graziano: DanGraziano
+        Breer: AlbertBreer
+        Darlington: JeffDarlington
+        Russini: DMRussini
+        Silver: MikeSilver
+        Howe: JeffPHowe
+        Wolfe: CameronWolfe
     game_windows:
       source: espn
       season: 2026

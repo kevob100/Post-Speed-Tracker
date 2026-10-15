@@ -24,6 +24,7 @@ import time
 from datetime import timedelta
 from pathlib import Path
 
+from .credits import credited_handle
 from .store import load_jsonl, now_iso, parse_dt, write_jsonl
 
 HANDLE_RE = re.compile(r"@(\w{1,15})")
@@ -76,17 +77,25 @@ def find_sources(client, data_dir: Path, own_handles: list[str], cfg: dict | Non
     cfg = {**DEFAULTS, **(cfg or {})}
     own = {h.lower() for h in own_handles}
     path = data_dir / "sources.jsonl"
+    names = cfg.get("names") or {}
     cache = {r["key"]: r for r in load_jsonl(path)}
     tweets = {t["id"]: t for t in load_jsonl(data_dir / "tweets.jsonl")}
     stories = [s for s in load_jsonl(data_dir / "stories.jsonl")
                if s.get("status") == "matched" and s.get("rotowire") and s.get("underdog")]
+    # Lookups that found nothing before reporter-name credits were read get one more try.
+    for s in stories:
+        r = cache.get(_key(s))
+        if r and r.get("method") == "none" and not r.get("names_read") \
+                and credited_handle(s["underdog"]["text"], names):
+            del cache[_key(s)]
     todo = [s for s in stories if _key(s) not in cache]
     if not todo:
         return {"stories": len(stories), "new": 0, "found": 0, "searches": 0, "pending": 0}
 
     def row(s, **kw):
         return {"key": _key(s), "story_id": s["story_id"], "looked_up_at": now_iso(),
-                "source_id": None, "source_handle": None, "source_at": None, "method": "none", **kw}
+                "source_id": None, "source_handle": None, "source_at": None, "method": "none",
+                "names_read": True, **kw}
 
     # 1. Underdog quote-tweeted the source: one batched lookup for all of them.
     quoted = {}
@@ -114,6 +123,9 @@ def find_sources(client, data_dir: Path, own_handles: list[str], cfg: dict | Non
                 continue
 
         handles = cited_handles(s["underdog"]["text"], own)
+        named = credited_handle(s["underdog"]["text"], names)  # "Schefter: ..." style credit
+        if named and named.lower() not in (x.lower() for x in handles):
+            handles.insert(0, named)
         handles += [h for h in cited_handles(s["rotowire"]["text"], own)
                     if h.lower() not in (x.lower() for x in handles)]
         name = last_name(s.get("player"))

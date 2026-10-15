@@ -27,7 +27,7 @@
   .page-seg { margin: 4px 0; }
   .page-seg button { font-size: 14px; padding: 6px 14px; font-weight: 600; }
   /* Audience page: everything that compares post times steps aside. */
-  body.page-audience #lead, body.page-audience #trend, body.page-audience #kpis, body.page-audience #desk, body.page-audience #eras,
+  body.page-audience #lead, body.page-audience #trend, body.page-audience #kpis, body.page-audience #desk, body.page-audience #credits, body.page-audience #eras,
   body.page-audience #tabs-wrap, body.page-audience [id^="view-"]:not(#view-all) { display: none !important; }
   h1 { font-size: 20px; margin: 0 0 2px; }
   .sub { color: var(--muted); font-size: 12px; }
@@ -434,6 +434,25 @@
   .dk-table th { text-align: left; color: var(--muted); font-weight: 500; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
   .dk-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
   #dk-days { overflow-x: auto; }
+  /* Who Underdog credits (data: credits.json) */
+  #credits { padding: 16px 18px 18px; margin: 0 0 20px; }
+  @media (max-width: 640px) { #credits { padding: 14px 14px 16px; } }
+  #credits h2 { font-size: 20px; font-weight: 650; margin: 0 0 4px; line-height: 1.25; }
+  #credits .dek { color: var(--muted); margin: 0 0 14px; }
+  #credits .dek b { color: var(--text); font-weight: 600; }
+  .cr-mix { display: flex; height: 10px; border-radius: 5px; overflow: hidden; gap: 2px; margin: 4px 0 8px; }
+  .cr-mix i { display: block; height: 100%; }
+  .cr-wrap { overflow-x: auto; }
+  .cr-table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .cr-table th { text-align: left; color: var(--muted); font-weight: 500; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .cr-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .cr-table td.num, .cr-table th.num { text-align: right; }
+  .cr-tag { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 600; }
+  .cr-tag.no { background: rgba(221,107,40,.18); color: #f0a070; }
+  .cr-tag.yes { background: rgba(31,162,184,.16); color: #7fd0de; }
+  .cr-tag.unk { background: var(--chip); color: var(--muted); }
+  .cr-more { margin-top: 10px; background: none; border: 0; color: var(--accent); font: inherit; font-size: 12px; cursor: pointer; padding: 0; }
+  .cr-more:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
 </style>
 </head>
 <body>
@@ -455,6 +474,7 @@
   <section class="panel trend" id="trend"></section>
   <div class="kpis" id="kpis"></div>
   <section class="panel hidden" id="desk" aria-labelledby="desk-h"></section>
+  <section class="panel hidden" id="credits" aria-labelledby="cr-h"></section>
   <section class="panel trend hidden" id="eras"></section>
 
   <div class="tabs-wrap" id="tabs-wrap"><div class="tabs" id="tabs" role="tablist" aria-label="Views">
@@ -579,8 +599,10 @@ async function loadSport(sport) {
     state.stories = s; state.agg = a;
     state.desk = await fetch(base + "desk_speed.json" + bust, { cache: "no-store" })
       .then(r => r.ok ? r.json() : null).catch(() => null);
+    state.credits = await fetch(base + "credits.json" + bust, { cache: "no-store" })
+      .then(r => r.ok ? r.json() : null).catch(() => null);
   } catch (e) {
-    state.desk = null;
+    state.desk = null; state.credits = null;
     state.stories = []; state.agg = { summary: {}, weekly: [], monthly: [] };
   }
   setMode(false);
@@ -610,7 +632,7 @@ function setMode(isAll) {
   document.getElementById("view-all").classList.toggle("hidden", !isAll);
   document.getElementById("kpis").classList.toggle("hidden", isAll);
   document.getElementById("trend").classList.toggle("hidden", isAll);
-  if (isAll) document.getElementById("desk").classList.add("hidden");
+  if (isAll) { document.getElementById("desk").classList.add("hidden"); document.getElementById("credits").classList.add("hidden"); }
   document.getElementById("tabs-wrap").classList.toggle("hidden", isAll);
   applyTopMode();
   if (isAll) {
@@ -2410,6 +2432,7 @@ function init() {
   renderKpis();
   renderTrend();
   renderDesk();
+  renderCredits();
 
   // event filter options
   const events = [...new Set(state.stories.map(s => s.event_class).filter(Boolean))].sort();
@@ -2655,6 +2678,45 @@ function renderDesk() {
 }
 let _dkResize;
 addEventListener("resize", () => { clearTimeout(_dkResize); _dkResize = setTimeout(() => { if (state.desk) renderDesk(); }, 150); });
+
+// ---------------------------------------------------------------- Who Underdog credits
+// Every account Underdog named as a source, checked against the X list our Monitor
+// ingests. Accounts not on it come first: the add-these list for the list owner.
+const cr = { all: false };
+function renderCredits() {
+  const host = document.getElementById("credits"), d = state.credits;
+  if (!host) return;
+  if (!d || !d.accounts || !d.accounts.length) { host.classList.add("hidden"); host.innerHTML = ""; return; }
+  host.classList.remove("hidden");
+  const K = d.kinds || {}, pct = k => (K[k] ? K[k].pct : 0);
+  const named = Math.round(pct("handle") + pct("reporter") + pct("quote"));
+  const listKnown = !!d.list;
+  const status = a => a.on_list === true ? `<span class="cr-tag yes">On list</span>`
+    : a.on_list === false ? `<span class="cr-tag no">Not on list</span>`
+    : a.seen_in_monitor ? `<span class="cr-tag yes">Seen in Monitor</span>` : `<span class="cr-tag unk">Not seen</span>`;
+  const rows = cr.all ? d.accounts : d.accounts.slice(0, 20);
+  const mix = [["handle", "var(--green)", "@handle"], ["reporter", "#8fdbe6", "reporter name"], ["quote", "#157f92", "quote-tweet"],
+               ["presser", "#a7b4c2", "press conference"], ["none", "var(--panel2)", "no credit"]];
+  host.innerHTML = `
+    <h2 id="cr-h">${d.missing} accounts Underdog credits ${listKnown ? "aren't on our Monitor list" : "never show up in our Monitor"}</h2>
+    <p class="dek">Underdog named a source on <b>${named}%</b> of its ${d.posts} NFL news posts in the last ${d.window_days} days. Each account they named, checked against ${listKnown
+      ? `the X list our Monitor ingests (${d.list.members} accounts)` : "the accounts our Monitor has ingested a tweet from in the last 30 days, which proves an account is on the list but can't prove it isn't"}. The ones missing come first.</p>
+    <div class="cr-mix" role="img" aria-label="How Underdog credits its source">${mix.filter(([k]) => pct(k)).map(([k, c, l]) =>
+      `<i style="width:${pct(k)}%;background:${c}" title="${l}: ${pct(k)}%"></i>`).join("")}</div>
+    <div class="dk-key" style="margin:0 0 14px">${mix.filter(([k]) => pct(k)).map(([k, c, l]) => `<span><i style="background:${c}"></i>${l} ${Math.round(pct(k))}%</span>`).join("")}</div>
+    <div class="cr-wrap"><table class="cr-table">
+      <thead><tr><th>Account</th><th>${listKnown ? "Our list" : "Our Monitor"}</th><th class="num">Underdog credited</th><th class="num">Shared stories</th><th class="num">We were first</th><th class="num">Typical gap</th><th>Last credited</th></tr></thead>
+      <tbody>${rows.map(a => `<tr>
+        <td><a href="https://x.com/${encodeURIComponent(a.handle)}" target="_blank" rel="noopener">@${esc(a.handle)}</a></td>
+        <td>${status(a)}</td>
+        <td class="num">${a.credited}</td>
+        <td class="num">${a.shared || "–"}</td>
+        <td class="num">${a.we_first_pct == null ? "–" : Math.round(a.we_first_pct) + "%"}</td>
+        <td class="num">${a.median_gap == null ? "–" : (a.median_gap > 0 ? dkFmt(a.median_gap) + " behind" : dkFmt(-a.median_gap) + " ahead")}</td>
+        <td>${a.last ? esc(fmtTime(a.last)) : ""}</td></tr>`).join("")}</tbody></table></div>
+    ${d.accounts.length > 20 ? `<button type="button" class="cr-more" id="cr-more">${cr.all ? "Show top 20" : `Show all ${d.accounts.length}`}</button>` : ""}`;
+  const mb = document.getElementById("cr-more"); if (mb) mb.onclick = () => { cr.all = !cr.all; renderCredits(); };
+}
 </script>
 </body>
 </html>

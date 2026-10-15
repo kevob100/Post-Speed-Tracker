@@ -24,7 +24,7 @@ import json
 from datetime import datetime
 import os
 
-from . import (aggregate, classify, collect, desk_speed, develop, games, match, positions, practice,
+from . import (aggregate, classify, collect, credits, desk_speed, develop, games, match, positions, practice,
                source, sprout, staffing_import, xapi)
 from .config import (
     DOCS_DATA_DIR,
@@ -107,7 +107,9 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
     if meta.get("source_lookup") and xapi.has_credentials():
         try:
             res = source.find_sources(XClient(), data_dir,
-                                      [a["handle"] for a in accounts.values()], meta["source_lookup"])
+                                      [a["handle"] for a in accounts.values()],
+                                      {**meta["source_lookup"],
+                                       "names": (meta.get("underdog_credits") or {}).get("names") or {}})
             print(f"[source]    {res}")
         except Exception as e:  # never fail the run over source lookups; retried next run
             print(f"[source]    skipped: {e}")
@@ -159,6 +161,21 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
                   f"{built['paths']['manual_pct'] if built else '-'}% added by hand")
         except Exception as e:  # never fail the run over the desk panel
             print(f"[desk]      build skipped: {e}")
+
+    # Who Underdog credits, checked against the X list our Monitor ingests.
+    cc = meta.get("underdog_credits")
+    if cc:
+        if cc.get("monitor_list_id") and xapi.has_credentials():
+            try:
+                print(f"[credits]   list members: {credits.fetch_list(XClient(), cc['monitor_list_id'], data_dir)}")
+            except Exception as e:  # keep the last good member list
+                print(f"[credits]   list fetch skipped: {e}")
+        try:
+            out = credits.build(data_dir, docs_dir, json.loads((docs_dir / "stories.json").read_text()),
+                                cc.get("names") or {}, accounts["underdog"]["handle"])
+            print(f"[credits]   {len(out['accounts'])} credited accounts, {out['missing']} not on our list")
+        except Exception as e:  # never fail the run over the credits table
+            print(f"[credits]   build skipped: {e}")
 
     s = agg["summary"]
     print(
