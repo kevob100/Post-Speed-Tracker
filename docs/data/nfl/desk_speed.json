@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-10-15T09:39:08.090099+00:00",
+  "generated_at": "2026-10-15T18:10:37.631285+00:00",
   "window": {
     "from": "2026-09-16",
     "to": "2026-10-15",
-    "days": 29
+    "days": 30
   },
   "opens_tracked_since": "2026-10-13",
   "paths": {
     "all": {
-      "posts": 1131,
+      "posts": 1049,
       "race": {
-        "n": 800,
+        "n": 797,
         "median_gap": 106,
-        "underdog_first_pct": 87.6,
+        "underdog_first_pct": 87.7,
         "gaps": [
           -19551,
           -17409,
@@ -41,7 +41,6 @@
           -5306,
           -5174,
           -5094,
-          -4694,
           -4694,
           -4581,
           -4452,
@@ -583,7 +582,6 @@
           192,
           192,
           192,
-          192,
           193,
           195,
           196,
@@ -775,7 +773,6 @@
           1478,
           1533,
           1640,
-          1640,
           1651,
           1753,
           1825,
@@ -814,19 +811,25 @@
           9219,
           12610,
           19034
-        ]
+        ],
+        "underdog_before_source_pct": 13.8,
+        "before_source": {
+          "n": 98,
+          "monitor_had_earlier": 21,
+          "monitor_never_had": 77
+        }
       },
       "from_source": {
-        "median": 158,
-        "n": 602
+        "median": 180,
+        "n": 729
       }
     },
     "monitor": {
-      "posts": 504,
+      "posts": 502,
       "race": {
-        "n": 390,
+        "n": 388,
         "median_gap": 112,
-        "underdog_first_pct": 87.2,
+        "underdog_first_pct": 87.4,
         "gaps": [
           -19551,
           -16380,
@@ -842,7 +845,6 @@
           -6678,
           -5306,
           -5174,
-          -4694,
           -4694,
           -4581,
           -4452,
@@ -1095,7 +1097,6 @@
           187,
           189,
           190,
-          192,
           192,
           193,
           195,
@@ -1219,44 +1220,48 @@
           9219,
           19034
         ],
-        "underdog_before_source_pct": 19.2
+        "underdog_before_source_pct": 19.3,
+        "before_source": {
+          "n": 75,
+          "monitor_had_earlier": 21,
+          "monitor_never_had": 54
+        }
       },
       "from_source": {
-        "median": 155,
-        "n": 311
+        "median": 210,
+        "n": 388
       },
       "steps": {
         "sent_to_monitor": {
-          "median": 32,
-          "n": 528
+          "median": 31,
+          "n": 536
         },
         "monitor_to_open": {
           "median": 82,
-          "n": 34
+          "n": 42
         },
         "open_to_x": {
           "median": 40,
-          "n": 34
+          "n": 42
         },
         "monitor_to_x": {
-          "median": 166,
-          "n": 528
+          "median": 165,
+          "n": 536
         },
         "split": true,
         "edited": {
           "pct": 98.9,
-          "n": 528
+          "n": 536
         }
       }
     },
     "manual": {
-      "posts": 627,
+      "posts": 426,
       "race": {
-        "n": 410,
-        "median_gap": 99,
-        "underdog_first_pct": 88.0,
+        "n": 320,
+        "median_gap": 90,
+        "underdog_first_pct": 88.1,
         "gaps": [
-          -17409,
           -16799,
           -15134,
           -13094,
@@ -1268,23 +1273,13 @@
           -6672,
           -5741,
           -5383,
-          -5094,
-          -4202,
-          -4163,
-          -4089,
-          -4065,
-          -3688,
           -3564,
-          -2921,
           -2404,
-          -2326,
-          -1619,
           -665,
           -324,
           -165,
           -80,
           -79,
-          -63,
           -63,
           -53,
           -51,
@@ -1308,7 +1303,6 @@
           4,
           5,
           5,
-          5,
           7,
           8,
           9,
@@ -1316,35 +1310,27 @@
           12,
           12,
           13,
-          17,
           18,
           18,
           19,
-          20,
           20,
           22,
           23,
           23,
           23,
-          25,
-          26,
           30,
           30,
           30,
-          30,
-          31,
           31,
           31,
           32,
           33,
           35,
           35,
-          36,
           38,
           38,
           38,
           38,
-          39,
           39,
           39,
           40,
@@ -1370,13 +1356,10 @@
           54,
           54,
           54,
-          54,
           55,
           55,
           56,
           56,
-          56,
-          57,
           57,
           58,
           58,
@@ -1384,8 +1367,6 @@
           59,
           59,
           60,
-          61,
-          61,
           61,
           61,
           61,
@@ -1399,19 +1380,14 @@
           66,
           67,
           67,
-          67,
-          68,
           68,
           68,
           68,
           68,
           69,
-          70,
-          71,
           71,
           71,
           72,
-          73,
           73,
           73,
           74,
@@ -1430,19 +1406,14 @@
           81,
           82,
           82,
-          82,
           83,
           83,
           83,
-          83,
-          84,
-          84,
           84,
           84,
           84,
           85,
           85,
-          86,
           86,
           87,
           88,
@@ -1467,8 +1438,6 @@
           101,
           103,
           103,
-          104,
-          104,
           105,
           105,
           105,
@@ -1476,31 +1445,23 @@
           107,
           107,
           108,
-          108,
           109,
           110,
           110,
           111,
           111,
           111,
-          111,
           112,
           112,
-          114,
           114,
           115,
-          116,
-          116,
           117,
           120,
           120,
           123,
           123,
-          123,
-          123,
           124,
           125,
-          127,
           127,
           127,
           130,
@@ -1521,7 +1482,6 @@
           145,
           146,
           146,
-          146,
           148,
           150,
           153,
@@ -1537,9 +1497,6 @@
           159,
           159,
           161,
-          161,
-          164,
-          168,
           174,
           175,
           176,
@@ -1550,81 +1507,52 @@
           187,
           188,
           189,
-          189,
-          190,
           190,
           190,
           192,
           192,
           192,
-          196,
           199,
-          200,
           202,
           203,
           205,
           207,
           208,
           208,
-          209,
           210,
           212,
           217,
           223,
           224,
           232,
-          239,
-          241,
-          245,
-          247,
           247,
           248,
-          249,
           253,
           254,
-          254,
           255,
-          256,
-          257,
           258,
-          261,
-          262,
           269,
           269,
           272,
           275,
           279,
-          285,
-          288,
-          289,
           293,
           303,
-          303,
           317,
-          327,
           328,
-          336,
           351,
           354,
           357,
-          370,
           409,
           417,
           417,
           423,
           428,
-          436,
-          443,
           457,
           460,
-          466,
           513,
-          537,
           557,
-          618,
-          630,
           661,
-          680,
           718,
           732,
           756,
@@ -1632,29 +1560,17 @@
           779,
           809,
           814,
-          819,
-          931,
           938,
-          940,
-          965,
-          966,
-          994,
-          1008,
           1030,
           1117,
           1640,
-          1640,
           1753,
           1825,
-          1849,
-          2104,
-          2144,
           2564,
           2678,
           2753,
           2953,
           3091,
-          3183,
           3406,
           3685,
           3692,
@@ -1666,45 +1582,159 @@
           7189,
           7680,
           12610
+        ],
+        "underdog_before_source_pct": 7.2,
+        "before_source": {
+          "n": 23,
+          "monitor_had_earlier": 0,
+          "monitor_never_had": 23
+        }
+      },
+      "from_source": {
+        "median": 145,
+        "n": 269
+      },
+      "add_line_to_x": {
+        "median": 261,
+        "n": 2
+      }
+    },
+    "other": {
+      "posts": 121,
+      "race": {
+        "n": 89,
+        "median_gap": 127,
+        "underdog_first_pct": 87.6,
+        "gaps": [
+          -17409,
+          -5094,
+          -4202,
+          -4163,
+          -4089,
+          -4065,
+          -3688,
+          -2921,
+          -2326,
+          -1619,
+          -63,
+          5,
+          17,
+          20,
+          25,
+          26,
+          30,
+          31,
+          36,
+          39,
+          54,
+          56,
+          57,
+          61,
+          61,
+          67,
+          68,
+          70,
+          71,
+          73,
+          82,
+          83,
+          84,
+          84,
+          86,
+          104,
+          104,
+          108,
+          111,
+          114,
+          116,
+          116,
+          123,
+          123,
+          127,
+          146,
+          161,
+          164,
+          168,
+          189,
+          190,
+          196,
+          200,
+          209,
+          239,
+          241,
+          245,
+          247,
+          249,
+          254,
+          256,
+          257,
+          261,
+          262,
+          285,
+          288,
+          289,
+          303,
+          327,
+          336,
+          370,
+          436,
+          443,
+          466,
+          537,
+          618,
+          630,
+          680,
+          819,
+          931,
+          940,
+          965,
+          966,
+          994,
+          1008,
+          1849,
+          2104,
+          2144,
+          3183
         ]
       },
       "from_source": {
-        "median": 160,
-        "n": 291
+        "median": 224,
+        "n": 72
       }
     },
-    "manual_pct": 55.4
+    "manual_pct": 40.6,
+    "other_pct": 11.5
   },
   "manual_weekly": [
     {
       "week": "2026-09-14",
-      "posts": 201,
-      "manual": 154,
-      "pct": 76.6
+      "posts": 186,
+      "manual": 74,
+      "pct": 39.8
     },
     {
       "week": "2026-09-21",
-      "posts": 294,
-      "manual": 187,
-      "pct": 63.6
+      "posts": 270,
+      "manual": 147,
+      "pct": 54.4
     },
     {
       "week": "2026-09-28",
-      "posts": 246,
-      "manual": 142,
-      "pct": 57.7
+      "posts": 228,
+      "manual": 102,
+      "pct": 44.7
     },
     {
       "week": "2026-10-05",
-      "posts": 297,
-      "manual": 101,
-      "pct": 34.0
+      "posts": 283,
+      "manual": 77,
+      "pct": 27.2
     },
     {
       "week": "2026-10-12",
-      "posts": 93,
-      "manual": 43,
-      "pct": 46.2
+      "posts": 82,
+      "manual": 26,
+      "pct": 31.7
     }
   ],
   "weekdays": [
@@ -1714,9 +1744,9 @@
       "key": true,
       "paths": {
         "all": {
-          "posts": 255,
+          "posts": 238,
           "race": {
-            "n": 208,
+            "n": 207,
             "median_gap": 110,
             "underdog_first_pct": 89.9,
             "gaps": [
@@ -1915,7 +1945,6 @@
               1045,
               1117,
               1640,
-              1640,
               1651,
               1753,
               1825,
@@ -1928,11 +1957,17 @@
               3692,
               5242,
               8109
-            ]
+            ],
+            "underdog_before_source_pct": 15.5,
+            "before_source": {
+              "n": 23,
+              "monitor_had_earlier": 11,
+              "monitor_never_had": 12
+            }
           },
           "from_source": {
-            "median": 140,
-            "n": 161
+            "median": 163,
+            "n": 178
           }
         },
         "monitor": {
@@ -2033,11 +2068,16 @@
               3225,
               8109
             ],
-            "underdog_before_source_pct": 24.4
+            "underdog_before_source_pct": 24.4,
+            "before_source": {
+              "n": 22,
+              "monitor_had_earlier": 11,
+              "monitor_never_had": 11
+            }
           },
           "from_source": {
-            "median": 135,
-            "n": 75
+            "median": 170,
+            "n": 90
           },
           "steps": {
             "sent_to_monitor": {
@@ -2064,11 +2104,93 @@
           }
         },
         "manual": {
-          "posts": 151,
+          "posts": 66,
           "race": {
-            "n": 118,
-            "median_gap": 99,
-            "underdog_first_pct": 86.4,
+            "n": 58,
+            "median_gap": 88,
+            "underdog_first_pct": 89.7,
+            "gaps": [
+              -665,
+              -165,
+              -35,
+              -30,
+              -29,
+              -6,
+              4,
+              7,
+              22,
+              35,
+              38,
+              39,
+              41,
+              41,
+              43,
+              47,
+              49,
+              49,
+              53,
+              55,
+              58,
+              59,
+              62,
+              73,
+              75,
+              77,
+              77,
+              82,
+              85,
+              90,
+              93,
+              99,
+              99,
+              105,
+              105,
+              111,
+              112,
+              115,
+              120,
+              132,
+              138,
+              158,
+              210,
+              212,
+              303,
+              351,
+              354,
+              417,
+              732,
+              777,
+              814,
+              1117,
+              1640,
+              1753,
+              1825,
+              2753,
+              3692,
+              5242
+            ],
+            "underdog_before_source_pct": 1.7,
+            "before_source": {
+              "n": 1,
+              "monitor_had_earlier": 0,
+              "monitor_never_had": 1
+            }
+          },
+          "from_source": {
+            "median": 128,
+            "n": 40
+          },
+          "add_line_to_x": {
+            "median": null,
+            "n": 0
+          }
+        },
+        "other": {
+          "posts": 68,
+          "race": {
+            "n": 59,
+            "median_gap": 114,
+            "underdog_first_pct": 83.1,
             "gaps": [
               -17409,
               -5094,
@@ -2079,81 +2201,37 @@
               -3688,
               -2921,
               -2326,
-              -665,
-              -165,
               -63,
-              -35,
-              -30,
-              -29,
-              -6,
-              4,
               5,
-              7,
               17,
-              22,
               25,
               26,
               30,
               31,
-              35,
-              38,
               39,
-              39,
-              41,
-              41,
-              43,
-              47,
-              49,
-              49,
-              53,
               54,
-              55,
               56,
               57,
-              58,
-              59,
               61,
               61,
-              62,
               67,
               70,
               71,
               73,
-              73,
-              75,
-              77,
-              77,
-              82,
-              85,
               86,
-              90,
-              93,
-              99,
-              99,
               104,
               104,
-              105,
-              105,
-              111,
-              112,
               114,
-              115,
               116,
-              120,
               123,
               123,
               127,
-              132,
-              138,
               146,
-              158,
               164,
               189,
               190,
               196,
               200,
-              210,
-              212,
               239,
               241,
               245,
@@ -2162,40 +2240,26 @@
               288,
               289,
               303,
-              303,
               336,
-              351,
-              354,
               370,
-              417,
               436,
               466,
               537,
               618,
               630,
               680,
-              732,
-              777,
-              814,
-              1117,
-              1640,
-              1640,
-              1753,
-              1825,
               1849,
               2104,
-              2144,
-              2753,
-              3692,
-              5242
+              2144
             ]
           },
           "from_source": {
-            "median": 148,
-            "n": 86
+            "median": 199,
+            "n": 48
           }
         },
-        "manual_pct": 59.2
+        "manual_pct": 27.7,
+        "other_pct": 28.6
       }
     },
     {
@@ -2204,7 +2268,7 @@
       "key": true,
       "paths": {
         "all": {
-          "posts": 246,
+          "posts": 233,
           "race": {
             "n": 170,
             "median_gap": 94,
@@ -2380,11 +2444,17 @@
               5156,
               5684,
               7189
-            ]
+            ],
+            "underdog_before_source_pct": 11.4,
+            "before_source": {
+              "n": 18,
+              "monitor_had_earlier": 4,
+              "monitor_never_had": 14
+            }
           },
           "from_source": {
-            "median": 140,
-            "n": 132
+            "median": 145,
+            "n": 159
           }
         },
         "monitor": {
@@ -2473,11 +2543,16 @@
               4994,
               5156
             ],
-            "underdog_before_source_pct": 14.1
+            "underdog_before_source_pct": 14.1,
+            "before_source": {
+              "n": 11,
+              "monitor_had_earlier": 4,
+              "monitor_never_had": 7
+            }
           },
           "from_source": {
-            "median": 136,
-            "n": 66
+            "median": 142,
+            "n": 78
           },
           "steps": {
             "sent_to_monitor": {
@@ -2504,11 +2579,11 @@
           }
         },
         "manual": {
-          "posts": 145,
+          "posts": 113,
           "race": {
-            "n": 92,
-            "median_gap": 102,
-            "underdog_first_pct": 92.4,
+            "n": 80,
+            "median_gap": 90,
+            "underdog_first_pct": 91.2,
             "gaps": [
               -13094,
               -12245,
@@ -2540,7 +2615,6 @@
               65,
               66,
               68,
-              68,
               69,
               72,
               78,
@@ -2548,8 +2622,6 @@
               80,
               80,
               81,
-              83,
-              84,
               84,
               87,
               88,
@@ -2557,7 +2629,6 @@
               93,
               101,
               103,
-              108,
               109,
               120,
               127,
@@ -2569,7 +2640,6 @@
               155,
               157,
               161,
-              161,
               184,
               187,
               188,
@@ -2580,19 +2650,12 @@
               232,
               253,
               258,
-              262,
               269,
               279,
               293,
-              327,
               409,
-              443,
               460,
               809,
-              940,
-              966,
-              994,
-              1008,
               1030,
               2564,
               2678,
@@ -2602,14 +2665,51 @@
               4275,
               5684,
               7189
+            ],
+            "underdog_before_source_pct": 8.8,
+            "before_source": {
+              "n": 7,
+              "monitor_had_earlier": 0,
+              "monitor_never_had": 7
+            }
+          },
+          "from_source": {
+            "median": 141,
+            "n": 70
+          },
+          "add_line_to_x": {
+            "median": null,
+            "n": 0
+          }
+        },
+        "other": {
+          "posts": 19,
+          "race": {
+            "n": 12,
+            "median_gap": 294,
+            "underdog_first_pct": 100.0,
+            "gaps": [
+              68,
+              83,
+              84,
+              108,
+              161,
+              262,
+              327,
+              443,
+              940,
+              966,
+              994,
+              1008
             ]
           },
           "from_source": {
-            "median": 154,
-            "n": 66
+            "median": 331,
+            "n": 11
           }
         },
-        "manual_pct": 58.9
+        "manual_pct": 48.5,
+        "other_pct": 8.2
       }
     },
     {
@@ -2618,13 +2718,12 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 132,
+          "posts": 121,
           "race": {
-            "n": 88,
+            "n": 86,
             "median_gap": 122,
-            "underdog_first_pct": 85.2,
+            "underdog_first_pct": 86.0,
             "gaps": [
-              -4694,
               -4694,
               -4452,
               -1619,
@@ -2681,7 +2780,6 @@
               174,
               175,
               186,
-              192,
               192,
               201,
               209,
@@ -2712,21 +2810,26 @@
               4107,
               12610,
               19034
-            ]
+            ],
+            "underdog_before_source_pct": 15.7,
+            "before_source": {
+              "n": 13,
+              "monitor_had_earlier": 3,
+              "monitor_never_had": 10
+            }
           },
           "from_source": {
-            "median": 188,
-            "n": 79
+            "median": 212,
+            "n": 86
           }
         },
         "monitor": {
-          "posts": 75,
+          "posts": 73,
           "race": {
-            "n": 54,
+            "n": 52,
             "median_gap": 119,
-            "underdog_first_pct": 87.0,
+            "underdog_first_pct": 88.5,
             "gaps": [
-              -4694,
               -4694,
               -4452,
               -976,
@@ -2759,7 +2862,6 @@
               135,
               153,
               192,
-              192,
               201,
               212,
               218,
@@ -2781,11 +2883,16 @@
               4107,
               19034
             ],
-            "underdog_before_source_pct": 18.5
+            "underdog_before_source_pct": 19.2,
+            "before_source": {
+              "n": 10,
+              "monitor_had_earlier": 3,
+              "monitor_never_had": 7
+            }
           },
           "from_source": {
-            "median": 173,
-            "n": 47
+            "median": 232,
+            "n": 52
           },
           "steps": {
             "sent_to_monitor": {
@@ -2812,13 +2919,12 @@
           }
         },
         "manual": {
-          "posts": 57,
+          "posts": 43,
           "race": {
-            "n": 34,
-            "median_gap": 134,
-            "underdog_first_pct": 82.4,
+            "n": 31,
+            "median_gap": 135,
+            "underdog_first_pct": 83.9,
             "gaps": [
-              -1619,
               -324,
               -80,
               -30,
@@ -2826,7 +2932,6 @@
               -3,
               9,
               12,
-              20,
               46,
               59,
               64,
@@ -2843,7 +2948,6 @@
               174,
               175,
               186,
-              209,
               247,
               275,
               328,
@@ -2852,14 +2956,42 @@
               779,
               2953,
               12610
+            ],
+            "underdog_before_source_pct": 9.7,
+            "before_source": {
+              "n": 3,
+              "monitor_had_earlier": 0,
+              "monitor_never_had": 3
+            }
+          },
+          "from_source": {
+            "median": 198,
+            "n": 31
+          },
+          "add_line_to_x": {
+            "median": null,
+            "n": 0
+          }
+        },
+        "other": {
+          "posts": 5,
+          "race": {
+            "n": 3,
+            "median_gap": 20,
+            "underdog_first_pct": 66.7,
+            "gaps": [
+              -1619,
+              20,
+              209
             ]
           },
           "from_source": {
-            "median": 204,
-            "n": 32
+            "median": 227,
+            "n": 3
           }
         },
-        "manual_pct": 43.2
+        "manual_pct": 35.5,
+        "other_pct": 4.1
       }
     },
     {
@@ -2868,7 +3000,7 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 36,
+          "posts": 25,
           "race": {
             "n": 13,
             "median_gap": 235,
@@ -2887,11 +3019,17 @@
               418,
               459,
               828
-            ]
+            ],
+            "underdog_before_source_pct": 15.4,
+            "before_source": {
+              "n": 2,
+              "monitor_had_earlier": 0,
+              "monitor_never_had": 2
+            }
           },
           "from_source": {
-            "median": 322,
-            "n": 11
+            "median": 327,
+            "n": 13
           }
         },
         "monitor": {
@@ -2912,11 +3050,16 @@
               459,
               828
             ],
-            "underdog_before_source_pct": 20.0
+            "underdog_before_source_pct": 20.0,
+            "before_source": {
+              "n": 2,
+              "monitor_had_earlier": 0,
+              "monitor_never_had": 2
+            }
           },
           "from_source": {
-            "median": 324,
-            "n": 8
+            "median": 330,
+            "n": 10
           },
           "steps": {
             "sent_to_monitor": {
@@ -2943,7 +3086,7 @@
           }
         },
         "manual": {
-          "posts": 20,
+          "posts": 6,
           "race": {
             "n": 3,
             "median_gap": 83,
@@ -2952,14 +3095,38 @@
               -5741,
               83,
               317
-            ]
+            ],
+            "underdog_before_source_pct": 0.0,
+            "before_source": {
+              "n": 0,
+              "monitor_had_earlier": 0,
+              "monitor_never_had": 0
+            }
           },
           "from_source": {
             "median": 147,
             "n": 3
+          },
+          "add_line_to_x": {
+            "median": null,
+            "n": 0
           }
         },
-        "manual_pct": 55.6
+        "other": {
+          "posts": 3,
+          "race": {
+            "n": 0,
+            "median_gap": null,
+            "underdog_first_pct": null,
+            "gaps": []
+          },
+          "from_source": {
+            "median": null,
+            "n": 0
+          }
+        },
+        "manual_pct": 24.0,
+        "other_pct": 12.0
       }
     },
     {
@@ -2968,7 +3135,7 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 204,
+          "posts": 190,
           "race": {
             "n": 139,
             "median_gap": 114,
@@ -3113,11 +3280,17 @@
               3091,
               4263,
               5322
-            ]
+            ],
+            "underdog_before_source_pct": 14.2,
+            "before_source": {
+              "n": 19,
+              "monitor_had_earlier": 1,
+              "monitor_never_had": 18
+            }
           },
           "from_source": {
-            "median": 216,
-            "n": 86
+            "median": 217,
+            "n": 131
           }
         },
         "monitor": {
@@ -3195,42 +3368,47 @@
               2144,
               4263
             ],
-            "underdog_before_source_pct": 16.4
+            "underdog_before_source_pct": 16.4,
+            "before_source": {
+              "n": 11,
+              "monitor_had_earlier": 1,
+              "monitor_never_had": 10
+            }
           },
           "from_source": {
-            "median": 217,
-            "n": 45
+            "median": 239,
+            "n": 67
           },
           "steps": {
             "sent_to_monitor": {
-              "median": 49,
-              "n": 92
+              "median": 42,
+              "n": 100
             },
             "monitor_to_open": {
-              "median": null,
-              "n": 0
+              "median": 89,
+              "n": 8
             },
             "open_to_x": {
-              "median": null,
-              "n": 0
+              "median": 54,
+              "n": 8
             },
             "monitor_to_x": {
-              "median": 178,
-              "n": 92
+              "median": 173,
+              "n": 100
             },
             "split": false,
             "edited": {
               "pct": 100.0,
-              "n": 92
+              "n": 100
             }
           }
         },
         "manual": {
-          "posts": 117,
+          "posts": 93,
           "race": {
-            "n": 72,
-            "median_gap": 107,
-            "underdog_first_pct": 87.5,
+            "n": 67,
+            "median_gap": 105,
+            "underdog_first_pct": 86.6,
             "gaps": [
               -16799,
               -15134,
@@ -3247,7 +3425,6 @@
               31,
               32,
               33,
-              36,
               38,
               45,
               50,
@@ -3280,7 +3457,6 @@
               146,
               159,
               159,
-              168,
               187,
               192,
               192,
@@ -3291,8 +3467,6 @@
               223,
               224,
               254,
-              257,
-              261,
               269,
               357,
               457,
@@ -3301,17 +3475,46 @@
               661,
               718,
               756,
-              819,
               3091,
               5322
+            ],
+            "underdog_before_source_pct": 11.9,
+            "before_source": {
+              "n": 8,
+              "monitor_had_earlier": 0,
+              "monitor_never_had": 8
+            }
+          },
+          "from_source": {
+            "median": 175,
+            "n": 61
+          },
+          "add_line_to_x": {
+            "median": 261,
+            "n": 2
+          }
+        },
+        "other": {
+          "posts": 10,
+          "race": {
+            "n": 5,
+            "median_gap": 257,
+            "underdog_first_pct": 100.0,
+            "gaps": [
+              36,
+              168,
+              257,
+              261,
+              819
             ]
           },
           "from_source": {
-            "median": 186,
-            "n": 41
+            "median": 256,
+            "n": 3
           }
         },
-        "manual_pct": 57.4
+        "manual_pct": 48.9,
+        "other_pct": 5.3
       }
     },
     {
@@ -3320,7 +3523,7 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 220,
+          "posts": 208,
           "race": {
             "n": 154,
             "median_gap": 102,
@@ -3480,11 +3683,17 @@
               7680,
               7771,
               9219
-            ]
+            ],
+            "underdog_before_source_pct": 14.2,
+            "before_source": {
+              "n": 21,
+              "monitor_had_earlier": 2,
+              "monitor_never_had": 19
+            }
           },
           "from_source": {
-            "median": 149,
-            "n": 111
+            "median": 170,
+            "n": 138
           }
         },
         "monitor": {
@@ -3575,11 +3784,16 @@
               7771,
               9219
             ],
-            "underdog_before_source_pct": 22.5
+            "underdog_before_source_pct": 22.5,
+            "before_source": {
+              "n": 18,
+              "monitor_had_earlier": 2,
+              "monitor_never_had": 16
+            }
           },
           "from_source": {
-            "median": 159,
-            "n": 60
+            "median": 252,
+            "n": 80
           },
           "steps": {
             "sent_to_monitor": {
@@ -3606,11 +3820,11 @@
           }
         },
         "manual": {
-          "posts": 111,
+          "posts": 89,
           "race": {
-            "n": 74,
-            "median_gap": 86,
-            "underdog_first_pct": 90.5,
+            "n": 68,
+            "median_gap": 83,
+            "underdog_first_pct": 89.7,
             "gaps": [
               -12976,
               -53,
@@ -3646,7 +3860,6 @@
               79,
               81,
               82,
-              82,
               84,
               85,
               86,
@@ -3662,7 +3875,6 @@
               110,
               111,
               111,
-              111,
               112,
               114,
               123,
@@ -3676,24 +3888,51 @@
               189,
               190,
               192,
-              247,
               248,
-              254,
               255,
               272,
               423,
               938,
-              965,
-              3183,
               7680
+            ],
+            "underdog_before_source_pct": 4.4,
+            "before_source": {
+              "n": 3,
+              "monitor_had_earlier": 0,
+              "monitor_never_had": 3
+            }
+          },
+          "from_source": {
+            "median": 136,
+            "n": 54
+          },
+          "add_line_to_x": {
+            "median": null,
+            "n": 0
+          }
+        },
+        "other": {
+          "posts": 10,
+          "race": {
+            "n": 6,
+            "median_gap": 250,
+            "underdog_first_pct": 100.0,
+            "gaps": [
+              82,
+              111,
+              247,
+              254,
+              965,
+              3183
             ]
           },
           "from_source": {
-            "median": 142,
-            "n": 51
+            "median": 269,
+            "n": 4
           }
         },
-        "manual_pct": 50.5
+        "manual_pct": 42.8,
+        "other_pct": 4.8
       }
     },
     {
@@ -3702,7 +3941,7 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 38,
+          "posts": 34,
           "race": {
             "n": 28,
             "median_gap": 116,
@@ -3736,11 +3975,17 @@
               931,
               1039,
               4339
-            ]
+            ],
+            "underdog_before_source_pct": 8.3,
+            "before_source": {
+              "n": 2,
+              "monitor_had_earlier": 0,
+              "monitor_never_had": 2
+            }
           },
           "from_source": {
-            "median": 176,
-            "n": 22
+            "median": 200,
+            "n": 24
           }
         },
         "monitor": {
@@ -3762,11 +4007,16 @@
               1039,
               4339
             ],
-            "underdog_before_source_pct": 9.1
+            "underdog_before_source_pct": 9.1,
+            "before_source": {
+              "n": 1,
+              "monitor_had_earlier": 0,
+              "monitor_never_had": 1
+            }
           },
           "from_source": {
-            "median": 196,
-            "n": 10
+            "median": 310,
+            "n": 11
           },
           "steps": {
             "sent_to_monitor": {
@@ -3793,11 +4043,11 @@
           }
         },
         "manual": {
-          "posts": 26,
+          "posts": 16,
           "race": {
-            "n": 17,
-            "median_gap": 116,
-            "underdog_first_pct": 82.4,
+            "n": 13,
+            "median_gap": 75,
+            "underdog_first_pct": 76.9,
             "gaps": [
               -79,
               -63,
@@ -3806,24 +4056,49 @@
               23,
               67,
               75,
-              84,
-              116,
               117,
               123,
               144,
               154,
               187,
-              208,
+              208
+            ],
+            "underdog_before_source_pct": 7.7,
+            "before_source": {
+              "n": 1,
+              "monitor_had_earlier": 0,
+              "monitor_never_had": 1
+            }
+          },
+          "from_source": {
+            "median": 144,
+            "n": 10
+          },
+          "add_line_to_x": {
+            "median": null,
+            "n": 0
+          }
+        },
+        "other": {
+          "posts": 6,
+          "race": {
+            "n": 4,
+            "median_gap": 186,
+            "underdog_first_pct": 100.0,
+            "gaps": [
+              84,
+              116,
               256,
               931
             ]
           },
           "from_source": {
-            "median": 170,
-            "n": 12
+            "median": 365,
+            "n": 3
           }
         },
-        "manual_pct": 68.4
+        "manual_pct": 47.1,
+        "other_pct": 17.6
       }
     }
   ]

@@ -11,9 +11,9 @@ time into the three steps the desk can work on:
 
 Joining: a RotoWire post in the tracker is the same post as a Desk Speed row when the
 row's posted_to_x_at equals the post's created_at (within 2s, and only one row there).
-Posts with no row were added by hand (News Admin's Add Line, which the timeline leaves
-out) or, rarely, posted outside News Admin. Fewer of those is a goal in itself: each one
-is an editor writing a post from scratch, so the share is tracked week by week.
+Add Line posts come back as rows flagged manual (RD-8163); posts with no row at all went
+out outside News Admin. Fewer Add Line posts is a goal in itself: each one is an editor
+writing a post from scratch, so the share is tracked week by week.
 
 Underdog's time is measured from the same source tweet our Monitor ingested, on the
 stories both accounts posted, so both bars start on one clock.
@@ -120,6 +120,7 @@ def _stat(xs: list) -> dict:
 
 def _steps(rows: list[dict]) -> dict:
     """Step medians over Monitor-posted rows. Step 2 = draft + wait to open."""
+    rows = [r for r in rows if not _is_manual(r)]
     opened = [r for r in rows if r.get("draft_to_open_seconds") is not None
               and r.get("open_to_x_seconds") is not None]
     s2 = [(r.get("ingest_to_draft_seconds") or 0) + r["draft_to_open_seconds"] for r in opened]
@@ -156,6 +157,17 @@ def _join(stories: list[dict], rows: list[dict]) -> list[tuple[dict, dict]]:
     return pairs
 
 
+def _is_manual(r: dict) -> bool:
+    """An Add Line post (News Admin flags these since RD-8163); older rows are Monitor rows."""
+    return r.get("manual") is True
+
+
+def _source_at(r: dict) -> str | None:
+    """When the source tweet went out. On an Add Line row tweet_posted_at is when the
+    Add Line record was made, not a tweet, so the credited source tweet is used instead."""
+    return r.get("source_tweet_posted_at") if _is_manual(r) else r.get("tweet_posted_at")
+
+
 def _race(pairs: list[tuple[dict, dict]]) -> dict:
     """The gap on stories both accounts posted, measured story by story.
 
@@ -165,42 +177,51 @@ def _race(pairs: list[tuple[dict, dict]]) -> dict:
     per-story gap by S, so `gaps` (sorted) answers "if we were S faster, how often would
     we be first" exactly: the share of gaps below S.
 
-    Underdog sometimes posts before the source tweet our Monitor picked up (they had an
-    earlier report). No step cut wins those; they stay in the gaps and are counted
-    separately as a sourcing loss.
+    When Underdog posts before our source tweet, earlier_monitor_tweet (RD-8164) says
+    whether the Monitor already held an earlier tweet about the player by then (the desk
+    used a later one) or not (an account we don't watch, or a live press conference).
     """
-    gaps, ud = [], []
+    gaps, before, had = [], 0, 0
     for s, r in pairs:
         if s.get("status") != "matched" or not s.get("underdog"):
             continue
-        src = parse_dt(r["tweet_posted_at"])
         rw_t, ud_t = parse_dt(s["rotowire"]["created_at"]), parse_dt(s["underdog"]["created_at"])
         gaps.append(round((rw_t - ud_t).total_seconds()))
-        ud.append((ud_t - src).total_seconds())
+        src = _source_at(r)
+        if src and ud_t < parse_dt(src):
+            before += 1
+            e = r.get("earlier_monitor_tweet") or {}
+            if e.get("ingested_at") and parse_dt(e["ingested_at"]) <= ud_t:
+                had += 1
     n = len(gaps)
     return {
         "n": n,
         "median_gap": _med(gaps),
         "underdog_first_pct": round(100 * sum(g > 0 for g in gaps) / n, 1) if n else None,
-        "underdog_before_source_pct": round(100 * sum(u < 0 for u in ud) / n, 1) if n else None,
-        # Underdog's own time to post, on the stories where the source was the same start
-        # for both of us (they posted after our source tweet). Context only, not the target.
-        "underdog_from_source": _med([u for u in ud if u >= 0]),
+        "underdog_before_source_pct": round(100 * before / n, 1) if n else None,
+        # Of those: the Monitor already had an earlier tweet about the player when
+        # Underdog posted, vs it never had one in time.
+        "before_source": {"n": before, "monitor_had_earlier": had, "monitor_never_had": before - had},
         "gaps": sorted(gaps),
     }
 
 
 def _path(stories: list[dict], pairs: list[tuple[dict, dict]] | None = None) -> dict:
-    """Gap to Underdog for one set of our posts (all, from Monitor, or added by hand).
+    """Gap to Underdog for one set of our posts (all, from Monitor, added by hand, other).
 
-    Gaps are per story (our post minus Underdog's), so they work for any path. Time from
-    source uses the tracker's own source lookup (rotowire_secs_from_source), which exists
-    for Add Line posts too; Monitor posts additionally get the desk's step split.
+    Time from source: News Admin's own source stamp where the row has one (Monitor rows,
+    and Add Line posts that credit a source tweet), else the tracker's source lookup.
     """
     matched = [s for s in stories if s.get("status") == "matched" and s.get("underdog")]
     gaps = sorted(round((parse_dt(s["rotowire"]["created_at"]) - parse_dt(s["underdog"]["created_at"])).total_seconds())
                   for s in matched)
-    src = [s.get("rotowire_secs_from_source") for s in matched]
+    row_of = {id(s): r for s, r in (pairs or [])}
+    src = []
+    for s in matched:
+        r = row_of.get(id(s))
+        at = _source_at(r) if r else None
+        src.append((parse_dt(s["rotowire"]["created_at"]) - parse_dt(at)).total_seconds() if at
+                   else s.get("rotowire_secs_from_source"))
     out = {
         "posts": len(stories),
         "race": {
@@ -209,10 +230,12 @@ def _path(stories: list[dict], pairs: list[tuple[dict, dict]] | None = None) -> 
             "underdog_first_pct": round(100 * sum(g > 0 for g in gaps) / len(gaps), 1) if gaps else None,
             "gaps": gaps,
         },
-        "from_source": _stat(src),
+        "from_source": _stat([x for x in src if x is None or x >= 0]),
     }
-    if pairs is not None:
-        out["race"]["underdog_before_source_pct"] = _race(pairs)["underdog_before_source_pct"]
+    if pairs:
+        r = _race(pairs)
+        out["race"]["underdog_before_source_pct"] = r["underdog_before_source_pct"]
+        out["race"]["before_source"] = r["before_source"]
     return out
 
 
@@ -221,26 +244,47 @@ def _is_reply(story: dict, tweets: dict[str, dict]) -> bool:
     return any(r.get("type") == "replied_to" for r in t.get("referenced_tweets") or [])
 
 
-def _paths(stories: list[dict], rows: list[dict]) -> dict:
-    """Split our root posts into those sent from a Monitor tweet and the rest.
-
-    The rest are almost all manual Add Line posts in News Admin; a small share (~2%) went
-    out outside News Admin entirely. The timeline has no Add Line rows, so they can only be
-    told apart by elimination until News Admin flags them.
-    """
+def _split(stories: list[dict], rows: list[dict]):
+    """Our posts by how they were made: from a Monitor tweet, Add Line, or neither
+    (posted outside News Admin)."""
     pairs = _join(stories, rows)
+    mon = [(s, r) for s, r in pairs if not _is_manual(r)]
+    man = [(s, r) for s, r in pairs if _is_manual(r)]
     joined = {id(s) for s, _ in pairs}
-    monitor = [s for s in stories if id(s) in joined]
-    manual = [s for s in stories if id(s) not in joined]
-    m = _path(monitor, pairs)
-    m["steps"] = _steps(rows)
+    other = [s for s in stories if id(s) not in joined]
+    return mon, man, other
+
+
+def _paths(stories: list[dict], rows: list[dict]) -> dict:
+    mon, man, other = _split(stories, rows)
+    m = _path([s for s, _ in mon], mon)
+    m["steps"] = _steps([r for r in rows if not _is_manual(r)])
+    h = _path([s for s, _ in man], man)
+    hand = [r for r in rows if _is_manual(r)]
+    h["add_line_to_x"] = _stat([r.get("add_line_to_x_seconds") for r in hand])
     total = len(stories)
     return {
-        "all": _path(stories),
+        "all": _path(stories, mon + man),
         "monitor": m,
-        "manual": _path(manual),
-        "manual_pct": round(100 * len(manual) / total, 1) if total else None,
+        "manual": h,
+        "other": _path(other),
+        "manual_pct": round(100 * len(man) / total, 1) if total else None,
+        "other_pct": round(100 * len(other) / total, 1) if total else None,
     }
+
+
+def _one_per_post(stories: list[dict]) -> list[dict]:
+    """One entry per post of ours. A roundup post is split into a story per player, which
+    would count the same post (and its race) several times; keep its earliest matched one."""
+    best: dict[str, dict] = {}
+    for s in stories:
+        k = s["rotowire"].get("tweet_id")
+        cur = best.get(k)
+        matched = s.get("status") == "matched" and s.get("underdog")
+        if cur is None or (matched and not (cur.get("status") == "matched" and cur.get("underdog"))) or (
+                matched and parse_dt(s["underdog"]["created_at"]) < parse_dt(cur["underdog"]["created_at"])):
+            best[k] = s
+    return list(best.values())
 
 
 def _week(t: str) -> str:
@@ -258,7 +302,7 @@ def build(data_dir: Path, docs_dir: Path, stories: list[dict], now: datetime | N
     start = max(now - timedelta(days=WINDOW_DAYS), first_row)
     in_win = lambda t, frm=start: t and frm <= parse_dt(t) <= now
     # Our root posts only: replies under our own tweets are follow-ups, not races.
-    ours = [s for s in stories if s.get("rotowire") and not _is_reply(s, tweets)]
+    ours = _one_per_post([s for s in stories if s.get("rotowire") and not _is_reply(s, tweets)])
     rows = [r for r in all_rows if in_win(r["posted_to_x_at"])]
     win = [s for s in ours if in_win(s["rotowire"]["created_at"])]
     day = lambda t: WEEKDAYS[parse_dt(t).astimezone(TZ).weekday()]
@@ -266,11 +310,12 @@ def build(data_dir: Path, docs_dir: Path, stories: list[dict], now: datetime | N
     # Share of posts added by hand, week by week, over all the timeline history we hold.
     hist = [s for s in ours if in_win(s["rotowire"]["created_at"], first_row)]
     weeks: dict[str, list] = {}
-    joined = {id(s) for s, _ in _join(hist, all_rows)}
+    _, man, _ = _split(hist, all_rows)
+    hand = {id(s) for s, _ in man}
     for s in hist:
         w = weeks.setdefault(_week(s["rotowire"]["created_at"]), [0, 0])
         w[0] += 1
-        w[1] += id(s) not in joined
+        w[1] += id(s) in hand
     weekly = [{"week": k, "posts": v[0], "manual": v[1], "pct": round(100 * v[1] / v[0], 1)}
               for k, v in sorted(weeks.items())]
 

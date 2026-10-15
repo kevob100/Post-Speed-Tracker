@@ -53,16 +53,40 @@ def test_steps_fall_back_to_combined_without_enough_opens():
     assert st["edited"] == {"pct": 100.0, "n": 3}
 
 
-def test_paths_split_monitor_from_hand_added_and_count_share():
+def test_paths_split_monitor_add_line_and_other():
     stories = [
         _story(1, "2026-10-12T18:03:00Z", "2026-10-12T18:01:00Z"),  # from Monitor
-        _story(2, "2026-10-12T19:01:00Z", "2026-10-12T19:02:00Z"),  # added by hand
-        _story(3, "2026-10-12T20:00:00Z"),                          # added by hand, no UD
+        _story(2, "2026-10-12T19:01:00Z", "2026-10-12T19:02:00Z"),  # Add Line
+        _story(3, "2026-10-12T20:00:00Z"),                          # outside News Admin
     ]
-    rows = [_row("a", "2026-10-12T18:00:00Z", "2026-10-12T18:03:00Z")]
+    rows = [_row("a", "2026-10-12T18:00:00Z", "2026-10-12T18:03:00Z"),
+            _row("manual:x", "2026-10-12T19:00:50Z", "2026-10-12T19:01:00Z", manual=True,
+                 source_tweet_posted_at="2026-10-12T18:58:00Z", add_line_to_x_seconds=40,
+                 arrival_seconds=0)]
     p = ds._paths(stories, rows)
-    assert p["monitor"]["posts"] == 1 and p["manual"]["posts"] == 2
-    assert p["manual_pct"] == round(200 / 3, 1)
-    assert p["all"]["race"]["gaps"] == [-60, 120]
+    assert p["monitor"]["posts"] == 1 and p["manual"]["posts"] == 1 and p["other"]["posts"] == 1
+    assert p["manual_pct"] == round(100 / 3, 1)
     assert p["manual"]["race"]["gaps"] == [-60]
-    assert "steps" in p["monitor"] and "steps" not in p["manual"]
+    assert p["manual"]["from_source"]["median"] == 180  # from the credited source tweet, not the record
+    assert p["manual"]["add_line_to_x"] == {"median": 40, "n": 1}
+    assert p["monitor"]["steps"]["sent_to_monitor"]["n"] == 1  # Add Line rows stay out of the steps
+
+
+def test_before_source_split_uses_earlier_monitor_tweet():
+    stories = [_story(1, "2026-10-12T18:05:00Z", "2026-10-12T17:59:00Z"),
+               _story(2, "2026-10-12T19:05:00Z", "2026-10-12T18:59:00Z")]
+    rows = [_row("a", "2026-10-12T18:00:00Z", "2026-10-12T18:05:00Z",
+                 earlier_monitor_tweet={"tweet_id": "e", "account": "X", "posted_at": "2026-10-12T17:57:00Z",
+                                        "ingested_at": "2026-10-12T17:58:00Z"}),
+            _row("b", "2026-10-12T19:00:00Z", "2026-10-12T19:05:00Z")]
+    r = ds._race(ds._join(stories, rows))
+    assert r["before_source"] == {"n": 2, "monitor_had_earlier": 1, "monitor_never_had": 1}
+
+
+def test_one_per_post_collapses_roundups():
+    a = _story(1, "2026-10-12T18:03:00Z", "2026-10-12T18:05:00Z")
+    b = _story(2, "2026-10-12T18:03:00Z", "2026-10-12T18:01:00Z")
+    b["rotowire"]["tweet_id"] = a["rotowire"]["tweet_id"]
+    c = _story(3, "2026-10-12T19:00:00Z")
+    out = ds._one_per_post([a, b, c])
+    assert [s["story_id"] for s in out] == [2, 3]  # earliest matched Underdog post kept
