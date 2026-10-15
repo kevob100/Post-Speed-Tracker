@@ -27,7 +27,7 @@
   .page-seg { margin: 4px 0; }
   .page-seg button { font-size: 14px; padding: 6px 14px; font-weight: 600; }
   /* Audience page: everything that compares post times steps aside. */
-  body.page-audience #lead, body.page-audience #trend, body.page-audience #kpis, body.page-audience #eras,
+  body.page-audience #lead, body.page-audience #trend, body.page-audience #kpis, body.page-audience #desk, body.page-audience #eras,
   body.page-audience #tabs-wrap, body.page-audience [id^="view-"]:not(#view-all) { display: none !important; }
   h1 { font-size: 20px; margin: 0 0 2px; }
   .sub { color: var(--muted); font-size: 12px; }
@@ -362,6 +362,78 @@
   }
   #view-all tr.total-row td.sport-name { color: var(--accent); }
   .go { color: var(--muted); font-size: 12px; }
+
+  /* Desk Speed: where our time goes, step by step (data: desk_speed.json) */
+  #desk { padding: 16px 18px 18px; margin: 0 0 20px; --s1: #8fdbe6; --s2: #1fa2b8; --s3: #157f92; }
+  @media (max-width: 640px) { #desk { padding: 14px 14px 16px; } }
+  #desk h2 { font-size: 20px; font-weight: 650; margin: 0 0 4px; line-height: 1.25; }
+  #desk .dek { color: var(--muted); margin: 0 0 14px; }
+  #desk .dek b { color: var(--text); font-weight: 600; }
+  #desk h3 { font-size: 14px; margin: 26px 0 2px; }
+  #desk svg { display: block; width: 100%; height: auto; overflow: visible; }
+  #desk svg text { font-size: 12px; font-variant-numeric: tabular-nums; }
+  .dk-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-start; gap: 8px 16px; }
+  .dk-btn { background: var(--panel2); color: var(--text); border: 1px solid var(--line); border-radius: 8px;
+    font: inherit; font-size: 12px; font-weight: 600; padding: 6px 12px; cursor: pointer; white-space: nowrap; }
+  .dk-btn:hover { border-color: var(--muted); }
+  .dk-btn[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #0f1419; }
+  .dk-btn:focus-visible, .dk-seg button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .dk-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; color: var(--muted); margin-top: 8px; }
+  .dk-key i { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 6px; vertical-align: -1px; }
+  .dk-key .mk { width: 0; height: 12px; border-left: 2px dashed var(--red); border-radius: 0; margin-right: 8px; vertical-align: -2px; }
+  .dk-note { color: var(--muted); font-size: 12px; margin-top: 10px; }
+  .dk-note b { color: var(--text); font-weight: 600; }
+  .dk-steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin-top: 18px; }
+  @media (max-width: 760px) { .dk-steps { grid-template-columns: minmax(0, 1fr); gap: 14px; } }
+  .dk-step { border-top: 3px solid var(--c); padding-top: 10px; }
+  .dk-step .nm { font-size: 12px; font-weight: 600; }
+  .dk-step .v { font-size: 24px; font-weight: 650; margin: 2px 0; font-variant-numeric: tabular-nums; }
+  .dk-step .v small { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 4px; }
+  .dk-step .lv { font-size: 12px; color: var(--muted); }
+  .dk-step .lv b { color: var(--text); font-weight: 600; }
+  .dk-step .ed { margin-top: 6px; font-size: 12px; color: var(--muted); }
+  .dk-step .ed b { color: var(--text); }
+  .dk-meter { height: 6px; background: var(--panel2); border-radius: 3px; overflow: hidden; margin-top: 4px; }
+  .dk-meter span { display: block; height: 100%; background: var(--s3); border-radius: 3px; }
+  .dk-step input[type=range] { width: 100%; accent-color: var(--accent); margin: 10px 0 0; }
+  .dk-step .tg { font-size: 12px; color: var(--muted); display: flex; justify-content: space-between; }
+  .dk-step .tg b { color: var(--text); }
+  .dk-verdict { margin-top: 14px; font-size: 16px; font-weight: 650; }
+  .dk-verdict .up { color: var(--green); }
+  .dk-reset { margin-left: 10px; background: none; border: 0; color: var(--accent); font: inherit; font-size: 12px; cursor: pointer; padding: 0; }
+  .dk-seg { display: inline-flex; border: 1px solid var(--line); border-radius: 8px; overflow: hidden; margin: 8px 0 12px; }
+  .dk-seg button { background: none; border: 0; color: var(--muted); font: inherit; font-size: 12px; padding: 6px 12px; cursor: pointer; }
+  .dk-seg button + button { border-left: 1px solid var(--line); }
+  .dk-seg button:hover { color: var(--text); }
+  .dk-seg button.on { background: var(--accent); color: #0f1419; font-weight: 600; }
+  .dk-tip { position: fixed; pointer-events: none; background: var(--panel2); border: 1px solid var(--line); border-radius: 6px;
+    padding: 6px 9px; font-size: 12px; color: var(--text); box-shadow: 0 6px 18px rgba(0,0,0,.35); opacity: 0;
+    transition: opacity .1s; z-index: 20; max-width: 280px; }
+  .dk-tip.on { opacity: 1; }
+  .dk-tip span { color: var(--muted); }
+  #desk { --hand: #a7b4c2; }
+  .dk-ctl { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .dk-ctl .dk-seg { margin: 0; }
+  .dk-grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(220px, 1fr); gap: 16px 24px; margin-top: 18px; }
+  @media (max-width: 900px) { .dk-grid { grid-template-columns: minmax(0, 1fr); } }
+  .dk-grid .dk-steps { margin-top: 0; }
+  .dk-step .sub, #desk .sub { color: var(--muted); font-weight: 400; }
+  .dk-hand { border-top: 3px solid var(--hand); padding-top: 10px; }
+  .dk-hand .nm { font-size: 12px; font-weight: 600; }
+  .dk-hand .v { font-size: 24px; font-weight: 650; margin: 2px 0; font-variant-numeric: tabular-nums; }
+  .dk-hand .v small { font-size: 12px; color: var(--muted); font-weight: 400; margin-left: 4px; }
+  .dk-hand .lv { font-size: 12px; color: var(--muted); }
+  .dk-hand .lv b { color: var(--text); }
+  .dk-weeks { display: flex; gap: 6px; align-items: flex-end; margin-top: 10px; }
+  .dk-weeks .wk { flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px; font-size: 11px; color: var(--muted); font-variant-numeric: tabular-nums; }
+  .dk-weeks .col { width: 100%; max-width: 28px; height: 56px; display: flex; align-items: flex-end; }
+  .dk-weeks .col i { display: block; width: 100%; background: var(--hand); border-radius: 3px 3px 0 0; }
+  .dk-weeks .wk.full .pct { color: var(--text); font-weight: 600; }
+  .dk-empty { color: var(--muted); font-size: 12px; margin: 0; }
+  .dk-table { width: 100%; border-collapse: collapse; font-size: 12px; font-variant-numeric: tabular-nums; }
+  .dk-table th { text-align: left; color: var(--muted); font-weight: 500; padding: 6px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  .dk-table td { padding: 7px 8px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+  #dk-days { overflow-x: auto; }
 </style>
 </head>
 <body>
@@ -382,6 +454,7 @@
   <section class="lead timing-lead hidden" id="lead"></section>
   <section class="panel trend" id="trend"></section>
   <div class="kpis" id="kpis"></div>
+  <section class="panel hidden" id="desk" aria-labelledby="desk-h"></section>
   <section class="panel trend hidden" id="eras"></section>
 
   <div class="tabs-wrap" id="tabs-wrap"><div class="tabs" id="tabs" role="tablist" aria-label="Views">
@@ -504,7 +577,10 @@ async function loadSport(sport) {
       fetch(base + "aggregates.json" + bust, { cache: "no-store" }).then(r => r.json()),
     ]);
     state.stories = s; state.agg = a;
+    state.desk = await fetch(base + "desk_speed.json" + bust, { cache: "no-store" })
+      .then(r => r.ok ? r.json() : null).catch(() => null);
   } catch (e) {
+    state.desk = null;
     state.stories = []; state.agg = { summary: {}, weekly: [], monthly: [] };
   }
   setMode(false);
@@ -534,6 +610,7 @@ function setMode(isAll) {
   document.getElementById("view-all").classList.toggle("hidden", !isAll);
   document.getElementById("kpis").classList.toggle("hidden", isAll);
   document.getElementById("trend").classList.toggle("hidden", isAll);
+  if (isAll) document.getElementById("desk").classList.add("hidden");
   document.getElementById("tabs-wrap").classList.toggle("hidden", isAll);
   applyTopMode();
   if (isAll) {
@@ -2332,6 +2409,7 @@ function init() {
     `<span id="generated">${gen ? "Updated " + esc(fmtTime(gen)) : ""}</span>`;
   renderKpis();
   renderTrend();
+  renderDesk();
 
   // event filter options
   const events = [...new Set(state.stories.map(s => s.event_class).filter(Boolean))].sort();
@@ -2378,6 +2456,205 @@ function init() {
 }
 
 boot();
+
+// ---------------------------------------------------------------- Desk Speed
+// Our time from the source tweet to our post against the gap to Underdog on stories both
+// accounts posted. Gaps are per story (our post minus theirs), so cutting S seconds from
+// every post lowers each gap by S, and the share we'd post first is the share of gaps below S.
+// Three views: all posts, posts sent from a Monitor tweet (split into the desk's three
+// steps), and posts added by hand (News Admin's Add Line), which have no steps to split.
+const DK_STEPS = [
+  { key: "sent_to_monitor", c: "s1", name: "Sent to in Monitor",
+    lever: "Faster ingestion, or editors pulling a tweet in by link" },
+  { key: "monitor_to_open", c: "s2", name: "In Monitor to opened",
+    lever: "Finding the tweet: alerts, paste-a-link" },
+  { key: "open_to_x", c: "s3", name: "Opened to on X",
+    lever: "Templates: a draft good enough to post untouched" },
+];
+const DK_PATHS = [["all", "All posts"], ["monitor", "From Monitor"], ["manual", "Added by hand"]];
+const dk = { sim: false, cut: [0, 0, 0], days: "key", path: "all" };
+const dkFmt = v => { v = Math.round(v); const a = Math.abs(v), m = Math.floor(a / 60), r = a % 60;
+  return (v < 0 ? "-" : "") + (m ? `${m}:${String(r).padStart(2, "0")}` : `${r}s`); };
+const dkNS = "http://www.w3.org/2000/svg";
+function dkEl(tag, attrs, parent) { const e = document.createElementNS(dkNS, tag);
+  for (const k in attrs) e.setAttribute(k, attrs[k]); if (parent) parent.appendChild(e); return e; }
+function dkTip(node, html) {
+  let tip = document.getElementById("dk-tip");
+  if (!tip) { tip = document.createElement("div"); tip.id = "dk-tip"; tip.className = "dk-tip"; document.body.appendChild(tip); }
+  node.addEventListener("pointermove", e => { tip.innerHTML = html; tip.classList.add("on");
+    tip.style.left = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8) + "px"; tip.style.top = (e.clientY + 14) + "px"; });
+  node.addEventListener("pointerleave", () => tip.classList.remove("on"));
+}
+// Bar segments for a path: Monitor posts split into steps (or In Monitor + the rest until
+// opens are tracked enough); hand-added posts are one span from the source tweet.
+function dkSegs(paths, kind) {
+  if (kind === "manual") { const f = paths.manual.from_source;
+    return f.median == null ? [] : [{ c: "hand", name: "Source tweet to on X, added by hand", v: f.median, n: f.n }]; }
+  const st = paths.monitor.steps;
+  if (st.split) return DK_STEPS.map(d => ({ c: d.c, name: d.name, v: st[d.key].median, n: st[d.key].n }));
+  return [{ c: "s1", name: "Sent to in Monitor", v: st.sent_to_monitor.median, n: st.sent_to_monitor.n },
+          { c: "s2", name: "In Monitor to on X (opens not tracked enough yet)", v: st.monitor_to_x.median, n: st.monitor_to_x.n }];
+}
+const dkSum = segs => segs.reduce((a, x) => a + (x.v || 0), 0);
+const dkFirstPct = (gaps, cut) => gaps.length ? 100 * gaps.filter(g => g < cut).length / gaps.length : null;
+
+// One horizontal bar: segments stacked, a dashed break-even mark where we'd post first on
+// half the shared stories, and (optionally) the stretch past it bracketed as the gap.
+function dkBar(svg, W, segs, gap, opts) {
+  const narrow = W < 560, labelW = opts.label ? (narrow ? 64 : 150) : 0, rowH = opts.rowH || 30, y = opts.top || 0;
+  const tot = dkSum(segs), even = tot - gap;
+  const x = v => labelW + (Math.max(0, v) / opts.max) * (W - labelW - 48);
+  if (opts.label) { const t = dkEl("text", { x: 0, y: y + rowH / 2 + 4, fill: "#e6edf3", "font-weight": 600 }, svg);
+    t.textContent = narrow ? opts.short || opts.label : opts.label; }
+  let acc = 0;
+  segs.forEach((sg, i) => {
+    const x0 = x(acc) + (i ? 1 : 0), x1 = x(acc + sg.v) - (i < segs.length - 1 ? 1 : 0);
+    const r = dkEl("rect", { x: x0, y, width: Math.max(0, x1 - x0), height: rowH, rx: 4, fill: `var(--${sg.c})` }, svg);
+    dkTip(r, `<b>${esc(sg.name)}</b> ${dkFmt(sg.v)} <span>median · n=${sg.n}</span>`);
+    if (!opts.small && x1 - x0 > 34) { const t = dkEl("text", { x: (x0 + x1) / 2, y: y + rowH / 2 + 4, "text-anchor": "middle",
+      fill: "#0f1419", "font-weight": 650 }, svg); t.textContent = dkFmt(sg.v); t.style.pointerEvents = "none"; }
+    acc += sg.v;
+  });
+  dkEl("text", { x: x(acc) + 6, y: y + rowH / 2 + 4, fill: "#e6edf3", "font-weight": 650 }, svg).textContent = dkFmt(acc);
+  if (gap > 0) {
+    dkEl("line", { x1: x(even), x2: x(even), y1: y - 5, y2: y + rowH + 5, stroke: "var(--red)", "stroke-width": 2, "stroke-dasharray": "4 3" }, svg);
+    const hit = dkEl("rect", { x: x(even) - 8, y: y - 5, width: 16, height: rowH + 10, fill: "transparent" }, svg);
+    dkTip(hit, `<b>Break-even ${dkFmt(Math.max(0, even))}</b><br><span>Post this fast and we're first on half the stories both accounts posted.</span>`);
+    if (opts.bracket) { const by = y + rowH + 12;
+      dkEl("path", { d: `M${x(even)},${by} v4 H${x(acc)} v-4`, fill: "none", stroke: "#8b98a5" }, svg);
+      dkEl("text", { x: (x(even) + x(acc)) / 2, y: by + 17, fill: "#8b98a5", "text-anchor": "middle" }, svg).textContent = `${dkFmt(gap)} to make up`; }
+  }
+  return x;
+}
+function dkAxis(svg, x, max, y, step) {
+  for (let t = 0; t <= max; t += step) {
+    const ln = dkEl("line", { x1: x(t), x2: x(t), y1: 0, y2: y - 14, stroke: "#2d3743" }, svg);
+    svg.insertBefore(ln, svg.firstChild);
+    dkEl("text", { x: x(t), y, fill: "#8b98a5", "text-anchor": "middle" }, svg).textContent = dkFmt(t);
+  }
+}
+
+function renderDesk() {
+  const host = document.getElementById("desk"), d = state.desk;
+  if (!host) return;
+  const P = d && d.paths;
+  if (!P || !P.all.race.n) { host.classList.add("hidden"); host.innerHTML = ""; return; }
+  host.classList.remove("hidden");
+  const kind = dk.path, cur = P[kind], r = cur.race, sim = dk.sim && kind === "monitor";
+  const st = P.monitor.steps;
+  const mSegs = dkSegs(P, "monitor"), hSegs = dkSegs(P, "manual");
+  const rows = kind === "all" ? [{ k: "monitor", label: "From Monitor", short: "Monitor", segs: mSegs, gap: P.monitor.race.median_gap },
+                                 { k: "manual", label: "Added by hand", short: "By hand", segs: hSegs, gap: P.manual.race.median_gap }]
+             : [{ k: kind, segs: kind === "manual" ? hSegs : mSegs, gap: r.median_gap }];
+  const target = rows.length === 1 ? dkSum(rows[0].segs) - rows[0].gap : null;
+  // Lead with the last complete week: the 30-day share lags a fast-moving number.
+  const wk = d.manual_weekly || [], weekEnd = w => new Date(Date.parse(w.week) + 7 * 864e5).toISOString().slice(0, 10);
+  const partial = wk.length && weekEnd(wk[wk.length - 1]) > d.window.to ? wk[wk.length - 1] : null;
+  const full = [...wk].reverse().find(w => w !== partial && w.week >= d.window.from) || null;
+  const dek = {
+    all: `Every post we sent from the source tweet on, by how it got made: from a tweet the Monitor picked up, or added by hand in News Admin. Get a row to its dashed line and we'd post first on half of its stories.`,
+    monitor: `Posts sent from a tweet the Monitor picked up, split into the three steps the desk controls. Get our time down to the dashed line, <b>${dkFmt(target)}</b>, and we'd post first on half of them.`,
+    manual: `Posts added by hand in News Admin (Add Line). They skip the Monitor, so there are no steps to split yet; this is the time from the source tweet to our post. The dashed line, <b>${dkFmt(target)}</b>, is break-even.`,
+  }[kind];
+  host.innerHTML = `
+    <div class="dk-head">
+      <div>
+        <h2 id="desk-h">We post ${dkFmt(r.median_gap)} after Underdog on a typical shared story</h2>
+        <p class="dek">${dek} Last ${d.window.days} days, ${r.n} stories both accounts posted.</p>
+      </div>
+      <div class="dk-ctl">
+        <div class="dk-seg" role="group" aria-label="Which posts">${DK_PATHS.map(([k, l]) =>
+          `<button type="button" data-p="${k}" class="${kind === k ? "on" : ""}" aria-pressed="${kind === k}">${l}</button>`).join("")}</div>
+        ${kind === "monitor" ? `<button type="button" class="dk-btn" id="dk-sim" aria-pressed="${sim}">${sim ? "Done simulating" : "Simulate changes"}</button>` : ""}
+      </div>
+    </div>
+    <div id="dk-race"></div>
+    <div class="dk-key">${(kind === "manual" ? hSegs : kind === "all" ? [...mSegs, ...hSegs] : mSegs)
+      .map(s => `<span><i style="background:var(--${s.c})"></i>${esc(s.name)}</span>`).join("")}<span><i class="mk"></i>Break-even with Underdog</span></div>
+    <div class="dk-verdict" id="dk-verdict" aria-live="polite"></div>
+    <div class="dk-grid">
+      <div class="dk-steps" id="dk-steps"></div>
+      <div class="dk-hand">
+        <div class="nm">Posts added by hand</div>
+        <div class="v">${full ? full.pct : P.manual_pct}%<small>${full ? `week of ${full.week.slice(5).replace("-", "/")} · ${full.manual} of ${full.posts}` : `of ${P.all.posts} posts`} · lower is better</small></div>
+        <div class="lv">Each one is an editor writing a post from scratch instead of actioning a tweet the Monitor already drafted.${partial ? ` This week so far: <b>${partial.pct}%</b> (${partial.posts} posts).` : ""} Last ${d.window.days} days: ${P.manual_pct}%.</div>
+        <div class="dk-weeks" role="img" aria-label="Share added by hand by week">${wk.map(w =>
+          `<div class="wk${w === full ? " full" : ""}" title="Week of ${w.week}: ${w.manual} of ${w.posts} posts added by hand"><span class="pct">${Math.round(w.pct)}%</span><span class="col"><i style="height:${w.pct}%"></i></span><span class="lb">${w.week.slice(5).replace("-", "/")}</span></div>`).join("")}</div>
+      </div>
+    </div>
+    <p class="dk-note">Underdog posted first on <b>${r.underdog_first_pct}%</b> of shared stories.${P.monitor.race.underdog_before_source_pct != null ? ` On <b>${P.monitor.race.underdog_before_source_pct}%</b> of Monitor stories they posted before the source tweet the Monitor picked up, so they had an earlier report: desk speed can't win those, only watching the right accounts can.` : ""} Our replies don't count. "Added by hand" also holds the few posts sent outside News Admin, since nothing marks Add Line posts yet. Step medians don't add up exactly to the median total.</p>
+    <h3>By day of week</h3>
+    <div class="dk-seg" role="group" aria-label="Days"><button type="button" data-d="key" class="${dk.days === "key" ? "on" : ""}">Sun + Wed</button><button type="button" data-d="all" class="${dk.days === "all" ? "on" : ""}">All 7 days</button></div>
+    <div id="dk-days"></div>`;
+  host.querySelectorAll("[data-p]").forEach(bt => bt.onclick = () => { dk.path = bt.dataset.p; dk.sim = false; dk.cut = [0, 0, 0]; renderDesk(); });
+  host.querySelectorAll("[data-d]").forEach(bt => bt.onclick = () => { dk.days = bt.dataset.d; renderDesk(); });
+  const sb = document.getElementById("dk-sim");
+  if (sb) sb.onclick = () => { dk.sim = !dk.sim; if (!dk.sim) dk.cut = [0, 0, 0]; renderDesk(); };
+
+  const drawRace = () => {
+    const box = document.getElementById("dk-race"); box.innerHTML = "";
+    const W = box.clientWidth || 800, max = Math.max(...rows.map(x => dkSum(x.segs))) * 1.04;
+    const rowH = 30, step = rows.length > 1 ? 52 : 0, H = rows.length * rowH + step * (rows.length - 1) + 64;
+    const svg = dkEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Our time from the source tweet against break-even with Underdog" }, box);
+    let x, saved = 0;
+    rows.forEach((row, i) => {
+      let segs = row.segs, gap = row.gap;
+      if (sim) { segs = segs.map((s, j) => ({ ...s, v: Math.max(0, s.v - (dk.cut[j] || 0)) })); saved = dk.cut.reduce((a, v) => a + v, 0); gap -= saved; }
+      x = dkBar(svg, W, segs, gap, { max, bracket: true, top: 6 + i * (rowH + step), label: row.label, short: row.short, rowH });
+    });
+    dkAxis(svg, x, max, H - 4, W < 560 ? 60 : 30);
+    const now = dkFirstPct(r.gaps, 0), first = dkFirstPct(r.gaps, saved);
+    document.getElementById("dk-verdict").innerHTML = !saved
+      ? `Right now we post first on ${now.toFixed(0)}% of shared stories.`
+      : `${dkFmt(saved)} faster: we'd post first on <span class="up">${first.toFixed(0)}%</span> of shared stories, up from ${now.toFixed(0)}%.` +
+        `<button type="button" class="dk-reset" id="dk-reset">Reset</button>`;
+    const rs = document.getElementById("dk-reset"); if (rs) rs.onclick = () => { dk.cut = [0, 0, 0]; renderDesk(); };
+  };
+  // Step cards: the Monitor path's three steps (not shown for hand-added posts).
+  const stepsBox = document.getElementById("dk-steps");
+  if (kind === "manual") stepsBox.innerHTML = `<p class="dk-empty">Hand-added posts never pass through the Monitor, so there's nothing to split into steps. The fewer of them we do, the more of our posts get the drafted, timed path.</p>`;
+  else { const tot0 = dkSum(mSegs);
+    stepsBox.innerHTML = mSegs.map((s, i) => {
+      const meta = st.split ? DK_STEPS[i] : (i ? { lever: "Finding and posting the tweet: alerts, paste-a-link, templates" } : DK_STEPS[0]);
+      return `<div class="dk-step" style="--c:var(--${s.c})">
+        <div class="nm">${i + 1}. ${esc(s.name)}${kind === "all" ? ` <span class="sub">Monitor posts</span>` : ""}</div>
+        <div class="v">${dkFmt(s.v)}<small>median · n=${s.n}</small></div>
+        <div class="lv">${Math.round(100 * s.v / tot0)}% of the Monitor path. Lever: <b>${esc(meta.lever)}</b></div>
+        ${i === mSegs.length - 1 && st.edited.pct != null ? `<div class="ed">Posts edited before going out: <b>${st.edited.pct}%</b> <span>n=${st.edited.n}</span><div class="dk-meter" aria-hidden="true"><span style="width:${st.edited.pct}%"></span></div></div>` : ""}
+        ${sim ? `<label class="tg" for="dk-cut-${i}"><span>Target</span><b id="dk-t-${i}">${dkFmt(s.v - dk.cut[i])}</b></label>
+          <input type="range" id="dk-cut-${i}" min="0" max="${s.v}" step="1" value="${s.v - dk.cut[i]}" aria-label="${esc(s.name)} target">` : ""}
+      </div>`; }).join("");
+    if (sim) mSegs.forEach((s, i) => { const inp = document.getElementById("dk-cut-" + i);
+      inp.oninput = () => { dk.cut[i] = s.v - +inp.value; document.getElementById("dk-t-" + i).textContent = dkFmt(+inp.value); drawRace(); }; });
+  }
+  drawRace();
+
+  // By day of week. All posts: a compact table; one path: that path's bars per day.
+  const days = (d.weekdays || []).filter(w => w.paths && w.paths[kind].race.n && (dk.days === "all" || w.key));
+  const box = document.getElementById("dk-days");
+  if (kind === "all") {
+    box.innerHTML = `<table class="dk-table"><thead><tr><th>Day</th><th>Shared stories</th><th>Gap to Underdog</th><th>We're first</th><th>Monitor gap</th><th>By hand gap</th><th>Added by hand</th></tr></thead><tbody>${
+      days.map(w => { const p = w.paths, f = x => x.race.n ? dkFmt(x.race.median_gap) : "–";
+        return `<tr><td><b>${w.day}</b>${w.note ? ` <span class="sub">${w.note}</span>` : ""}</td><td>${p.all.race.n}</td><td>${dkFmt(p.all.race.median_gap)}</td><td>${(100 - p.all.race.underdog_first_pct).toFixed(0)}%</td><td>${f(p.monitor)}</td><td>${f(p.manual)}</td><td>${p.manual_pct}%</td></tr>`; }).join("")}</tbody></table>`;
+    return;
+  }
+  const W = box.clientWidth || 800, rowH = 26, gapY = 16;
+  const blocks = days.map(w => ({ w, segs: dkSegs(w.paths, kind) })).filter(b => b.segs.length);
+  if (!blocks.length) { box.innerHTML = `<p class="dk-empty">Not enough posts yet.</p>`; return; }
+  const max = Math.max(...blocks.map(bk => dkSum(bk.segs))) * 1.04;
+  const H = blocks.length * (rowH + gapY) + 22;
+  const svg = dkEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "By day of week against break-even with Underdog" }, box);
+  let x;
+  blocks.forEach((bk, i) => {
+    const w = bk.w, race = w.paths[kind].race;
+    x = dkBar(svg, W, bk.segs, race.median_gap, { max, label: `${w.day}${w.note ? " · " + w.note : ""}`, short: w.day, rowH, top: i * (rowH + gapY) + 4, small: true });
+    const t = dkEl("rect", { x: 0, y: i * (rowH + gapY), width: W < 560 ? 64 : 150, height: rowH + 8, fill: "transparent" }, svg);
+    dkTip(t, `<b>${w.day}</b> ${dkFmt(race.median_gap)} behind Underdog <span>· first on ${(100 - race.underdog_first_pct).toFixed(0)}% · ${race.n} shared stories</span>`);
+  });
+  dkAxis(svg, x, max, H - 4, W < 560 ? 120 : 60);
+}
+let _dkResize;
+addEventListener("resize", () => { clearTimeout(_dkResize); _dkResize = setTimeout(() => { if (state.desk) renderDesk(); }, 150); });
 </script>
 </body>
 </html>

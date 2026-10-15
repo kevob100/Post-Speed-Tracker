@@ -52,6 +52,7 @@ jobs:
           SPROUT_SOCIAL_TOKEN: ${{ secrets.SPROUT_SOCIAL_TOKEN }}
           SPROUT_CUSTOMER_ID: ${{ secrets.SPROUT_CUSTOMER_ID }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          ROTOWIRE_MCP_TOKEN: ${{ secrets.ROTOWIRE_MCP_TOKEN }}   # Desk Speed panel; skipped if unset
         # The pipeline is idempotent (since_id state + classification/verdict caches),
         # so retrying is safe and cheap — it absorbs transient X/Anthropic API hiccups
         # (rate limits, 5xx) that would otherwise fail the whole scheduled run.

@@ -21,6 +21,9 @@ sports:
     # before kickoff, hence 2h before.
     # Label each practice post pre- or post-practice (Practice tab).
     practice_phases: true
+    # Desk Speed panel (src/desk_speed.py): News Admin's per-tweet desk timeline, pulled
+    # with ROTOWIRE_MCP_TOKEN. Skipped quietly without the token.
+    desk_speed: {league: nfl}
     game_windows:
       source: espn
       season: 2026

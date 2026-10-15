@@ -24,8 +24,8 @@ import json
 from datetime import datetime
 import os
 
-from . import (aggregate, classify, collect, develop, games, match, positions, practice, source,
-               sprout, staffing_import, xapi)
+from . import (aggregate, classify, collect, desk_speed, develop, games, match, positions, practice,
+               source, sprout, staffing_import, xapi)
 from .config import (
     DOCS_DATA_DIR,
     load_config,
@@ -144,6 +144,22 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
                                      analysis_start=meta.get("analysis_start"),
                                      eras=meta.get("eras"),
                                      practice_phases=bool(meta.get("practice_phases")))
+    # Desk Speed: our time split into the desk's three steps (RotoWire News Admin MCP).
+    ds_cfg = meta.get("desk_speed")
+    if ds_cfg:
+        if desk_speed.has_credentials():
+            try:
+                print(f"[desk]      {desk_speed.sync(data_dir, ds_cfg.get('league', sport))}")
+            except Exception as e:  # keep the rows from the last good sync
+                print(f"[desk]      sync skipped: {e}")
+        try:
+            stories_out = json.loads((docs_dir / "stories.json").read_text())
+            built = desk_speed.build(data_dir, docs_dir, stories_out)
+            print(f"[desk]      built: {built['paths']['all']['race']['n'] if built else 0} shared stories, "
+                  f"{built['paths']['manual_pct'] if built else '-'}% added by hand")
+        except Exception as e:  # never fail the run over the desk panel
+            print(f"[desk]      build skipped: {e}")
+
     s = agg["summary"]
     print(
         f"[aggregate] matched={s['matched']} rw_first_rate={s['rotowire_first_rate']} "
