@@ -23,13 +23,15 @@ import statistics
 from datetime import datetime, timedelta, timezone
 from pathlib import Path
 
-from .store import load_jsonl, now_iso, parse_dt
+from .store import append_jsonl, load_jsonl, now_iso, parse_dt
 
 HANDLE_CREDIT_RE = re.compile(r"(?:via|per|from|h/t)\s+@(\w{1,15})", re.I)
 NAME_PREFIX_RE = re.compile(r"^([A-Z][A-Za-z'.\- ]{1,25}):\s")
 NOT_A_SOURCE = {"Status alert", "Update", "Breaking", "Report", "Injury update"}
 WINDOW_DAYS = 30
 LIST_FILE = "monitor_list.json"
+HISTORY_FILE = "monitor_list_history.jsonl"
+DISMISSED_FILE = "dismissed_accounts.json"
 
 
 def classify(post: dict, names: dict[str, str]) -> dict:
@@ -66,9 +68,34 @@ def fetch_list(client, list_id: str, data_dir: Path) -> int:
         token = (page.get("meta") or {}).get("next_token")
         if not token:
             break
+    prev = json.loads((data_dir / LIST_FILE).read_text()).get("handles", []) if (data_dir / LIST_FILE).exists() else None
     (data_dir / LIST_FILE).write_text(json.dumps(
         {"list_id": list_id, "fetched_at": now_iso(), "handles": sorted(handles, key=str.lower)}, indent=2))
+    if prev is not None:
+        before, after = {h.lower(): h for h in prev}, {h.lower(): h for h in handles}
+        today = now_iso()[:10]
+        for k in sorted(after.keys() - before.keys()):
+            append_jsonl(data_dir / HISTORY_FILE, {"date": today, "handle": after[k], "action": "added"})
+        for k in sorted(before.keys() - after.keys()):
+            append_jsonl(data_dir / HISTORY_FILE, {"date": today, "handle": before[k], "action": "removed"})
     return len(handles)
+
+
+def sync_dismissed(sheet_id: str, data_dir: Path) -> str:
+    """Accounts KOB doesn't want added: column A of the shared sheet (anyone with the link
+    can view). Kept from the last good read if the sheet can't be reached."""
+    import csv
+    import io
+    import urllib.request
+    url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
+    with urllib.request.urlopen(url, timeout=30) as r:
+        text = r.read().decode("utf-8", "replace")
+    if text.lstrip().startswith("<"):
+        raise RuntimeError("sheet isn't shared as anyone-with-the-link can view")
+    rows = list(csv.reader(io.StringIO(text)))[1:]
+    handles = sorted({c[0].strip().lstrip("@").split("/")[-1] for c in rows if c and c[0].strip()}, key=str.lower)
+    (data_dir / DISMISSED_FILE).write_text(json.dumps({"fetched_at": now_iso(), "handles": handles}, indent=2))
+    return f"{len(handles)} dismissed"
 
 
 def _med(xs):
@@ -89,6 +116,9 @@ def build(data_dir: Path, docs_dir: Path, stories: list[dict], names: dict[str, 
     on_list = {h.lower() for h in lst.get("handles", [])} or None
     seen = {r["tweet_url"].split("/")[3].lower() for r in load_jsonl(data_dir / "desk_timeline.jsonl")
             if r.get("tweet_url")}
+    dismissed = {h.lower() for h in json.loads((data_dir / DISMISSED_FILE).read_text()).get("handles", [])} \
+        if (data_dir / DISMISSED_FILE).exists() else set()
+    history = load_jsonl(data_dir / HISTORY_FILE)
 
     by_post = {s["underdog"]["tweet_id"]: s for s in stories
                if s.get("status") == "matched" and s.get("underdog") and s.get("rotowire")}
@@ -112,13 +142,15 @@ def build(data_dir: Path, docs_dir: Path, stories: list[dict], names: dict[str, 
         g = a.pop("gaps")
         rows.append({**a,
                      "on_list": (key in on_list) if on_list is not None else None,
+                     "dismissed": key in dismissed,
                      "seen_in_monitor": key in seen,
                      "shared": len(g),
                      "we_first_pct": round(100 * sum(x < 0 for x in g) / len(g), 1) if g else None,
                      "median_gap": _med(g)})
-    missing = lambda r: r["on_list"] is False or (r["on_list"] is None and not r["seen_in_monitor"])  # noqa: E731
+    missing = lambda r: not r["dismissed"] and (r["on_list"] is False or (r["on_list"] is None and not r["seen_in_monitor"]))  # noqa: E731
     rows.sort(key=lambda r: (not missing(r), -r["credited"], r["handle"].lower()))
     total = len(posts)
+    by_handle = {r["handle"].lower(): r for r in rows}
     out = {
         "generated_at": now_iso(),
         "window_days": WINDOW_DAYS,
@@ -127,6 +159,13 @@ def build(data_dir: Path, docs_dir: Path, stories: list[dict], names: dict[str, 
         "list": {"id": lst.get("list_id"), "fetched_at": lst.get("fetched_at"), "members": len(lst.get("handles", []))}
                 if lst else None,
         "missing": sum(missing(r) for r in rows),
+        "dismissed": sum(r["dismissed"] for r in rows),
+        # Accounts added to the Monitor list since tracking began, newest first, with how
+        # often Underdog had credited each one in the window.
+        "added": [{"date": h["date"], "handle": h["handle"],
+                   "credited": by_handle.get(h["handle"].lower(), {}).get("credited", 0)}
+                  for h in sorted(history, key=lambda h: h["date"], reverse=True) if h["action"] == "added"],
+        "tracking_since": (history[0]["date"] if history else (lst.get("fetched_at") or "")[:10]) or None,
         "accounts": rows,
     }
     path = docs_dir / "credits.json"

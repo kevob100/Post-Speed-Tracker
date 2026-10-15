@@ -24,7 +24,7 @@ import json
 from datetime import datetime
 import os
 
-from . import (aggregate, classify, collect, credits, desk_speed, desk_summary, develop, games, match, positions, practice,
+from . import (aggregate, classify, collect, credits, desk_speed, desk_summary, slack_report, develop, games, match, positions, practice,
                source, sprout, staffing_import, xapi)
 from .config import (
     DOCS_DATA_DIR,
@@ -182,10 +182,17 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
                 print(f"[credits]   list members: {credits.fetch_list(XClient(), cc['monitor_list_id'], data_dir)}")
             except Exception as e:  # keep the last good member list
                 print(f"[credits]   list fetch skipped: {e}")
+        if cc.get("dismiss_sheet"):
+            try:
+                print(f"[credits]   {credits.sync_dismissed(cc['dismiss_sheet'], data_dir)}")
+            except Exception as e:  # keep the last good dismissed list
+                print(f"[credits]   dismissed sheet skipped: {e}")
         try:
             out = credits.build(data_dir, docs_dir, json.loads((docs_dir / "stories.json").read_text()),
                                 cc.get("names") or {}, accounts["underdog"]["handle"])
             print(f"[credits]   {len(out['accounts'])} credited accounts, {out['missing']} not on our list")
+            sheet = f"https://docs.google.com/spreadsheets/d/{cc['dismiss_sheet']}/edit" if cc.get("dismiss_sheet") else None
+            print(f"[slack]     {slack_report.maybe_post(data_dir, out, cc.get('names') or {}, accounts['underdog']['handle'], sheet)}")
         except Exception as e:  # never fail the run over the credits table
             print(f"[credits]   build skipped: {e}")
 

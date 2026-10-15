@@ -2821,7 +2821,9 @@ function renderCredits() {
   const status = a => a.on_list === true ? `<span class="cr-tag yes">On list</span>`
     : a.on_list === false ? `<span class="cr-tag no">Not on list</span>`
     : a.seen_in_monitor ? `<span class="cr-tag yes">Seen in Monitor</span>` : `<span class="cr-tag unk">Not seen</span>`;
-  const rows = cr.all ? d.accounts : d.accounts.slice(0, 20);
+  const live = d.accounts.filter(a => !a.dismissed);
+  const rows = cr.all ? live : live.slice(0, 20);
+  const SHEET = "https://docs.google.com/spreadsheets/d/1-LaeA5IxKmL7wYWD0Jadsp8CA7F4Fc-qQEG0acEhswI/edit";
   const mix = [["handle", "var(--green)", "@handle"], ["reporter", "#8fdbe6", "reporter name"], ["quote", "#157f92", "quote-tweet"],
                ["presser", "#a7b4c2", "press conference"], ["none", "var(--panel2)", "no credit"]];
   host.innerHTML = `
@@ -2841,7 +2843,12 @@ function renderCredits() {
         <td class="num">${a.we_first_pct == null ? "–" : Math.round(a.we_first_pct) + "%"}</td>
         <td class="num">${a.median_gap == null ? "–" : (a.median_gap > 0 ? dkFmt(a.median_gap) + " behind" : dkFmt(-a.median_gap) + " ahead")}</td>
         <td>${a.last ? esc(fmtTime(a.last)) : ""}</td></tr>`).join("")}</tbody></table></div>
-    ${d.accounts.length > 20 ? `<button type="button" class="cr-more" id="cr-more">${cr.all ? "Show top 20" : `Show all ${d.accounts.length}`}</button>` : ""}`;
+    ${live.length > 20 ? `<button type="button" class="cr-more" id="cr-more">${cr.all ? "Show top 20" : `Show all ${live.length}`}</button>` : ""}
+    <p class="dek" style="margin:12px 0 0">Don't want one on the list? Add its handle to <a href="${SHEET}" target="_blank" rel="noopener">this sheet</a> and it drops off after the next nightly refresh.${d.dismissed ? ` ${d.dismissed} dismissed so far.` : ""}</p>
+    <h3 style="font-size:14px;margin:20px 0 6px">Added to our list</h3>
+    ${(d.added || []).length ? `<div class="cr-wrap"><table class="cr-table"><thead><tr><th>Account</th><th>Added</th><th class="num">Underdog credited (last ${d.window_days} days)</th></tr></thead><tbody>${d.added.map(a =>
+      `<tr><td><a href="https://x.com/${encodeURIComponent(a.handle)}" target="_blank" rel="noopener">@${esc(a.handle)}</a></td><td>${esc(smDay(a.date))}</td><td class="num">${a.credited || "–"}</td></tr>`).join("")}</tbody></table></div>`
+      : `<p class="dek" style="margin:0">Nothing added yet${d.tracking_since ? ` since tracking began ${esc(smDay(d.tracking_since))}` : ""}. Each night the list is compared with the night before, and anything new shows here.</p>`}`;
   const mb = document.getElementById("cr-more"); if (mb) mb.onclick = () => { cr.all = !cr.all; renderCredits(); };
 }
 
@@ -3086,7 +3093,7 @@ function renderDetCols() {
     <div class="dc-col" style="--c:var(--s2)"><div class="lbl">2 · In Monitor to opened</div><div class="sm-metric">${dkFmt(st.monitor_to_open.median)}</div><div class="sm-tgt">To tie: <b>${dkFmt(T.steps[1])}</b></div>
       ${cr ? `<div class="dc-f"><div class="t">Accounts to add</div><div class="v">${cr.missing}</div><div class="d">Underdog credits, not on our Monitor list (last ${cr.window_days} days)</div><div class="pills"><span class="pill none">KOB, weekly</span></div></div>` : ""}
       ${bs && bs.n ? `<div class="dc-f"><div class="t">Monitor never had it</div><div class="v">${bs.monitor_never_had} of ${bs.n}</div><div class="d">stories where Underdog posted before our source tweet</div>${pills("s2", ["RD-8164"])}</div>` : ""}
-      <div class="dc-f"><div class="t">Working from the Monitor first</div><span class="dc-pend">no metric yet</span>${pills("s2", ["RD-8112", "RD-8037"])}</div></div>
+      ${pills("s2", ["RD-8112", "RD-8037"]) ? `<div class="dc-f"><div class="t">Also in flight</div>${pills("s2", ["RD-8112", "RD-8037"])}</div>` : ""}</div>
     <div class="dc-col" style="--c:var(--s3)"><div class="lbl">3 · Opened to posted</div><div class="sm-metric">${dkFmt(st.open_to_x.median)}</div><div class="sm-tgt">To tie: <b>${dkFmt(T.steps[2])}</b></div>
       <div class="dc-f"><div class="t">Posts edited <span class="dc-prio">TOP PRIORITY</span></div><div class="v">${w.edited_pct == null ? "–" : Math.round(w.edited_pct) + "%"}</div></div>
       <div class="dc-f"><div class="t">Share of draft changed</div><div class="v">${w.change_pct == null ? "–" : Math.round(w.change_pct) + "%"}</div>${pills("s3", ["RD-8090", "RD-8091", "RD-8092", "RD-8094"])}</div>

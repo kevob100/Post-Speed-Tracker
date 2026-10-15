@@ -108,6 +108,8 @@ sports:
     # monitor_list_id is the X list the News Admin Monitor ingests for NFL (owned by KOB).
     underdog_credits:
       monitor_list_id: '103681593'
+      # Accounts KOB doesn't want added (column A, shared as anyone-with-link can view).
+      dismiss_sheet: 1-LaeA5IxKmL7wYWD0Jadsp8CA7F4Fc-qQEG0acEhswI
       names:
         Schefter: AdamSchefter
         Rap: RapSheet
