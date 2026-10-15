@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-15T21:13:12.054058+00:00",
+ "fetched_at": "2026-10-15T21:48:51.415906+00:00",
  "root": "RD-8097",
  "issues": [
   {
@@ -2351,15 +2351,15 @@
    "status": "In Refinement",
    "category": "new",
    "assignee": "Matthew Kulina",
-   "priority": "Medium",
+   "priority": "Highest",
    "resolved": null,
    "sprints": [
     {
-     "id": 21038,
-     "name": "2026.Q4.S20",
-     "state": "active",
-     "start": "2026-10-01T13:00:41.495Z",
-     "end": "2026-10-14T21:00:00.000Z"
+     "id": 21838,
+     "name": "2026.Q4.S21",
+     "state": "future",
+     "start": "2026-10-15T13:00:00.000Z",
+     "end": "2026-10-28T21:00:00.000Z"
     }
    ]
   },
@@ -2532,6 +2532,26 @@
    "category": "new",
    "assignee": "Matthew Kulina",
    "priority": "Medium",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21838,
+     "name": "2026.Q4.S21",
+     "state": "future",
+     "start": "2026-10-15T13:00:00.000Z",
+     "end": "2026-10-28T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8171",
+   "summary": "Breaking News AI: Image-Only Sources Get an Invented Player Status",
+   "type": "Bug",
+   "parent": "RD-8099",
+   "status": "Ready for Work",
+   "category": "new",
+   "assignee": "Matthew Kulina",
+   "priority": "Highest",
    "resolved": null,
    "sprints": [
     {
