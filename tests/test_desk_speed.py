@@ -102,3 +102,14 @@ def test_post_steps_keys_each_post_by_our_tweet_and_splits_monitor_from_add_line
     out = _post_steps(stories, rows)
     assert out["a"] == {"hand": False, "monitor": 30, "open": 45, "post": 50, "total": 125, "edited": "yes"}
     assert out["b"] == {"hand": True, "monitor": None, "open": None, "post": None, "total": 300, "edited": None}
+
+
+def test_template_form_tells_template_wording_from_freeform():
+    from src.desk_speed import template_form
+    assert template_form("DJ Moore (shoulder) was listed as a non-participant on Wednesday's injury report.\n\nVia @BuffaloBillsPR") == "practice_report"
+    assert template_form("Denzel Boston (foot) remained a limited participant on Thursday's practice report.") == "practice_report"
+    assert template_form("Mike Evans (ribs/Achilles), per head coach Kyle Shanahan, will not practice Thursday.") == "practice_paraphrase"
+    assert template_form("Rashee Rice (knee) was placed on injured reserve Tuesday.") == "transaction"
+    assert template_form("The Eagles released their Wednesday injury report.") is None
+    assert template_form("Ladd McConkey (foot) returned to practice Wednesday as the Chargers got a boost.") is None
+    assert template_form("Quinshon Judkins (foot) is listed as questionable for Sunday's game against the Ravens.") is None

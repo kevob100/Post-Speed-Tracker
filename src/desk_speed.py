@@ -33,6 +33,7 @@ from __future__ import annotations
 
 import json
 import os
+import re
 import statistics
 import urllib.request
 from datetime import datetime, timedelta, timezone
@@ -136,6 +137,51 @@ def sync_edits(data_dir: Path, league: str) -> str:
     return f"{len(fresh)} edit rows, {len(kept)} examples"
 
 
+# The NFL template sentence shapes (News Admin app/Services/Nfl/*Template.php), matched on
+# the post's first line. Used to tell "a template wrote this draft" from "an editor typed the
+# template's wording by hand", the gap the templates are meant to close.
+TEMPLATE_FORMS = [
+    ("practice_report", re.compile(r"\b(?:was (?:officially )?listed as an? |(?:officially )?remained an? |was (?:upgraded|downgraded) to an? |was an? )"
+                                   r"(?:full |limited |non-)?participant (?:on|in) \w+'s (?:estimated )?(?:practice|injury) report", re.I)),
+    ("practice_paraphrase", re.compile(r"^[^,(\n]+ \([^)\n]+\), per [^,\n]+, .+\.$")),
+    ("final_report", re.compile(r"(?:practiced fully|was limited at|did not participate in) .+ (?:ruled out for|is listed as (?:questionable|doubtful) for"
+                                r"|does not have an injury designation for)", re.I)),
+    ("game_day", re.compile(r"\b(?:is inactive for|is listed as active for|(?:is|downgraded to) (?:questionable|doubtful) to return to|ruled out for the rest of"
+                            r"|returned to \w+'s game|carted off during|helped off the field during|walked gingerly off the field during|exited during"
+                            r"|will undergo (?:an MRI|X-rays|further testing))\b", re.I)),
+    ("transaction", re.compile(r"\b(?:is scheduled to visit with the|worked out for the|is signing a contract with the|officially signed a contract with the"
+                               r"|have agreed to an? \S+-year|is signing with the .+ practice squad|was elevated from the practice squad"
+                               r"|is being (?:released|waived|traded|placed on injured reserve)|was (?:released|waived) by the|was claimed off waivers"
+                               r"|was traded from the|was placed on injured reserve|was activated from injured reserve|was designated to return to practice"
+                               r"|(?:Active|Reserve)/PUP list)\b", re.I)),
+]
+
+
+def template_form(text: str | None) -> str | None:
+    """Which template's sentence shape the post's first line has, if any."""
+    line = (text or "").split("\n")[0].strip()
+    return next((name for name, rx in TEMPLATE_FORMS if rx.search(line)), None)
+
+
+def _template_daily(data_dir: Path) -> list[dict]:
+    """Per post day, over exact (stored) drafts only: how many drafts a template wrote vs how
+    many posts went out in a template's wording. Examples are capped at 20 a day and trimmed,
+    so each run folds its days into data/<sport>/edit_templates_daily.json and history stays."""
+    path = data_dir / "edit_templates_daily.json"
+    kept = json.loads(path.read_text()) if path.exists() else {}
+    days: dict[str, list] = {}
+    for e in load_jsonl(data_dir / "x_post_examples.jsonl"):
+        if e.get("baseline_source") == "stored" and e.get("draft") and e.get("posted"):
+            days.setdefault(e["posted_at"][:10], []).append(e)
+    for d, g in days.items():
+        kept[d] = {"sampled": len(g),
+                   "drafted_by_template": sum(template_form(e["draft"]) is not None for e in g),
+                   "posted_in_template_form": sum(template_form(e["posted"]) is not None for e in g),
+                   "untouched": sum(e["draft"].strip() == e["posted"].strip() for e in g)}
+    path.write_text(json.dumps(dict(sorted(kept.items())), indent=1) + "\n")
+    return [{"day": d, **v} for d, v in sorted(kept.items())]
+
+
 def _edits(data_dir: Path, timeline: list[dict], now: datetime) -> dict | None:
     """Daily % of posts edited and how much they change, opened-to-posted time, the same
     by template version, and the latest draft-vs-posted examples."""
@@ -179,7 +225,7 @@ def _edits(data_dir: Path, timeline: list[dict], now: datetime) -> dict | None:
     by_path = {"monitor": roll([r for r in last30 if not r.get("manual")]),
                "manual": roll([r for r in last30 if r.get("manual")])}
     return {"daily": daily, "versions": versions, "examples": examples, "last30": roll(last30), "by_path": by_path,
-            "stored_since": "2026-10-14"}
+            "stored_since": "2026-10-14", "templates": _template_daily(data_dir)}
 
 
 # ---------------------------------------------------------------- summarising
@@ -424,6 +470,8 @@ def build(data_dir: Path, docs_dir: Path, stories: list[dict], now: datetime | N
         "weekdays": [],
         "posts": _post_steps(hist, all_rows),
     }
+    if out["edits"] and (cfg or {}).get("edit_breakdown"):
+        out["edits"]["breakdown"] = cfg["edit_breakdown"]  # hand-labeled, see config.yaml
     def manual_pct(a, b):
         sub = [s for s in ours if a <= parse_dt(s["rotowire"]["created_at"]) < b]
         _, man_ab, _ = _split(sub, all_rows)

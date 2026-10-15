@@ -458,6 +458,14 @@
   @media (max-width: 640px) { #edits { padding: 14px 14px 16px; } }
   #edits h2 { font-size: 20px; font-weight: 650; margin: 0 0 4px; line-height: 1.25; }
   #edits h3 { font-size: 14px; margin: 24px 0 2px; }
+  .eb-bar { display: flex; gap: 2px; height: 22px; margin: 10px 0 6px; border-radius: 4px; overflow: hidden; }
+  .eb-bar span { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #0f1419; font-variant-numeric: tabular-nums; }
+  .eb-call { font-size: 13px; margin: 6px 0 10px; } .eb-call b { color: var(--text); }
+  .eb-sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 8px; vertical-align: -1px; }
+  .cr-table td.eb-wrap { white-space: normal; min-width: 180px; }
+  .eb-tbl .pills { margin-top: 0; } .eb-tbl .pill { white-space: normal; }
+  @media (max-width: 640px) { .eb-tbl, .eb-tbl tbody { display: block; width: 100%; } .eb-tbl thead { display: none; } .eb-tbl tr { display: block; padding: 8px 0; border-bottom: 1px solid var(--line); }
+    .eb-tbl td, .cr-table td.eb-wrap { display: block; border: 0; padding: 2px 0; min-width: 0; white-space: normal; } .eb-tbl td.num { text-align: left; } }
   #edits .dek, #edits .sub2 { color: var(--muted); margin: 0 0 12px; }
   #edits .sub2 { font-size: 12px; margin: 0 0 8px; }
   #edits .dek b { color: var(--text); font-weight: 600; }
@@ -3097,6 +3105,36 @@ function dyDetail(r, P) {
     <div class="dy-tw"><div class="lbl" style="color:var(--muted)">Underdog</div><p>${esc(s.underdog.text || "")}</p><div class="lbl" style="color:var(--muted)">RotoWire</div><p>${esc(s.rotowire.text || "")}</p></div>`;
 }
 addEventListener("resize", () => { clearTimeout(window._dyResize); window._dyResize = setTimeout(() => { if (state.desk && document.body.classList.contains("sp-det")) renderDay(); }, 150); });
+// Ticket pill with its Jira status, looked up from the roadmap the Summary already carries.
+function edTk(key) {
+  const it = ((state.desk.summary || {}).roadmap || { steps: [] }).steps.flatMap(r => r.items).find(i => i.key === key) || { key, url: `https://gdcgroup.atlassian.net/browse/${key}` };
+  return `<a class="pill ${({ done: "done", indeterminate: "prog", new: "todo" })[it.category] || "todo"}" href="${it.url}" target="_blank" rel="noopener">${esc(key)}${it.status ? " · " + esc(it.status) : ""}</a>`;
+}
+// Hand-labeled sample of edits by what changed (config.yaml edit_breakdown), worst to lightest.
+function edBreakdown(B) {
+  if (!B || !B.buckets) return "";
+  const tot = B.buckets.reduce((a, b) => a + b.n, 0), pct = n => Math.round(100 * n / tot);
+  const optional = B.buckets.filter(b => !b.needed && b.key !== "none").reduce((a, b) => a + b.n, 0);
+  const edited = tot - (B.buckets.find(b => b.key === "none") || { n: 0 }).n, needed = B.buckets.filter(b => b.needed).reduce((a, b) => a + b.n, 0);
+  return `<h3>Why drafts get edited</h3>
+    <p class="sub2">Every edit in a hand-checked sample (${esc(B.sample)}), sorted by what the editor changed. Gold and teal edits changed no facts: the draft could have gone out.</p>
+    <div class="eb-bar" role="img" aria-label="${B.buckets.map(b => `${b.label} ${b.n}`).join(", ")}">${B.buckets.filter(b => b.n).map(b => `<span style="flex:${b.n};background:${b.color}" title="${esc(b.label)}: ${b.n}">${b.n / tot >= .06 ? b.n : ""}</span>`).join("")}</div>
+    <p class="eb-call"><b>${optional} of ${tot}</b> edits (${pct(optional)}%) only changed wording. If those had gone out as drafted, ${pct(needed)}% of posts would have needed an edit instead of ${pct(edited)}%.</p>
+    <div class="cr-wrap"><table class="cr-table eb-tbl"><thead><tr><th>What changed</th><th class="num">Posts</th><th>Mostly</th><th>What we're doing about it</th></tr></thead><tbody>${B.buckets.map(b => `<tr>
+      <td><i class="eb-sw" style="background:${b.color}"></i>${esc(b.label)}</td><td class="num">${b.n} <span class="lbl" style="margin-left:6px">${pct(b.n)}%</span></td><td class="eb-wrap">${esc(b.detail || "")}</td>
+      <td class="eb-wrap"><div class="pills">${(b.tickets || []).map(edTk).join("")}${(b.no_ticket || []).map(t => `<span class="pill none">${esc(t)}</span>`).join("")}</div></td></tr>`).join("")}</tbody></table></div>`;
+}
+// Exact drafts sampled per day: written by a template vs posted in a template's wording.
+function edTemplates(T) {
+  if (!T || !T.length) return "";
+  const tot = k => T.reduce((a, d) => a + d[k], 0);
+  return `<h3>Are the templates doing the writing?</h3>
+    <p class="sub2">Exact drafts sampled each day (up to 20 a day). When the templates fire as they should, the two lines meet. So far: <b style="color:var(--text)">${tot("drafted_by_template")} of ${tot("sampled")}</b> written by a template, <b style="color:var(--text)">${tot("posted_in_template_form")}</b> posted in template wording.</p>
+    ${T.length >= 5 ? `<div id="ed-tpl"></div><div class="dk-key"><span><i style="background:var(--e2)"></i>Posted in template wording</span><span><i style="background:var(--e1)"></i>Written by a template</span></div>`
+      : `<div class="cr-wrap"><table class="cr-table"><thead><tr><th>Day</th><th class="num">Sampled</th><th class="num">Written by a template</th><th class="num">Posted in template wording</th><th class="num">Untouched</th></tr></thead><tbody>${
+        T.map(d => `<tr><td>${edDay(d.day)}</td><td class="num">${d.sampled}</td><td class="num">${d.drafted_by_template}</td><td class="num">${d.posted_in_template_form}</td><td class="num">${d.untouched}</td></tr>`).join("")}</tbody></table></div>
+        <p class="sub2" style="margin-top:6px">Shows as a chart once there are 5 days.</p>`}`;
+}
 function renderEdits() {
   const host = document.getElementById("edits"), E = state.desk && state.desk.edits;
   if (!host) return;
@@ -3117,6 +3155,8 @@ function renderEdits() {
     <div class="seg-chips sm-mode" role="group" aria-label="Chart view"><button type="button" data-m="roll" class="${roll ? "on" : ""}" aria-pressed="${roll}">7-day</button><button type="button" data-m="day" class="${roll ? "" : "on"}" aria-pressed="${!roll}">By day</button></div>
     <div id="ed-c1"></div>
     <div class="dk-key"><span><i style="background:var(--e1)"></i>Posts edited</span><span><i style="background:var(--e2)"></i>Share of the draft changed (average)</span></div>
+    ${edBreakdown(E.breakdown)}
+    ${edTemplates(E.templates)}
     ${(() => { const bp = E.by_path, MIN = 30; if (!bp) return "";
       const row = (l, r) => r && r.scored >= MIN ? `<tr><td>${l}</td><td class="num">${Math.round(r.edited_pct)}%</td><td class="num">${Math.round(r.change_pct)}%</td><td class="num">${r.scored}</td></tr>` : "";
       const rows = row("From a Monitor tweet", bp.monitor) + row("Added by hand (Add Line)", bp.manual);
@@ -3144,6 +3184,12 @@ function renderEdits() {
        tip: d => { const r = rAt(d); return roll ? (r ? `<b>${edDay(d.day)}</b> 7 days to here, ${r.n} posts<br>Edited ${r.edited}% · draft changed ${r.change}%` : `<b>${edDay(d.day)}</b><br><span>fewer than ${ED_ROLL_MIN} posts in the 7 days</span>`)
          : ok(d) ? `<b>${edDay(d.day)}</b> ${d.scored} posts<br>Edited ${d.edited_pct}% · draft changed ${d.change_pct}%`
          : `<b>${edDay(d.day)}</b> ${d.scored} posts<br><span>under ${ED_MIN}, not counted</span>`; } });
+  const tc = document.getElementById("ed-tpl");
+  if (tc) edChart(tc, E.templates, [
+    { name: "In template wording", color: "var(--e2)", get: d => d.sampled ? Math.round(100 * d.posted_in_template_form / d.sampled) : null },
+    { name: "Written by a template", color: "var(--e1)", get: d => d.sampled ? Math.round(100 * d.drafted_by_template / d.sampled) : null },
+  ], { h: 160, max: 100, ticks: [0, 25, 50, 75, 100], fmt: t => t + "%", label: "Share of sampled posts written by a template vs posted in template wording, by day",
+       tip: d => `<b>${edDay(d.day)}</b> ${d.sampled} sampled<br>${d.drafted_by_template} written by a template · ${d.posted_in_template_form} posted in template wording` });
   const c2 = document.getElementById("ed-c2");
   if (!ox.length) c2.innerHTML = `<p class="dk-empty">Not enough days yet.</p>`;
   else { const mx = Math.max(60, ...ox.map(d => d.open_to_x.median)) * 1.15, step = mx > 240 ? 60 : 30;
@@ -3255,6 +3301,8 @@ function renderSummary() {
         <div class="sm-hero">${w.edited_pct == null ? "–" : Math.round(w.edited_pct) + "%"}</div>
         <div style="font-weight:600">of AI-drafted posts get edited before they go out</div>
         <div class="sm-delta" style="margin-top:6px">${w.change_pct == null ? "" : `${Math.round(w.change_pct)}% of the draft rewritten on average. `}Every post that goes out untouched cuts the posting step. Last 30 days, ${w.scored || 0} posts. <a href="#edits" id="sm-to-edits">See it by day and template in Details</a>.</div>
+        ${(() => { const B = (d.edits || {}).breakdown; if (!B) return ""; const tot = B.buckets.reduce((a, b) => a + b.n, 0), opt = B.buckets.filter(b => !b.needed && b.key !== "none").reduce((a, b) => a + b.n, 0);
+          return `<div class="sm-delta" style="margin-top:6px"><b style="color:var(--text)">${Math.round(100 * opt / tot)}%</b> of edits in a hand-checked sample changed only the wording, not the facts.</div>`; })()}
         ${s3.length ? `<div class="dc-f"><div class="t">Being done about it</div><div class="pills">${s3.map(i => smPill(i)).join("")}</div></div>` : ""}
       </div>
     </div>

@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T21:13:12.444396+00:00",
+  "generated_at": "2026-10-15T21:46:06.608894+00:00",
   "window": {
     "from": "2026-09-16",
     "to": "2026-10-15",
@@ -2797,7 +2797,90 @@
         "stored_pct": 5.1
       }
     },
-    "stored_since": "2026-10-14"
+    "stored_since": "2026-10-14",
+    "templates": [
+      {
+        "day": "2026-10-14",
+        "sampled": 20,
+        "drafted_by_template": 0,
+        "posted_in_template_form": 15,
+        "untouched": 0
+      },
+      {
+        "day": "2026-10-15",
+        "sampled": 32,
+        "drafted_by_template": 3,
+        "posted_in_template_form": 10,
+        "untouched": 1
+      }
+    ],
+    "breakdown": {
+      "sample": "52 exact drafts, 10/14-10/15",
+      "buckets": [
+        {
+          "key": "wrong",
+          "label": "Draft was wrong",
+          "n": 19,
+          "color": "#e0702e",
+          "needed": true,
+          "detail": "a status invented from an image-only report (5), no news in the draft (5), the Monitor picked a non-news tweet (5), wrong player, injury or status (4)",
+          "tickets": [
+            "RD-8171",
+            "RD-8114"
+          ],
+          "no_ticket": [
+            "Monitor picking non-news tweets (stat lines, milestones, features)"
+          ]
+        },
+        {
+          "key": "content",
+          "label": "Facts right, detail added or cut",
+          "n": 14,
+          "color": "#9a7fd8",
+          "needed": true,
+          "detail": "added the participation level or injury tag (9), cut speculation (3), newer detail (2)",
+          "tickets": [
+            "RD-8090"
+          ],
+          "no_ticket": [
+            "Templates on beat-writer practice news and \"did not practice\" (asked Kulina 10/15)"
+          ]
+        },
+        {
+          "key": "style",
+          "label": "Same facts, house style",
+          "n": 14,
+          "color": "#a8902c",
+          "needed": false,
+          "detail": "official injury-report wording, quote marks, credit to the team account",
+          "tickets": [
+            "RD-8090"
+          ],
+          "no_ticket": [
+            "Templates on beat-writer practice news and \"did not practice\" (asked Kulina 10/15)"
+          ]
+        },
+        {
+          "key": "minor",
+          "label": "Small rewording",
+          "n": 4,
+          "color": "#2aa5bb",
+          "needed": false,
+          "detail": "synonyms and word order, same meaning",
+          "no_ticket": [
+            "Desk call: these could have gone out as drafted"
+          ]
+        },
+        {
+          "key": "none",
+          "label": "Posted as drafted",
+          "n": 1,
+          "color": "#5b6672",
+          "needed": false,
+          "detail": ""
+        }
+      ]
+    }
   },
   "weekdays": [
     {
@@ -12875,18 +12958,18 @@
   "summary": {
     "margin": {
       "last30": {
-        "n": 823,
+        "n": 822,
         "median": 105,
         "rw_first_pct": 8.6,
-        "tie_pct": 23.2,
+        "tie_pct": 23.1,
         "ud_first_pct": 68.2
       },
       "prior30": {
-        "n": 391,
-        "median": 129,
-        "rw_first_pct": 11.8,
-        "tie_pct": 19.2,
-        "ud_first_pct": 69.1
+        "n": 392,
+        "median": 128,
+        "rw_first_pct": 11.7,
+        "tie_pct": 19.4,
+        "ud_first_pct": 68.9
       },
       "rolling": [
         [
@@ -13796,6 +13879,24 @@
               "status": "Ready for Work",
               "category": "new",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8169"
+            },
+            {
+              "key": "RD-8171",
+              "title": "Stop inventing a status from image-only sources",
+              "note": null,
+              "replaces": null,
+              "status": null,
+              "category": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8171"
+            },
+            {
+              "key": "RD-8114",
+              "title": "Read NFL injury report images",
+              "note": null,
+              "replaces": null,
+              "status": "In Refinement",
+              "category": "new",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8114"
             }
           ]
         },
