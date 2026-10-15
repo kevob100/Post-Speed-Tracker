@@ -106,6 +106,78 @@ def sync(data_dir: Path, league: str) -> str:
     return f"{len(fresh)} rows pulled, {len(rows)} stored"
 
 
+EDIT_DAYS = 90          # how far back the editing trend is kept
+EXAMPLE_DAYS = 3        # days re-pulled for draft-vs-posted examples each run (20 per day max)
+EXAMPLES_KEPT = 60
+
+
+def sync_edits(data_dir: Path, league: str) -> str:
+    """X post edits: per day/version rows (accumulated past the 30-day window) and recent
+    draft-vs-posted examples, which are what the templates get rewritten from."""
+    today = datetime.now(timezone.utc).date()
+    rows_path, ex_path = data_dir / "x_post_edits.jsonl", data_dir / "x_post_examples.jsonl"
+    key = lambda r: f"{r['day']}|{r['league']}|{r['generate_prompt_version']}|{r.get('manual')}"  # noqa: E731
+    stored = {key(r): r for r in load_jsonl(rows_path)}
+    frm = (today - timedelta(days=FETCH_DAYS - 1)).isoformat()
+    fresh = _call("x_post_edits", {"from": frm, "to": today.isoformat(), "leagues": [league]})["rows"]
+    for r in fresh:
+        stored[key(r)] = r
+    write_jsonl(rows_path, sorted(stored.values(), key=key))
+
+    ex = {e["article_id"]: e for e in load_jsonl(ex_path)}
+    first = not ex
+    for i in range(FETCH_DAYS if first else EXAMPLE_DAYS):
+        day = (today - timedelta(days=i)).isoformat()
+        for e in _call("x_post_edits", {"from": day, "to": day, "leagues": [league], "examples": True}).get("examples", []):
+            ex[e["article_id"]] = e
+    kept = sorted(ex.values(), key=lambda e: e["posted_at"], reverse=True)
+    write_jsonl(ex_path, kept[:EXAMPLES_KEPT * 4])
+    return f"{len(fresh)} edit rows, {len(kept)} examples"
+
+
+def _edits(data_dir: Path, timeline: list[dict], now: datetime) -> dict | None:
+    """Daily % of posts edited and how much they change, opened-to-posted time, the same
+    by template version, and the latest draft-vs-posted examples."""
+    rows = load_jsonl(data_dir / "x_post_edits.jsonl")
+    if not rows:
+        return None
+    start = (now - timedelta(days=EDIT_DAYS)).date().isoformat()
+    rows = [r for r in rows if r["day"] >= start]
+
+    def roll(group):
+        sc = sum(r["scored"] for r in group)
+        un = sum(r["unchanged"] for r in group)
+        dist = sum((r["mean_distance"] or 0) * r["scored"] for r in group)
+        stored = sum((r.get("baseline") or {}).get("stored", 0) for r in group)
+        return {"posts": sum(r["posts"] for r in group), "scored": sc,
+                "edited_pct": round(100 * (sc - un) / sc, 1) if sc else None,
+                "change_pct": round(100 * dist / sc, 1) if sc else None,
+                "stored_pct": round(100 * stored / sc, 1) if sc else None}
+
+    by_day: dict[str, list] = {}
+    for r in rows:
+        by_day.setdefault(r["day"], []).append(r)
+    open_x: dict[str, list] = {}
+    for t in timeline:
+        if t.get("open_to_x_seconds") is not None and t.get("posted_to_x_at") and not _is_manual(t):
+            open_x.setdefault(t["posted_to_x_at"][:10], []).append(t["open_to_x_seconds"])
+    daily = [{"day": d, **roll(g), "open_to_x": _stat(open_x.get(d, []))} for d, g in sorted(by_day.items())]
+
+    by_ver: dict[str, list] = {}
+    for r in rows:
+        if r["generate_prompt_version"]:
+            by_ver.setdefault(r["generate_prompt_version"], []).append(r)
+    versions = sorted(({"version": v, "first_day": min(r["day"] for r in g), "last_day": max(r["day"] for r in g), **roll(g)}
+                       for v, g in by_ver.items()), key=lambda x: x["first_day"])
+
+    ex = sorted(load_jsonl(data_dir / "x_post_examples.jsonl"), key=lambda e: e["posted_at"], reverse=True)
+    examples = [{k: e.get(k) for k in ("posted_at", "generate_prompt_version", "manual", "baseline_source", "distance", "draft", "posted")}
+                for e in ex if e.get("draft") and e.get("posted")][:EXAMPLES_KEPT]
+    last7 = [r for r in rows if r["day"] > (now - timedelta(days=7)).date().isoformat()]
+    return {"daily": daily, "versions": versions, "examples": examples, "last7": roll(last7),
+            "stored_since": "2026-10-14"}
+
+
 # ---------------------------------------------------------------- summarising
 
 def _med(xs: list) -> int | None:
@@ -326,6 +398,7 @@ def build(data_dir: Path, docs_dir: Path, stories: list[dict], now: datetime | N
         "opens_tracked_since": "2026-10-13",
         "paths": _paths(win, rows),
         "manual_weekly": weekly,
+        "edits": _edits(data_dir, all_rows, now),
         "weekdays": [],
     }
     for d in ["Sun", "Wed", "Mon", "Tue", "Thu", "Fri", "Sat"]:
@@ -352,7 +425,11 @@ if __name__ == "__main__":
     a = ap.parse_args()
     data_dir, docs_dir = sport_data_dir(a.sport), sport_docs_dir(a.sport)
     if not a.no_sync:
-        print(f"[desk]      {sync(data_dir, a.sport) if has_credentials() else 'no ROTOWIRE_MCP_TOKEN, skipped sync'}")
+        if has_credentials():
+            print(f"[desk]      {sync(data_dir, a.sport)}")
+            print(f"[desk]      {sync_edits(data_dir, a.sport)}")
+        else:
+            print("[desk]      no ROTOWIRE_MCP_TOKEN, skipped sync")
     stories = json.loads((docs_dir / "stories.json").read_text())
     res = build(data_dir, docs_dir, stories)
     if res:

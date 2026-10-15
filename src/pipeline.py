@@ -152,6 +152,7 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
         if desk_speed.has_credentials():
             try:
                 print(f"[desk]      {desk_speed.sync(data_dir, ds_cfg.get('league', sport))}")
+                print(f"[desk]      {desk_speed.sync_edits(data_dir, ds_cfg.get('league', sport))}")
             except Exception as e:  # keep the rows from the last good sync
                 print(f"[desk]      sync skipped: {e}")
         try:
