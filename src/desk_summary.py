@@ -70,7 +70,7 @@ def margin(stories: list[dict], now: datetime) -> dict:
         r7 = [x for t, x in pts if end - timedelta(days=7) <= t < end]
         r30 = [x for t, x in pts if end - timedelta(days=30) <= t < end]
         r1 = [x for t, x in pts if end - timedelta(days=1) <= t < end]
-        rolling.append([d.isoformat(), _med(r7) if len(r7) >= 15 else None, _med(r30) if len(r30) >= 30 else None,
+        rolling.append([d.isoformat(), _med(r7) if len(r7) >= 30 else None, _med(r30) if len(r30) >= 30 else None,
                         _med(r1) if r1 else None, len(r1)])
         d += timedelta(days=1)
     return {"last30": window(now - timedelta(days=30), now),

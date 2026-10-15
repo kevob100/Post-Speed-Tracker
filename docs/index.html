@@ -3190,7 +3190,9 @@ const SM_DAY_MIN = 10;
 let smMode = (() => { try { return localStorage.getItem("sm-mode") || "rolling"; } catch (e) { return "rolling"; } })();
 function smChart(host, S) {
   host.innerHTML = "";
-  const R = S.margin.rolling, daily = smMode === "daily", W = host.clientWidth || 700, H = 200, L = 56, Rr = 76, T = 14, B = 22;
+  // The window is 90 days, but the axis starts at the first day this view has a value for.
+  const daily = smMode === "daily", has = r => daily ? r[4] >= SM_DAY_MIN : r[1] != null;
+  const R = S.margin.rolling.slice(Math.max(0, S.margin.rolling.findIndex(has))), W = host.clientWidth || 700, H = 200, L = 56, Rr = 76, T = 14, B = 22;
   const val = r => daily ? (r[4] >= SM_DAY_MIN ? r[3] : null) : r[1];
   const vals = R.map(val).filter(v => v != null), srt = [...vals].sort((a, b) => a - b), q = f => srt[Math.floor(f * (srt.length - 1))];
   // Scale to the middle 90% of points, so one bad day or week is clipped instead of flattening the rest.
