@@ -3148,6 +3148,11 @@ addEventListener("resize", () => { clearTimeout(window._smResize); window._smRes
 // assigned to the dev and in an open sprint (that sprint's commitment); the rest is backlog.
 const rmCls = c => ({ done: "done", indeterminate: "prog", new: "todo" }[c] || "todo");
 const rmSprint = sp => { const d = x => x ? smDay(x.slice(0, 10)) : "?"; return `${esc(sp.name)} · ${d(sp.start)}–${d(sp.end)}`; };
+// Sprint tables: highest priority first, then work in flight above work not started, done last.
+const RM_PRI = { Highest: 0, High: 1, Medium: 2, Low: 3, Lowest: 4 };
+const RM_ST = { "In Progress": 0, "In Review": 1, "Ready for Release": 2, "Ready for Work": 3, "Ready for Estimation": 4, "In Refinement": 5 };
+const rmStRank = t => t.category === "done" ? 9 : RM_ST[t.status] ?? (t.category === "indeterminate" ? 2 : 6);
+const rmOrder = ts => [...ts].sort((a, b) => (RM_PRI[a.priority] ?? 5) - (RM_PRI[b.priority] ?? 5) || rmStRank(a) - rmStRank(b) || a.key.localeCompare(b.key, undefined, { numeric: true }));
 function renderRoad() {
   const host = document.getElementById("road"), I = state.desk && state.desk.summary && state.desk.summary.initiative;
   if (!host) return;
@@ -3169,7 +3174,7 @@ function renderRoad() {
       return `<div class="sm-card rm-sp"><div class="lbl">${sp.state === "active" ? "Current sprint" : "Next sprint"} · ${rmSprint(sp)}</div><div class="n">${n.length}</div>
         <div class="lbl">prioritized · ${n.filter(t => t.category === "indeterminate").length} in progress · ${n.filter(t => t.category === "new").length} not started</div></div>`; }).join("")}
       <div class="sm-card rm-sp"><div class="lbl">Backlog</div><div class="n">${back}</div><div class="lbl">not done, not in an open sprint</div></div></div>
-    ${I.sprints.map(sp => { const n = pri.filter(t => t.sprint === sp.name); return n.length ? `<h2 class="sm-h">${sp.state === "active" ? "Current sprint" : "Next sprint"}: ${esc(sp.name)}</h2>
+    ${I.sprints.map(sp => { const n = rmOrder(pri.filter(t => t.sprint === sp.name)); return n.length ? `<h2 class="sm-h">${sp.state === "active" ? "Current sprint" : "Next sprint"}: ${esc(sp.name)}</h2>
       <div class="sm-card scroll" style="overflow-x:auto"><table class="rm-tbl"><thead><tr><th>Ticket</th><th>What · epic</th><th>Status</th><th>Priority</th></tr></thead><tbody>${n.map(row).join("")}</tbody></table></div>` : ""; }).join("")}
     <h2 class="sm-h">By epic</h2>
     <div class="rm-epics">${open.map(epic).join("")}</div>
