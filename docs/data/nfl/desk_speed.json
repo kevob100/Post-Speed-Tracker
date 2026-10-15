@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T18:10:37.631285+00:00",
+  "generated_at": "2026-10-15T18:16:45.200572+00:00",
   "window": {
     "from": "2026-09-16",
     "to": "2026-10-15",
@@ -8,11 +8,11 @@
   "opens_tracked_since": "2026-10-13",
   "paths": {
     "all": {
-      "posts": 1049,
+      "posts": 1061,
       "race": {
-        "n": 797,
-        "median_gap": 106,
-        "underdog_first_pct": 87.7,
+        "n": 801,
+        "median_gap": 105,
+        "underdog_first_pct": 87.8,
         "gaps": [
           -19551,
           -17409,
@@ -123,6 +123,7 @@
           8,
           9,
           9,
+          11,
           12,
           12,
           12,
@@ -252,6 +253,7 @@
           56,
           56,
           56,
+          57,
           57,
           57,
           57,
@@ -404,6 +406,7 @@
           103,
           103,
           103,
+          103,
           104,
           104,
           105,
@@ -412,6 +415,7 @@
           105,
           105,
           105,
+          106,
           106,
           107,
           107,
@@ -821,13 +825,13 @@
       },
       "from_source": {
         "median": 180,
-        "n": 729
+        "n": 733
       }
     },
     "monitor": {
-      "posts": 502,
+      "posts": 510,
       "race": {
-        "n": 388,
+        "n": 390,
         "median_gap": 112,
         "underdog_first_pct": 87.4,
         "gaps": [
@@ -883,6 +887,7 @@
           2,
           4,
           7,
+          11,
           12,
           12,
           12,
@@ -1009,6 +1014,7 @@
           101,
           102,
           102,
+          103,
           103,
           105,
           105,
@@ -1220,7 +1226,7 @@
           9219,
           19034
         ],
-        "underdog_before_source_pct": 19.3,
+        "underdog_before_source_pct": 19.2,
         "before_source": {
           "n": 75,
           "monitor_had_earlier": 21,
@@ -1228,39 +1234,39 @@
         }
       },
       "from_source": {
-        "median": 210,
-        "n": 388
+        "median": 208,
+        "n": 390
       },
       "steps": {
         "sent_to_monitor": {
           "median": 31,
-          "n": 536
+          "n": 537
         },
         "monitor_to_open": {
-          "median": 82,
-          "n": 42
+          "median": 76,
+          "n": 43
         },
         "open_to_x": {
-          "median": 40,
-          "n": 42
+          "median": 42,
+          "n": 43
         },
         "monitor_to_x": {
           "median": 165,
-          "n": 536
+          "n": 537
         },
         "split": true,
         "edited": {
           "pct": 98.9,
-          "n": 536
+          "n": 537
         }
       }
     },
     "manual": {
-      "posts": 426,
+      "posts": 430,
       "race": {
-        "n": 320,
+        "n": 322,
         "median_gap": 90,
-        "underdog_first_pct": 88.1,
+        "underdog_first_pct": 88.2,
         "gaps": [
           -16799,
           -15134,
@@ -1361,6 +1367,7 @@
           56,
           56,
           57,
+          57,
           58,
           58,
           59,
@@ -1441,6 +1448,7 @@
           105,
           105,
           105,
+          106,
           106,
           107,
           107,
@@ -1583,7 +1591,7 @@
           7680,
           12610
         ],
-        "underdog_before_source_pct": 7.2,
+        "underdog_before_source_pct": 7.1,
         "before_source": {
           "n": 23,
           "monitor_had_earlier": 0,
@@ -1592,11 +1600,11 @@
       },
       "from_source": {
         "median": 145,
-        "n": 269
+        "n": 271
       },
       "add_line_to_x": {
-        "median": 261,
-        "n": 2
+        "median": 79,
+        "n": 4
       }
     },
     "other": {
@@ -1702,8 +1710,8 @@
         "n": 72
       }
     },
-    "manual_pct": 40.6,
-    "other_pct": 11.5
+    "manual_pct": 40.5,
+    "other_pct": 11.4
   },
   "manual_weekly": [
     {
@@ -1732,9 +1740,9 @@
     },
     {
       "week": "2026-10-12",
-      "posts": 82,
-      "manual": 26,
-      "pct": 31.7
+      "posts": 94,
+      "manual": 30,
+      "pct": 31.9
     }
   ],
   "weekdays": [
@@ -3135,11 +3143,11 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 190,
+          "posts": 202,
           "race": {
-            "n": 139,
-            "median_gap": 114,
-            "underdog_first_pct": 82.0,
+            "n": 143,
+            "median_gap": 107,
+            "underdog_first_pct": 82.5,
             "gaps": [
               -19551,
               -16799,
@@ -3169,6 +3177,7 @@
               4,
               5,
               8,
+              11,
               12,
               13,
               19,
@@ -3187,6 +3196,7 @@
               52,
               54,
               56,
+              57,
               59,
               64,
               65,
@@ -3207,7 +3217,9 @@
               91,
               98,
               100,
+              103,
               105,
+              106,
               107,
               107,
               114,
@@ -3281,7 +3293,7 @@
               4263,
               5322
             ],
-            "underdog_before_source_pct": 14.2,
+            "underdog_before_source_pct": 13.8,
             "before_source": {
               "n": 19,
               "monitor_had_earlier": 1,
@@ -3289,16 +3301,16 @@
             }
           },
           "from_source": {
-            "median": 217,
-            "n": 131
+            "median": 208,
+            "n": 135
           }
         },
         "monitor": {
-          "posts": 87,
+          "posts": 95,
           "race": {
-            "n": 67,
+            "n": 69,
             "median_gap": 114,
-            "underdog_first_pct": 76.1,
+            "underdog_first_pct": 76.8,
             "gaps": [
               -19551,
               -12516,
@@ -3317,6 +3329,7 @@
               -43,
               -34,
               4,
+              11,
               12,
               13,
               19,
@@ -3332,6 +3345,7 @@
               81,
               84,
               91,
+              103,
               114,
               114,
               115,
@@ -3368,7 +3382,7 @@
               2144,
               4263
             ],
-            "underdog_before_source_pct": 16.4,
+            "underdog_before_source_pct": 15.9,
             "before_source": {
               "n": 11,
               "monitor_had_earlier": 1,
@@ -3376,39 +3390,39 @@
             }
           },
           "from_source": {
-            "median": 239,
-            "n": 67
+            "median": 234,
+            "n": 69
           },
           "steps": {
             "sent_to_monitor": {
-              "median": 42,
-              "n": 100
+              "median": 41,
+              "n": 101
             },
             "monitor_to_open": {
-              "median": 89,
-              "n": 8
+              "median": 76,
+              "n": 9
             },
             "open_to_x": {
-              "median": 54,
-              "n": 8
+              "median": 75,
+              "n": 9
             },
             "monitor_to_x": {
-              "median": 173,
-              "n": 100
+              "median": 176,
+              "n": 101
             },
             "split": false,
             "edited": {
               "pct": 100.0,
-              "n": 100
+              "n": 101
             }
           }
         },
         "manual": {
-          "posts": 93,
+          "posts": 97,
           "race": {
-            "n": 67,
+            "n": 69,
             "median_gap": 105,
-            "underdog_first_pct": 86.6,
+            "underdog_first_pct": 87.0,
             "gaps": [
               -16799,
               -15134,
@@ -3430,6 +3444,7 @@
               50,
               54,
               56,
+              57,
               59,
               65,
               67,
@@ -3444,6 +3459,7 @@
               98,
               100,
               105,
+              106,
               107,
               107,
               124,
@@ -3478,7 +3494,7 @@
               3091,
               5322
             ],
-            "underdog_before_source_pct": 11.9,
+            "underdog_before_source_pct": 11.6,
             "before_source": {
               "n": 8,
               "monitor_had_earlier": 0,
@@ -3486,12 +3502,12 @@
             }
           },
           "from_source": {
-            "median": 175,
-            "n": 61
+            "median": 169,
+            "n": 63
           },
           "add_line_to_x": {
-            "median": 261,
-            "n": 2
+            "median": 79,
+            "n": 4
           }
         },
         "other": {
@@ -3513,8 +3529,8 @@
             "n": 3
           }
         },
-        "manual_pct": 48.9,
-        "other_pct": 5.3
+        "manual_pct": 48.0,
+        "other_pct": 5.0
       }
     },
     {
