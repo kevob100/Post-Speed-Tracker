@@ -74,8 +74,8 @@ sports:
         sample: 52 exact drafts, 10/14-10/15
         buckets:
         - {key: wrong, label: Draft was wrong, n: 19, color: '#e0702e', needed: true, detail: 'a status invented from an image-only report (5), no news in the draft (5), the Monitor picked a non-news tweet (5), wrong player, injury or status (4)', tickets: [RD-8171, RD-8114], no_ticket: ['Monitor picking non-news tweets (stat lines, milestones, features)']}
-        - {key: content, label: 'Facts right, detail added or cut', n: 14, color: '#9a7fd8', needed: true, detail: 'added the participation level or injury tag (9), cut speculation (3), newer detail (2)', tickets: [RD-8090], no_ticket: ['Templates on beat-writer practice news and "did not practice" (asked Kulina 10/15)']}
-        - {key: style, label: 'Same facts, house style', n: 14, color: '#a8902c', needed: false, detail: 'official injury-report wording, quote marks, credit to the team account', tickets: [RD-8090], no_ticket: ['Templates on beat-writer practice news and "did not practice" (asked Kulina 10/15)']}
+        - {key: content, label: 'Facts right, detail fixed', n: 19, color: '#9a7fd8', needed: true, detail: 'added the participation level or injury tag (9), cut speculation (3), accuracy or style-rule fix (3), blank credit filled in (2), newer detail (2)', tickets: [RD-8090], no_ticket: ['Templates on beat-writer practice news and "did not practice" (asked Kulina 10/15)']}
+        - {key: style, label: 'Same facts, house style', n: 9, color: '#a8902c', needed: false, detail: 'official injury-report wording, quote marks, credit to the team account', tickets: [RD-8090], no_ticket: ['Templates on beat-writer practice news and "did not practice" (asked Kulina 10/15)']}
         - {key: minor, label: Small rewording, n: 4, color: '#2aa5bb', needed: false, detail: 'synonyms and word order, same meaning', no_ticket: ['Desk call: these could have gone out as drafted']}
         - {key: none, label: Posted as drafted, n: 1, color: '#5b6672', needed: false, detail: ''}
       # The tickets behind each step (Summary: "What we're doing about it"). Status comes

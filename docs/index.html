@@ -460,6 +460,7 @@
   #edits h3 { font-size: 14px; margin: 24px 0 2px; }
   .eb-bar { display: flex; gap: 2px; height: 22px; margin: 10px 0 6px; border-radius: 4px; overflow: hidden; }
   .eb-bar span { display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700; color: #0f1419; font-variant-numeric: tabular-nums; }
+  .eb-bar.sm-eb { height: 8px; margin: 10px 0 4px; }
   .eb-call { font-size: 13px; margin: 6px 0 10px; } .eb-call b { color: var(--text); }
   .eb-sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 8px; vertical-align: -1px; }
   .cr-table td.eb-wrap { white-space: normal; min-width: 180px; }
@@ -3302,7 +3303,8 @@ function renderSummary() {
         <div style="font-weight:600">of AI-drafted posts get edited before they go out</div>
         <div class="sm-delta" style="margin-top:6px">${w.change_pct == null ? "" : `${Math.round(w.change_pct)}% of the draft rewritten on average. `}Every post that goes out untouched cuts the posting step. Last 30 days, ${w.scored || 0} posts. <a href="#edits" id="sm-to-edits">See it by day and template in Details</a>.</div>
         ${(() => { const B = (d.edits || {}).breakdown; if (!B) return ""; const tot = B.buckets.reduce((a, b) => a + b.n, 0), opt = B.buckets.filter(b => !b.needed && b.key !== "none").reduce((a, b) => a + b.n, 0);
-          return `<div class="sm-delta" style="margin-top:6px"><b style="color:var(--text)">${Math.round(100 * opt / tot)}%</b> of edits in a hand-checked sample changed only the wording, not the facts.</div>`; })()}
+          return `<div class="eb-bar sm-eb" role="img" aria-label="${B.buckets.map(b => `${b.label} ${b.n}`).join(", ")}">${B.buckets.filter(b => b.n).map(b => `<span style="flex:${b.n};background:${b.color}" title="${esc(b.label)}: ${b.n}"></span>`).join("")}</div>
+            <div class="sm-delta"><b style="color:var(--text)">${Math.round(100 * opt / tot)}%</b> of edits in a hand-checked sample changed only the wording, not the facts. <span style="color:#e0702e">${(B.buckets.find(b => b.key === "wrong") || {}).n || 0}</span> of ${tot} drafts were wrong, mostly from image-only sources.</div>`; })()}
         ${s3.length ? `<div class="dc-f"><div class="t">Being done about it</div><div class="pills">${s3.map(i => smPill(i)).join("")}</div></div>` : ""}
       </div>
     </div>
