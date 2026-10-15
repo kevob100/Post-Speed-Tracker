@@ -175,7 +175,10 @@ def _edits(data_dir: Path, timeline: list[dict], now: datetime) -> dict | None:
     examples = [{k: e.get(k) for k in ("posted_at", "generate_prompt_version", "manual", "baseline_source", "distance", "draft", "posted")}
                 for e in ex if e.get("draft") and e.get("posted")][:EXAMPLES_KEPT]
     last30 = [r for r in rows if r["day"] > (now - timedelta(days=30)).date().isoformat()]
-    return {"daily": daily, "versions": versions, "examples": examples, "last30": roll(last30),
+    # Monitor drafts vs Add Line drafts (News Admin splits them since RD-8163, backfilled).
+    by_path = {"monitor": roll([r for r in last30 if not r.get("manual")]),
+               "manual": roll([r for r in last30 if r.get("manual")])}
+    return {"daily": daily, "versions": versions, "examples": examples, "last30": roll(last30), "by_path": by_path,
             "stored_since": "2026-10-14"}
 
 
@@ -443,6 +446,9 @@ if __name__ == "__main__":
     if has_credentials() and not a.no_sync:
         keys = [t["key"] for st in cfg.get("roadmap", []) for t in st.get("tickets", [])]
         print(f"[desk]      {desk_summary.sync_tickets(data_dir, keys)}")
+        root = (cfg.get("initiative") or {}).get("root")
+        if root:
+            print(f"[desk]      {desk_summary.sync_initiative(data_dir, root)}")
     stories = json.loads((docs_dir / "stories.json").read_text())
     res = build(data_dir, docs_dir, stories, cfg=cfg)
     if res:

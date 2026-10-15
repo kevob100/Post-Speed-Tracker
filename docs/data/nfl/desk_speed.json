@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-15T20:04:43.989273+00:00",
+  "generated_at": "2026-10-15T20:12:12.600424+00:00",
   "window": {
     "from": "2026-09-16",
     "to": "2026-10-15",
@@ -1240,24 +1240,24 @@
       "steps": {
         "sent_to_monitor": {
           "median": 31,
-          "n": 537
+          "n": 543
         },
         "monitor_to_open": {
           "median": 76,
-          "n": 43
+          "n": 49
         },
         "open_to_x": {
           "median": 42,
-          "n": 43
+          "n": 49
         },
         "monitor_to_x": {
           "median": 165,
-          "n": 537
+          "n": 543
         },
         "split": true,
         "edited": {
           "pct": 98.9,
-          "n": 537
+          "n": 543
         }
       }
     },
@@ -1603,8 +1603,8 @@
         "n": 271
       },
       "add_line_to_x": {
-        "median": 60,
-        "n": 5
+        "median": 56,
+        "n": 10
       }
     },
     "other": {
@@ -2085,14 +2085,14 @@
       },
       {
         "day": "2026-10-15",
-        "posts": 15,
-        "scored": 15,
-        "edited_pct": 100.0,
-        "change_pct": 46.9,
+        "posts": 26,
+        "scored": 26,
+        "edited_pct": 96.2,
+        "change_pct": 46.5,
         "stored_pct": 100.0,
         "open_to_x": {
-          "median": 80,
-          "n": 10
+          "median": 60,
+          "n": 16
         }
       }
     ],
@@ -2181,14 +2181,113 @@
         "version": "generate_v25_2026_10_14",
         "first_day": "2026-10-14",
         "last_day": "2026-10-15",
-        "posts": 21,
-        "scored": 21,
-        "edited_pct": 100.0,
-        "change_pct": 46.2,
+        "posts": 32,
+        "scored": 32,
+        "edited_pct": 96.9,
+        "change_pct": 46.1,
         "stored_pct": 100.0
       }
     ],
     "examples": [
+      {
+        "posted_at": "2026-10-15T20:10:13Z",
+        "generate_prompt_version": "generate_v25_2026_10_14",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.5055,
+        "draft": "TreVeyon Henderson (ankle) was going through drills at Thursday's practice.\n\nVia",
+        "posted": "TreVeyon Henderson (ankle) practiced on a limited basis Thursday for a second straight day.\n\nVia @ByMarkDaniels"
+      },
+      {
+        "posted_at": "2026-10-15T20:09:40Z",
+        "generate_prompt_version": "generate_v25_2026_10_14",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.8,
+        "draft": "No player-specific update could be confirmed from the provided source text.\n\nVia @ByMarkDaniels",
+        "posted": "A.J. Brown (ankle) remained a limited participant on Thursday's practice report.\n\nVia @ByMarkDaniels"
+      },
+      {
+        "posted_at": "2026-10-15T20:06:24Z",
+        "generate_prompt_version": "generate_v25_2026_10_14",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.369,
+        "draft": "Tyjae Spears (knee) appeared on Thursday's injury report.\n\nVia @TitansPR",
+        "posted": "Tyjae Spears (knee) was downgraded to a non-participant on Thursday's injury report.\n\nVia @TitansPR"
+      },
+      {
+        "posted_at": "2026-10-15T20:03:55Z",
+        "generate_prompt_version": "generate_v25_2026_10_14",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.4409,
+        "draft": "Rico Dowdle (toe) was a full participant in Thursday's practice for the first time since the injury and could return this week.\n\nVia @MikeDeFabo",
+        "posted": "Rico Dowdle (toe) was a full participant in Thursday's practice session.\n\nVia @rayfitt1"
+      },
+      {
+        "posted_at": "2026-10-15T20:01:59Z",
+        "generate_prompt_version": "generate_v25_2026_10_14",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.5275,
+        "draft": "Kenyon Sadiq (concussion) is listed as questionable for Sunday's game against the Patriots.\n\nVia @nyjets",
+        "posted": "Kenyon Sadiq (concussion) remained a limited participant on Thursday's practice report.\n\nVia @nyjets"
+      },
+      {
+        "posted_at": "2026-10-15T19:54:04Z",
+        "generate_prompt_version": "generate_v25_2026_10_14",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.5987,
+        "draft": "Caleb Williams (hamstring) said he doesn't know if he's playing this weekend against the Falcons because he has to go through \"a bunch of medical protocols.\"\n\nVia @sean_hammond",
+        "posted": "Caleb Williams (hamstring) said Thursday that he has \"a bunch of medical protocols\" to go through before being cleared to play in Week 6.\n\nVia @sean_hammond"
+      },
+      {
+        "posted_at": "2026-10-15T19:45:55Z",
+        "generate_prompt_version": "generate_v25_2026_10_14",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.5106,
+        "draft": "Josh Downs (hamstring) was on Thursday's practice report for Sunday's game against the Titans.\n\nVia @Colts",
+        "posted": "Josh Downs (rest/hamstring) was a full participant in Thursday's practice session.\n\nVia @Colts"
+      },
+      {
+        "posted_at": "2026-10-15T19:42:42Z",
+        "generate_prompt_version": "generate_v25_2026_10_14",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.6903,
+        "draft": "Deebo Samuel (hamstring), per head coach Kyle Shanahan, would be an IR consideration but San Francisco is going to hold off because of the Week 8 bye.\n\nVia @VicTafur",
+        "posted": "Head coach Kyle Shanahan said Thursday that the 49ers will \"hold off\" placing Deebo Samuel (hamstring) on injured reserve because of the team's Week 8 bye.\n\nVia @VicTafur"
+      },
+      {
+        "posted_at": "2026-10-15T19:40:21Z",
+        "generate_prompt_version": "generate_v25_2026_10_14",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.0,
+        "draft": "Mike Evans (ribs/Achilles), per head coach Kyle Shanahan, will not practice Thursday.\n\nVia @CamInman",
+        "posted": "Mike Evans (ribs/Achilles), per head coach Kyle Shanahan, will not practice Thursday.\n\nVia @CamInman"
+      },
+      {
+        "posted_at": "2026-10-15T19:32:13Z",
+        "generate_prompt_version": "generate_v25_2026_10_14",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.3523,
+        "draft": "Kyle Monangai (toe) did not participate in Thursday's practice.\n\nVia @kfishbain",
+        "posted": "Kyle Monangai (thumb/toe) was listed as a non-participant on Thursday's practice report.\n\nVia @BearsPR"
+      },
+      {
+        "posted_at": "2026-10-15T19:31:17Z",
+        "generate_prompt_version": "generate_v25_2026_10_14",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.2614,
+        "draft": "Caleb Williams (hamstring) was a full participant in Thursday's practice.\n\nVia @JasonLieser",
+        "posted": "Caleb Williams (hamstring) was listed as a full participant on Thursday's injury report.\n\nVia @BearsPR"
+      },
       {
         "posted_at": "2026-10-15T18:41:59Z",
         "generate_prompt_version": "generate_v25_2026_10_14",
@@ -2629,113 +2728,30 @@
         "distance": 0.7278,
         "draft": "Head coach Jesse Minter said Monday that the Ravens could designate Lane (wrist) to return from injured reserve as soon as Wednesday, <a href=\"https://x.com/jonas_shaffer/status/2109725231824642062\">Jonas Shaffer of the Baltimore Banner</a> reports.\n\nVia",
         "posted": "Ja'Kobi Lane (wrist) is doing well with his conditioning and could be designated for a return to practice Wednesday.\n\nVia @jonas_shaffer"
-      },
-      {
-        "posted_at": "2026-10-12T19:12:23Z",
-        "generate_prompt_version": "generate_v18_2026_10_09",
-        "manual": false,
-        "baseline_source": "reconstructed",
-        "distance": 0.5395,
-        "draft": "Jaylen Warren is Mike McCarthy's \"featured player right now\" in the Steelers' backfield as Pittsburgh weighs a shared workload with Rico Dowdle.\n\nVia @bepryor",
-        "posted": "Jaylen Warren is viewed as the \"featured player\" in the Steelers backfield, even once Rico Dowdle (toe) returns to action, per head coach Mike McCarthy.\n\nVia @bepryor"
-      },
-      {
-        "posted_at": "2026-10-12T19:10:22Z",
-        "generate_prompt_version": "generate_v18_2026_10_09",
-        "manual": false,
-        "baseline_source": "reconstructed",
-        "distance": 0.5804,
-        "draft": "Roman Wilson (finger) will be out this week, as Pittsburgh coach Mike McCarthy said Monday.\n\nVia @FarabaughFB",
-        "posted": "Roman Wilson (finger) has been ruled out for Sunday's game against the Buccaneers, per head coach Mike McCarthy.\n\nVia @FarabaughFB"
-      },
-      {
-        "posted_at": "2026-10-12T19:09:12Z",
-        "generate_prompt_version": "generate_v18_2026_10_09",
-        "manual": true,
-        "baseline_source": "reconstructed",
-        "distance": 0.6519,
-        "draft": "Head coach Jesse Minter said Monday that Jackson is \"definitely doing better\" in his recovery from a sprained left ankle, <a href=\"https://x.com/jamisonhensley/status/2109722323817300091\">Jamison Hensley of ESPN.com</a> reports.\n\nVia",
-        "posted": "Lamar Jackson (ankle) is \"definitely doing better\" but is uncertain to return to practice Wednesday, per head coach Jesse Minter.\n\nVia @jamisonhensley"
-      },
-      {
-        "posted_at": "2026-10-12T19:01:05Z",
-        "generate_prompt_version": "generate_v18_2026_10_09",
-        "manual": false,
-        "baseline_source": "reconstructed",
-        "distance": 0.7095,
-        "draft": "Michael Penix Jr. (ribs) is expected to have a chance to play Sunday against the Bears. He missed overtime in Sunday's loss after the injury worsened while he was on the sideline.\n\nVia",
-        "posted": "There is optimism that Michael Penix Jr. (ribs) will be able to play against the Bears on Sunday.\n\nVia @jjones9"
-      },
-      {
-        "posted_at": "2026-10-12T18:57:58Z",
-        "generate_prompt_version": "generate_v18_2026_10_09",
-        "manual": false,
-        "baseline_source": "reconstructed",
-        "distance": 0.4407,
-        "draft": "Jordyn Tyson (hamstring) isn't expected to return to practice this week. Saints coach Kellen Moore said Monday, \"Not right now, but he's progressing well. He's done a good job.\"\n\nVia @Jeff_Nowak",
-        "posted": "Jordyn Tyson (hamstring) isn't expected to return to practice this week but is \"progressing well,\" per head coach Kellen Moore on Monday.\n\nVia @Jeff_Nowak"
-      },
-      {
-        "posted_at": "2026-10-12T18:06:50Z",
-        "generate_prompt_version": "generate_v18_2026_10_09",
-        "manual": false,
-        "baseline_source": "reconstructed",
-        "distance": 0.3902,
-        "draft": "Quinshon Judkins (ankle) is day to day after a \"tweak\" to his ankle, and Browns coach Todd Monken wouldn't rule him out for the Week 6 home game against the Ravens.\n\nVia @DanielOyefusi",
-        "posted": "Quinshon Judkins (ankle) is considered day-to-day, and head coach Todd Monken isn't ruling him out from playing Week 6 against the Ravens.\n\nVia @DanielOyefusi"
-      },
-      {
-        "posted_at": "2026-10-12T18:04:55Z",
-        "generate_prompt_version": "generate_v18_2026_10_09",
-        "manual": false,
-        "baseline_source": "reconstructed",
-        "distance": 0.3701,
-        "draft": "Dre Greenlaw has been suspended without pay for one game for unsportsmanlike conduct during Sunday's game against the Seahawks.\n\nVia @TomPelissero",
-        "posted": "Dre Greenlaw has received a one-game suspension without pay for an unsportsmanlike act during Sunday's win over the Seahawks.\n\nVia @TomPelissero"
-      },
-      {
-        "posted_at": "2026-10-12T18:02:25Z",
-        "generate_prompt_version": "generate_v18_2026_10_09",
-        "manual": false,
-        "baseline_source": "reconstructed",
-        "distance": 0.25,
-        "draft": "Dylan Sampson (knee) could have his practice window opened this week after Browns coach Todd Monken said there is a \"possibility\" of that happening. Sampson has missed the last four games.\n\nVia @DanielOyefusi",
-        "posted": "Dylan Sampson (knee) could have his practice window opened this week after Browns coach Todd Monken said Monday there is a \"possibility\" of that happening.\n\nVia @DanielOyefusi"
-      },
-      {
-        "posted_at": "2026-10-12T17:36:19Z",
-        "generate_prompt_version": "generate_v18_2026_10_09",
-        "manual": false,
-        "baseline_source": "reconstructed",
-        "distance": 0.4632,
-        "draft": "Micah Parsons (knee) isn't expected to return to practice this week as the Packers prepare for Sunday's game versus Dallas. There remains uncertainty about when he'll return from the injury.\n\nVia @AdamSchefter",
-        "posted": "Micah Parsons (knee) isn't expected to return to practice this week ahead of Sunday's game against the Cowboys.\n\nVia @AdamSchefter"
-      },
-      {
-        "posted_at": "2026-10-12T17:31:54Z",
-        "generate_prompt_version": "generate_v18_2026_10_09",
-        "manual": false,
-        "baseline_source": "reconstructed",
-        "distance": 0.5556,
-        "draft": "Jalen Coker (quadriceps) is on track for Sunday's game at Philadelphia, but coach Dave Canales said he still has \"a couple of big days of practice\" ahead of him this week.\n\nVia @josephperson",
-        "posted": "Jalen Coker (quadriceps) is \"on track\" to return for Sunday's game at Philadelphia, per head coach Dave Canales.\n\nVia @josephperson"
-      },
-      {
-        "posted_at": "2026-10-12T16:30:22Z",
-        "generate_prompt_version": "generate_v18_2026_10_09",
-        "manual": false,
-        "baseline_source": "reconstructed",
-        "distance": 0.0745,
-        "draft": "David Montgomery (groin) is considered week-to-week, as Texans coach DeMeco Ryans said Monday.\n\nVia @jonmalexander",
-        "posted": "David Montgomery (groin) is considered week-to-week, head coach DeMeco Ryans said Monday.\n\nVia @jonmalexander"
       }
     ],
     "last30": {
-      "posts": 996,
-      "scored": 996,
-      "edited_pct": 98.8,
-      "change_pct": 54.3,
-      "stored_pct": 3.7
+      "posts": 1007,
+      "scored": 1007,
+      "edited_pct": 98.7,
+      "change_pct": 54.2,
+      "stored_pct": 4.8
+    },
+    "by_path": {
+      "monitor": {
+        "posts": 544,
+        "scored": 544,
+        "edited_pct": 98.9,
+        "change_pct": 54.6,
+        "stored_pct": 5.1
+      },
+      "manual": {
+        "posts": 463,
+        "scored": 463,
+        "edited_pct": 98.5,
+        "change_pct": 53.7,
+        "stored_pct": 4.3
+      }
     },
     "stored_since": "2026-10-14"
   },
@@ -4389,25 +4405,25 @@
           },
           "steps": {
             "sent_to_monitor": {
-              "median": 41,
-              "n": 101
+              "median": 40,
+              "n": 107
             },
             "monitor_to_open": {
               "median": 76,
-              "n": 9
+              "n": 15
             },
             "open_to_x": {
-              "median": 75,
-              "n": 9
+              "median": 45,
+              "n": 15
             },
             "monitor_to_x": {
               "median": 176,
-              "n": 101
+              "n": 107
             },
-            "split": false,
+            "split": true,
             "edited": {
               "pct": 100.0,
-              "n": 101
+              "n": 107
             }
           }
         },
@@ -4500,8 +4516,8 @@
             "n": 63
           },
           "add_line_to_x": {
-            "median": 60,
-            "n": 5
+            "median": 56,
+            "n": 10
           }
         },
         "other": {
@@ -5621,7 +5637,7 @@
       "on": {
         "arrival": {
           "median": 17,
-          "n": 167
+          "n": 173
         },
         "margin": {
           "median": 105,
@@ -5659,7 +5675,7 @@
             },
             "after": {
               "value": 17,
-              "n": 167,
+              "n": 173,
               "unit": "s"
             }
           }
@@ -5741,7 +5757,7 @@
       }
     ],
     "roadmap": {
-      "fetched_at": "2026-10-15T21:00:00+00:00",
+      "fetched_at": "2026-10-15T20:12:12.475074+00:00",
       "steps": [
         {
           "step": "s1",
@@ -5776,8 +5792,8 @@
               "title": "Earliest Monitor tweet about the same player",
               "note": null,
               "replaces": null,
-              "status": "In Review",
-              "category": "indeterminate",
+              "status": "Done",
+              "category": "done",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8164"
             },
             {
@@ -5901,7 +5917,7 @@
     "initiative": {
       "root": "RD-8097",
       "label": "Breaking News AI",
-      "fetched_at": "2026-10-15T21:00:00+00:00",
+      "fetched_at": "2026-10-15T20:12:12.475074+00:00",
       "url": "https://gdcgroup.atlassian.net/browse/RD-8097",
       "assignee": "Matthew Kulina",
       "sprints": [
@@ -5966,19 +5982,6 @@
               "sprint_state": "active"
             },
             {
-              "key": "RD-8164",
-              "summary": "Desk Speed: Earliest Monitor Tweet About the Same Player",
-              "type": "Task",
-              "status": "In Review",
-              "category": "indeterminate",
-              "assignee": "Matthew Kulina",
-              "priority": "Medium",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8164",
-              "sprint": "2026.Q4.S21",
-              "sprint_state": "future"
-            },
-            {
               "key": "RD-8168",
               "summary": "Breaking News AI: Record Which Template Wrote Each Draft",
               "type": "Task",
@@ -6019,6 +6022,17 @@
             }
           ],
           "done": [
+            {
+              "key": "RD-8164",
+              "summary": "Desk Speed: Earliest Monitor Tweet About the Same Player",
+              "type": "Task",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-10-15T21:03:09.178+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8164"
+            },
             {
               "key": "RD-8163",
               "summary": "Desk Speed: Include Add Line Posts in the MCP Timeline",

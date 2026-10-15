@@ -2915,6 +2915,11 @@ function renderEdits() {
     <p class="dek">Last 30 days, ${w.scored} posts. On average editors change <b>${Math.round(w.change_pct)}%</b> of the draft's text. Both lines should fall as the templates get better, and that's what brings down the time from opening a tweet to posting it. Dotted lines mark when each template version went live.</p>
     <div id="ed-c1"></div>
     <div class="dk-key"><span><i style="background:var(--e1)"></i>Posts edited</span><span><i style="background:var(--e2)"></i>Share of the draft changed (average)</span></div>
+    ${(() => { const bp = E.by_path, MIN = 30; if (!bp) return "";
+      const row = (l, r) => r && r.scored >= MIN ? `<tr><td>${l}</td><td class="num">${Math.round(r.edited_pct)}%</td><td class="num">${Math.round(r.change_pct)}%</td><td class="num">${r.scored}</td></tr>` : "";
+      const rows = row("From a Monitor tweet", bp.monitor) + row("Added by hand (Add Line)", bp.manual);
+      return rows ? `<h3>Monitor drafts vs Add Line drafts</h3><p class="sub2">Last 30 days. A path shows once it has ${MIN} posts.</p>
+        <div class="cr-wrap"><table class="cr-table"><thead><tr><th>Draft came from</th><th class="num">Edited</th><th class="num">Draft changed</th><th class="num">Posts</th></tr></thead><tbody>${rows}</tbody></table></div>` : ""; })()}
     <h3>Opened to posted on X</h3>
     <p class="sub2">Median per day, posts from a Monitor tweet. Tracked since ${E.daily.find(d => d.open_to_x && d.open_to_x.n) ? edDay(E.daily.find(d => d.open_to_x && d.open_to_x.n).day) : "10/13"}; days with fewer than 3 posts are left out.</p>
     <div id="ed-c2"></div>
@@ -3089,7 +3094,10 @@ function renderDetCols() {
       <div class="dc-f"><div class="t">Live templates and their changes</div>${t8169 && t8169.category === "done" ? `<span class="dc-pend">shipped, view coming</span>` : `<span class="dc-pend">waiting on RD-8169</span>`}${pills("s3", ["RD-8169"])}</div></div>
     <div class="dc-col hand" style="--c:var(--hand)"><div class="lbl">Added by hand</div><div class="sm-metric">${wk.full ? Math.round(wk.full.pct) : Math.round(P.manual_pct)}%</div>
       <div class="sm-tgt">of posts${wk.full ? `, week of ${smDay(wk.full.week)}` : ""}</div>
-      <div class="dc-f"><div class="t">Source to posted</div><div class="v">${dkFmt(P.manual.from_source.median || 0)}</div><div class="d">to tie: <b>${T.hand != null ? dkFmt(T.hand) : "–"}</b></div>${pills("hand")}</div></div>
+      <div class="dc-f"><div class="t">Source to posted</div><div class="v">${dkFmt(P.manual.from_source.median || 0)}</div><div class="d">to tie: <b>${T.hand != null ? dkFmt(T.hand) : "–"}</b></div>${pills("hand")}</div>
+      <div class="dc-f"><div class="t">Add Line opened to posted</div>${P.manual.add_line_to_x && P.manual.add_line_to_x.n >= 30
+        ? `<div class="v">${dkFmt(P.manual.add_line_to_x.median)}</div><div class="d">median · n=${P.manual.add_line_to_x.n}</div>`
+        : `<span class="dc-pend">collecting: ${P.manual.add_line_to_x ? P.manual.add_line_to_x.n : 0} of 30 posts</span>`}</div></div>
   </div>`;
 }
 function renderInsider() {

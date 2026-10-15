@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-15T21:00:00+00:00",
+ "fetched_at": "2026-10-15T20:12:12.475074+00:00",
  "root": "RD-8097",
  "issues": [
   {
@@ -13,6 +13,122 @@
    "priority": "Highest",
    "resolved": null,
    "sprints": []
+  },
+  {
+   "key": "RD-6490",
+   "summary": "Breaking News AI: Coverage & Quality Enhancements",
+   "type": "Epic",
+   "parent": "RD-8097",
+   "status": "Done",
+   "category": "done",
+   "assignee": "Matthew Kulina",
+   "priority": "High",
+   "resolved": "2026-08-20T13:47:15.078+0100",
+   "sprints": []
+  },
+  {
+   "key": "RD-6683",
+   "summary": "Splitting Off Headlines in Player Notes",
+   "type": "Epic",
+   "parent": "RD-8097",
+   "status": "Done",
+   "category": "done",
+   "assignee": "Andrew Parr",
+   "priority": "Medium",
+   "resolved": "2026-08-13T19:54:48.226+0100",
+   "sprints": []
+  },
+  {
+   "key": "RD-7377",
+   "summary": "Breaking News AI 2.0: Coverage Expansion + Accuracy Improvements",
+   "type": "Epic",
+   "parent": "RD-8097",
+   "status": "Done",
+   "category": "done",
+   "assignee": "Matthew Kulina",
+   "priority": "Medium",
+   "resolved": "2026-10-08T00:06:07.134+0100",
+   "sprints": []
+  },
+  {
+   "key": "RD-7641",
+   "summary": "News Admin: Editor V2 Launch",
+   "type": "Epic",
+   "parent": "RD-8097",
+   "status": "Done",
+   "category": "done",
+   "assignee": "Matthew Kulina",
+   "priority": "High",
+   "resolved": "2026-10-08T00:14:48.997+0100",
+   "sprints": []
+  },
+  {
+   "key": "RD-8098",
+   "summary": "Breaking News AI: Processing Improvements",
+   "type": "Epic",
+   "parent": "RD-8097",
+   "status": "Ready for Work",
+   "category": "new",
+   "assignee": "Matthew Kulina",
+   "priority": "High",
+   "resolved": null,
+   "sprints": []
+  },
+  {
+   "key": "RD-8099",
+   "summary": "Breaking News AI: Tweet Speed",
+   "type": "Epic",
+   "parent": "RD-8097",
+   "status": "In Progress",
+   "category": "indeterminate",
+   "assignee": "Matthew Kulina",
+   "priority": "Highest",
+   "resolved": null,
+   "sprints": []
+  },
+  {
+   "key": "RD-8100",
+   "summary": "News Admin: Desk QoL and UI",
+   "type": "Epic",
+   "parent": "RD-8097",
+   "status": "Ready for Work",
+   "category": "new",
+   "assignee": "Matthew Kulina",
+   "priority": "Medium",
+   "resolved": null,
+   "sprints": []
+  },
+  {
+   "key": "RD-8115",
+   "summary": "Breaking News AI: Post Design and Reporting",
+   "type": "Epic",
+   "parent": "RD-8097",
+   "status": "Ready for Work",
+   "category": "new",
+   "assignee": "Matthew Kulina",
+   "priority": "Medium",
+   "resolved": null,
+   "sprints": []
+  },
+  {
+   "key": "RD-8145",
+   "summary": "Breaking News AI: NBA Injury Report",
+   "type": "Epic",
+   "parent": "RD-8097",
+   "status": "Ready for Work",
+   "category": "new",
+   "assignee": "Matthew Kulina",
+   "priority": "Medium",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21838,
+     "name": "2026.Q4.S21",
+     "state": "future",
+     "start": "2026-10-15T13:00:00.000Z",
+     "end": "2026-10-28T21:00:00.000Z"
+    }
+   ]
   },
   {
    "key": "RD-5903",
@@ -264,18 +380,6 @@
    "sprints": []
   },
   {
-   "key": "RD-6490",
-   "summary": "Breaking News AI: Coverage & Quality Enhancements",
-   "type": "Epic",
-   "parent": "RD-8097",
-   "status": "Done",
-   "category": "done",
-   "assignee": "Matthew Kulina",
-   "priority": "High",
-   "resolved": "2026-08-20T13:47:15.078+0100",
-   "sprints": []
-  },
-  {
    "key": "RD-6514",
    "summary": "Add College Football to Twitter Scanner",
    "type": "Task",
@@ -424,18 +528,6 @@
      "end": "2026-06-10T21:00:00.000Z"
     }
    ]
-  },
-  {
-   "key": "RD-6683",
-   "summary": "Splitting Off Headlines in Player Notes",
-   "type": "Epic",
-   "parent": "RD-8097",
-   "status": "Done",
-   "category": "done",
-   "assignee": "Andrew Parr",
-   "priority": "Medium",
-   "resolved": "2026-08-13T19:54:48.226+0100",
-   "sprints": []
   },
   {
    "key": "RD-6715",
@@ -908,18 +1000,6 @@
    "sprints": []
   },
   {
-   "key": "RD-7377",
-   "summary": "Breaking News AI 2.0: Coverage Expansion + Accuracy Improvements",
-   "type": "Epic",
-   "parent": "RD-8097",
-   "status": "Done",
-   "category": "done",
-   "assignee": "Matthew Kulina",
-   "priority": "Medium",
-   "resolved": "2026-10-08T00:06:07.134+0100",
-   "sprints": []
-  },
-  {
    "key": "RD-7409",
    "summary": "Add NBA to Scanner",
    "type": "Story",
@@ -1009,18 +1089,6 @@
    "assignee": "Matthew Kulina",
    "priority": "Medium",
    "resolved": "2026-08-31T19:05:46.148+0100",
-   "sprints": []
-  },
-  {
-   "key": "RD-7641",
-   "summary": "News Admin: Editor V2 Launch",
-   "type": "Epic",
-   "parent": "RD-8097",
-   "status": "Done",
-   "category": "done",
-   "assignee": "Matthew Kulina",
-   "priority": "High",
-   "resolved": "2026-10-08T00:14:48.997+0100",
    "sprints": []
   },
   {
@@ -2216,42 +2284,6 @@
    ]
   },
   {
-   "key": "RD-8098",
-   "summary": "Breaking News AI: Processing Improvements",
-   "type": "Epic",
-   "parent": "RD-8097",
-   "status": "Ready for Work",
-   "category": "new",
-   "assignee": "Matthew Kulina",
-   "priority": "High",
-   "resolved": null,
-   "sprints": []
-  },
-  {
-   "key": "RD-8099",
-   "summary": "Breaking News AI: Tweet Speed",
-   "type": "Epic",
-   "parent": "RD-8097",
-   "status": "In Progress",
-   "category": "indeterminate",
-   "assignee": "Matthew Kulina",
-   "priority": "Highest",
-   "resolved": null,
-   "sprints": []
-  },
-  {
-   "key": "RD-8100",
-   "summary": "News Admin: Desk QoL and UI",
-   "type": "Epic",
-   "parent": "RD-8097",
-   "status": "Ready for Work",
-   "category": "new",
-   "assignee": "Matthew Kulina",
-   "priority": "Medium",
-   "resolved": null,
-   "sprints": []
-  },
-  {
    "key": "RD-8111",
    "summary": "News Monitor: Investigate Tweets That Never Reach the Monitor",
    "type": "Spike",
@@ -2328,38 +2360,6 @@
      "state": "active",
      "start": "2026-10-01T13:00:41.495Z",
      "end": "2026-10-14T21:00:00.000Z"
-    }
-   ]
-  },
-  {
-   "key": "RD-8115",
-   "summary": "Breaking News AI: Post Design and Reporting",
-   "type": "Epic",
-   "parent": "RD-8097",
-   "status": "Ready for Work",
-   "category": "new",
-   "assignee": "Matthew Kulina",
-   "priority": "Medium",
-   "resolved": null,
-   "sprints": []
-  },
-  {
-   "key": "RD-8145",
-   "summary": "Breaking News AI: NBA Injury Report",
-   "type": "Epic",
-   "parent": "RD-8097",
-   "status": "Ready for Work",
-   "category": "new",
-   "assignee": "Matthew Kulina",
-   "priority": "Medium",
-   "resolved": null,
-   "sprints": [
-    {
-     "id": 21838,
-     "name": "2026.Q4.S21",
-     "state": "future",
-     "start": "2026-10-15T13:00:00.000Z",
-     "end": "2026-10-28T21:00:00.000Z"
     }
    ]
   },
@@ -2488,11 +2488,11 @@
    "summary": "Desk Speed: Earliest Monitor Tweet About the Same Player",
    "type": "Task",
    "parent": "RD-8099",
-   "status": "In Review",
-   "category": "indeterminate",
+   "status": "Done",
+   "category": "done",
    "assignee": "Matthew Kulina",
    "priority": "Medium",
-   "resolved": null,
+   "resolved": "2026-10-15T21:03:09.178+0100",
    "sprints": [
     {
      "id": 21838,
