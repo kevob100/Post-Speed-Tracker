@@ -23,7 +23,78 @@ sports:
     practice_phases: true
     # Desk Speed panel (src/desk_speed.py): News Admin's per-tweet desk timeline, pulled
     # with ROTOWIRE_MCP_TOKEN. Skipped quietly without the token.
-    desk_speed: {league: nfl}
+    desk_speed:
+      league: nfl
+      # NFL turbo scan (News Admin RD-8036): sources scanned every `seconds` inside these
+      # ET windows instead of every `normal_seconds`. Mirror of News Admin's
+      # config/scraper.php -> nfl_scan_schedule; keep the two in sync. day: 0 = Sunday.
+      turbo:
+        since: '2026-10-05'
+        timezone: America/New_York
+        seconds: 10
+        normal_seconds: 30
+        windows:
+        - {day: 0, start: '06:00', end: '08:00'}
+        - {day: 0, start: '11:00', end: '18:00'}
+        - {day: 3, start: '12:00', end: '18:00'}
+        - {day: 4, start: '12:00', end: '19:00'}
+        - {day: 5, start: '12:00', end: '17:00'}
+      # Shipped changes the Summary's "Is it working?" cards measure: the metric(s) each
+      # targets, 14 days before `live` vs since. Metrics: arrival_turbo, arrival, open_to_x,
+      # edited_pct, change_pct, margin, manual_pct. The first `main: true` leads the card.
+      changes:
+      - key: RD-8036
+        label: Turbo mode
+        live: '2026-10-05'
+        metrics:
+        - {metric: arrival_turbo, label: 'Sent to in Monitor, turbo windows', main: true}
+      - key: RD-8090
+        label: Practice report templates
+        live: '2026-10-09'
+        metrics:
+        - {metric: edited_pct, label: Posts edited, main: true}
+        - {metric: change_pct, label: Share of draft changed}
+      - key: RD-8092
+        label: Transaction templates
+        live: '2026-10-13'
+        metrics:
+        - {metric: edited_pct, label: Posts edited, main: true}
+        - {metric: change_pct, label: Share of draft changed}
+      # The tickets behind each step (Summary: "What we're doing about it"). Status comes
+      # from Jira when JIRA_EMAIL / JIRA_API_TOKEN are set, else data/nfl/jira_tickets.json.
+      roadmap:
+      - step: s1
+        label: Getting tweets in
+        tickets:
+        - {key: RD-8036, title: Turbo scan mode for peak windows}
+      - step: s2
+        label: Finding them in the Monitor
+        tickets:
+        - {key: RD-8112, title: Note editor as a modal with step tabs}
+        - {key: RD-8164, title: Earliest Monitor tweet about the same player}
+        - {key: RD-8037, title: Injury report quick view for key players}
+        no_ticket:
+        - Add the accounts Underdog credits to the Monitor list (KOB, weekly)
+      - step: s3
+        label: Posting them
+        tickets:
+        - {key: RD-8090, title: Practice report templates}
+        - {key: RD-8091, title: Game day templates}
+        - {key: RD-8092, title: Transaction templates}
+        - {key: RD-8094, title: Practice report watchlist and auto updates}
+        - {key: RD-8168, title: Record which template wrote each draft}
+        - {key: RD-8169, title: Templates and their revision history in the MCP}
+      - step: hand
+        label: Added by hand
+        tickets:
+        - {key: RD-8163, title: Add Line posts in the speed data}
+      # Not one of the three steps: work taken off the desk so editors spend their time on
+      # posting. `replaces` is the manual job each one removes.
+      - step: work
+        label: Removing manual work
+        tickets:
+        - {key: RD-8096, title: Automatic "more details" reply on NFL posts, replaces: 'KOB replying to every post by hand with more details and a link to the full note'}
+        - {key: RD-8113, title: Slack ping on every post on X, replaces: 'KOB pinging the desk by hand so they know which note to write'}
     # Who Underdog credits (src/credits.py). Underdog often credits by reporter name
     # ("Schefter: ...") rather than handle; these map the names it uses to accounts. A
     # name prefix not listed here is read as a coach/GM press-conference quote.

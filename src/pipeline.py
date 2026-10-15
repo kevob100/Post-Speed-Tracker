@@ -24,7 +24,7 @@ import json
 from datetime import datetime
 import os
 
-from . import (aggregate, classify, collect, credits, desk_speed, develop, games, match, positions, practice,
+from . import (aggregate, classify, collect, credits, desk_speed, desk_summary, develop, games, match, positions, practice,
                source, sprout, staffing_import, xapi)
 from .config import (
     DOCS_DATA_DIR,
@@ -157,7 +157,12 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
                 print(f"[desk]      sync skipped: {e}")
         try:
             stories_out = json.loads((docs_dir / "stories.json").read_text())
-            built = desk_speed.build(data_dir, docs_dir, stories_out)
+            keys = [t["key"] for st in ds_cfg.get("roadmap", []) for t in st.get("tickets", [])]
+            try:
+                print(f"[desk]      {desk_summary.sync_tickets(data_dir, keys)}")
+            except Exception as e:  # keep the last stored statuses
+                print(f"[desk]      ticket sync skipped: {e}")
+            built = desk_speed.build(data_dir, docs_dir, stories_out, cfg=ds_cfg)
             print(f"[desk]      built: {built['paths']['all']['race']['n'] if built else 0} shared stories, "
                   f"{built['paths']['manual_pct'] if built else '-'}% added by hand")
         except Exception as e:  # never fail the run over the desk panel

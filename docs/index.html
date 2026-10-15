@@ -27,7 +27,7 @@
   .page-seg { margin: 4px 0; }
   .page-seg button { font-size: 14px; padding: 6px 14px; font-weight: 600; }
   /* Audience page: everything that compares post times steps aside. */
-  body.page-audience #lead, body.page-audience #trend, body.page-audience #kpis, body.page-audience #desk, body.page-audience #edits, body.page-audience #credits, body.page-audience #eras,
+  body.page-audience #lead, body.page-audience #trend, body.page-audience #kpis, body.page-audience #desk, body.page-audience #edits, body.page-audience #sum, body.page-audience #det-cols, body.page-audience #insider, body.page-audience #pagetabs, body.page-audience #credits, body.page-audience #eras,
   body.page-audience #tabs-wrap, body.page-audience [id^="view-"]:not(#view-all) { display: none !important; }
   h1 { font-size: 20px; margin: 0 0 2px; }
   .sub { color: var(--muted); font-size: 12px; }
@@ -470,6 +470,75 @@
   .ed-ex .txt { white-space: pre-wrap; line-height: 1.45; }
   .ed-ex del { color: #f0a070; background: rgba(221,107,40,.14); text-decoration: line-through; border-radius: 2px; }
   .ed-ex ins { color: #b8f0f7; background: rgba(31,162,184,.22); text-decoration: none; border-radius: 2px; }
+  /* Summary / Details report tabs (NFL, from desk_speed.json -> summary) */
+  .pagetabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin: 12px 0 18px; }
+  .pagetabs button { background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); font: inherit;
+    font-size: 15px; font-weight: 600; padding: 10px 14px; cursor: pointer; }
+  .pagetabs button:hover { color: var(--text); }
+  .pagetabs button.on { color: var(--text); border-bottom-color: var(--accent); }
+  .pagetabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+  #sum { display: none; --s1: #8fdbe6; --s2: #1fa2b8; --s3: #157f92; --hand: #a7b4c2; --good: #4fbf8a; }
+  body.sp-sum #sum { display: block; }
+  body.sp-sum .wrap > :not(#pagetabs):not(#sum) { display: none !important; }
+  body.sp-det #lead { display: none !important; }
+  #sum .lbl, #det-cols .lbl { font-size: 12px; color: var(--muted); }
+  #sum .up, #det-cols .up { color: var(--good, #4fbf8a); } #sum .worse { color: #f0a070; }
+  .sm-top { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 14px; }
+  @media (max-width: 900px) { .sm-top { grid-template-columns: minmax(0, 1fr); } }
+  .sm-card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
+  .sm-hero { font-size: 36px; font-weight: 650; line-height: 1.1; margin: 2px 0 4px; font-variant-numeric: tabular-nums; }
+  .sm-delta { font-size: 13px; color: var(--muted); }
+  .sm-spot { background: linear-gradient(0deg, rgba(240,160,112,.06), rgba(240,160,112,.06)), var(--panel); border-color: #5a3a28; }
+  .sm-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .sm-key i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; margin-right: 6px; vertical-align: 3px; }
+  #sum svg, #det-cols svg { display: block; width: 100%; height: auto; overflow: visible; }
+  #sum svg text { font-size: 11px; font-variant-numeric: tabular-nums; }
+  .sm-strip { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
+  @media (max-width: 900px) { .sm-strip { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+  .sm-chip { border-top: 3px solid var(--c); padding-top: 8px; }
+  .sm-chip.hand, .dc-col.hand { border-top-style: dashed; }
+  .sm-metric { font-size: 24px; font-weight: 650; font-variant-numeric: tabular-nums; }
+  .sm-tgt { font-size: 12px; color: var(--muted); margin-top: 2px; } .sm-tgt b { color: var(--text); }
+  .sm-note { color: var(--muted); font-size: 12px; margin: 8px 0 0; }
+  #sum h2.sm-h { font-size: 18px; margin: 32px 0 4px; }
+  #sum h2.sm-h + .sm-note { margin: 0 0 12px; }
+  .pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; text-decoration: none; }
+  a.pill:hover { text-decoration: underline; text-underline-offset: 2px; }
+  .pill.done { background: rgba(79,191,138,.16); color: #8fdcb5; }
+  .pill.prog { background: rgba(68,147,248,.16); color: #9cc4fb; }
+  .pill.todo { background: var(--panel2); color: var(--muted); }
+  .pill.none { border: 1px dashed var(--line); color: var(--muted); }
+  .pills { display: flex; flex-wrap: wrap; gap: 4px; margin-top: 6px; }
+  .sm-road { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 900px) { .sm-road { grid-template-columns: minmax(0, 1fr); } }
+  .sm-road .sm-card { border-top: 3px solid var(--c); padding: 12px 14px; }
+  .sm-road h4 { margin: 0 0 8px; font-size: 13px; }
+  .sm-tk { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: baseline; padding: 6px 0; border-top: 1px solid var(--line); font-size: 12px; }
+  .sm-tk:first-of-type { border-top: 0; }
+  .sm-ba { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 900px) { .sm-ba { grid-template-columns: minmax(0, 1fr); } }
+  .sm-ba h4 { margin: 0 0 2px; font-size: 13px; }
+  .sm-m { margin-top: 10px; } .sm-m .t { font-size: 12px; font-weight: 600; } .sm-m .t span { color: var(--muted); font-weight: 400; }
+  .sm-bar { display: grid; grid-template-columns: 48px 1fr 50px; gap: 8px; align-items: center; margin: 4px 0; font-size: 12px; }
+  .sm-bar .trk { height: 14px; background: var(--panel2); border-radius: 4px; overflow: hidden; }
+  .sm-bar .trk i { display: block; height: 100%; border-radius: 4px; }
+  .sm-bar b { text-align: right; font-variant-numeric: tabular-nums; }
+  .sm-chg { font-size: 12px; margin-top: 2px; font-variant-numeric: tabular-nums; }
+  #det-cols { --s1: #8fdbe6; --s2: #1fa2b8; --s3: #157f92; --hand: #a7b4c2; margin: 0 0 20px; }
+  .dc-cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; }
+  @media (max-width: 900px) { .dc-cols { grid-template-columns: minmax(0, 1fr); } }
+  .dc-col { background: var(--panel); border: 1px solid var(--line); border-top: 3px solid var(--c); border-radius: 10px; padding: 12px 14px; }
+  .dc-f { border-top: 1px solid var(--line); padding: 8px 0 0; margin-top: 8px; }
+  .dc-f .t { font-size: 12px; font-weight: 600; } .dc-f .v { font-size: 16px; font-weight: 650; font-variant-numeric: tabular-nums; }
+  .dc-f .d { font-size: 12px; color: var(--muted); } .dc-f .d b { color: var(--text); }
+  .dc-pend { color: var(--muted); font-size: 12px; border: 1px dashed var(--line); border-radius: 6px; padding: 1px 6px; display: inline-block; }
+  .dc-prio { display: inline-block; font-size: 11px; font-weight: 700; color: #0f1419; background: #f0a070; border-radius: 4px; padding: 0 6px; margin-left: 4px; vertical-align: 1px; }
+  .sm-work { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; }
+  .sm-wk-h { display: flex; gap: 6px; align-items: center; } .sm-wk-t { font-weight: 600; margin: 6px 0 2px; }
+  #insider { padding: 16px 18px 18px; margin: 0 0 20px; }
+  #insider h2 { font-size: 20px; font-weight: 650; margin: 0 0 4px; }
+  #insider .dek { color: var(--muted); margin: 0 0 12px; }
+  #view-archive .arch-h { font-size: 16px; margin: 24px 0 8px; }
 </style>
 </head>
 <body>
@@ -486,14 +555,19 @@
   <section id="view-all" class="hidden"></section>
 
   <!-- Per-sport views (shown when a single sport is selected) -->
+  <div class="pagetabs hidden" id="pagetabs" role="tablist" aria-label="Report">
+    <button type="button" role="tab" data-t="sum">Summary</button><button type="button" role="tab" data-t="det">Details</button>
+  </div>
+  <section id="sum" aria-label="Summary"></section>
   <section id="audience-top" class="hidden"></section>
   <section class="lead timing-lead hidden" id="lead"></section>
+  <section class="hidden" id="det-cols" aria-label="What drives each step"></section>
   <section class="panel trend" id="trend"></section>
   <div class="kpis" id="kpis"></div>
   <section class="panel hidden" id="desk" aria-labelledby="desk-h"></section>
   <section class="panel hidden" id="edits" aria-labelledby="ed-h"></section>
   <section class="panel hidden" id="credits" aria-labelledby="cr-h"></section>
-  <section class="panel trend hidden" id="eras"></section>
+  <section class="panel hidden" id="insider" aria-labelledby="in-h"></section>
 
   <div class="tabs-wrap" id="tabs-wrap"><div class="tabs" id="tabs" role="tablist" aria-label="Views">
     <button type="button" role="tab" class="tab hidden" data-view="focus" id="tab-focus">Focus areas</button>
@@ -511,6 +585,8 @@
     <button type="button" role="tab" class="tab" data-view="weekly">Weekly</button>
     <button type="button" role="tab" class="tab" data-view="monthly">Monthly</button>
     <button type="button" role="tab" class="tab" data-view="custom">Custom</button>
+    <span class="tab-group" aria-hidden="true">Archive</span>
+    <button type="button" role="tab" class="tab" data-view="archive">By phase · Focus areas</button>
   </div></div>
 
   <section id="view-feed">
@@ -528,7 +604,12 @@
     <div id="feed-wrap"></div>
   </section>
 
-  <section id="view-focus" class="hidden"></section>
+  <section id="view-archive" class="hidden">
+    <p class="type-note">Kept for reference: the news system's phases, and the earlier "what to work on" ranking. The Summary and Details tabs above are the current report.</p>
+    <section class="panel trend hidden" id="eras"></section>
+    <h2 class="arch-h">Focus areas</h2>
+    <div id="view-focus"></div>
+  </section>
   <section id="view-weekly" class="hidden"></section>
   <section id="view-types" class="hidden"></section>
   <section id="view-hours" class="hidden"></section>
@@ -650,7 +731,7 @@ function setMode(isAll) {
   document.getElementById("view-all").classList.toggle("hidden", !isAll);
   document.getElementById("kpis").classList.toggle("hidden", isAll);
   document.getElementById("trend").classList.toggle("hidden", isAll);
-  if (isAll) { document.getElementById("desk").classList.add("hidden"); document.getElementById("credits").classList.add("hidden"); document.getElementById("edits").classList.add("hidden"); }
+  if (isAll) { document.body.classList.remove("sp-sum", "sp-det"); document.getElementById("pagetabs").classList.add("hidden"); document.getElementById("desk").classList.add("hidden"); document.getElementById("credits").classList.add("hidden"); document.getElementById("edits").classList.add("hidden"); }
   document.getElementById("tabs-wrap").classList.toggle("hidden", isAll);
   applyTopMode();
   if (isAll) {
@@ -661,7 +742,7 @@ function setMode(isAll) {
   }
 }
 
-const VIEWS = ["feed","focus","weekly","types","hours","staff","games","practice","monthly","custom","gaps","dups"];
+const VIEWS = ["feed","archive","weekly","types","hours","staff","games","practice","monthly","custom","gaps","dups"];
 
 // ---- formatting helpers ----
 const pad = n => String(n).padStart(2, "0");
@@ -1404,10 +1485,26 @@ function tweetCard(who, handle, side, extra) {
     <div class="txt"><a href="${tweetUrl(handle, side.tweet_id)}" target="_blank" rel="noopener">${esc(side.text)}</a></div></div>`;
 }
 
+function focusSection(g, open) {
+  const pairs = g.slowest.map(x => `<div class="pair">
+      ${tweetCard("Underdog", state.handles.underdog, x.underdog, "first")}
+      ${tweetCard("RotoWire", state.handles.rotowire, x.rotowire, fmtMargin(x.delta_seconds))}</div>`).join("");
+  const misses = g.recent_misses.map(x => `<div class="pair">
+      ${tweetCard("Underdog", state.handles.underdog, x.underdog, "")}
+      <div class="tweet none">RotoWire: no post on this</div></div>`).join("");
+  return `<details class="fg"${open ? " open" : ""}><summary><span class="fg-rank">#${g.rank}</span><h3>${esc(g.label)}</h3>
+      <span class="fg-stats">${fmtPct(g.share_of_time_behind)} of time behind · ${g.missed} missed (${fmtPct(g.missed_rate)})
+      · typical ${fmtMargin(g.median_lead_seconds)} · RotoWire first ${g.rotowire_first} of ${g.matched}</span></summary>
+    <div class="fg-body">
+      ${pairs ? `<h4>Races RotoWire lost by the most</h4>${pairs}` : ""}
+      ${misses ? `<h4>Recent stories RotoWire missed</h4>${misses}` : ""}
+    </div></details>`;
+}
+
 function renderFocus() {
   const fa = state.agg.focus || {};
   const groups = fa.groups || [];
-  document.getElementById("tab-focus").classList.toggle("hidden", !groups.length);
+  document.getElementById("tab-focus").classList.add("hidden");  // focus areas live in the Archive tab now
   const el = document.getElementById("view-focus");
   if (!groups.length) { el.innerHTML = ""; return; }
   const since = new Date(fa.since + "T12:00:00Z").toLocaleDateString("en-US", { month: "short", day: "numeric", timeZone: "UTC" });
@@ -1418,21 +1515,7 @@ function renderFocus() {
     <td class="num">${fmtPct(g.share_of_time_behind)}</td>
     <td class="num">${g.missed} <span class="bl">${fmtPct(g.missed_rate)}</span></td>
     <td class="num">${g.steps_skipped}</td><td class="num">${views(g.underdog_median_views)}</td></tr>`).join("");
-  const section = (g, open) => {
-    const pairs = g.slowest.map(x => `<div class="pair">
-        ${tweetCard("Underdog", state.handles.underdog, x.underdog, "first")}
-        ${tweetCard("RotoWire", state.handles.rotowire, x.rotowire, fmtMargin(x.delta_seconds))}</div>`).join("");
-    const misses = g.recent_misses.map(x => `<div class="pair">
-        ${tweetCard("Underdog", state.handles.underdog, x.underdog, "")}
-        <div class="tweet none">RotoWire: no post on this</div></div>`).join("");
-    return `<details class="fg"${open ? " open" : ""}><summary><span class="fg-rank">#${g.rank}</span><h3>${esc(g.label)}</h3>
-        <span class="fg-stats">${fmtPct(g.share_of_time_behind)} of time behind · ${g.missed} missed (${fmtPct(g.missed_rate)})
-        · typical ${fmtMargin(g.median_lead_seconds)} · RotoWire first ${g.rotowire_first} of ${g.matched}</span></summary>
-      <div class="fg-body">
-        ${pairs ? `<h4>Races RotoWire lost by the most</h4>${pairs}` : ""}
-        ${misses ? `<h4>Recent stories RotoWire missed</h4>${misses}` : ""}
-      </div></details>`;
-  };
+  const section = focusSection;
   el.innerHTML = `<p class="type-note">What to work on, recomputed every run from the last ${fa.days} days (since ${since}).
       Ranked by share of RotoWire's time behind on matched stories plus share of the stories it missed, so a kind
       of news that is both slow and often missed comes first. Highlight clips, roundups and follow-ups are left out.</p>
@@ -2164,6 +2247,7 @@ function applyTopMode() {
       state.page = b.dataset.page;
       window.scrollTo(0, 0);
       applyTopMode();
+      applySpeedTab();
       // Charts measure their panel, so draw the one that just became visible.
       if (state.page === "audience") renderAudience(); else { renderTrend(); updateTabFade(); }
     };
@@ -2410,7 +2494,7 @@ function showView(name) {
   if (name === "staff" && !((state.agg.staffing || {}).days || []).length) name = "feed";
   if (name === "games" && !((state.agg.game_windows || {}).windows || []).length) name = "feed";
   if (name === "practice" && !state.agg.practice) name = "feed";
-  if (name === "focus" && !((state.agg.focus || {}).groups || []).length) name = "weekly";
+  if (name === "focus") name = "archive";
   state.view = name;
   document.querySelectorAll(".tab").forEach(t => {
     const on = t.dataset.view === name;
@@ -2430,7 +2514,7 @@ function showView(name) {
   updateTabFade();
 }
 // Opens on what to work on (Focus areas), or the weekly record when there is none.
-const defaultView = () => ((state.agg && state.agg.focus) || {}).groups?.length ? "focus" : "weekly";
+const defaultView = () => "feed";
 
 // Edge fades on the tab strip when tabs are scrolled out of view.
 function updateTabFade() {
@@ -2452,6 +2536,10 @@ function init() {
   renderDesk();
   renderEdits();
   renderCredits();
+  renderSummary();
+  renderDetCols();
+  renderInsider();
+  applySpeedTab();
 
   // event filter options
   const events = [...new Set(state.stories.map(s => s.event_class).filter(Boolean))].sort();
@@ -2796,7 +2884,7 @@ function renderEdits() {
   if (!host) return;
   if (!E || !E.daily || !E.daily.length) { host.classList.add("hidden"); host.innerHTML = ""; return; }
   host.classList.remove("hidden");
-  const w = E.last7, days = E.daily.filter(d => d.scored);
+  const w = E.last30 || E.last7, days = E.daily.filter(d => d.scored);
   const ox = days.filter(d => d.open_to_x && d.open_to_x.n >= 3);
   // One marker per day: versions that went live the same day share a label.
   const marks = Object.values(E.versions.filter(v => v.posts >= 5).reduce((acc, v) => {
@@ -2805,7 +2893,7 @@ function renderEdits() {
   const shown = ed.more ? E.examples : E.examples.slice(0, 6);
   host.innerHTML = `
     <h2 id="ed-h">We edit ${Math.round(w.edited_pct)}% of AI-drafted posts before they go out</h2>
-    <p class="dek">Last 7 days, ${w.scored} posts. On average editors change <b>${Math.round(w.change_pct)}%</b> of the draft's text. Both lines should fall as the templates get better, and that's what brings down the time from opening a tweet to posting it. Dotted lines mark when each template version went live.</p>
+    <p class="dek">Last 30 days, ${w.scored} posts. On average editors change <b>${Math.round(w.change_pct)}%</b> of the draft's text. Both lines should fall as the templates get better, and that's what brings down the time from opening a tweet to posting it. Dotted lines mark when each template version went live.</p>
     <div id="ed-c1"></div>
     <div class="dk-key"><span><i style="background:var(--e1)"></i>Posts edited</span><span><i style="background:var(--e2)"></i>Share of the draft changed (average)</span></div>
     <h3>Opened to posted on X</h3>
@@ -2834,6 +2922,185 @@ function renderEdits() {
         tip: d => `<b>${edDay(d.day)}</b> ${dkFmt(d.open_to_x.median)} median <span>· n=${d.open_to_x.n}</span>` }); }
 }
 addEventListener("resize", () => { clearTimeout(window._edResize); window._edResize = setTimeout(() => { if (state.desk) renderEdits(); }, 150); });
+
+// ---------------------------------------------------------------- Summary / Details
+// Summary is for leadership: the margin, the one metric we're attacking, the three steps
+// with their break-even targets, the tickets behind each step and whether shipped changes
+// moved their metric. Details holds everything below it for the desk work.
+const SM_STEPS = [["sent_to_monitor", "s1", "Sent to in Monitor"], ["monitor_to_open", "s2", "In Monitor to opened"], ["open_to_x", "s3", "Opened to posted"]];
+const smUD = v => v == null ? "–" : v > 0 ? `UD +${dkFmt(v)}` : v < 0 ? `RW +${dkFmt(-v)}` : "even";
+const smDay = iso => { const [, m, d] = iso.split("-"); return `${+m}/${+d}`; };
+function smPill(it, short) {
+  const cls = { done: "done", indeterminate: "prog", new: "todo", none: "none" }[it.category] || "todo";
+  if (!it.key) return `<span class="pill none">${esc(short ? "no ticket" : it.title)}</span>`;
+  return `<a class="pill ${cls}" href="${it.url}" target="_blank" rel="noopener" title="${esc((it.title || "") + " · " + (it.status || ""))}">${it.key}${short ? "" : " " + esc(it.title || "")}</a>`;
+}
+function smRoad(S, step) { return ((S.roadmap || {}).steps || []).find(x => x.step === step) || { items: [] }; }
+// Break-even: shrink every Monitor step by the same share until the typical gap closes.
+function smTargets(P) {
+  const st = P.monitor.steps, segs = SM_STEPS.map(([k]) => (st[k] || {}).median || 0);
+  const tot = segs.reduce((a, b) => a + b, 0), gap = P.monitor.race.median_gap || 0;
+  const k = tot ? Math.max(0, tot - gap) / tot : 0;
+  const hs = P.manual.from_source.median, hg = P.manual.race.median_gap;
+  return { steps: segs.map(v => Math.round(v * k)), hand: hs != null && hg != null ? Math.max(0, hs - hg) : null };
+}
+function smWeeks(d) {
+  const wk = d.manual_weekly || [], end = w => new Date(Date.parse(w.week) + 7 * 864e5).toISOString().slice(0, 10);
+  const partial = wk.length && end(wk[wk.length - 1]) > d.window.to ? wk[wk.length - 1] : null;
+  const full = [...wk].reverse().find(w => w !== partial) || null, peak = wk.reduce((m, w) => (!m || w.pct > m.pct ? w : m), null);
+  return { full, peak };
+}
+function smChart(host, S) {
+  const R = S.margin.rolling, W = host.clientWidth || 700, H = 200, L = 56, Rr = 76, T = 14, B = 22;
+  // Scale to the 30-day line; a single bad week on the 7-day line is clipped at the top.
+  const vals = R.map(r => r[2]).filter(v => v != null), max = Math.max(180, Math.ceil(Math.max(...vals) * 1.25 / 60) * 60);
+  const x = i => L + i * (W - L - Rr) / (R.length - 1), y = v => T + (Math.min(Math.max(v, 0), max) / max) * (H - T - B);
+  const svg = dkEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": "Typical margin behind Underdog, rolling 30 and 7 days" }, host);
+  for (let t = 0; t <= max; t += 60) { dkEl("line", { x1: L, x2: W - Rr, y1: y(t), y2: y(t), stroke: "#2d3743" }, svg);
+    dkEl("text", { x: L - 6, y: y(t) + 4, fill: "#8b98a5", "text-anchor": "end" }, svg).textContent = t ? `UD +${dkFmt(t)}` : "even"; }
+  R.forEach((r, i) => { if (i % 14 === 0 || i === R.length - 1) dkEl("text", { x: x(i), y: H - 4, fill: "#8b98a5", "text-anchor": "middle" }, svg).textContent = smDay(r[0]); });
+  (S.changes || []).forEach(c => { const i = R.findIndex(r => r[0] >= c.live); if (i < 0) return;
+    const ln = dkEl("line", { x1: x(i), x2: x(i), y1: T - 4, y2: H - B, stroke: "#8b98a5", "stroke-dasharray": "1 3" }, svg);
+    const hit = dkEl("rect", { x: x(i) - 6, y: T - 4, width: 12, height: H - B - T + 4, fill: "transparent" }, svg);
+    dkTip(hit, `<b>${esc(c.key)} ${esc(c.label)}</b><br><span>live ${smDay(c.live)}</span>`); });
+  const path = k => R.map((r, i) => [i, r[k]]).filter(p => p[1] != null).map((p, j) => `${j ? "L" : "M"}${x(p[0]).toFixed(1)},${y(p[1]).toFixed(1)}`).join("");
+  dkEl("path", { d: path(1), fill: "none", stroke: "#4493f8", "stroke-width": 1.5, "stroke-dasharray": "3 3", opacity: 0.4 }, svg);
+  dkEl("path", { d: path(2), fill: "none", stroke: "#4493f8", "stroke-width": 2.5, "stroke-linejoin": "round" }, svg);
+  const last = [...R].reverse().find(r => r[2] != null);
+  if (last) dkEl("text", { x: x(R.indexOf(last)) + 8, y: y(last[2]) + 4, fill: "#e6edf3", "font-weight": 600 }, svg).textContent = smUD(last[2]);
+  const band = (W - L - Rr) / Math.max(1, R.length - 1);
+  R.forEach((r, i) => { const hit = dkEl("rect", { x: x(i) - band / 2, y: T, width: band, height: H - T - B, fill: "transparent" }, svg);
+    hit.style.pointerEvents = "all";
+    dkTip(hit, `<b>${smDay(r[0])}</b> 30-day ${smUD(r[2])}<br><span>7-day ${smUD(r[1])}</span>`); });
+}
+function smBars(m) {
+  const pct = m.unit === "%", b = m.before.value, a = m.after && m.after.value;
+  const mx = pct ? 100 : Math.max(b || 0, a || 0, 1), f = v => v == null ? "–" : pct ? `${Math.round(v)}%` : dkFmt(v);
+  const bar = (l, v, c) => `<div class="sm-bar"><span class="lbl">${l}</span><span class="trk"><i style="width:${v == null ? 0 : (v / mx) * 100}%;background:${c}"></i></span><b>${f(v)}</b></div>`;
+  let chg = "";
+  if (a != null && b != null) { const dlt = a - b, n = Math.abs(Math.round(dlt)), txt = pct ? `${n} pt${n === 1 ? "" : "s"}` : dkFmt(Math.abs(dlt));
+    chg = `<div class="sm-chg ${dlt < 0 ? "up" : dlt > 0 ? "worse" : "lbl"}">${dlt < 0 ? "▼" : dlt > 0 ? "▲" : ""} ${txt} <span class="lbl">· after n=${m.after.n}</span></div>`; }
+  return bar("Before", b, "#5b6672") + (m.after ? bar("After", a, "var(--s2)") : "") + chg;
+}
+function renderSummary() {
+  const host = document.getElementById("sum"), d = state.desk, S = d && d.summary;
+  if (!host) return;
+  if (!S || !d.paths) { host.innerHTML = ""; return; }
+  const M = S.margin, cur = M.last30, pri = M.prior30, P = d.paths, st = P.monitor.steps;
+  const E = d.edits || {}, w = E.last30 || E.last7 || {}, T = smTargets(P), wk = smWeeks(d), tu = S.turbo;
+  const eras = (state.agg && state.agg.eras) || [], base = eras.length && eras[0].median_lead_seconds != null ? -eras[0].median_lead_seconds : null;
+  const dl = (a, b, unit) => { if (a == null || b == null) return ""; const v = a - b; if (!v) return "no change";
+    return `<span class="${v < 0 ? "up" : "worse"}">${v < 0 ? "▼" : "▲"} ${dkFmt(Math.abs(v))}</span>`; };
+  const biggest = SM_STEPS.reduce((m, s) => ((st[s[0]] || {}).median || 0) > ((st[m[0]] || {}).median || 0) ? s : m, SM_STEPS[0])[0];
+  const s3 = smRoad(S, "s3").items.filter(i => i.key);
+  host.innerHTML = `
+    <div class="sm-top">
+      <div class="sm-card">
+        <div class="lbl">Typical margin behind Underdog · last 30 days</div>
+        <div class="sm-hero">${smUD(cur.median)}</div>
+        <div class="sm-delta">${dl(cur.median, pri.median)} vs prior 30 days${base != null ? ` · ${dl(cur.median, base)} vs before the new system` : ""} · RotoWire first on ${Math.round(cur.rw_first_pct)}%, ties ${Math.round(cur.tie_pct)}% · ${cur.n} shared stories</div>
+        <div id="sm-chart" style="margin-top:8px"></div>
+        <div class="sm-key"><span><i style="border-color:#4493f8"></i>30-day rolling median</span><span><i style="border-color:#4493f8;opacity:.4;border-top-style:dashed"></i>7-day</span><span><i style="border-color:#8b98a5;border-top-style:dotted"></i>change shipped</span></div>
+      </div>
+      <div class="sm-card sm-spot">
+        <div class="lbl">Top priority now</div>
+        <div class="sm-hero">${w.edited_pct == null ? "–" : Math.round(w.edited_pct) + "%"}</div>
+        <div style="font-weight:600">of AI-drafted posts get edited before they go out</div>
+        <div class="sm-delta" style="margin-top:6px">${w.change_pct == null ? "" : `${Math.round(w.change_pct)}% of the draft rewritten on average. `}Every post that goes out untouched cuts the posting step. Last 30 days, ${w.scored || 0} posts.</div>
+        ${s3.length ? `<div class="dc-f"><div class="t">Being done about it</div><div class="pills">${s3.map(i => smPill(i)).join("")}</div></div>` : ""}
+      </div>
+    </div>
+    <div class="sm-strip">
+      ${SM_STEPS.map(([k, c, name], i) => `<div class="sm-chip" style="--c:var(--${c})"><div class="lbl">${i + 1} · ${name}</div>
+        <div class="sm-metric">${dkFmt((st[k] || {}).median || 0)}</div><div class="sm-tgt">To tie Underdog: <b>${dkFmt(T.steps[i])}</b></div>
+        <div class="sm-delta">${k === "sent_to_monitor" && tu && tu.on.arrival.median != null ? `${dkFmt(tu.on.arrival.median)} with turbo on` : k === "open_to_x" && w.edited_pct != null ? `${Math.round(w.edited_pct)}% edited` : k === biggest ? "the biggest piece" : ""}</div></div>`).join("")}
+      <div class="sm-chip hand" style="--c:var(--hand)"><div class="lbl">Added by hand</div>
+        <div class="sm-metric">${wk.full ? Math.round(wk.full.pct) : Math.round(P.manual_pct)}%</div>
+        <div class="sm-tgt">of posts${wk.full ? `, week of ${smDay(wk.full.week)}` : ""}${wk.peak && wk.full && wk.peak !== wk.full ? ` · <span class="up">▼ from ${Math.round(wk.peak.pct)}%</span> (${smDay(wk.peak.week)})` : ""}</div>
+        <div class="sm-delta">${P.manual.from_source.median != null ? `${dkFmt(P.manual.from_source.median)} from source` : ""}${T.hand != null ? ` · to tie: <b style="color:var(--text)">${dkFmt(T.hand)}</b>` : ""}</div></div>
+    </div>
+    <p class="sm-note">Steps are posts from a Monitor tweet, medians over the last ${d.window.days} days. "To tie" is break-even: if every step shrinks by the same share to those times, we'd post first on half the stories both accounts post.</p>
+
+    ${(() => { const wkr = smRoad(S, "work").items.filter(i => i.key); if (!wkr.length) return "";
+      const done = wkr.filter(i => i.category === "done").length;
+      return `<h2 class="sm-h">Taking manual work off the desk</h2>
+      <p class="sm-note">Not one of the three steps: jobs editors did by hand on every post, now automated so their time goes to posting. ${done} of ${wkr.length} done.</p>
+      <div class="sm-work">${wkr.map(i => `<div class="sm-card"><div class="sm-wk-h">${smPill({ ...i, title: "" }, true)}<span class="pill ${{ done: "done", indeterminate: "prog", new: "todo" }[i.category] || "todo"}">${esc(i.status || "?")}</span></div>
+        <div class="sm-wk-t">${esc(i.title || "")}</div>${i.replaces ? `<div class="lbl">${i.category === "done" ? "Replaced" : "Replaces"}: ${esc(i.replaces)}</div>` : ""}</div>`).join("")}</div>`; })()}
+
+    <h2 class="sm-h">What we're doing about it</h2>
+    <p class="sm-note">Every open and shipped ticket, by the step it targets.${S.roadmap.fetched_at ? ` Statuses from Jira as of ${esc(fmtTime(S.roadmap.fetched_at))}.` : ""}</p>
+    <div class="sm-road">${S.roadmap.steps.filter(r => r.step !== "work").map(r => `<div class="sm-card" style="--c:var(--${r.step === "hand" ? "hand" : r.step})"><h4>${esc(r.label)}</h4>
+      ${r.items.map(it => `<div class="sm-tk">${it.key ? `<span class="pill ${{ done: "done", indeterminate: "prog", new: "todo" }[it.category] || "todo"}">${esc(it.status || "?")}</span><a href="${it.url}" target="_blank" rel="noopener">${it.key} ${esc(it.title || "")}</a>` : `<span class="pill none">No ticket</span><span>${esc(it.title)}</span>`}</div>`).join("")}</div>`).join("")}</div>
+
+    <h2 class="sm-h">Is it working?</h2>
+    <p class="sm-note">Each shipped change on the metric it targets: the 2 weeks before it went live against since. Lower is better on all of these.</p>
+    <div class="sm-ba">${(S.changes || []).map(c => `<div class="sm-card"><h4><a href="https://gdcgroup.atlassian.net/browse/${esc(c.key)}" target="_blank" rel="noopener">${esc(c.key)} ${esc(c.label)}</a></h4>
+      <div class="lbl">live ${smDay(c.live)}${c.too_soon ? ` · ${c.days_since} day${c.days_since === 1 ? "" : "s"} in, too soon to call` : ""}</div>
+      ${[...c.metrics].sort((a, b) => b.main - a.main).map(m => `<div class="sm-m"><div class="t">${esc(m.label)}${m.main && c.metrics.length > 1 ? " <span>· main metric</span>" : ""}</div>${smBars(m)}</div>`).join("")}</div>`).join("")}</div>`;
+  smChart(document.getElementById("sm-chart"), S);
+}
+function renderDetCols() {
+  const host = document.getElementById("det-cols"), d = state.desk, S = d && d.summary;
+  if (!host) return;
+  if (!S || !d.paths) { host.classList.add("hidden"); host.innerHTML = ""; return; }
+  host.classList.remove("hidden");
+  const P = d.paths, st = P.monitor.steps, T = smTargets(P), tu = S.turbo, E = d.edits || {}, w = E.last30 || E.last7 || {}, wk = smWeeks(d);
+  const pills = (step, keys) => { const it = smRoad(S, step).items.filter(i => !keys || keys.includes(i.key)); return it.length ? `<div class="pills">${it.map(i => smPill(i, true)).join("")}</div>` : ""; };
+  const DAYS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], hh = t => { const [h, m] = t.split(":").map(Number); return `${h % 12 || 12}${m ? ":" + String(m).padStart(2, "0") : ""}${h < 12 ? "a" : "p"}`; };
+  const sched = tu && tu.windows ? Object.entries(tu.windows.reduce((a, x) => ((a[x.day] = a[x.day] || []).push(`${hh(x.start)}–${hh(x.end)}`), a), {})).map(([dd, v]) => `${DAYS[dd]} ${v.join(", ")}`).join(" · ") : "";
+  const bs = P.monitor.race.before_source, cr = state.credits;
+  const t8168 = smRoad(S, "s3").items.find(i => i.key === "RD-8168"), t8169 = smRoad(S, "s3").items.find(i => i.key === "RD-8169");
+  host.innerHTML = `<div class="dc-cols">
+    <div class="dc-col" style="--c:var(--s1)"><div class="lbl">1 · Sent to in Monitor</div><div class="sm-metric">${dkFmt(st.sent_to_monitor.median)}</div><div class="sm-tgt">To tie: <b>${dkFmt(T.steps[0])}</b></div>
+      ${tu ? `<div class="dc-f"><div class="t">Turbo mode on</div><div class="v">${dkFmt(tu.on.arrival.median)} <span class="lbl">vs ${dkFmt(tu.off.arrival.median)} off</span></div>
+        <div class="d">Margin ${smUD(tu.on.margin.median)} during turbo vs ${smUD(tu.off.margin.median)} outside it (since ${smDay(tu.since)})</div>${pills("s1")}</div>
+      <div class="dc-f"><div class="t">Turbo schedule (ET)</div><div class="d">${sched} · ${tu.seconds}s scans, ${tu.normal_seconds}s otherwise</div></div>` : ""}</div>
+    <div class="dc-col" style="--c:var(--s2)"><div class="lbl">2 · In Monitor to opened</div><div class="sm-metric">${dkFmt(st.monitor_to_open.median)}</div><div class="sm-tgt">To tie: <b>${dkFmt(T.steps[1])}</b></div>
+      ${cr ? `<div class="dc-f"><div class="t">Accounts to add</div><div class="v">${cr.missing}</div><div class="d">Underdog credits, not on our Monitor list (last ${cr.window_days} days)</div><div class="pills"><span class="pill none">KOB, weekly</span></div></div>` : ""}
+      ${bs && bs.n ? `<div class="dc-f"><div class="t">Monitor never had it</div><div class="v">${bs.monitor_never_had} of ${bs.n}</div><div class="d">stories where Underdog posted before our source tweet</div>${pills("s2", ["RD-8164"])}</div>` : ""}
+      <div class="dc-f"><div class="t">Working from the Monitor first</div><span class="dc-pend">no metric yet</span>${pills("s2", ["RD-8112", "RD-8037"])}</div></div>
+    <div class="dc-col" style="--c:var(--s3)"><div class="lbl">3 · Opened to posted</div><div class="sm-metric">${dkFmt(st.open_to_x.median)}</div><div class="sm-tgt">To tie: <b>${dkFmt(T.steps[2])}</b></div>
+      <div class="dc-f"><div class="t">Posts edited <span class="dc-prio">TOP PRIORITY</span></div><div class="v">${w.edited_pct == null ? "–" : Math.round(w.edited_pct) + "%"}</div></div>
+      <div class="dc-f"><div class="t">Share of draft changed</div><div class="v">${w.change_pct == null ? "–" : Math.round(w.change_pct) + "%"}</div>${pills("s3", ["RD-8090", "RD-8091", "RD-8092", "RD-8094"])}</div>
+      <div class="dc-f"><div class="t">Drafts from a template · which one</div>${t8168 && t8168.category === "done" ? `<span class="dc-pend">shipped, chart coming</span>` : `<span class="dc-pend">waiting on RD-8168</span>`}${pills("s3", ["RD-8168"])}</div>
+      <div class="dc-f"><div class="t">Live templates and their changes</div>${t8169 && t8169.category === "done" ? `<span class="dc-pend">shipped, view coming</span>` : `<span class="dc-pend">waiting on RD-8169</span>`}${pills("s3", ["RD-8169"])}</div></div>
+    <div class="dc-col hand" style="--c:var(--hand)"><div class="lbl">Added by hand</div><div class="sm-metric">${wk.full ? Math.round(wk.full.pct) : Math.round(P.manual_pct)}%</div>
+      <div class="sm-tgt">of posts${wk.full ? `, week of ${smDay(wk.full.week)}` : ""}</div>
+      <div class="dc-f"><div class="t">Source to posted</div><div class="v">${dkFmt(P.manual.from_source.median || 0)}</div><div class="d">to tie: <b>${T.hand != null ? dkFmt(T.hand) : "–"}</b></div>${pills("hand")}</div></div>
+  </div>`;
+}
+function renderInsider() {
+  const host = document.getElementById("insider"), g = ((state.agg && state.agg.focus) || {}).groups?.find(x => x.key === "insider");
+  if (!host) return;
+  if (!g || !state.desk) { host.classList.add("hidden"); host.innerHTML = ""; return; }
+  host.classList.remove("hidden");
+  host.innerHTML = `<h2 id="in-h">Insider reports</h2>
+    <p class="dek">Schefter, Rapoport, Fowler, Glazer and the other national insiders: ${fmtPct(g.share_of_time_behind)} of all our time behind Underdog in the last ${(state.agg.focus || {}).days || 30} days comes from these stories. Typical ${fmtMargin(g.median_lead_seconds)}, first on ${g.rotowire_first} of ${g.matched}, missed ${g.missed} (${fmtPct(g.missed_rate)}).</p>
+    ${focusSection({ ...g, rank: 1 }, true).replace('<span class="fg-rank">#1</span>', "")}`;
+}
+function applySpeedTab() {
+  const tabs = document.getElementById("pagetabs");
+  if (!tabs) return;
+  if (!state.speedTab) { try { state.speedTab = localStorage.getItem("pst-tab") || "sum"; } catch (e) { state.speedTab = "sum"; } }
+  const on = state.sport !== ALL && !!(state.desk && state.desk.summary) && !document.body.classList.contains("page-audience");
+  tabs.classList.toggle("hidden", !on);
+  document.body.classList.toggle("sp-sum", on && state.speedTab !== "det");
+  document.body.classList.toggle("sp-det", on && state.speedTab === "det");
+  tabs.querySelectorAll("button").forEach(b => {
+    const sel = b.dataset.t === (state.speedTab === "det" ? "det" : "sum");
+    b.classList.toggle("on", sel); b.setAttribute("aria-selected", sel);
+    b.onclick = () => {
+      if (sel) return;
+      state.speedTab = b.dataset.t;
+      try { localStorage.setItem("pst-tab", b.dataset.t); } catch (e) { /* private window */ }
+      applySpeedTab(); window.scrollTo(0, 0);
+      // Charts measure their panel, so redraw whatever just became visible.
+      if (state.speedTab === "sum") renderSummary(); else { renderTrend(); renderDesk(); renderEdits(); updateTabFade(); }
+    };
+  });
+}
+addEventListener("resize", () => { clearTimeout(window._smResize); window._smResize = setTimeout(() => { if (state.desk && document.body.classList.contains("sp-sum")) renderSummary(); }, 150); });
 </script>
 </body>
 </html>

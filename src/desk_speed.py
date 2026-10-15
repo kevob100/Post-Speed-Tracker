@@ -39,6 +39,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
+from . import desk_summary
 from .store import load_jsonl, now_iso, parse_dt, write_jsonl
 
 MCP_URL = "https://newsadmin.rotowire.com/mcp"
@@ -173,8 +174,8 @@ def _edits(data_dir: Path, timeline: list[dict], now: datetime) -> dict | None:
     ex = sorted(load_jsonl(data_dir / "x_post_examples.jsonl"), key=lambda e: e["posted_at"], reverse=True)
     examples = [{k: e.get(k) for k in ("posted_at", "generate_prompt_version", "manual", "baseline_source", "distance", "draft", "posted")}
                 for e in ex if e.get("draft") and e.get("posted")][:EXAMPLES_KEPT]
-    last7 = [r for r in rows if r["day"] > (now - timedelta(days=7)).date().isoformat()]
-    return {"daily": daily, "versions": versions, "examples": examples, "last7": roll(last7),
+    last30 = [r for r in rows if r["day"] > (now - timedelta(days=30)).date().isoformat()]
+    return {"daily": daily, "versions": versions, "examples": examples, "last30": roll(last30),
             "stored_since": "2026-10-14"}
 
 
@@ -364,7 +365,8 @@ def _week(t: str) -> str:
     return (d - timedelta(days=d.weekday())).isoformat()  # Monday of the week
 
 
-def build(data_dir: Path, docs_dir: Path, stories: list[dict], now: datetime | None = None) -> dict | None:
+def build(data_dir: Path, docs_dir: Path, stories: list[dict], now: datetime | None = None,
+          cfg: dict | None = None) -> dict | None:
     all_rows = [r for r in load_jsonl(data_dir / "desk_timeline.jsonl") if r.get("posted_to_x_at")]
     if not all_rows:
         return None
@@ -401,6 +403,12 @@ def build(data_dir: Path, docs_dir: Path, stories: list[dict], now: datetime | N
         "edits": _edits(data_dir, all_rows, now),
         "weekdays": [],
     }
+    def manual_pct(a, b):
+        sub = [s for s in ours if a <= parse_dt(s["rotowire"]["created_at"]) < b]
+        _, man_ab, _ = _split(sub, all_rows)
+        return {"value": round(100 * len(man_ab) / len(sub), 1) if sub else None, "n": len(sub), "unit": "%"}
+
+    out["summary"] = desk_summary.build(cfg or {}, data_dir, all_rows, stories, manual_pct, now)
     for d in ["Sun", "Wed", "Mon", "Tue", "Thu", "Fri", "Sat"]:
         out["weekdays"].append({"day": d, "note": KEY_DAYS.get(d), "key": d in KEY_DAYS,
                                 "paths": _paths([s for s in win if day(s["rotowire"]["created_at"]) == d],
@@ -430,8 +438,13 @@ if __name__ == "__main__":
             print(f"[desk]      {sync_edits(data_dir, a.sport)}")
         else:
             print("[desk]      no ROTOWIRE_MCP_TOKEN, skipped sync")
+    from .config import load_config
+    cfg = load_config()["sports"][a.sport].get("desk_speed") or {}
+    if has_credentials() and not a.no_sync:
+        keys = [t["key"] for st in cfg.get("roadmap", []) for t in st.get("tickets", [])]
+        print(f"[desk]      {desk_summary.sync_tickets(data_dir, keys)}")
     stories = json.loads((docs_dir / "stories.json").read_text())
-    res = build(data_dir, docs_dir, stories)
+    res = build(data_dir, docs_dir, stories, cfg=cfg)
     if res:
         for k, v in res["paths"].items():
             print(k, {kk: vv for kk, vv in v.items() if kk not in ("race", "steps")} if isinstance(v, dict) else v,

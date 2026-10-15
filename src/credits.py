@@ -28,7 +28,7 @@ from .store import load_jsonl, now_iso, parse_dt
 HANDLE_CREDIT_RE = re.compile(r"(?:via|per|from|h/t)\s+@(\w{1,15})", re.I)
 NAME_PREFIX_RE = re.compile(r"^([A-Z][A-Za-z'.\- ]{1,25}):\s")
 NOT_A_SOURCE = {"Status alert", "Update", "Breaking", "Report", "Injury update"}
-WINDOW_DAYS = 60
+WINDOW_DAYS = 30
 LIST_FILE = "monitor_list.json"
 
 
