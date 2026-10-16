@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-10-16T17:28:43.489035+00:00",
+  "generated_at": "2026-10-16T19:58:20.307403+00:00",
   "window": {
     "from": "2026-09-16",
     "to": "2026-10-16",
-    "days": 31
+    "days": 30
   },
   "opens_tracked_since": "2026-10-13",
   "paths": {
     "all": {
-      "posts": 1087,
+      "posts": 1073,
       "race": {
-        "n": 821,
+        "n": 810,
         "median_gap": 105,
-        "underdog_first_pct": 87.5,
+        "underdog_first_pct": 87.3,
         "gaps": [
           -19551,
           -17409,
@@ -147,14 +147,12 @@
           20,
           20,
           20,
-          20,
           22,
           22,
           22,
           23,
           23,
           23,
-          24,
           25,
           25,
           25,
@@ -228,14 +226,11 @@
           47,
           47,
           47,
-          47,
           48,
           49,
           49,
           49,
           49,
-          49,
-          50,
           50,
           50,
           51,
@@ -340,7 +335,6 @@
           79,
           79,
           79,
-          79,
           80,
           80,
           80,
@@ -414,7 +408,6 @@
           101,
           101,
           101,
-          101,
           102,
           102,
           103,
@@ -440,7 +433,6 @@
           108,
           108,
           108,
-          109,
           110,
           110,
           110,
@@ -504,7 +496,6 @@
           132,
           132,
           133,
-          134,
           134,
           134,
           134,
@@ -711,7 +702,6 @@
           317,
           318,
           323,
-          327,
           328,
           329,
           335,
@@ -763,7 +753,6 @@
           642,
           654,
           661,
-          668,
           672,
           680,
           718,
@@ -836,7 +825,7 @@
           12610,
           19034
         ],
-        "underdog_before_source_pct": 13.5,
+        "underdog_before_source_pct": 13.7,
         "before_source": {
           "n": 99,
           "monitor_had_earlier": 21,
@@ -844,16 +833,16 @@
         }
       },
       "from_source": {
-        "median": 175,
-        "n": 753
+        "median": 177,
+        "n": 742
       }
     },
     "monitor": {
-      "posts": 523,
+      "posts": 514,
       "race": {
-        "n": 404,
-        "median_gap": 111,
-        "underdog_first_pct": 87.1,
+        "n": 397,
+        "median_gap": 112,
+        "underdog_first_pct": 86.9,
         "gaps": [
           -19551,
           -16380,
@@ -920,11 +909,9 @@
           18,
           19,
           20,
-          20,
           22,
           22,
           23,
-          24,
           25,
           25,
           26,
@@ -965,9 +952,7 @@
           47,
           47,
           47,
-          47,
           49,
-          50,
           50,
           51,
           51,
@@ -1041,7 +1026,6 @@
           100,
           101,
           101,
-          101,
           102,
           102,
           103,
@@ -1087,7 +1071,6 @@
           131,
           132,
           132,
-          134,
           134,
           134,
           135,
@@ -1227,7 +1210,6 @@
           626,
           642,
           654,
-          668,
           672,
           718,
           725,
@@ -1260,7 +1242,7 @@
           9219,
           19034
         ],
-        "underdog_before_source_pct": 18.8,
+        "underdog_before_source_pct": 19.1,
         "before_source": {
           "n": 76,
           "monitor_had_earlier": 21,
@@ -1269,12 +1251,12 @@
       },
       "from_source": {
         "median": 206,
-        "n": 404
+        "n": 397
       },
       "steps": {
         "sent_to_monitor": {
           "median": 30,
-          "n": 550
+          "n": 541
         },
         "monitor_to_open": {
           "median": 80,
@@ -1285,22 +1267,22 @@
           "n": 59
         },
         "monitor_to_x": {
-          "median": 162,
-          "n": 550
+          "median": 164,
+          "n": 541
         },
         "split": true,
         "edited": {
           "pct": 98.7,
-          "n": 550
+          "n": 541
         }
       }
     },
     "manual": {
-      "posts": 438,
+      "posts": 434,
       "race": {
-        "n": 327,
+        "n": 324,
         "median_gap": 90,
-        "underdog_first_pct": 87.8,
+        "underdog_first_pct": 87.7,
         "gaps": [
           -16799,
           -15134,
@@ -1390,7 +1372,6 @@
           49,
           49,
           49,
-          49,
           50,
           52,
           53,
@@ -1444,7 +1425,6 @@
           78,
           79,
           79,
-          79,
           80,
           81,
           81,
@@ -1491,7 +1471,6 @@
           107,
           107,
           108,
-          109,
           110,
           110,
           111,
@@ -1630,7 +1609,7 @@
           7680,
           12610
         ],
-        "underdog_before_source_pct": 7.0,
+        "underdog_before_source_pct": 7.1,
         "before_source": {
           "n": 23,
           "monitor_had_earlier": 0,
@@ -1638,8 +1617,8 @@
         }
       },
       "from_source": {
-        "median": 147,
-        "n": 277
+        "median": 148,
+        "n": 274
       },
       "add_line_to_x": {
         "median": 48,
@@ -1647,11 +1626,11 @@
       }
     },
     "other": {
-      "posts": 126,
+      "posts": 125,
       "race": {
-        "n": 90,
-        "median_gap": 136,
-        "underdog_first_pct": 87.8,
+        "n": 89,
+        "median_gap": 127,
+        "underdog_first_pct": 87.6,
         "gaps": [
           -17409,
           -5094,
@@ -1722,7 +1701,6 @@
           288,
           289,
           303,
-          327,
           336,
           370,
           436,
@@ -1746,11 +1724,11 @@
         ]
       },
       "from_source": {
-        "median": 224,
-        "n": 72
+        "median": 222,
+        "n": 71
       }
     },
-    "manual_pct": 40.3,
+    "manual_pct": 40.4,
     "other_pct": 11.6
   },
   "manual_weekly": [
@@ -3444,11 +3422,11 @@
       "key": true,
       "paths": {
         "all": {
-          "posts": 225,
+          "posts": 211,
           "race": {
-            "n": 163,
+            "n": 152,
             "median_gap": 96,
-            "underdog_first_pct": 87.1,
+            "underdog_first_pct": 86.2,
             "gaps": [
               -13990,
               -13094,
@@ -3477,8 +3455,6 @@
               12,
               14,
               18,
-              20,
-              24,
               26,
               29,
               30,
@@ -3493,11 +3469,8 @@
               47,
               47,
               47,
-              47,
               48,
               49,
-              49,
-              50,
               51,
               52,
               53,
@@ -3518,7 +3491,6 @@
               73,
               78,
               79,
-              79,
               80,
               80,
               81,
@@ -3536,13 +3508,11 @@
               98,
               100,
               101,
-              101,
               103,
               105,
               107,
               108,
               108,
-              109,
               110,
               114,
               114,
@@ -3552,7 +3522,6 @@
               120,
               127,
               133,
-              134,
               140,
               141,
               145,
@@ -3587,7 +3556,6 @@
               290,
               293,
               317,
-              327,
               337,
               347,
               350,
@@ -3597,7 +3565,6 @@
               443,
               460,
               642,
-              668,
               809,
               940,
               966,
@@ -3614,7 +3581,7 @@
               5684,
               7189
             ],
-            "underdog_before_source_pct": 11.9,
+            "underdog_before_source_pct": 12.8,
             "before_source": {
               "n": 18,
               "monitor_had_earlier": 4,
@@ -3622,16 +3589,16 @@
             }
           },
           "from_source": {
-            "median": 148,
-            "n": 153
+            "median": 144,
+            "n": 142
           }
         },
         "monitor": {
-          "posts": 99,
+          "posts": 90,
           "race": {
-            "n": 76,
-            "median_gap": 87,
-            "underdog_first_pct": 81.6,
+            "n": 69,
+            "median_gap": 91,
+            "underdog_first_pct": 79.7,
             "gaps": [
               -13990,
               -12975,
@@ -3650,8 +3617,6 @@
               7,
               12,
               14,
-              20,
-              24,
               26,
               29,
               32,
@@ -3660,8 +3625,6 @@
               44,
               46,
               47,
-              47,
-              50,
               51,
               52,
               56,
@@ -3676,7 +3639,6 @@
               97,
               98,
               100,
-              101,
               105,
               107,
               108,
@@ -3686,7 +3648,6 @@
               114,
               114,
               116,
-              134,
               140,
               145,
               159,
@@ -3706,11 +3667,10 @@
               353,
               404,
               642,
-              668,
               4994,
               5156
             ],
-            "underdog_before_source_pct": 14.5,
+            "underdog_before_source_pct": 15.9,
             "before_source": {
               "n": 11,
               "monitor_had_earlier": 4,
@@ -3718,13 +3678,13 @@
             }
           },
           "from_source": {
-            "median": 142,
-            "n": 76
+            "median": 140,
+            "n": 69
           },
           "steps": {
             "sent_to_monitor": {
-              "median": 24,
-              "n": 107
+              "median": 22,
+              "n": 98
             },
             "monitor_to_open": {
               "median": 64,
@@ -3735,22 +3695,22 @@
               "n": 30
             },
             "monitor_to_x": {
-              "median": 122,
-              "n": 107
+              "median": 121,
+              "n": 98
             },
             "split": true,
             "edited": {
               "pct": 100.0,
-              "n": 107
+              "n": 98
             }
           }
         },
         "manual": {
-          "posts": 107,
+          "posts": 103,
           "race": {
-            "n": 75,
+            "n": 72,
             "median_gap": 92,
-            "underdog_first_pct": 90.7,
+            "underdog_first_pct": 90.3,
             "gaps": [
               -13094,
               -12245,
@@ -3770,7 +3730,6 @@
               47,
               48,
               49,
-              49,
               53,
               55,
               56,
@@ -3783,7 +3742,6 @@
               69,
               72,
               78,
-              79,
               80,
               81,
               84,
@@ -3793,7 +3751,6 @@
               93,
               101,
               103,
-              109,
               120,
               127,
               133,
@@ -3828,7 +3785,7 @@
               5684,
               7189
             ],
-            "underdog_before_source_pct": 9.3,
+            "underdog_before_source_pct": 9.7,
             "before_source": {
               "n": 7,
               "monitor_had_earlier": 0,
@@ -3836,8 +3793,8 @@
             }
           },
           "from_source": {
-            "median": 142,
-            "n": 66
+            "median": 145,
+            "n": 63
           },
           "add_line_to_x": {
             "median": null,
@@ -3845,10 +3802,10 @@
           }
         },
         "other": {
-          "posts": 19,
+          "posts": 18,
           "race": {
-            "n": 12,
-            "median_gap": 294,
+            "n": 11,
+            "median_gap": 262,
             "underdog_first_pct": 100.0,
             "gaps": [
               68,
@@ -3857,7 +3814,6 @@
               108,
               161,
               262,
-              327,
               443,
               940,
               966,
@@ -3866,12 +3822,12 @@
             ]
           },
           "from_source": {
-            "median": 331,
-            "n": 11
+            "median": 390,
+            "n": 10
           }
         },
-        "manual_pct": 47.6,
-        "other_pct": 8.4
+        "manual_pct": 48.8,
+        "other_pct": 8.5
       }
     },
     {
@@ -13132,17 +13088,17 @@
   "summary": {
     "margin": {
       "last30": {
-        "n": 824,
+        "n": 812,
         "median": 105,
-        "rw_first_pct": 8.7,
-        "tie_pct": 23.1,
-        "ud_first_pct": 68.2
+        "rw_first_pct": 8.9,
+        "tie_pct": 22.8,
+        "ud_first_pct": 68.3
       },
       "prior30": {
-        "n": 385,
-        "median": 129,
-        "rw_first_pct": 11.2,
-        "tie_pct": 19.5,
+        "n": 392,
+        "median": 128,
+        "rw_first_pct": 10.5,
+        "tie_pct": 20.2,
         "ud_first_pct": 69.4
       },
       "rolling": [
@@ -13850,6 +13806,7 @@
             "metric": "arrival_turbo",
             "label": "Sent to in Monitor, turbo windows",
             "main": true,
+            "note": null,
             "higher_better": false,
             "unit": "s",
             "before": {
@@ -13876,6 +13833,7 @@
             "metric": "edited_pct",
             "label": "Posts edited",
             "main": true,
+            "note": "All NFL posts, not just this template's. Can't isolate it until RD-8168.",
             "higher_better": false,
             "unit": "%",
             "before": {
@@ -13893,6 +13851,7 @@
             "metric": "change_pct",
             "label": "Share of draft changed",
             "main": false,
+            "note": null,
             "higher_better": false,
             "unit": "%",
             "before": {
@@ -13919,6 +13878,7 @@
             "metric": "edited_pct",
             "label": "Posts edited",
             "main": true,
+            "note": "All NFL posts, not just this template's. Can't isolate it until RD-8168.",
             "higher_better": false,
             "unit": "%",
             "before": {
@@ -13936,6 +13896,7 @@
             "metric": "change_pct",
             "label": "Share of draft changed",
             "main": false,
+            "note": null,
             "higher_better": false,
             "unit": "%",
             "before": {
@@ -13962,6 +13923,7 @@
             "metric": "edited_pct",
             "label": "Posts edited",
             "main": true,
+            "note": "All NFL posts, not just this template's. Can't isolate it until RD-8168.",
             "higher_better": false,
             "unit": "%",
             "before": {
@@ -13979,6 +13941,7 @@
             "metric": "change_pct",
             "label": "Share of draft changed",
             "main": false,
+            "note": null,
             "higher_better": false,
             "unit": "%",
             "before": {
@@ -14005,6 +13968,7 @@
             "metric": "template_written_pct",
             "label": "Template-worded posts the template wrote",
             "main": true,
+            "note": null,
             "higher_better": true,
             "unit": "%",
             "before": {
@@ -14022,6 +13986,7 @@
             "metric": "edited_pct",
             "label": "Posts edited",
             "main": false,
+            "note": "All NFL posts.",
             "higher_better": false,
             "unit": "%",
             "before": {
@@ -14247,14 +14212,8 @@
       "assignee": "Matthew Kulina",
       "sprints": [
         {
-          "name": "2026.Q4.S20",
-          "state": "active",
-          "start": "2026-10-01T13:00:41.495Z",
-          "end": "2026-10-14T21:00:00.000Z"
-        },
-        {
           "name": "2026.Q4.S21",
-          "state": "future",
+          "state": "active",
           "start": "2026-10-15T13:00:00.000Z",
           "end": "2026-10-28T21:00:00.000Z"
         }
@@ -14277,7 +14236,7 @@
               "priority": "Highest",
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8090",
-              "sprint": "2026.Q4.S20",
+              "sprint": "2026.Q4.S21",
               "sprint_state": "active"
             },
             {
@@ -14290,7 +14249,7 @@
               "priority": "High",
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8091",
-              "sprint": "2026.Q4.S20",
+              "sprint": "2026.Q4.S21",
               "sprint_state": "active"
             },
             {
@@ -14304,7 +14263,7 @@
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8114",
               "sprint": "2026.Q4.S21",
-              "sprint_state": "future"
+              "sprint_state": "active"
             },
             {
               "key": "RD-8168",
@@ -14317,7 +14276,7 @@
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8168",
               "sprint": "2026.Q4.S21",
-              "sprint_state": "future"
+              "sprint_state": "active"
             },
             {
               "key": "RD-8169",
@@ -14330,7 +14289,7 @@
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8169",
               "sprint": "2026.Q4.S21",
-              "sprint_state": "future"
+              "sprint_state": "active"
             },
             {
               "key": "RD-8176",
@@ -14343,7 +14302,7 @@
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8176",
               "sprint": "2026.Q4.S21",
-              "sprint_state": "future"
+              "sprint_state": "active"
             }
           ],
           "backlog": [
@@ -14622,7 +14581,7 @@
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8146",
               "sprint": "2026.Q4.S21",
-              "sprint_state": "future"
+              "sprint_state": "active"
             },
             {
               "key": "RD-8147",
@@ -14635,7 +14594,7 @@
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8147",
               "sprint": "2026.Q4.S21",
-              "sprint_state": "future"
+              "sprint_state": "active"
             },
             {
               "key": "RD-8148",
@@ -14648,7 +14607,7 @@
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8148",
               "sprint": "2026.Q4.S21",
-              "sprint_state": "future"
+              "sprint_state": "active"
             },
             {
               "key": "RD-8149",
@@ -14661,7 +14620,7 @@
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8149",
               "sprint": "2026.Q4.S21",
-              "sprint_state": "future"
+              "sprint_state": "active"
             }
           ],
           "backlog": [],
@@ -14684,7 +14643,7 @@
               "priority": "Medium",
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8112",
-              "sprint": "2026.Q4.S20",
+              "sprint": "2026.Q4.S21",
               "sprint_state": "active"
             },
             {
@@ -14697,7 +14656,7 @@
               "priority": "Medium",
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8113",
-              "sprint": "2026.Q4.S20",
+              "sprint": "2026.Q4.S21",
               "sprint_state": "active"
             }
           ],
@@ -14767,7 +14726,7 @@
               "priority": "Medium",
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8160",
-              "sprint": "2026.Q4.S20",
+              "sprint": "2026.Q4.S21",
               "sprint_state": "active"
             }
           ],
@@ -14869,7 +14828,7 @@
               "priority": "High",
               "resolved": "2026-10-01T22:21:16.830+0100",
               "url": "https://gdcgroup.atlassian.net/browse/RD-7580",
-              "sprint": "2026.Q4.S20",
+              "sprint": "2026.Q4.S21",
               "sprint_state": "active"
             }
           ],

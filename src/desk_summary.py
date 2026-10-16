@@ -159,7 +159,7 @@ def changes(cfg_changes: list[dict], now: datetime, **data) -> list[dict]:
             before = _metric(m["metric"], live - timedelta(days=BEFORE_DAYS), live, **data)
             # An early read shows from day one; too_soon keeps it from being called a result.
             after = _metric(m["metric"], live, now, **data) if days_since >= 0 else None
-            metrics.append({"metric": m["metric"], "label": m["label"], "main": bool(m.get("main")),
+            metrics.append({"metric": m["metric"], "label": m["label"], "main": bool(m.get("main")), "note": m.get("note"),
                             "higher_better": m["metric"] in HIGHER_BETTER,
                             "unit": before["unit"], "before": before, "after": after})
         out.append({"key": c["key"], "label": c["label"], "live": c["live"], "days_since": days_since,
@@ -313,6 +313,25 @@ def initiative(data_dir: Path, cfg: dict) -> dict | None:
         return None
     who = (cfg or {}).get("prioritize_assignee")
     issues = ini["issues"]
+    # Jira's own state lags (a sprint stays "future" until someone clicks Start), so the
+    # dates decide: the sprint whose dates hold today is current, an ended one is closed.
+    now = now_iso()
+    def eff(x):
+        if x.get("start") and x.get("end"):
+            if x["start"] <= now <= x["end"]:
+                return "active"
+            if x["end"] < now:
+                # Ended but not closed in Jira: its unfinished work rolls into the current sprint.
+                return "carryover" if x["state"] == "active" else "closed"
+        return x["state"]
+    for i in issues:
+        for x in i.get("sprints") or []:
+            x["state"] = eff(x)
+    current = next((x for i in issues for x in i.get("sprints") or [] if x["state"] == "active"), None)
+    for i in issues:
+        sp = i.get("sprints") or []
+        if current and any(x["state"] == "carryover" for x in sp) and not any(x["state"] in ("active", "future") for x in sp):
+            sp.append(dict(current))
     epics = [i for i in issues if i["type"] == "Epic"]
     open_sprints: dict = {}
     rows = []

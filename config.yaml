@@ -59,26 +59,26 @@ sports:
         label: Practice report templates
         live: '2026-10-09'
         metrics:
-        - {metric: edited_pct, label: Posts edited, main: true}
+        - {metric: edited_pct, label: Posts edited, main: true, note: 'All NFL posts, not just this template''s. Can''t isolate it until RD-8168.'}
         - {metric: change_pct, label: Share of draft changed}
       - key: RD-8092
         label: Transaction templates
         live: '2026-10-13'
         metrics:
-        - {metric: edited_pct, label: Posts edited, main: true}
+        - {metric: edited_pct, label: Posts edited, main: true, note: 'All NFL posts, not just this template''s. Can''t isolate it until RD-8168.'}
         - {metric: change_pct, label: Share of draft changed}
       - key: RD-8091
         label: Game day templates
         live: '2026-10-14'
         metrics:
-        - {metric: edited_pct, label: Posts edited, main: true}
+        - {metric: edited_pct, label: Posts edited, main: true, note: 'All NFL posts, not just this template''s. Can''t isolate it until RD-8168.'}
         - {metric: change_pct, label: Share of draft changed}
       - key: RD-8175
         label: Templates fire more often
         live: '2026-10-16'
         metrics:
         - {metric: template_written_pct, label: 'Template-worded posts the template wrote', main: true}
-        - {metric: edited_pct, label: Posts edited}
+        - {metric: edited_pct, label: Posts edited, note: 'All NFL posts.'}
       # Shipped tickets with no card on purpose. Anything else under the initiative that is In
       # Review or recently Done shows under the cards as "shipped, no card yet" until it gets
       # a card above or a reason here.

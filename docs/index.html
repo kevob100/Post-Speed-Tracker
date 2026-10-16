@@ -31,6 +31,8 @@
   body.page-audience #tabs-wrap, body.page-audience [id^="view-"]:not(#view-all) { display: none !important; }
   h1 { font-size: 20px; margin: 0 0 2px; }
   .sub { color: var(--muted); font-size: 12px; }
+  .sub-warn { color: #f0a070; }
+  @media (max-width: 640px) { .sub-what { display: none; } }
 
   /* sport switcher */
   .sports { display: flex; gap: 6px; margin: 12px 0 4px; flex-wrap: wrap; }
@@ -40,7 +42,7 @@
     cursor: pointer; user-select: none;
   }
   .sport-btn:hover { color: var(--text); }
-  .sport-btn.active { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .sport-btn.active { background: var(--accent); border-color: var(--accent); color: #0f1419; }
   .wrap { padding: 0 24px 48px; max-width: 1200px; margin: 0 auto; }
   @media (max-width: 640px) { header { padding: 12px 16px 4px; } .wrap { padding: 0 16px 40px; }
     /* keep the pinned bar short on a phone: one-line subtitle, smaller title and pills */
@@ -80,6 +82,8 @@
   .hb-seg { display: flex; align-items: center; padding: 0 6px; min-width: 8px; color: #fff; white-space: nowrap; overflow: hidden;
     font-size: 14px; font-weight: 650; }
   .hb-seg.rw { background: var(--green); color: #0f1419; }   /* dark ink reads better on teal */
+  .hb-seg.ud { color: #0f1419; }   /* and on orange: white on it is 3.4:1 */
+  input::placeholder { color: var(--muted); opacity: 1; }
   .hb-seg.tie { background: #4a5563; justify-content: center; }
   .hb-seg.ud { background: var(--red); justify-content: flex-end; }
   .hb-key { display: flex; flex-wrap: wrap; gap: 4px 16px; margin-top: 8px; font-size: 12px; color: var(--muted); }
@@ -138,7 +142,8 @@
   .badge.rw { background: rgba(31,162,184,.15); color: var(--green); }
   .badge.ud { background: rgba(221,107,40,.15); color: var(--red); }
   .delta.pos { color: var(--green); } .delta.neg { color: var(--red); }
-  .chip { background: var(--chip); color: var(--muted); padding: 1px 7px; border-radius: 999px; font-size: 12px; }
+  .delta .odd { color: var(--muted); font-weight: 400; }
+  .chip { background: var(--chip); color: #b4bfca; padding: 1px 7px; border-radius: 999px; font-size: 12px; }
   .chip.role-followup { background: rgba(88,166,255,.15); color: var(--accent); }
   .chip.role-original { background: var(--chip); color: var(--muted); }
   .status-confirmed { color: var(--green); } .status-rejected { color: var(--red); }
@@ -222,7 +227,7 @@
   .seg-chips button { background: var(--panel); color: var(--muted); border: 1px solid var(--line);
     border-radius: 6px; padding: 6px 10px; font-size: 12px; cursor: pointer; }
   .seg-chips button:hover { color: var(--text); }
-  .seg-chips button.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .seg-chips button.on { background: var(--accent); border-color: var(--accent); color: #0f1419; }
   .strip { display: grid; gap: 3px; min-width: 760px; }
   .strip .s-lab { color: var(--muted); font-size: 12px; align-self: center; padding-right: 6px; }
   .strip .s-span { background: var(--panel2); border: 1px solid var(--line); border-radius: 5px;
@@ -516,6 +521,10 @@
   .sm-card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
   .sm-hero { font-size: 36px; font-weight: 650; line-height: 1.1; margin: 2px 0 4px; font-variant-numeric: tabular-nums; }
   .sm-delta { font-size: 13px; color: var(--muted); }
+  .sm-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 4px 0 2px; }
+  .sm-cap { font-size: 14px; font-weight: 600; }
+  .sm-cap > span { display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+  @media (max-width: 560px) { .sm-duo { grid-template-columns: minmax(0, 1fr); } }
   .sm-spot { background: linear-gradient(0deg, rgba(240,160,112,.06), rgba(240,160,112,.06)), var(--panel); border-color: #5a3a28; }
   .sm-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; color: var(--muted); margin-top: 6px; }
   .sm-key i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; margin-right: 6px; vertical-align: 3px; }
@@ -550,12 +559,16 @@
   .sm-tk { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: baseline; padding: 6px 0; border-top: 1px solid var(--line); font-size: 12px; }
   .sm-tk:first-of-type, .sm-col-h + .sm-tk { border-top: 0; }
   .sm-ba { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .sm-legend { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: 12px; color: var(--muted); margin: 6px 0 4px; }
+  .sm-legend i { display: inline-block; width: 9px; height: 9px; border-radius: 2px; margin-right: 5px; vertical-align: -1px; }
+  .sm-legend i.done { background: #8fdcb5; } .sm-legend i.prog { background: #9cc4fb; } .sm-legend i.todo { background: var(--muted); }
+  .sm-m-note { margin: -2px 0 6px; }
   .sm-unm { margin-top: 12px; border: 1px dashed var(--line); border-radius: 10px; padding: 12px 18px; font-size: 13px; }
   .sm-unm .t { font-weight: 600; margin-bottom: 6px; }
   .sm-unm-r { padding: 2px 0; }
   .sm-unm .lbl:last-child { margin-top: 6px; }
   @media (max-width: 900px) { .sm-ba { grid-template-columns: minmax(0, 1fr); } }
-  .sm-ba h4 { margin: 0 0 2px; font-size: 13px; }
+  .sm-ba h3 { margin: 0 0 2px; font-size: 13px; }
   .sm-m { margin-top: 10px; } .sm-m .t { font-size: 12px; font-weight: 600; } .sm-m .t span { color: var(--muted); font-weight: 400; }
   .sm-bar { display: grid; grid-template-columns: 48px 1fr 50px; gap: 8px; align-items: center; margin: 4px 0; font-size: 12px; }
   .sm-bar .trk { height: 14px; background: var(--panel2); border-radius: 4px; overflow: hidden; }
@@ -776,7 +789,9 @@ async function loadSport(sport) {
       .then(r => r.ok ? r.json() : null).catch(() => null);
     state.credits = await fetch(base + "credits.json" + bust, { cache: "no-store" })
       .then(r => r.ok ? r.json() : null).catch(() => null);
+    state.loadError = false;
   } catch (e) {
+    state.loadError = true;
     state.desk = null; state.credits = null;
     state.stories = []; state.agg = { summary: {}, weekly: [], monthly: [] };
   }
@@ -901,13 +916,12 @@ function loneSide(s) {
   return null;
 }
 const storyById = id => state.stories.find(s => s.story_id === id);
+// Same "RW +m:ss / UD +m:ss" form as every other margin on the page. Over an hour apart is
+// flagged: at that distance it is often two different stories matched together.
 function fmtDelta(sec) {
   if (sec == null) return "—";
-  const a = Math.abs(sec), m = Math.floor(a/60), s = a%60;
-  const txt = (m ? `${m}m ` : "") + `${s}s`;
-  const cls = sec > 0 ? "pos" : "neg";
-  const sign = sec > 0 ? "+" : "−";
-  return `<span class="delta ${cls}">${sign}${txt}</span>`;
+  const odd = Math.abs(sec) > 3600;
+  return `<span class="delta ${sec > 0 ? "pos" : "neg"}"${odd ? ' title="Over an hour apart: check this is the same story"' : ""}>${fmtMargin(sec)}${odd ? ' <span class="odd">?</span>' : ""}</span>`;
 }
 const fmtPct = r => r == null ? "—" : (r*100).toFixed(0) + "%";
 const fmtNum = n => n == null ? "—" : n.toLocaleString();
@@ -1000,7 +1014,7 @@ const COLS = [
   ["canonical_label", "Story", s => esc(s.canonical_label || "—"), false],
   ["rw_time", "RotoWire", s => timeLink(state.handles.rotowire, s.rotowire), false],
   ["ud_time", "Underdog", s => timeLink(state.handles.underdog, s.underdog), false],
-  ["time_delta_seconds", "Δ lead", s => fmtDelta(s.time_delta_seconds), true],
+  ["time_delta_seconds", "Margin", s => fmtDelta(s.time_delta_seconds), true],
   ["winner", "Winner", s => winnerBadge(s), false],
   ["rw_impr", "RW impr", s => fmtNum(s.rotowire?.impression_count), true],
   ["ud_impr", "UD impr", s => fmtNum(s.underdog?.impression_count), true],
@@ -2603,10 +2617,13 @@ function updateTabFade() {
 function init() {
   const gen = state.agg.generated_at;
   const label = state.sportMeta ? state.sportMeta.label : "";
+  const ageH = gen ? (Date.now() - new Date(gen).getTime()) / 3.6e6 : null;
   document.getElementById("subtitle").innerHTML =
-    `@${esc(state.handles.rotowire)} vs @${esc(state.handles.underdog)}` +
-    (label ? ` — ${esc(label)} news-speed comparison. ` : " news-speed comparison. ") +
-    `<span id="generated">${gen ? "Updated " + esc(fmtTime(gen)) : ""}</span>`;
+    (state.loadError ? `<span class="sub-warn">Couldn't load the data. Refresh the page; if it keeps happening, tell Nick.</span> ` : "") +
+    `<span id="generated">${gen ? "Data as of " + esc(fmtTime(gen)) : ""}</span>` +
+    (ageH != null && ageH > 26 ? ` <span class="sub-warn">· ${Math.round(ageH)} hours old, the nightly refresh may have failed</span>` : "") +
+    `<span class="sub-what"> · @${esc(state.handles.rotowire)} vs @${esc(state.handles.underdog)}` +
+    (label ? `, ${esc(label)} news speed</span>` : " news speed</span>");
   renderKpis();
   renderTrend();
   renderDay();
@@ -2618,6 +2635,9 @@ function init() {
   renderDetCols();
   renderInsider();
   applySpeedTab();
+  // Charts drawn before their tab was laid out measured 0px and fell back to a desktop
+  // width, which shrinks their labels to ~6px on a phone. Redraw once layout is real.
+  requestAnimationFrame(() => dispatchEvent(new Event("resize")));
 
   // event filter options
   const events = [...new Set(state.stories.map(s => s.event_class).filter(Boolean))].sort();
@@ -2717,7 +2737,8 @@ function dkSegs(paths, kind) {
           { c: "s2", name: "In Monitor to on X (opens not tracked enough yet)", v: st.monitor_to_x.median, n: st.monitor_to_x.n }];
 }
 const dkSum = segs => segs.reduce((a, x) => a + (x.v || 0), 0);
-const dkFirstPct = (gaps, cut) => gaps.length ? 100 * gaps.filter(g => g < cut).length / gaps.length : null;
+// "First" means more than a minute ahead, the same rule as the Summary (within a minute is a tie).
+const dkFirstPct = (gaps, cut) => gaps.length ? 100 * gaps.filter(g => g - cut < -60).length / gaps.length : null;
 
 // One horizontal bar: segments stacked, a dashed break-even mark where we'd post first on
 // half the shared stories, and (optionally) the stretch past it bracketed as the gap.
@@ -2827,7 +2848,7 @@ function renderDesk() {
     dkAxis(svg, x, max, H - 4, W < 560 ? 60 : 30);
     const now = dkFirstPct(r.gaps, 0), first = dkFirstPct(r.gaps, saved);
     document.getElementById("dk-verdict").innerHTML = !saved
-      ? `Right now we post first on ${now.toFixed(0)}% of shared stories.`
+      ? `Right now we post first on ${now.toFixed(0)}% of these ${r.gaps.length} stories (more than a minute ahead; ties don't count).`
       : `${dkFmt(saved)} faster: we'd post first on <span class="up">${first.toFixed(0)}%</span> of shared stories, up from ${now.toFixed(0)}%.` +
         `<button type="button" class="dk-reset" id="dk-reset">Reset</button>`;
     const rs = document.getElementById("dk-reset"); if (rs) rs.onclick = () => { dk.cut = [0, 0, 0]; renderDesk(); };
@@ -3291,15 +3312,17 @@ function renderSummary() {
   const E = d.edits || {}, w = E.last30 || E.last7 || {}, T = smTargets(P), wk = smWeeks(d), tu = S.turbo;
   const eras = (state.agg && state.agg.eras) || [], base = eras.length && eras[0].median_lead_seconds != null ? -eras[0].median_lead_seconds : null;
   const dl = (a, b, unit) => { if (a == null || b == null) return ""; const v = a - b; if (!v) return "no change";
-    return `<span class="${v < 0 ? "up" : "worse"}">${v < 0 ? "▼" : "▲"} ${dkFmt(Math.abs(v))}</span>`; };
+    return `<span class="${v < 0 ? "up" : "worse"}">${v < 0 ? "▼" : "▲"} ${dkFmt(Math.abs(v))} ${v < 0 ? "closer" : "further behind"}</span>`; };
   const biggest = SM_STEPS.reduce((m, s) => ((st[s[0]] || {}).median || 0) > ((st[m[0]] || {}).median || 0) ? s : m, SM_STEPS[0])[0];
   const s3 = smRoad(S, "s3").items.filter(i => i.key);
   host.innerHTML = `
     <div class="sm-top">
       <div class="sm-card">
-        <div class="lbl">Typical margin behind Underdog · last 30 days</div>
-        <div class="sm-hero">${smUD(cur.median)}</div>
-        <div class="sm-delta">${dl(cur.median, pri.median)} vs prior 30 days${base != null ? ` · ${dl(cur.median, base)} vs before the new system` : ""} · RotoWire first on ${Math.round(cur.rw_first_pct)}%, ties ${Math.round(cur.tie_pct)}% · ${cur.n} shared stories</div>
+        <div class="lbl">Last 30 days · ${cur.n} stories both accounts posted</div>
+        <div class="sm-duo">
+          <div><div class="sm-hero">${cur.rw_first_pct == null ? "–" : Math.round(cur.rw_first_pct) + "%"}</div><div class="sm-cap">of stories we post first<span>Ties (within a minute) ${Math.round(cur.tie_pct)}% · Underdog first ${Math.round(cur.ud_first_pct)}%</span></div></div>
+          <div><div class="sm-hero">${smUD(cur.median)}</div><div class="sm-cap">${cur.median == null ? "" : cur.median > 0 ? `Underdog typically posts ${dkFmt(cur.median)} ahead of us` : cur.median < 0 ? `We typically post ${dkFmt(-cur.median)} ahead of Underdog` : "We typically post at the same time"}<span>${dl(cur.median, pri.median)} vs prior 30 days${base != null ? ` · ${dl(cur.median, base)} vs before the new system` : ""}</span></div></div>
+        </div>
         <div class="seg-chips sm-mode" role="group" aria-label="Chart view"><button type="button" data-m="rolling">7-day</button><button type="button" data-m="daily">By day</button></div>
         <div id="sm-chart" style="margin-top:8px"></div>
         <div class="sm-key" id="sm-key"></div>
@@ -3311,8 +3334,9 @@ function renderSummary() {
         <div class="sm-delta" style="margin-top:6px">${w.change_pct == null ? "" : `${Math.round(w.change_pct)}% of the draft rewritten on average. `}Every post that goes out untouched cuts the posting step. Last 30 days, ${w.scored || 0} posts. <a href="#edits" id="sm-to-edits">See it by day and template in Details</a>.</div>
         ${(() => { const B = (d.edits || {}).breakdown; if (!B) return ""; const tot = B.buckets.reduce((a, b) => a + b.n, 0), opt = B.buckets.filter(b => !b.needed && b.key !== "none").reduce((a, b) => a + b.n, 0);
           return `<div class="eb-bar sm-eb" role="img" aria-label="${B.buckets.map(b => `${b.label} ${b.n}`).join(", ")}">${B.buckets.filter(b => b.n).map(b => `<span style="flex:${b.n};background:${b.color}" title="${esc(b.label)}: ${b.n}"></span>`).join("")}</div>
+            <div class="sm-legend">${B.buckets.filter(b => b.n).map(b => `<span><i style="background:${b.color}"></i>${esc(b.label)} ${b.n}</span>`).join("")}</div>
             <div class="sm-delta"><b style="color:var(--text)">${Math.round(100 * opt / tot)}%</b> of edits in a hand-checked sample changed only the wording, not the facts. <span style="color:#e0702e">${(B.buckets.find(b => b.key === "wrong") || {}).n || 0}</span> of ${tot} drafts were wrong, mostly from image-only sources.</div>`; })()}
-        ${s3.length ? `<div class="dc-f"><div class="t">Being done about it</div><div class="pills">${s3.map(i => smPill(i)).join("")}</div></div>` : ""}
+        ${s3.length ? `<div class="dc-f"><div class="t">Being done about it</div><div class="pills">${s3.map(i => smPill(i)).join("")}</div><div class="sm-legend"><span><i class="done"></i>Done</span><span><i class="prog"></i>In progress or review</span><span><i class="todo"></i>Not started</span></div></div>` : ""}
       </div>
     </div>
     <div class="sm-cols">
@@ -3332,15 +3356,15 @@ function renderSummary() {
         <div class="sm-tgt">Not timed: jobs editors did by hand on every post, automated so their time goes to posting</div></div>
         ${wkr.map(i => `<div><div class="sm-wk-h">${smPill({ ...i, title: "" }, true)}<span class="pill ${SM_CAT[i.category] || "todo"}">${esc(i.status || "?")}</span></div>
         <div class="sm-wk-t">${esc(i.title || "")}</div>${i.replaces ? `<div class="lbl">${i.category === "done" ? "Replaced" : "Replaces"}: ${esc(i.replaces)}</div>` : ""}</div>`).join("")}</div>`; })()}
-    <p class="sm-note">Steps are posts from a Monitor tweet, medians over the last ${d.window.days} days. "To tie" is break-even: if every step shrinks by the same share to those times, we'd post first on half the stories both accounts post.${S.roadmap.fetched_at ? ` Ticket statuses from Jira as of ${esc(fmtTime(S.roadmap.fetched_at))}.` : ""}${S.initiative ? (() => { const I = S.initiative, p = I.epics.reduce((n, e) => n + e.prioritized.length, 0), b = I.epics.reduce((n, e) => n + e.backlog.length, 0);
+    <p class="sm-note">Steps are posts from a Monitor tweet, medians over the last ${d.window.days} days. The three steps add up to more than the typical gap above: each is the middle value of its own step, and the gap counts every story both accounts posted, hand-added ones included. "To tie" is break-even: if every step shrinks by the same share to those times, we'd post first on half the stories both accounts post.${S.roadmap.fetched_at ? ` Ticket statuses from Jira as of ${esc(fmtTime(S.roadmap.fetched_at))}.` : ""}${S.initiative ? (() => { const I = S.initiative, p = I.epics.reduce((n, e) => n + e.prioritized.length, 0), b = I.epics.reduce((n, e) => n + e.backlog.length, 0);
       return ` Across the whole initiative: <b style="color:var(--text)">${p} prioritized</b> in ${I.sprints.map(x => esc(x.name.replace(/^\d{4}\.Q\d\./, ""))).join(" and ")}, ${b} in backlog; <a href="#" id="sm-to-road">see the Roadmap tab</a>.`; })() : ""}</p>
 
     <h2 class="sm-h">Is it working?</h2>
     <p class="sm-note">Each shipped change on the metric it targets: the 2 weeks before it went live against since. Lower is better, except where a template writing more posts is the point. Under 5 days in shows as "So far", an early read rather than a result.</p>
-    <div class="sm-ba">${(S.changes || []).map(c => `<div class="sm-card"><h4><a href="https://gdcgroup.atlassian.net/browse/${esc(c.key)}" target="_blank" rel="noopener">${esc(c.key)} ${esc(c.label)}</a></h4>
+    <div class="sm-ba">${(S.changes || []).map(c => `<div class="sm-card"><h3><a href="https://gdcgroup.atlassian.net/browse/${esc(c.key)}" target="_blank" rel="noopener">${esc(c.key)} ${esc(c.label)}</a></h3>
       <div class="lbl">live ${smDay(c.live)}${c.too_soon ? ` · ${c.days_since} day${c.days_since === 1 ? "" : "s"} in, too soon to call` : ""}</div>
-      ${[...c.metrics].sort((a, b) => b.main - a.main).map(m => `<div class="sm-m"><div class="t">${esc(m.label)}${m.main && c.metrics.length > 1 ? " <span>· main metric</span>" : ""}</div>${smBars({ ...m, early: c.too_soon })}</div>`).join("")}</div>`).join("")}</div>
-    ${(S.unmeasured || []).length ? `<div class="sm-unm"><div class="t">Shipped, no card yet</div>${S.unmeasured.map(t => `<div class="sm-unm-r"><a href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.key)}</a> ${esc(t.summary.replace(/^(Breaking News AI|News Admin|Desk Speed|News Monitor): /, ""))} <span class="lbl">· ${esc(t.status)}</span></div>`).join("")}<div class="lbl">Each one needs a card above (what it should move) or a reason it isn't measured, in config.yaml.</div></div>` : ""}`;
+      ${[...c.metrics].sort((a, b) => b.main - a.main).map(m => `<div class="sm-m"><div class="t">${esc(m.label)}${m.main && c.metrics.length > 1 ? " <span>· main metric</span>" : ""}</div>${m.note ? `<div class="lbl sm-m-note">${esc(m.note)}</div>` : ""}${smBars({ ...m, early: c.too_soon })}</div>`).join("")}</div>`).join("")}</div>
+    ${(S.unmeasured || []).length ? `<div class="sm-unm"><div class="t">Shipped, no card yet</div>${S.unmeasured.map(t => `<div class="sm-unm-r"><a href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.key)}</a> ${esc(t.summary.replace(/^(Breaking News AI|News Admin|Desk Speed|News Monitor): /, ""))} <span class="lbl">· ${esc(t.status)}</span></div>`).join("")}<div class="lbl">Each of these needs a card above saying what it should move, or a note on why it isn't measured.</div></div>` : ""}`;
   const smDraw = () => { host.querySelectorAll(".sm-mode button").forEach(b => { b.classList.toggle("on", b.dataset.m === smMode); b.setAttribute("aria-pressed", b.dataset.m === smMode); });
     smChart(document.getElementById("sm-chart"), S); };
   host.querySelectorAll(".sm-mode button").forEach(b => b.onclick = () => { smMode = b.dataset.m; try { localStorage.setItem("sm-mode", smMode); } catch (e) {} smDraw(); });

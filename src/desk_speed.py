@@ -462,7 +462,7 @@ def build(data_dir: Path, docs_dir: Path, stories: list[dict], now: datetime | N
     out = {
         "generated_at": now_iso(),
         "window": {"from": start.date().isoformat(), "to": now.date().isoformat(),
-                   "days": (now - start).days + 1},
+                   "days": max(1, round((now - start).total_seconds() / 86400))},
         "opens_tracked_since": "2026-10-13",
         "paths": _paths(win, rows),
         "manual_weekly": weekly,

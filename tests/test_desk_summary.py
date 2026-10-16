@@ -5,10 +5,29 @@ import json
 from src import desk_summary as dsum
 
 
+def _dates(state):
+    # Sprint dates around today, since the summary trusts dates over Jira's state.
+    from datetime import datetime, timedelta, timezone
+    t = datetime.now(timezone.utc)
+    a, b = {"active": (-3, 10), "future": (11, 24), "closed": (-30, -17)}[state]
+    return (t + timedelta(days=a)).isoformat(), (t + timedelta(days=b)).isoformat()
+
+
 def _i(key, parent, category="new", assignee="Matthew Kulina", sprint=None, typ="Task"):
     return {"key": key, "summary": key, "type": typ, "parent": parent, "status": category, "category": category,
             "assignee": assignee, "priority": "Medium", "resolved": None,
-            "sprints": [{"name": sprint[0], "state": sprint[1], "start": "2026-10-01", "end": "2026-10-14"}] if sprint else []}
+            "sprints": [{"name": sprint[0], "state": sprint[1], "start": _dates(sprint[1])[0], "end": _dates(sprint[1])[1]}] if sprint else []}
+
+
+def test_initiative_trusts_sprint_dates_over_jira_state(tmp_path):
+    from datetime import datetime, timedelta, timezone
+    t = datetime.now(timezone.utc)
+    late = {"name": "S21", "state": "future", "start": (t - timedelta(days=1)).isoformat(), "end": (t + timedelta(days=12)).isoformat()}
+    over = {"name": "S20", "state": "active", "start": (t - timedelta(days=16)).isoformat(), "end": (t - timedelta(days=2)).isoformat()}
+    issues = [_i("E1", None, typ="Epic"), {**_i("T1", "E1"), "sprints": [over, late]}]
+    (tmp_path / dsum.INITIATIVE_FILE).write_text(json.dumps({"root": "R", "issues": issues}))
+    out = dsum.initiative(tmp_path, {"prioritize_assignee": "Matthew Kulina"})
+    assert [(s["name"], s["state"]) for s in out["sprints"]] == [("S21", "active")]
 
 
 def test_initiative_prioritized_needs_assignee_and_open_sprint(tmp_path):
@@ -45,3 +64,15 @@ def test_margin_rows_carry_each_days_own_median_and_count():
     assert rows["2026-10-13"][3:] == [180, 3]   # median of 300, 180, 60 seconds behind
     assert rows["2026-10-14"][3:] == [-120, 1]  # RotoWire first by 2 minutes
     assert rows["2026-10-15"][3:] == [None, 0]
+
+
+def test_initiative_carries_unfinished_work_from_an_ended_unclosed_sprint(tmp_path):
+    from datetime import datetime, timedelta, timezone
+    t = datetime.now(timezone.utc)
+    cur = {"name": "S21", "state": "future", "start": (t - timedelta(days=1)).isoformat(), "end": (t + timedelta(days=12)).isoformat()}
+    over = {"name": "S20", "state": "active", "start": (t - timedelta(days=16)).isoformat(), "end": (t - timedelta(days=2)).isoformat()}
+    issues = [_i("E1", None, typ="Epic"), {**_i("T1", "E1", category="indeterminate"), "sprints": [over]},
+              {**_i("T2", "E1"), "sprints": [cur]}]
+    (tmp_path / dsum.INITIATIVE_FILE).write_text(json.dumps({"root": "R", "issues": issues}))
+    out = dsum.initiative(tmp_path, {"prioritize_assignee": "Matthew Kulina"})
+    assert sorted((t["key"], t["sprint"]) for t in out["epics"][0]["prioritized"]) == [("T1", "S21"), ("T2", "S21")]
