@@ -142,6 +142,7 @@
   .badge.rw { background: rgba(31,162,184,.15); color: var(--green); }
   .badge.ud { background: rgba(221,107,40,.15); color: var(--red); }
   .delta.pos { color: var(--green); } .delta.neg { color: var(--red); }
+  .feed-more { margin: 12px 0 4px; } .feed-more span { color: var(--muted); font-weight: 400; }
   .delta .odd { color: var(--muted); font-weight: 400; }
   .chip { background: var(--chip); color: #b4bfca; padding: 1px 7px; border-radius: 999px; font-size: 12px; }
   .chip.role-followup { background: rgba(88,166,255,.15); color: var(--accent); }
@@ -497,6 +498,27 @@
   body.sp-sum #sum { display: block; }
   body.sp-sum .wrap > :not(#pagetabs):not(#sum) { display: none !important; }
   body.sp-det #lead { display: none !important; }
+  /* Details: each group folds to a one-line answer; only the desk's to-do starts open. */
+  .dsec-h { display: none; }
+  body.sp-det .dsec-h { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; width: 100%; margin: 12px 0 0;
+    padding: 14px 18px; background: var(--panel); border: 1px solid var(--line); border-radius: 10px; color: var(--text);
+    font: inherit; text-align: left; cursor: pointer; }
+  body.sp-det .dsec-h:hover { border-color: #3d4a58; }
+  body.sp-det .dsec-h:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .dsec-t { font-size: 15px; font-weight: 650; }
+  .dsec-t::before { content: ""; display: inline-block; width: 0; height: 0; margin-right: 10px; vertical-align: 2px;
+    border-left: 5px solid var(--muted); border-top: 4px solid transparent; border-bottom: 4px solid transparent; transition: transform .15s ease-out; }
+  .dsec-h[aria-expanded="true"] .dsec-t::before { transform: rotate(90deg); }
+  .dsec-s { color: var(--muted); font-size: 13px; }
+  body.sp-det .dsec-h[aria-expanded="true"] { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; }
+  @media (prefers-reduced-motion: reduce) { .dsec-t::before { transition: none; } }
+  body.sp-det .wrap.x-todo > :is(#credits) { display: none !important; }
+  body.sp-det .wrap.x-steps > :is(#det-cols, #desk) { display: none !important; }
+  body.sp-det .wrap.x-drafts > :is(#edits) { display: none !important; }
+  body.sp-det .wrap.x-day > :is(#day) { display: none !important; }
+  body.sp-det .wrap.x-trend > :is(#trend, #kpis) { display: none !important; }
+  body.sp-det .wrap.x-insider > :is(#insider) { display: none !important; }
+  body.sp-det .wrap.x-stories > :is(#tabs-wrap, [id^="view-"]) { display: none !important; }
   #road { display: none; }
   body.sp-road #road { display: block; }
   body.sp-road .wrap > :not(#pagetabs):not(#road) { display: none !important; }
@@ -649,14 +671,21 @@
   <section id="road" aria-label="Roadmap"></section>
   <section id="audience-top" class="hidden"></section>
   <section class="lead timing-lead hidden" id="lead"></section>
-  <section class="hidden" id="det-cols" aria-label="What drives each step"></section>
-  <section class="panel trend" id="trend"></section>
-  <section class="panel hidden" id="day" aria-labelledby="day-h"></section>
-  <div class="kpis" id="kpis"></div>
-  <section class="panel hidden" id="desk" aria-labelledby="desk-h"></section>
-  <section class="panel hidden" id="edits" aria-labelledby="ed-h"></section>
+  <button type="button" class="dsec-h" data-g="todo" aria-expanded="false"><span class="dsec-t">Desk to-do</span><span class="dsec-s" id="dsec-todo"></span></button>
   <section class="panel hidden" id="credits" aria-labelledby="cr-h"></section>
+  <button type="button" class="dsec-h" data-g="steps" aria-expanded="false"><span class="dsec-t">The three steps</span><span class="dsec-s" id="dsec-steps"></span></button>
+  <section class="hidden" id="det-cols" aria-label="What drives each step"></section>
+  <section class="panel hidden" id="desk" aria-labelledby="desk-h"></section>
+  <button type="button" class="dsec-h" data-g="drafts" aria-expanded="false"><span class="dsec-t">Drafts</span><span class="dsec-s" id="dsec-drafts"></span></button>
+  <section class="panel hidden" id="edits" aria-labelledby="ed-h"></section>
+  <button type="button" class="dsec-h" data-g="day" aria-expanded="false"><span class="dsec-t">One day, story by story</span><span class="dsec-s" id="dsec-day"></span></button>
+  <section class="panel hidden" id="day" aria-labelledby="day-h"></section>
+  <button type="button" class="dsec-h" data-g="trend" aria-expanded="false"><span class="dsec-t">Gap over time</span><span class="dsec-s" id="dsec-trend"></span></button>
+  <section class="panel trend" id="trend"></section>
+  <div class="kpis" id="kpis"></div>
+  <button type="button" class="dsec-h" data-g="insider" aria-expanded="false"><span class="dsec-t">Insider reports</span><span class="dsec-s" id="dsec-insider"></span></button>
   <section class="panel hidden" id="insider" aria-labelledby="in-h"></section>
+  <button type="button" class="dsec-h" data-g="stories" aria-expanded="false"><span class="dsec-t">Every story, breakdowns and archive</span><span class="dsec-s" id="dsec-stories"></span></button>
 
   <div class="tabs-wrap" id="tabs-wrap"><div class="tabs" id="tabs" role="tablist" aria-label="Views">
     <button type="button" role="tab" class="tab hidden" data-view="focus" id="tab-focus">Focus areas</button>
@@ -1091,9 +1120,14 @@ function renderFeed() {
     const cls = (k===state.sortKey ? "sorted "+(state.sortAsc?"asc":"") : "");
     return `<th class="${cls}" data-key="${k}" ${num?'style="text-align:right"':''}>${label}</th>`;
   }).join("");
-  const body = rows.map(s => "<tr>" + cols.map(([k,,fn,num]) =>
+  const lim = state.feedShown || 50, page = rows.slice(0, lim);
+  const body = page.map(s => "<tr>" + cols.map(([k,,fn,num]) =>
     `<td class="${num?'num':''}${k==='canonical_label'?' story':''}">${fn(s)}</td>`).join("") + "</tr>").join("");
-  wrap.innerHTML = `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>`;
+  const left = rows.length - page.length;
+  wrap.innerHTML = `<table><thead><tr>${head}</tr></thead><tbody>${body}</tbody></table>` +
+    (left > 0 ? `<button type="button" class="dk-btn feed-more" id="feed-more">Show ${Math.min(50, left)} more <span>· ${left.toLocaleString()} left</span></button>` : "");
+  const more = document.getElementById("feed-more");
+  if (more) more.onclick = () => { state.feedShown = lim + 50; renderFeed(); };
   wrap.querySelectorAll("th[data-key]").forEach(th => th.onclick = () => {
     const k = th.dataset.key;
     if (state.sortKey === k) state.sortAsc = !state.sortAsc;
@@ -2638,6 +2672,7 @@ function init() {
   // Charts drawn before their tab was laid out measured 0px and fell back to a desktop
   // width, which shrinks their labels to ~6px on a phone. Redraw once layout is real.
   requestAnimationFrame(() => dispatchEvent(new Event("resize")));
+  renderDetHeads();
 
   // event filter options
   const events = [...new Set(state.stories.map(s => s.event_class).filter(Boolean))].sort();
@@ -3408,6 +3443,36 @@ function renderDetCols() {
         ? `<div class="v">${dkFmt(P.manual.add_line_to_x.median)}</div><div class="d">median · n=${P.manual.add_line_to_x.n}</div>`
         : `<span class="dc-pend">collecting: ${P.manual.add_line_to_x ? P.manual.add_line_to_x.n : 0} of 30 posts</span>`}</div></div>
   </div>`;
+}
+// Details groups: the header carries the one-line answer, the body opens on demand.
+// Open/closed is remembered per viewer; the desk's to-do starts open.
+const DSEC = ["todo", "steps", "drafts", "day", "trend", "insider", "stories"];
+function dsecOpen() { try { const v = JSON.parse(localStorage.getItem("pst-dsec")); if (Array.isArray(v)) return v; } catch (e) {} return ["todo"]; }
+function renderDetHeads() {
+  const wrap = document.querySelector(".wrap"), d = state.desk, S = d && d.summary;
+  if (!wrap) return;
+  const set = (g, html) => { const el = document.getElementById("dsec-" + g); if (el) el.innerHTML = html; };
+  const cr = state.credits, st = d && d.paths ? d.paths.monitor.steps : null, w = d && d.edits ? (d.edits.last30 || d.edits.last7 || {}) : {}, m = S ? S.margin.last30 : null;
+  set("todo", cr ? `${cr.missing} accounts Underdog credits that we don't watch` : "");
+  set("steps", st ? SM_STEPS.map(([k], i) => `${dkFmt((st[k] || {}).median || 0)} ${["in Monitor", "to open", "to post"][i]}`).join(" · ") : "");
+  set("drafts", w.edited_pct != null ? `${Math.round(w.edited_pct)}% edited · ${Math.round(w.change_pct)}% of the draft rewritten` : "");
+  set("day", "Pick a day: each dot is one story, with where its time went");
+  set("trend", m ? `Typical gap ${smUD(m.median)} · first on ${Math.round(m.rw_first_pct)}% · last 30 days` : "");
+  const g = ((state.agg && state.agg.focus) || {}).groups?.find(x => x.key === "insider");
+  set("insider", g ? `${fmtPct(g.share_of_time_behind)} of our time behind Underdog comes from Schefter, Rapoport and the other national insiders` : "");
+  set("stories", `${(state.stories || []).length.toLocaleString()} stories tracked · feed, follow-ups, gaps, breakdowns, archive`);
+  const open = dsecOpen();
+  DSEC.forEach(g => wrap.classList.toggle("x-" + g, !open.includes(g)));
+  document.querySelectorAll(".dsec-h").forEach(b => {
+    b.setAttribute("aria-expanded", open.includes(b.dataset.g));
+    b.onclick = () => {
+      const cur = dsecOpen(), on = !cur.includes(b.dataset.g), next = on ? [...cur, b.dataset.g] : cur.filter(x => x !== b.dataset.g);
+      try { localStorage.setItem("pst-dsec", JSON.stringify(next)); } catch (e) { /* private window */ }
+      wrap.classList.toggle("x-" + b.dataset.g, !on); b.setAttribute("aria-expanded", on);
+      // Charts measure their panel, so redraw what just opened.
+      if (on) { dispatchEvent(new Event("resize")); if (b.dataset.g === "stories") updateTabFade(); }
+    };
+  });
 }
 function renderInsider() {
   const host = document.getElementById("insider"), g = ((state.agg && state.agg.focus) || {}).groups?.find(x => x.key === "insider");
