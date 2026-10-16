@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T20:13:15.198182+00:00",
+  "generated_at": "2026-10-16T20:14:10.126523+00:00",
   "window": {
     "from": "2026-09-16",
     "to": "2026-10-16",
@@ -14001,38 +14001,54 @@
             }
           }
         ]
-      }
-    ],
-    "unmeasured": [
+      },
       {
         "key": "RD-8094",
-        "summary": "Breaking News AI: NFL Practice Report Watchlist and Auto Updates",
-        "status": "In Review",
-        "resolved": null,
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8094"
-      },
-      {
-        "key": "RD-8113",
-        "summary": "News Admin: Slack Ping on Every Post on X",
-        "status": "In Review",
-        "resolved": null,
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8113"
-      },
-      {
-        "key": "RD-8112",
-        "summary": "News Admin: Note Editor as a Modal with Step Tabs",
-        "status": "Done",
-        "resolved": "2026-10-16T20:08:36.702+0100",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8112"
-      },
-      {
-        "key": "RD-8171",
-        "summary": "Breaking News AI: Image-Only Sources Get an Invented Player Status",
-        "status": "Done",
-        "resolved": "2026-10-16T17:55:55.051+0100",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8171"
+        "label": "Practice report watchlist and auto updates",
+        "live": "2026-10-16",
+        "days_since": 0,
+        "too_soon": true,
+        "metrics": [
+          {
+            "metric": "template_written_pct",
+            "label": "Template-worded posts the template wrote",
+            "main": true,
+            "note": null,
+            "higher_better": true,
+            "unit": "%",
+            "before": {
+              "value": 10.0,
+              "n": 30,
+              "unit": "%"
+            },
+            "after": {
+              "value": null,
+              "n": 0,
+              "unit": "%"
+            }
+          },
+          {
+            "metric": "edited_pct",
+            "label": "Posts edited",
+            "main": false,
+            "note": "All NFL posts.",
+            "higher_better": false,
+            "unit": "%",
+            "before": {
+              "value": 97.8,
+              "n": 504,
+              "unit": "%"
+            },
+            "after": {
+              "value": null,
+              "n": 0,
+              "unit": "%"
+            }
+          }
+        ]
       }
     ],
+    "unmeasured": [],
     "roadmap": {
       "fetched_at": "2026-10-16T20:13:14.997002+00:00",
       "steps": [

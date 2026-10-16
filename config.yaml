@@ -79,6 +79,12 @@ sports:
         metrics:
         - {metric: template_written_pct, label: 'Template-worded posts the template wrote', main: true}
         - {metric: edited_pct, label: Posts edited, note: 'All NFL posts.'}
+      - key: RD-8094
+        label: Practice report watchlist and auto updates
+        live: '2026-10-16'
+        metrics:
+        - {metric: template_written_pct, label: 'Template-worded posts the template wrote', main: true}
+        - {metric: edited_pct, label: Posts edited, note: 'All NFL posts.'}
       # Shipped tickets with no card on purpose. Anything else under the initiative that is In
       # Review or recently Done shows under the cards as "shipped, no card yet" until it gets
       # a card above or a reason here.
@@ -90,6 +96,9 @@ sports:
       - {key: RD-8111, why: Investigation}
       - {key: RD-8013, why: NBA and NHL post style}
       - {key: RD-8096, why: Counted under Manual work off the desk}
+      - {key: RD-8113, why: Counted under Manual work off the desk}
+      - {key: RD-8112, why: 'Editor opens are only tracked since 10/13, the day it shipped, so there is no before to compare'}
+      - {key: RD-8171, why: Checked by hand in the draft review until the next relabel}
       # Google Sheets the desk works from (Roadmap tab list + links next to the matching section).
       sheets:
       - key: review
