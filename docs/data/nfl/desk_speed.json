@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T16:40:08.216039+00:00",
+  "generated_at": "2026-10-16T16:43:38.827494+00:00",
   "window": {
     "from": "2026-09-16",
     "to": "2026-10-16",
@@ -2881,10 +2881,8 @@
           "needed": true,
           "detail": "added the participation level or injury tag (9), cut speculation (3), accuracy or style-rule fix (3), blank credit filled in (2), newer detail (2)",
           "tickets": [
+            "RD-8175",
             "RD-8090"
-          ],
-          "no_ticket": [
-            "Templates on beat-writer practice news and \"did not practice\" (asked Kulina 10/15)"
           ]
         },
         {
@@ -2895,10 +2893,8 @@
           "needed": false,
           "detail": "official injury-report wording, quote marks, credit to the team account",
           "tickets": [
+            "RD-8175",
             "RD-8090"
-          ],
-          "no_ticket": [
-            "Templates on beat-writer practice news and \"did not practice\" (asked Kulina 10/15)"
           ]
         },
         {
@@ -14087,6 +14083,15 @@
               "status": "In Refinement",
               "category": "new",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8114"
+            },
+            {
+              "key": "RD-8175",
+              "title": "Practice report templates fire more often",
+              "note": null,
+              "replaces": null,
+              "status": null,
+              "category": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8175"
             }
           ]
         },
