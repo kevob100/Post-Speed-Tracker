@@ -69,9 +69,12 @@ sports:
         - {metric: change_pct, label: Share of draft changed}
       # Google Sheets the desk works from (Roadmap tab list + links next to the matching section).
       sheets:
-      - {key: templates, title: NFL X-Post Templates Review, url: 'https://docs.google.com/spreadsheets/d/1c-7A8xCyjzKP0BItHe1SvYkUsLO2zpJfNzLE9v36FMo/edit', what: 'Every NFL post template from the News Admin code: its wording, when it fires and when it falls back to the AI draft. KOB notes wording to change.'}
-      - {key: good_drafts, title: AI Draft Review, url: 'https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit', what: 'All 52 exact AI drafts from 10/14-10/15 next to what went out. KOB reviews each blind, then it compares to Nick''s call.'}
+      - {key: review, title: NFL AI Drafts and Templates Review, url: 'https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit', what: 'Three tabs: every exact AI draft from 10/14-10/15 next to what went out (KOB reviews blind, then compares to Nick''s call); the template rules the edits point to; and every template''s wording from the News Admin code.'}
       - {key: accounts, title: 'Post-Speed Tracker: Accounts Not to Add', url: 'https://docs.google.com/spreadsheets/d/1-LaeA5IxKmL7wYWD0Jadsp8CA7F4Fc-qQEG0acEhswI', what: 'Accounts Underdog credits that KOB does not want on the Monitor list. Add a handle and it drops off after the next nightly refresh.'}
+      # Tab links used next to their sections (list: false keeps them out of the Roadmap list).
+      - {key: good_drafts, list: false, title: Draft review, url: 'https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit#gid=1683382961'}
+      - {key: rules, list: false, title: Template rules to add, url: 'https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit#gid=2002'}
+      - {key: templates, list: false, title: Templates, url: 'https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit#gid=2001'}
       # Hand-labeled sample of what editors change (Details > Editing, Summary spotlight). Rerun
       # ~/Code/rotowire-news/data/edits/classify_edits.py on a fresh sample and update the counts.
       # Buckets run worst to lightest; style + minor are edits the post didn't need.

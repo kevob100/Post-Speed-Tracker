@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T16:24:10.973778+00:00",
+  "generated_at": "2026-10-16T16:37:35.299136+00:00",
   "window": {
     "from": "2026-09-16",
     "to": "2026-10-16",
@@ -8,9 +8,9 @@
   "opens_tracked_since": "2026-10-13",
   "paths": {
     "all": {
-      "posts": 1091,
+      "posts": 1090,
       "race": {
-        "n": 825,
+        "n": 824,
         "median_gap": 105,
         "underdog_first_pct": 87.5,
         "gaps": [
@@ -673,7 +673,6 @@
           256,
           257,
           257,
-          258,
           260,
           261,
           262,
@@ -849,7 +848,7 @@
       },
       "from_source": {
         "median": 175,
-        "n": 757
+        "n": 756
       }
     },
     "monitor": {
@@ -1301,11 +1300,11 @@
       }
     },
     "manual": {
-      "posts": 441,
+      "posts": 440,
       "race": {
-        "n": 330,
+        "n": 329,
         "median_gap": 90,
-        "underdog_first_pct": 87.9,
+        "underdog_first_pct": 87.8,
         "gaps": [
           -16799,
           -15134,
@@ -1586,7 +1585,6 @@
           253,
           254,
           255,
-          258,
           269,
           269,
           272,
@@ -1646,8 +1644,8 @@
         }
       },
       "from_source": {
-        "median": 146,
-        "n": 280
+        "median": 145,
+        "n": 279
       },
       "add_line_to_x": {
         "median": 48,
@@ -1759,7 +1757,7 @@
       }
     },
     "manual_pct": 40.4,
-    "other_pct": 11.5
+    "other_pct": 11.6
   },
   "manual_weekly": [
     {
@@ -3456,11 +3454,11 @@
       "key": true,
       "paths": {
         "all": {
-          "posts": 229,
+          "posts": 228,
           "race": {
-            "n": 167,
-            "median_gap": 96,
-            "underdog_first_pct": 87.4,
+            "n": 166,
+            "median_gap": 94,
+            "underdog_first_pct": 87.3,
             "gaps": [
               -13990,
               -13094,
@@ -3595,7 +3593,6 @@
               232,
               238,
               253,
-              258,
               262,
               269,
               279,
@@ -3630,7 +3627,7 @@
               5684,
               7189
             ],
-            "underdog_before_source_pct": 11.6,
+            "underdog_before_source_pct": 11.7,
             "before_source": {
               "n": 18,
               "monitor_had_earlier": 4,
@@ -3638,8 +3635,8 @@
             }
           },
           "from_source": {
-            "median": 148,
-            "n": 157
+            "median": 146,
+            "n": 156
           }
         },
         "monitor": {
@@ -3763,11 +3760,11 @@
           }
         },
         "manual": {
-          "posts": 110,
+          "posts": 109,
           "race": {
-            "n": 78,
-            "median_gap": 90,
-            "underdog_first_pct": 91.0,
+            "n": 77,
+            "median_gap": 88,
+            "underdog_first_pct": 90.9,
             "gaps": [
               -13094,
               -12245,
@@ -3832,7 +3829,6 @@
               207,
               232,
               253,
-              258,
               269,
               279,
               293,
@@ -3848,7 +3844,7 @@
               5684,
               7189
             ],
-            "underdog_before_source_pct": 9.0,
+            "underdog_before_source_pct": 9.1,
             "before_source": {
               "n": 7,
               "monitor_had_earlier": 0,
@@ -3856,8 +3852,8 @@
             }
           },
           "from_source": {
-            "median": 142,
-            "n": 69
+            "median": 141,
+            "n": 68
           },
           "add_line_to_x": {
             "median": null,
@@ -3890,7 +3886,7 @@
             "n": 11
           }
         },
-        "manual_pct": 48.0,
+        "manual_pct": 47.8,
         "other_pct": 8.3
       }
     },
@@ -13102,39 +13098,51 @@
   },
   "sheets": [
     {
-      "key": "templates",
-      "title": "NFL X-Post Templates Review",
-      "url": "https://docs.google.com/spreadsheets/d/1c-7A8xCyjzKP0BItHe1SvYkUsLO2zpJfNzLE9v36FMo/edit",
-      "what": "Every NFL post template from the News Admin code: its wording, when it fires and when it falls back to the AI draft. KOB notes wording to change."
-    },
-    {
-      "key": "good_drafts",
-      "title": "AI Draft Review",
+      "key": "review",
+      "title": "NFL AI Drafts and Templates Review",
       "url": "https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit",
-      "what": "All 52 exact AI drafts from 10/14-10/15 next to what went out. KOB reviews each blind, then it compares to Nick's call."
+      "what": "Three tabs: every exact AI draft from 10/14-10/15 next to what went out (KOB reviews blind, then compares to Nick's call); the template rules the edits point to; and every template's wording from the News Admin code."
     },
     {
       "key": "accounts",
       "title": "Post-Speed Tracker: Accounts Not to Add",
       "url": "https://docs.google.com/spreadsheets/d/1-LaeA5IxKmL7wYWD0Jadsp8CA7F4Fc-qQEG0acEhswI",
       "what": "Accounts Underdog credits that KOB does not want on the Monitor list. Add a handle and it drops off after the next nightly refresh."
+    },
+    {
+      "key": "good_drafts",
+      "list": false,
+      "title": "Draft review",
+      "url": "https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit#gid=1683382961"
+    },
+    {
+      "key": "rules",
+      "list": false,
+      "title": "Template rules to add",
+      "url": "https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit#gid=2002"
+    },
+    {
+      "key": "templates",
+      "list": false,
+      "title": "Templates",
+      "url": "https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit#gid=2001"
     }
   ],
   "summary": {
     "margin": {
       "last30": {
-        "n": 828,
+        "n": 827,
         "median": 105,
         "rw_first_pct": 8.7,
-        "tie_pct": 22.9,
-        "ud_first_pct": 68.4
+        "tie_pct": 23.0,
+        "ud_first_pct": 68.3
       },
       "prior30": {
         "n": 385,
         "median": 129,
-        "rw_first_pct": 11.4,
+        "rw_first_pct": 11.2,
         "tie_pct": 19.7,
-        "ud_first_pct": 68.8
+        "ud_first_pct": 69.1
       },
       "rolling": [
         [

@@ -3131,7 +3131,7 @@ function edTemplates(T) {
   if (!T || !T.length) return "";
   const tot = k => T.reduce((a, d) => a + d[k], 0);
   return `<h3>Are the templates doing the writing?</h3>
-    <p class="sub2">Exact drafts sampled each day (up to 20 a day). When the templates fire as they should, the two lines meet. ${sheetLink("templates", "Every template's wording")}. So far: <b style="color:var(--text)">${tot("drafted_by_template")} of ${tot("sampled")}</b> written by a template, <b style="color:var(--text)">${tot("posted_in_template_form")}</b> posted in template wording.</p>
+    <p class="sub2">Exact drafts sampled each day (up to 20 a day). When the templates fire as they should, the two lines meet. ${sheetLink("templates", "Every template's wording")} and ${sheetLink("rules", "the rules to add")}. So far: <b style="color:var(--text)">${tot("drafted_by_template")} of ${tot("sampled")}</b> written by a template, <b style="color:var(--text)">${tot("posted_in_template_form")}</b> posted in template wording.</p>
     ${T.length >= 5 ? `<div id="ed-tpl"></div><div class="dk-key"><span><i style="background:var(--e2)"></i>Posted in template wording</span><span><i style="background:var(--e1)"></i>Written by a template</span></div>`
       : `<div class="cr-wrap"><table class="cr-table"><thead><tr><th>Day</th><th class="num">Sampled</th><th class="num">Written by a template</th><th class="num">Posted in template wording</th><th class="num">Untouched</th></tr></thead><tbody>${
         T.map(d => `<tr><td>${edDay(d.day)}</td><td class="num">${d.sampled}</td><td class="num">${d.drafted_by_template}</td><td class="num">${d.posted_in_template_form}</td><td class="num">${d.untouched}</td></tr>`).join("")}</tbody></table></div>
@@ -3450,8 +3450,8 @@ function renderRoad() {
       <div class="sm-card rm-sp"><div class="lbl">Backlog</div><div class="n">${back}</div><div class="lbl">not done, not in an open sprint</div></div></div>
     ${I.sprints.map(sp => { const n = rmOrder(pri.filter(t => t.sprint === sp.name)); return n.length ? `<h2 class="sm-h">${sp.state === "active" ? "Current sprint" : "Next sprint"}: ${esc(sp.name)}</h2>
       <div class="sm-card scroll" style="overflow-x:auto"><table class="rm-tbl"><thead><tr><th>Ticket</th><th>What · epic</th><th>Status</th><th>Priority</th></tr></thead><tbody>${n.map(row).join("")}</tbody></table></div>` : ""; }).join("")}
-    ${(state.desk.sheets || []).length ? `<h2 class="sm-h">Working sheets</h2>
-    <div class="rm-sheets">${state.desk.sheets.map(sh => `<div class="sm-card"><a href="${esc(sh.url)}" target="_blank" rel="noopener"><b>${esc(sh.title)}</b></a><div class="lbl" style="margin-top:4px">${esc(sh.what)}</div></div>`).join("")}</div>` : ""}
+    ${(state.desk.sheets || []).some(sh => sh.list !== false) ? `<h2 class="sm-h">Working sheets</h2>
+    <div class="rm-sheets">${state.desk.sheets.filter(sh => sh.list !== false).map(sh => `<div class="sm-card"><a href="${esc(sh.url)}" target="_blank" rel="noopener"><b>${esc(sh.title)}</b></a><div class="lbl" style="margin-top:4px">${esc(sh.what)}</div></div>`).join("")}</div>` : ""}
     <h2 class="sm-h">By epic</h2>
     <div class="rm-epics">${open.map(epic).join("")}</div>
     ${closed.length ? `<details class="sm-card" style="margin-top:12px"><summary style="cursor:pointer">Completed epics (${closed.length})</summary><div class="rm-epics" style="margin-top:10px">${closed.map(epic).join("")}</div></details>` : ""}`;
