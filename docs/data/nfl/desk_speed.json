@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T16:07:41.163542+00:00",
+  "generated_at": "2026-10-16T16:24:10.973778+00:00",
   "window": {
     "from": "2026-09-16",
     "to": "2026-10-16",
@@ -8,9 +8,9 @@
   "opens_tracked_since": "2026-10-13",
   "paths": {
     "all": {
-      "posts": 1092,
+      "posts": 1091,
       "race": {
-        "n": 826,
+        "n": 825,
         "median_gap": 105,
         "underdog_first_pct": 87.5,
         "gaps": [
@@ -151,7 +151,6 @@
           22,
           22,
           22,
-          23,
           23,
           23,
           23,
@@ -850,7 +849,7 @@
       },
       "from_source": {
         "median": 175,
-        "n": 758
+        "n": 757
       }
     },
     "monitor": {
@@ -1302,9 +1301,9 @@
       }
     },
     "manual": {
-      "posts": 442,
+      "posts": 441,
       "race": {
-        "n": 331,
+        "n": 330,
         "median_gap": 90,
         "underdog_first_pct": 87.9,
         "gaps": [
@@ -1363,7 +1362,6 @@
           19,
           20,
           22,
-          23,
           23,
           23,
           30,
@@ -1640,7 +1638,7 @@
           7680,
           12610
         ],
-        "underdog_before_source_pct": 6.9,
+        "underdog_before_source_pct": 7.0,
         "before_source": {
           "n": 23,
           "monitor_had_earlier": 0,
@@ -1648,8 +1646,8 @@
         }
       },
       "from_source": {
-        "median": 145,
-        "n": 281
+        "median": 146,
+        "n": 280
       },
       "add_line_to_x": {
         "median": 48,
@@ -1760,7 +1758,7 @@
         "n": 72
       }
     },
-    "manual_pct": 40.5,
+    "manual_pct": 40.4,
     "other_pct": 11.5
   },
   "manual_weekly": [
@@ -3458,11 +3456,11 @@
       "key": true,
       "paths": {
         "all": {
-          "posts": 230,
+          "posts": 229,
           "race": {
-            "n": 168,
-            "median_gap": 94,
-            "underdog_first_pct": 87.5,
+            "n": 167,
+            "median_gap": 96,
+            "underdog_first_pct": 87.4,
             "gaps": [
               -13990,
               -13094,
@@ -3492,7 +3490,6 @@
               14,
               18,
               20,
-              23,
               24,
               26,
               29,
@@ -3633,7 +3630,7 @@
               5684,
               7189
             ],
-            "underdog_before_source_pct": 11.5,
+            "underdog_before_source_pct": 11.6,
             "before_source": {
               "n": 18,
               "monitor_had_earlier": 4,
@@ -3641,8 +3638,8 @@
             }
           },
           "from_source": {
-            "median": 146,
-            "n": 158
+            "median": 148,
+            "n": 157
           }
         },
         "monitor": {
@@ -3766,11 +3763,11 @@
           }
         },
         "manual": {
-          "posts": 111,
+          "posts": 110,
           "race": {
-            "n": 79,
-            "median_gap": 88,
-            "underdog_first_pct": 91.1,
+            "n": 78,
+            "median_gap": 90,
+            "underdog_first_pct": 91.0,
             "gaps": [
               -13094,
               -12245,
@@ -3782,7 +3779,6 @@
               5,
               12,
               18,
-              23,
               30,
               31,
               38,
@@ -3852,7 +3848,7 @@
               5684,
               7189
             ],
-            "underdog_before_source_pct": 8.9,
+            "underdog_before_source_pct": 9.0,
             "before_source": {
               "n": 7,
               "monitor_had_earlier": 0,
@@ -3860,8 +3856,8 @@
             }
           },
           "from_source": {
-            "median": 141,
-            "n": 70
+            "median": 142,
+            "n": 69
           },
           "add_line_to_x": {
             "median": null,
@@ -3894,7 +3890,7 @@
             "n": 11
           }
         },
-        "manual_pct": 48.3,
+        "manual_pct": 48.0,
         "other_pct": 8.3
       }
     },
@@ -13113,9 +13109,9 @@
     },
     {
       "key": "good_drafts",
-      "title": "AI Drafts That Were Good to Go",
+      "title": "AI Draft Review",
       "url": "https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit",
-      "what": "Real drafts from 10/14-10/15 that were accurate but got rewritten anyway, next to what went out."
+      "what": "All 52 exact AI drafts from 10/14-10/15 next to what went out. KOB reviews each blind, then it compares to Nick's call."
     },
     {
       "key": "accounts",
@@ -13127,17 +13123,17 @@
   "summary": {
     "margin": {
       "last30": {
-        "n": 829,
+        "n": 828,
         "median": 105,
         "rw_first_pct": 8.7,
-        "tie_pct": 23.0,
-        "ud_first_pct": 68.3
+        "tie_pct": 22.9,
+        "ud_first_pct": 68.4
       },
       "prior30": {
         "n": 385,
         "median": 129,
-        "rw_first_pct": 11.7,
-        "tie_pct": 19.5,
+        "rw_first_pct": 11.4,
+        "tie_pct": 19.7,
         "ud_first_pct": 68.8
       },
       "rolling": [

@@ -3119,7 +3119,7 @@ function edBreakdown(B) {
   const optional = B.buckets.filter(b => !b.needed && b.key !== "none").reduce((a, b) => a + b.n, 0);
   const edited = tot - (B.buckets.find(b => b.key === "none") || { n: 0 }).n, needed = B.buckets.filter(b => b.needed).reduce((a, b) => a + b.n, 0);
   return `<h3>Why drafts get edited</h3>
-    <p class="sub2">Every edit in a hand-checked sample (${esc(B.sample)}), sorted by what the editor changed. Gold and teal edits changed no facts: the draft could have gone out. ${sheetLink("good_drafts", "See the drafts that were good to go")}.</p>
+    <p class="sub2">Every edit in a hand-checked sample (${esc(B.sample)}), sorted by what the editor changed. Gold and teal edits changed no facts: the draft could have gone out. ${sheetLink("good_drafts", "See every draft next to what went out")}.</p>
     <div class="eb-bar" role="img" aria-label="${B.buckets.map(b => `${b.label} ${b.n}`).join(", ")}">${B.buckets.filter(b => b.n).map(b => `<span style="flex:${b.n};background:${b.color}" title="${esc(b.label)}: ${b.n}">${b.n / tot >= .06 ? b.n : ""}</span>`).join("")}</div>
     <p class="eb-call"><b>${optional} of ${tot}</b> edits (${pct(optional)}%) only changed wording. If those had gone out as drafted, ${pct(needed)}% of posts would have needed an edit instead of ${pct(edited)}%.</p>
     <div class="cr-wrap"><table class="cr-table eb-tbl"><thead><tr><th>What changed</th><th class="num">Posts</th><th>Mostly</th><th>What we're doing about it</th></tr></thead><tbody>${B.buckets.map(b => `<tr>
