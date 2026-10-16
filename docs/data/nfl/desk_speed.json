@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T20:09:29.427131+00:00",
+  "generated_at": "2026-10-16T20:13:15.198182+00:00",
   "window": {
     "from": "2026-09-16",
     "to": "2026-10-16",
@@ -8,9 +8,9 @@
   "opens_tracked_since": "2026-10-13",
   "paths": {
     "all": {
-      "posts": 1070,
+      "posts": 1067,
       "race": {
-        "n": 810,
+        "n": 809,
         "median_gap": 105,
         "underdog_first_pct": 87.3,
         "gaps": [
@@ -687,7 +687,6 @@
           291,
           291,
           293,
-          293,
           295,
           295,
           298,
@@ -825,16 +824,16 @@
           12610,
           19034
         ],
-        "underdog_before_source_pct": 13.7,
+        "underdog_before_source_pct": 13.6,
         "before_source": {
-          "n": 99,
+          "n": 98,
           "monitor_had_earlier": 21,
-          "monitor_never_had": 78
+          "monitor_never_had": 77
         }
       },
       "from_source": {
-        "median": 177,
-        "n": 742
+        "median": 176,
+        "n": 741
       }
     },
     "monitor": {
@@ -1278,11 +1277,11 @@
       }
     },
     "manual": {
-      "posts": 431,
+      "posts": 428,
       "race": {
-        "n": 324,
+        "n": 323,
         "median_gap": 90,
-        "underdog_first_pct": 87.7,
+        "underdog_first_pct": 87.6,
         "gaps": [
           -16799,
           -15134,
@@ -1563,7 +1562,6 @@
           272,
           275,
           279,
-          293,
           303,
           317,
           328,
@@ -1609,16 +1607,16 @@
           7680,
           12610
         ],
-        "underdog_before_source_pct": 7.1,
+        "underdog_before_source_pct": 6.8,
         "before_source": {
-          "n": 23,
+          "n": 22,
           "monitor_had_earlier": 0,
-          "monitor_never_had": 23
+          "monitor_never_had": 22
         }
       },
       "from_source": {
-        "median": 148,
-        "n": 274
+        "median": 147,
+        "n": 273
       },
       "add_line_to_x": {
         "median": 48,
@@ -1728,7 +1726,7 @@
         "n": 71
       }
     },
-    "manual_pct": 40.3,
+    "manual_pct": 40.1,
     "other_pct": 11.7
   },
   "manual_weekly": [
@@ -3422,11 +3420,11 @@
       "key": true,
       "paths": {
         "all": {
-          "posts": 208,
+          "posts": 205,
           "race": {
-            "n": 152,
+            "n": 151,
             "median_gap": 96,
-            "underdog_first_pct": 86.2,
+            "underdog_first_pct": 86.1,
             "gaps": [
               -13990,
               -13094,
@@ -3554,7 +3552,6 @@
               279,
               281,
               290,
-              293,
               317,
               337,
               347,
@@ -3581,16 +3578,16 @@
               5684,
               7189
             ],
-            "underdog_before_source_pct": 12.8,
+            "underdog_before_source_pct": 12.1,
             "before_source": {
-              "n": 18,
+              "n": 17,
               "monitor_had_earlier": 4,
-              "monitor_never_had": 14
+              "monitor_never_had": 13
             }
           },
           "from_source": {
             "median": 144,
-            "n": 142
+            "n": 141
           }
         },
         "monitor": {
@@ -3706,11 +3703,11 @@
           }
         },
         "manual": {
-          "posts": 100,
+          "posts": 97,
           "race": {
-            "n": 72,
+            "n": 71,
             "median_gap": 92,
-            "underdog_first_pct": 90.3,
+            "underdog_first_pct": 90.1,
             "gaps": [
               -13094,
               -12245,
@@ -3772,7 +3769,6 @@
               253,
               269,
               279,
-              293,
               409,
               460,
               809,
@@ -3785,16 +3781,16 @@
               5684,
               7189
             ],
-            "underdog_before_source_pct": 9.7,
+            "underdog_before_source_pct": 8.5,
             "before_source": {
-              "n": 7,
+              "n": 6,
               "monitor_had_earlier": 0,
-              "monitor_never_had": 7
+              "monitor_never_had": 6
             }
           },
           "from_source": {
-            "median": 145,
-            "n": 63
+            "median": 144,
+            "n": 62
           },
           "add_line_to_x": {
             "median": null,
@@ -3826,8 +3822,8 @@
             "n": 10
           }
         },
-        "manual_pct": 48.1,
-        "other_pct": 8.7
+        "manual_pct": 47.3,
+        "other_pct": 8.8
       }
     },
     {
@@ -14016,6 +14012,20 @@
         "url": "https://gdcgroup.atlassian.net/browse/RD-8094"
       },
       {
+        "key": "RD-8113",
+        "summary": "News Admin: Slack Ping on Every Post on X",
+        "status": "In Review",
+        "resolved": null,
+        "url": "https://gdcgroup.atlassian.net/browse/RD-8113"
+      },
+      {
+        "key": "RD-8112",
+        "summary": "News Admin: Note Editor as a Modal with Step Tabs",
+        "status": "Done",
+        "resolved": "2026-10-16T20:08:36.702+0100",
+        "url": "https://gdcgroup.atlassian.net/browse/RD-8112"
+      },
+      {
         "key": "RD-8171",
         "summary": "Breaking News AI: Image-Only Sources Get an Invented Player Status",
         "status": "Done",
@@ -14024,7 +14034,7 @@
       }
     ],
     "roadmap": {
-      "fetched_at": "2026-10-16T17:28:15.357420+00:00",
+      "fetched_at": "2026-10-16T20:13:14.997002+00:00",
       "steps": [
         {
           "step": "s1",
@@ -14050,8 +14060,8 @@
               "title": "Note editor as a modal with step tabs",
               "note": null,
               "replaces": null,
-              "status": "In Progress",
-              "category": "indeterminate",
+              "status": "Done",
+              "category": "done",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8112"
             },
             {
@@ -14200,7 +14210,7 @@
               "title": "Slack ping on every post on X",
               "note": null,
               "replaces": "KOB pinging the desk by hand so they know which note to write",
-              "status": "In Progress",
+              "status": "In Review",
               "category": "indeterminate",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8113"
             }
@@ -14211,14 +14221,14 @@
     "initiative": {
       "root": "RD-8097",
       "label": "Breaking News AI",
-      "fetched_at": "2026-10-16T17:28:15.357420+00:00",
+      "fetched_at": "2026-10-16T20:13:14.997002+00:00",
       "url": "https://gdcgroup.atlassian.net/browse/RD-8097",
       "assignee": "Matthew Kulina",
       "sprints": [
         {
           "name": "2026.Q4.S21",
           "state": "active",
-          "start": "2026-10-15T13:00:00.000Z",
+          "start": "2026-10-15T13:00:00.505Z",
           "end": "2026-10-28T21:00:00.000Z"
         }
       ],
@@ -14631,89 +14641,6 @@
           "done": []
         },
         {
-          "key": "RD-8100",
-          "summary": "News Admin: Desk QoL and UI",
-          "status": "Ready for Work",
-          "category": "new",
-          "url": "https://gdcgroup.atlassian.net/browse/RD-8100",
-          "prioritized": [
-            {
-              "key": "RD-8112",
-              "summary": "News Admin: Note Editor as a Modal with Step Tabs",
-              "type": "Story",
-              "status": "In Progress",
-              "category": "indeterminate",
-              "assignee": "Matthew Kulina",
-              "priority": "Medium",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8112",
-              "sprint": "2026.Q4.S21",
-              "sprint_state": "active"
-            },
-            {
-              "key": "RD-8113",
-              "summary": "News Admin: Slack Ping on Every Post on X",
-              "type": "Story",
-              "status": "In Progress",
-              "category": "indeterminate",
-              "assignee": "Matthew Kulina",
-              "priority": "Medium",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8113",
-              "sprint": "2026.Q4.S21",
-              "sprint_state": "active"
-            }
-          ],
-          "backlog": [
-            {
-              "key": "RD-7648",
-              "summary": "Mobile Pass: Feed Cards + Drawer",
-              "type": "Task",
-              "status": "Ready for Work",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": "2026-09-30T21:12:20.039+0100",
-              "url": "https://gdcgroup.atlassian.net/browse/RD-7648"
-            },
-            {
-              "key": "RD-7650",
-              "summary": "Team Schedule in Return-Date Calendar",
-              "type": "Task",
-              "status": "Ready for Work",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-7650"
-            },
-            {
-              "key": "RD-8037",
-              "summary": "News Admin: Injury Report Quick View for Key Players",
-              "type": "Story",
-              "status": "Ready for Work",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8037"
-            }
-          ],
-          "done": [
-            {
-              "key": "RD-8096",
-              "summary": "Breaking News AI: Automatic More Details Reply on NFL Posts",
-              "type": "Story",
-              "status": "Done",
-              "category": "done",
-              "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": "2026-10-13T23:11:00.588+0100",
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8096"
-            }
-          ]
-        },
-        {
           "key": "RD-8115",
           "summary": "Breaking News AI: Post Design and Reporting",
           "status": "Ready for Work",
@@ -14814,6 +14741,87 @@
             }
           ],
           "done": []
+        },
+        {
+          "key": "RD-8100",
+          "summary": "News Admin: Desk QoL and UI",
+          "status": "Ready for Work",
+          "category": "new",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-8100",
+          "prioritized": [
+            {
+              "key": "RD-8113",
+              "summary": "News Admin: Slack Ping on Every Post on X",
+              "type": "Story",
+              "status": "In Review",
+              "category": "indeterminate",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8113",
+              "sprint": "2026.Q4.S21",
+              "sprint_state": "active"
+            }
+          ],
+          "backlog": [
+            {
+              "key": "RD-7648",
+              "summary": "Mobile Pass: Feed Cards + Drawer",
+              "type": "Task",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-09-30T21:12:20.039+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7648"
+            },
+            {
+              "key": "RD-7650",
+              "summary": "Team Schedule in Return-Date Calendar",
+              "type": "Task",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7650"
+            },
+            {
+              "key": "RD-8037",
+              "summary": "News Admin: Injury Report Quick View for Key Players",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8037"
+            }
+          ],
+          "done": [
+            {
+              "key": "RD-8112",
+              "summary": "News Admin: Note Editor as a Modal with Step Tabs",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-10-16T20:08:36.702+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8112"
+            },
+            {
+              "key": "RD-8096",
+              "summary": "Breaking News AI: Automatic More Details Reply on NFL Posts",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-13T23:11:00.588+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8096"
+            }
+          ]
         },
         {
           "key": "RD-8098",
