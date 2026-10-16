@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-16T16:37:35.299136+00:00",
+  "generated_at": "2026-10-16T16:40:08.216039+00:00",
   "window": {
     "from": "2026-09-16",
     "to": "2026-10-16",
@@ -13101,7 +13101,24 @@
       "key": "review",
       "title": "NFL AI Drafts and Templates Review",
       "url": "https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit",
-      "what": "Three tabs: every exact AI draft from 10/14-10/15 next to what went out (KOB reviews blind, then compares to Nick's call); the template rules the edits point to; and every template's wording from the News Admin code."
+      "what": "Every exact AI draft from 10/14-10/15 next to what went out, the template rules the edits point to, and every template's wording. Start on the How to use tab.",
+      "tabs": [
+        {
+          "name": "Draft review",
+          "url": "https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit#gid=1683382961",
+          "what": "One row per post. KOB picks his review blind, then Same call? shows where he and Nick agree."
+        },
+        {
+          "name": "Template rules to add",
+          "url": "https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit#gid=2002",
+          "what": "Template, AI instruction and Monitor changes the edits point to, with how many posts each would fix. KOB sets his take; Status tracks each one."
+        },
+        {
+          "name": "Templates",
+          "url": "https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit#gid=2001",
+          "what": "Every template wording from the News Admin code, when it fires and when it falls back to the AI draft."
+        }
+      ]
     },
     {
       "key": "accounts",
