@@ -32,7 +32,8 @@ BEFORE_DAYS = 14
 HIGHER_BETTER = {"template_written_pct"}
 UNMEASURED_DAYS = 21
 MIN_AFTER_DAYS = 5
-TIE_SECONDS = 60
+TIE_SECONDS = 60  # within a minute is "close", not a win for either side
+BLOWOUT_SECONDS = 300
 TZ = ZoneInfo("America/Chicago")  # the page shows Central time
 
 
@@ -62,7 +63,10 @@ def margin(stories: list[dict], now: datetime) -> dict:
         return {"n": n, "median": _med(g),
                 "rw_first_pct": round(100 * sum(x < -TIE_SECONDS for x in g) / n, 1) if n else None,
                 "tie_pct": round(100 * sum(abs(x) <= TIE_SECONDS for x in g) / n, 1) if n else None,
-                "ud_first_pct": round(100 * sum(x > TIE_SECONDS for x in g) / n, 1) if n else None}
+                "ud_first_pct": round(100 * sum(x > TIE_SECONDS for x in g) / n, 1) if n else None,
+                # Underdog's wins split: 1-5 minutes, and blowouts of 5+ minutes.
+                "ud_mid_pct": round(100 * sum(TIE_SECONDS < x <= BLOWOUT_SECONDS for x in g) / n, 1) if n else None,
+                "ud_blowout_pct": round(100 * sum(x > BLOWOUT_SECONDS for x in g) / n, 1) if n else None}
 
     rolling = []
     today = now.astimezone(TZ).date()

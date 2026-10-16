@@ -546,10 +546,12 @@
   .sm-duo { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 16px; margin: 4px 0 2px; }
   .sm-cap { font-size: 14px; font-weight: 600; }
   .sm-cap > span { display: block; font-size: 13px; font-weight: 400; color: var(--muted); margin-top: 2px; }
+  .sm-cap > span + span { margin-top: 0; }
   @media (max-width: 560px) { .sm-duo { grid-template-columns: minmax(0, 1fr); } }
   .sm-spot { background: linear-gradient(0deg, rgba(240,160,112,.06), rgba(240,160,112,.06)), var(--panel); border-color: #5a3a28; }
   .sm-key { display: flex; flex-wrap: wrap; gap: 4px 16px; font-size: 12px; color: var(--muted); margin-top: 6px; }
   .sm-key i { display: inline-block; width: 14px; height: 0; border-top: 2px solid; margin-right: 6px; vertical-align: 3px; }
+  .sm-key i.dash { border-top: 2px dashed rgba(230,237,243,.55); }
   .sm-mode { margin-top: 10px; }
   #edits .sm-mode { margin: 4px 0 10px; }
   .sm-mode button { padding: 4px 10px; }
@@ -1006,13 +1008,13 @@ function renderKpis() {
         <span>Post</span><b>${pct(pr.post.rotowire_posted_rate)}</b><span>${pct(pr.post.underdog_posted_rate)}</span></div></div>` : "";
   el.innerHTML = `<div class="headline">
       <div class="hl-head"><h3>Who posted first</h3>
-        <span>Last ${h.days} days (since ${since}) · ${h.matched} matched stories · a tie is within ${Math.round(h.tie_seconds / 60)} minute</span></div>
+        <span>Last ${h.days} days (since ${since}) · ${h.matched} matched stories · close means within ${Math.round(h.tie_seconds / 60)} minute</span></div>
       <div class="hb" role="img" aria-label="RotoWire first ${pct(h.rotowire_first_rate)}, tie ${pct(h.tie_rate)}, Underdog first ${pct(h.underdog_first_rate)}">
         ${seg("rw", h.rotowire_first, h.rotowire_first_rate, "RotoWire first")}
-        ${seg("tie", h.ties, h.tie_rate, "Tie")}
+        ${seg("tie", h.ties, h.tie_rate, "Close")}
         ${seg("ud", h.underdog_first, h.underdog_first_rate, "Underdog first")}
       </div>
-      <div class="hb-key">${key("var(--green)", "RotoWire first", h.rotowire_first_rate)}${key("#4a5563", "Tie", h.tie_rate)}${key("var(--red)", "Underdog first", h.underdog_first_rate)}</div>
+      <div class="hb-key">${key("var(--green)", "RotoWire first", h.rotowire_first_rate)}${key("#4a5563", "Close", h.tie_rate)}${key("var(--red)", "Underdog first", h.underdog_first_rate)}</div>
     </div>
     ${prTile}
     ${tile(`Typical margin · last ${h.days} days`, fmtMargin(h.median_lead_seconds), "on stories both posted",
@@ -1585,11 +1587,11 @@ function renderPractice() {
   el.innerHTML = `<p class="type-note">Each practice day has two updates fantasy players want: before or during
       practice (is he out there?) and after it (how much did he do?). RotoWire tries to post both. This tracks
       them separately, per player per practice day, so a day one side skipped shows up as exactly that.
-      Last ${pr.days} days (since ${since}); a tie is within ${Math.round(pr.tie_seconds / 60)} minute. Times are Central.</p>
+      Last ${pr.days} days (since ${since}); close means within ${Math.round(pr.tie_seconds / 60)} minute. Times are Central.</p>
     <div class="type-wrap"><table><thead><tr><th data-nosort>Update</th><th data-nosort style="text-align:right">Player-days</th>
       <th data-nosort style="text-align:right">RotoWire posted</th><th data-nosort style="text-align:right">Underdog posted</th>
       <th data-nosort style="text-align:right">Only RotoWire</th><th data-nosort style="text-align:right">Only Underdog</th>
-      <th data-nosort style="text-align:right" title="When both posted it: RotoWire first / tie / Underdog first">Both: RW / tie / UD first</th>
+      <th data-nosort style="text-align:right" title="When both posted it: RotoWire first / close, within a minute / Underdog first">Both: RW / close / UD first</th>
       <th data-nosort style="text-align:right">Typical margin</th></tr></thead>
       <tbody>${row("pre")}${row("post")}</tbody></table></div>
     <h3 style="font-size:14px;margin:22px 0 8px">Practice days, last two weeks</h3>
@@ -1763,7 +1765,7 @@ function periodTable(grain) {
   const rows = ((state.agg.trend || {})[grain] || []).filter(r => r.detail && (r.matched || r.detail.rotowire_only || r.detail.underdog_only));
   if (!rows.length || !rows[0].detail) return "";
   const noun = { day: "day", week: "week", month: "month" }[grain];
-  const head = [["", "Period"], ["n", "Matched"], ["n", "RW first"], ["n", "Tie"], ["n", "UD first"],
+  const head = [["", "Period"], ["n", "Matched"], ["n", "RW first"], ["n", "Close"], ["n", "UD first"],
     ["n", "Typical margin", "Median of every matched story; UD +1:30 means Underdog was typically 1:30 faster"],
     ["n", "RW wins by", "Median margin on the stories RotoWire posted first"],
     ["n", "UD wins by", "Median margin on the stories Underdog posted first"],
@@ -2772,7 +2774,7 @@ function dkSegs(paths, kind) {
           { c: "s2", name: "In Monitor to on X (opens not tracked enough yet)", v: st.monitor_to_x.median, n: st.monitor_to_x.n }];
 }
 const dkSum = segs => segs.reduce((a, x) => a + (x.v || 0), 0);
-// "First" means more than a minute ahead, the same rule as the Summary (within a minute is a tie).
+// "First" means more than a minute ahead, the same rule as the Summary (within a minute is "close").
 const dkFirstPct = (gaps, cut) => gaps.length ? 100 * gaps.filter(g => g - cut < -60).length / gaps.length : null;
 
 // One horizontal bar: segments stacked, a dashed break-even mark where we'd post first on
@@ -2883,7 +2885,7 @@ function renderDesk() {
     dkAxis(svg, x, max, H - 4, W < 560 ? 60 : 30);
     const now = dkFirstPct(r.gaps, 0), first = dkFirstPct(r.gaps, saved);
     document.getElementById("dk-verdict").innerHTML = !saved
-      ? `Right now we post first on ${now.toFixed(0)}% of these ${r.gaps.length} stories (more than a minute ahead; ties don't count).`
+      ? `Right now we post first on ${now.toFixed(0)}% of these ${r.gaps.length} stories (more than a minute ahead; close calls within a minute don't count).`
       : `${dkFmt(saved)} faster: we'd post first on <span class="up">${first.toFixed(0)}%</span> of shared stories, up from ${now.toFixed(0)}%.` +
         `<button type="button" class="dk-reset" id="dk-reset">Reset</button>`;
     const rs = document.getElementById("dk-reset"); if (rs) rs.onclick = () => { dk.cut = [0, 0, 0]; renderDesk(); };
@@ -3097,7 +3099,7 @@ function renderDay() {
     <div class="dy-bar"><div class="dy-pick"><button type="button" id="dy-prev" aria-label="Earlier day" ${i >= days.length - 1 ? "disabled" : ""}>‹</button>
       <select id="dy-sel" aria-label="Day">${days.map(k => `<option value="${k}" ${k === dyPick.day ? "selected" : ""}>${dayName(k)} · ${byDay[k].length} stories</option>`).join("")}</select>
       <button type="button" id="dy-next" aria-label="Later day" ${i <= 0 ? "disabled" : ""}>›</button></div>
-      <div class="dy-stats">Median <b>${smUD(med)}</b> · first on <b>${first}</b> of ${rows.length} · ties <b>${ties}</b> · ${rows.length - first - ties} behind</div></div>
+      <div class="dy-stats">Median <b>${smUD(med)}</b> · first on <b>${first}</b> of ${rows.length} · close <b>${ties}</b> · ${rows.length - first - ties} behind</div></div>
     <div class="dy-grid"><div><div id="dy-chart"></div>
       <div class="dy-key"><span><i style="background:var(--green)"></i>we posted first</span><span><i style="background:#8b98a5"></i>tie, within ${DY_TIE}s</span><span><i style="background:var(--red)"></i>Underdog first</span><span><i class="sq"></i>square: added by hand</span></div></div>
       <div class="dy-det" id="dy-det" aria-live="polite"></div></div>
@@ -3312,10 +3314,22 @@ function smChart(host, S) {
   const svg = dkEl("svg", { viewBox: `0 0 ${W} ${H}`, role: "img", "aria-label": daily ? "Margin behind Underdog, each day's median" : "Margin behind Underdog, rolling 7-day median" }, host);
   for (let t = Math.ceil(lo / step) * step; t <= hi; t += step) { dkEl("line", { x1: L, x2: W - Rr, y1: y(t), y2: y(t), stroke: "#2d3743" }, svg);
     dkEl("text", { x: L - 6, y: y(t) + 4, fill: "#8b98a5", "text-anchor": "end" }, svg).textContent = t ? smUD(t) : "even"; }
-  R.forEach((r, i) => { if (i % 14 === 0 || i === R.length - 1) dkEl("text", { x: x(i), y: H - 4, fill: "#8b98a5", "text-anchor": "middle" }, svg).textContent = smDay(r[0]); });
+  // Date ticks every two weeks, dropping one that would crowd the last date.
+  const gapPx = W < 500 ? 46 : 34;
+  R.forEach((r, i) => { const end = i === R.length - 1; if ((i % 14 === 0 && x(R.length - 1) - x(i) >= gapPx) || end) dkEl("text", { x: x(i), y: H - 4, fill: "#8b98a5", "text-anchor": "middle" }, svg).textContent = smDay(r[0]); });
   // One line through the days that have a value; a skipped day is just not a point.
   const path = f => dkSmooth(R.map((r, i) => [i, f(r)]).filter(p => p[1] != null).map(p => [x(p[0]), y(p[1])]));
   dkEl("path", { d: path(val), fill: "none", stroke: "#4493f8", "stroke-width": 2.5, "stroke-linejoin": "round", "stroke-linecap": "round" }, svg);
+  // Least-squares trend over the points shown, so the direction reads at a glance.
+  const pts = R.map((r, i) => [i, val(r)]).filter(p => p[1] != null);
+  let perMonth = null;
+  if (pts.length >= 10) {
+    const n = pts.length, mx = pts.reduce((a, p) => a + p[0], 0) / n, my = pts.reduce((a, p) => a + p[1], 0) / n;
+    const k = pts.reduce((a, p) => a + (p[0] - mx) * (p[1] - my), 0) / pts.reduce((a, p) => a + (p[0] - mx) ** 2, 0), c = my - k * mx;
+    const [i0, i1] = [pts[0][0], pts[n - 1][0]];
+    dkEl("line", { x1: x(i0), y1: y(k * i0 + c), x2: x(i1), y2: y(k * i1 + c), stroke: "#e6edf3", "stroke-opacity": .55, "stroke-width": 1.5, "stroke-dasharray": "5 4" }, svg);
+    perMonth = k * 30;
+  }
   const last = [...R].reverse().find(r => val(r) != null);
   if (last) dkEl("text", { x: x(R.indexOf(last)) + 8, y: y(val(last)) + 4, fill: "#e6edf3", "font-weight": 600 }, svg).textContent = smUD(val(last));
   const band = (W - L - Rr) / Math.max(1, R.length - 1);
@@ -3325,9 +3339,10 @@ function smChart(host, S) {
       ? `<b>${smDay(r[0])}</b> ${r[4] >= SM_DAY_MIN ? smUD(r[3]) : "not counted"}<br><span>${r[4]} shared ${r[4] === 1 ? "story" : "stories"}${r[4] < SM_DAY_MIN ? `, under ${SM_DAY_MIN}` : ""}</span>`
       : `<b>${smDay(r[0])}</b> 7-day ${smUD(r[1])}`); });
   const key = document.getElementById("sm-key");
-  if (key) key.innerHTML = daily
-    ? `<span><i style="border-color:#4493f8"></i>each day's median</span><span>days with fewer than ${SM_DAY_MIN} shared stories are left out</span>`
-    : `<span><i style="border-color:#4493f8"></i>7-day rolling median</span>`;
+  const trend = perMonth == null ? "" : `<span><i class="dash"></i>trend: ${Math.abs(perMonth) < 1 ? "flat" : `${perMonth < 0 ? "closing" : "widening"} by about ${dkFmt(Math.round(Math.abs(perMonth)))} a month`}</span>`;
+  if (key) key.innerHTML = (daily
+    ? `<span><i style="border-color:#4493f8"></i>each day's median</span>${trend}<span>days with fewer than ${SM_DAY_MIN} shared stories are left out</span>`
+    : `<span><i style="border-color:#4493f8"></i>7-day rolling median</span>${trend}`);
 }
 function smBars(m) {
   const pct = m.unit === "%", b = m.before.value, a = m.after && m.after.value;
@@ -3355,8 +3370,8 @@ function renderSummary() {
       <div class="sm-card">
         <div class="lbl">Last 30 days · ${cur.n} stories both accounts posted</div>
         <div class="sm-duo">
-          <div><div class="sm-hero">${cur.rw_first_pct == null ? "–" : Math.round(cur.rw_first_pct) + "%"}</div><div class="sm-cap">of stories we post first<span>Ties (within a minute) ${Math.round(cur.tie_pct)}% · Underdog first ${Math.round(cur.ud_first_pct)}%</span></div></div>
-          <div><div class="sm-hero">${smUD(cur.median)}</div><div class="sm-cap">${cur.median == null ? "" : cur.median > 0 ? `Underdog typically posts ${dkFmt(cur.median)} ahead of us` : cur.median < 0 ? `We typically post ${dkFmt(-cur.median)} ahead of Underdog` : "We typically post at the same time"}<span>${dl(cur.median, pri.median)} vs prior 30 days${base != null ? ` · ${dl(cur.median, base)} vs before the new system` : ""}</span></div></div>
+          <div><div class="sm-hero">${cur.rw_first_pct == null ? "–" : Math.round(cur.rw_first_pct) + "%"}</div><div class="sm-cap">of stories we post first<span>Close, within a minute: ${Math.round(cur.tie_pct)}%</span><span>Underdog first by 1–5 min: ${cur.ud_mid_pct == null ? "–" : Math.round(cur.ud_mid_pct) + "%"}</span><span>Underdog blowouts, 5+ min: ${cur.ud_blowout_pct == null ? "–" : Math.round(cur.ud_blowout_pct) + "%"}</span></div></div>
+          <div><div class="sm-hero">${smUD(cur.median)}</div><div class="sm-cap">${cur.median == null ? "" : cur.median > 0 ? `Underdog typically posts ${dkFmt(cur.median)} ahead of us` : cur.median < 0 ? `We typically post ${dkFmt(-cur.median)} ahead of Underdog` : "We typically post at the same time"}<span>${dl(cur.median, pri.median)} vs prior 30 days</span>${base != null ? `<span>${dl(cur.median, base)} vs before the new system went live${eras[1] && eras[1].from ? ` ${smDay(eras[1].from)}` : ""}</span>` : ""}</div></div>
         </div>
         <div class="seg-chips sm-mode" role="group" aria-label="Chart view"><button type="button" data-m="rolling">7-day</button><button type="button" data-m="daily">By day</button></div>
         <div id="sm-chart" style="margin-top:8px"></div>
