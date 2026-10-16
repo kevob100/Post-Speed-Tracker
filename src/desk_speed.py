@@ -470,6 +470,7 @@ def build(data_dir: Path, docs_dir: Path, stories: list[dict], now: datetime | N
         "weekdays": [],
         "posts": _post_steps(hist, all_rows),
     }
+    out["sheets"] = (cfg or {}).get("sheets", [])
     if out["edits"] and (cfg or {}).get("edit_breakdown"):
         out["edits"]["breakdown"] = cfg["edit_breakdown"]  # hand-labeled, see config.yaml
     def manual_pct(a, b):

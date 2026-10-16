@@ -464,6 +464,7 @@
   .eb-call { font-size: 13px; margin: 6px 0 10px; } .eb-call b { color: var(--text); }
   .eb-sw { display: inline-block; width: 10px; height: 10px; border-radius: 2px; margin-right: 8px; vertical-align: -1px; }
   .cr-table td.eb-wrap { white-space: normal; min-width: 180px; }
+  .rm-sheets { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 12px; margin-bottom: 18px; }
   .eb-tbl .pills { margin-top: 0; } .eb-tbl .pill { white-space: normal; }
   @media (max-width: 640px) { .eb-tbl, .eb-tbl tbody { display: block; width: 100%; } .eb-tbl thead { display: none; } .eb-tbl tr { display: block; padding: 8px 0; border-bottom: 1px solid var(--line); }
     .eb-tbl td, .cr-table td.eb-wrap { display: block; border: 0; padding: 2px 0; min-width: 0; white-space: normal; } .eb-tbl td.num { text-align: left; } }
@@ -3118,7 +3119,7 @@ function edBreakdown(B) {
   const optional = B.buckets.filter(b => !b.needed && b.key !== "none").reduce((a, b) => a + b.n, 0);
   const edited = tot - (B.buckets.find(b => b.key === "none") || { n: 0 }).n, needed = B.buckets.filter(b => b.needed).reduce((a, b) => a + b.n, 0);
   return `<h3>Why drafts get edited</h3>
-    <p class="sub2">Every edit in a hand-checked sample (${esc(B.sample)}), sorted by what the editor changed. Gold and teal edits changed no facts: the draft could have gone out.</p>
+    <p class="sub2">Every edit in a hand-checked sample (${esc(B.sample)}), sorted by what the editor changed. Gold and teal edits changed no facts: the draft could have gone out. ${sheetLink("good_drafts", "See the drafts that were good to go")}.</p>
     <div class="eb-bar" role="img" aria-label="${B.buckets.map(b => `${b.label} ${b.n}`).join(", ")}">${B.buckets.filter(b => b.n).map(b => `<span style="flex:${b.n};background:${b.color}" title="${esc(b.label)}: ${b.n}">${b.n / tot >= .06 ? b.n : ""}</span>`).join("")}</div>
     <p class="eb-call"><b>${optional} of ${tot}</b> edits (${pct(optional)}%) only changed wording. If those had gone out as drafted, ${pct(needed)}% of posts would have needed an edit instead of ${pct(edited)}%.</p>
     <div class="cr-wrap"><table class="cr-table eb-tbl"><thead><tr><th>What changed</th><th class="num">Posts</th><th>Mostly</th><th>What we're doing about it</th></tr></thead><tbody>${B.buckets.map(b => `<tr>
@@ -3130,7 +3131,7 @@ function edTemplates(T) {
   if (!T || !T.length) return "";
   const tot = k => T.reduce((a, d) => a + d[k], 0);
   return `<h3>Are the templates doing the writing?</h3>
-    <p class="sub2">Exact drafts sampled each day (up to 20 a day). When the templates fire as they should, the two lines meet. So far: <b style="color:var(--text)">${tot("drafted_by_template")} of ${tot("sampled")}</b> written by a template, <b style="color:var(--text)">${tot("posted_in_template_form")}</b> posted in template wording.</p>
+    <p class="sub2">Exact drafts sampled each day (up to 20 a day). When the templates fire as they should, the two lines meet. ${sheetLink("templates", "Every template's wording")}. So far: <b style="color:var(--text)">${tot("drafted_by_template")} of ${tot("sampled")}</b> written by a template, <b style="color:var(--text)">${tot("posted_in_template_form")}</b> posted in template wording.</p>
     ${T.length >= 5 ? `<div id="ed-tpl"></div><div class="dk-key"><span><i style="background:var(--e2)"></i>Posted in template wording</span><span><i style="background:var(--e1)"></i>Written by a template</span></div>`
       : `<div class="cr-wrap"><table class="cr-table"><thead><tr><th>Day</th><th class="num">Sampled</th><th class="num">Written by a template</th><th class="num">Posted in template wording</th><th class="num">Untouched</th></tr></thead><tbody>${
         T.map(d => `<tr><td>${edDay(d.day)}</td><td class="num">${d.sampled}</td><td class="num">${d.drafted_by_template}</td><td class="num">${d.posted_in_template_form}</td><td class="num">${d.untouched}</td></tr>`).join("")}</tbody></table></div>
@@ -3421,6 +3422,11 @@ const RM_PRI = { Highest: 0, High: 1, Medium: 2, Low: 3, Lowest: 4 };
 const RM_ST = { "In Progress": 0, "In Review": 1, "Ready for Release": 2, "Ready for Work": 3, "Ready for Estimation": 4, "In Refinement": 5 };
 const rmStRank = t => t.category === "done" ? 9 : RM_ST[t.status] ?? (t.category === "indeterminate" ? 2 : 6);
 const rmOrder = ts => [...ts].sort((a, b) => (RM_PRI[a.priority] ?? 5) - (RM_PRI[b.priority] ?? 5) || rmStRank(a) - rmStRank(b) || a.key.localeCompare(b.key, undefined, { numeric: true }));
+// Desk Google Sheets from config.yaml sheets; link by key next to the section it belongs to.
+function sheetLink(key, text) {
+  const sh = ((state.desk || {}).sheets || []).find(x => x.key === key);
+  return sh ? `<a href="${esc(sh.url)}" target="_blank" rel="noopener">${esc(text || sh.title)}</a>` : "";
+}
 function renderRoad() {
   const host = document.getElementById("road"), I = state.desk && state.desk.summary && state.desk.summary.initiative;
   if (!host) return;
@@ -3444,6 +3450,8 @@ function renderRoad() {
       <div class="sm-card rm-sp"><div class="lbl">Backlog</div><div class="n">${back}</div><div class="lbl">not done, not in an open sprint</div></div></div>
     ${I.sprints.map(sp => { const n = rmOrder(pri.filter(t => t.sprint === sp.name)); return n.length ? `<h2 class="sm-h">${sp.state === "active" ? "Current sprint" : "Next sprint"}: ${esc(sp.name)}</h2>
       <div class="sm-card scroll" style="overflow-x:auto"><table class="rm-tbl"><thead><tr><th>Ticket</th><th>What · epic</th><th>Status</th><th>Priority</th></tr></thead><tbody>${n.map(row).join("")}</tbody></table></div>` : ""; }).join("")}
+    ${(state.desk.sheets || []).length ? `<h2 class="sm-h">Working sheets</h2>
+    <div class="rm-sheets">${state.desk.sheets.map(sh => `<div class="sm-card"><a href="${esc(sh.url)}" target="_blank" rel="noopener"><b>${esc(sh.title)}</b></a><div class="lbl" style="margin-top:4px">${esc(sh.what)}</div></div>`).join("")}</div>` : ""}
     <h2 class="sm-h">By epic</h2>
     <div class="rm-epics">${open.map(epic).join("")}</div>
     ${closed.length ? `<details class="sm-card" style="margin-top:12px"><summary style="cursor:pointer">Completed epics (${closed.length})</summary><div class="rm-epics" style="margin-top:10px">${closed.map(epic).join("")}</div></details>` : ""}`;

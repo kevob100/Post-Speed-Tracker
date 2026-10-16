@@ -67,6 +67,11 @@ sports:
         metrics:
         - {metric: edited_pct, label: Posts edited, main: true}
         - {metric: change_pct, label: Share of draft changed}
+      # Google Sheets the desk works from (Roadmap tab list + links next to the matching section).
+      sheets:
+      - {key: templates, title: NFL X-Post Templates Review, url: 'https://docs.google.com/spreadsheets/d/1c-7A8xCyjzKP0BItHe1SvYkUsLO2zpJfNzLE9v36FMo/edit', what: 'Every NFL post template from the News Admin code: its wording, when it fires and when it falls back to the AI draft. KOB notes wording to change.'}
+      - {key: good_drafts, title: AI Drafts That Were Good to Go, url: 'https://docs.google.com/spreadsheets/d/1eAoVNKWuSOfSTwV5XGn_rfiflqIMSIxZ5qH4S-NgGsg/edit', what: 'Real drafts from 10/14-10/15 that were accurate but got rewritten anyway, next to what went out.'}
+      - {key: accounts, title: 'Post-Speed Tracker: Accounts Not to Add', url: 'https://docs.google.com/spreadsheets/d/1-LaeA5IxKmL7wYWD0Jadsp8CA7F4Fc-qQEG0acEhswI', what: 'Accounts Underdog credits that KOB does not want on the Monitor list. Add a handle and it drops off after the next nightly refresh.'}
       # Hand-labeled sample of what editors change (Details > Editing, Summary spotlight). Rerun
       # ~/Code/rotowire-news/data/edits/classify_edits.py on a fresh sample and update the counts.
       # Buckets run worst to lightest; style + minor are edits the post didn't need.
