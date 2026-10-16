@@ -29,6 +29,8 @@ from .store import load_jsonl, now_iso, parse_dt
 
 JIRA = "https://gdcgroup.atlassian.net"
 BEFORE_DAYS = 14
+HIGHER_BETTER = {"template_written_pct"}
+UNMEASURED_DAYS = 21
 MIN_AFTER_DAYS = 5
 TIE_SECONDS = 60
 TZ = ZoneInfo("America/Chicago")  # the page shows Central time
@@ -106,7 +108,7 @@ def turbo_split(rows: list[dict], stories: list[dict], turbo: dict) -> dict | No
 
 
 def _metric(name: str, a: datetime, b: datetime, rows: list[dict], stories: list[dict],
-            edit_rows: list[dict], turbo: dict, manual_pct) -> dict:
+            edit_rows: list[dict], turbo: dict, manual_pct, templates_daily: dict | None = None) -> dict:
     """One metric over [a, b): its value and how many items it rests on."""
     ina = lambda t: t and a <= parse_dt(t) < b  # noqa: E731
     if name == "arrival_turbo":
@@ -131,6 +133,13 @@ def _metric(name: str, a: datetime, b: datetime, rows: list[dict], stories: list
         else:
             v = 100 * sum((r["mean_distance"] or 0) * r["scored"] for r in g) / sc
         return {"value": round(v, 1), "n": sc, "unit": "%"}
+    if name == "template_written_pct":
+        # Of posts that went out in template wording, how many the template actually wrote.
+        g = [v for d, v in (templates_daily or {}).items() if a.date().isoformat() <= d < b.date().isoformat()]
+        n = sum(v.get("posted_in_template_form") or 0 for v in g)
+        if not n:
+            return {"value": None, "n": 0, "unit": "%"}
+        return {"value": round(100 * sum(v.get("drafted_by_template") or 0 for v in g) / n, 1), "n": n, "unit": "%"}
     if name == "margin":
         xs = [_gap(s) for s in stories if s.get("status") == "matched" and s.get("rotowire") and s.get("underdog")
               and a <= _at(s) < b]
@@ -148,12 +157,31 @@ def changes(cfg_changes: list[dict], now: datetime, **data) -> list[dict]:
         metrics = []
         for m in c["metrics"]:
             before = _metric(m["metric"], live - timedelta(days=BEFORE_DAYS), live, **data)
-            after = _metric(m["metric"], live, now, **data) if days_since >= MIN_AFTER_DAYS else None
+            # An early read shows from day one; too_soon keeps it from being called a result.
+            after = _metric(m["metric"], live, now, **data) if days_since >= 0 else None
             metrics.append({"metric": m["metric"], "label": m["label"], "main": bool(m.get("main")),
+                            "higher_better": m["metric"] in HIGHER_BETTER,
                             "unit": before["unit"], "before": before, "after": after})
         out.append({"key": c["key"], "label": c["label"], "live": c["live"], "days_since": days_since,
                     "too_soon": days_since < MIN_AFTER_DAYS, "metrics": metrics})
     return out
+
+
+def unmeasured(data_dir: Path, cfg_changes: list[dict], skip: list[dict], now: datetime,
+               since: str | None = None) -> list[dict]:
+    """Initiative tickets that shipped (In Review, or Done in the last UNMEASURED_DAYS) with no
+    "Is it working?" card and no not_measured reason. The nightly Jira pull keeps this current,
+    so a new change can't go live without anyone checking whether it worked."""
+    have = {c["key"] for c in cfg_changes or []} | {x["key"] for x in skip or []}
+    cut = max((now - timedelta(days=UNMEASURED_DAYS)).isoformat(), since or "")
+    out = []
+    for i in _initiative_issues(data_dir).get("issues", []):
+        if i["type"] == "Epic" or i["key"] in have:
+            continue
+        if i["status"] == "In Review" or (i["status"] == "Done" and (i.get("resolved") or "") >= cut):
+            out.append({"key": i["key"], "summary": i["summary"], "status": i["status"],
+                        "resolved": i.get("resolved"), "url": f"{JIRA}/browse/{i['key']}"})
+    return sorted(out, key=lambda t: (t["status"] != "In Review", t["key"]))
 
 
 # ---------------------------------------------------------------- tickets
@@ -210,12 +238,16 @@ def roadmap(data_dir: Path, cfg_roadmap: list[dict]) -> dict:
 def build(cfg: dict, data_dir: Path, rows: list[dict], stories: list[dict], manual_pct, now: datetime) -> dict:
     turbo = cfg.get("turbo") or {}
     edit_rows = load_jsonl(data_dir / "x_post_edits.jsonl")
+    tp = data_dir / "edit_templates_daily.json"
+    templates_daily = json.loads(tp.read_text()) if tp.exists() else {}
     m = [s for s in stories if s.get("rotowire")]
     return {
         "margin": margin(m, now),
         "turbo": turbo_split(rows, m, turbo),
         "changes": changes(cfg.get("changes"), now, rows=rows, stories=m, edit_rows=edit_rows,
-                           turbo=turbo, manual_pct=manual_pct),
+                           turbo=turbo, manual_pct=manual_pct, templates_daily=templates_daily),
+        "unmeasured": unmeasured(data_dir, cfg.get("changes"), cfg.get("not_measured"), now,
+                                 cfg.get("measure_since")),
         "roadmap": roadmap(data_dir, cfg.get("roadmap")),
         "initiative": initiative(data_dir, cfg.get("initiative") or {}),
     }

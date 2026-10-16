@@ -550,6 +550,10 @@
   .sm-tk { display: grid; grid-template-columns: auto 1fr; gap: 2px 8px; align-items: baseline; padding: 6px 0; border-top: 1px solid var(--line); font-size: 12px; }
   .sm-tk:first-of-type, .sm-col-h + .sm-tk { border-top: 0; }
   .sm-ba { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px; }
+  .sm-unm { margin-top: 12px; border: 1px dashed var(--line); border-radius: 10px; padding: 12px 18px; font-size: 13px; }
+  .sm-unm .t { font-weight: 600; margin-bottom: 6px; }
+  .sm-unm-r { padding: 2px 0; }
+  .sm-unm .lbl:last-child { margin-top: 6px; }
   @media (max-width: 900px) { .sm-ba { grid-template-columns: minmax(0, 1fr); } }
   .sm-ba h4 { margin: 0 0 2px; font-size: 13px; }
   .sm-m { margin-top: 10px; } .sm-m .t { font-size: 12px; font-weight: 600; } .sm-m .t span { color: var(--muted); font-weight: 400; }
@@ -3275,8 +3279,9 @@ function smBars(m) {
   const bar = (l, v, c) => `<div class="sm-bar"><span class="lbl">${l}</span><span class="trk"><i style="width:${v == null ? 0 : (v / mx) * 100}%;background:${c}"></i></span><b>${f(v)}</b></div>`;
   let chg = "";
   if (a != null && b != null) { const dlt = a - b, n = Math.abs(Math.round(dlt)), txt = pct ? `${n} pt${n === 1 ? "" : "s"}` : dkFmt(Math.abs(dlt));
-    chg = `<div class="sm-chg ${dlt < 0 ? "up" : dlt > 0 ? "worse" : "lbl"}">${dlt < 0 ? "▼" : dlt > 0 ? "▲" : ""} ${txt} <span class="lbl">· after n=${m.after.n}</span></div>`; }
-  return bar("Before", b, "#5b6672") + (m.after ? bar("After", a, "var(--s2)") : "") + chg;
+    const good = m.higher_better ? dlt > 0 : dlt < 0, bad = m.higher_better ? dlt < 0 : dlt > 0;
+    chg = `<div class="sm-chg ${good ? "up" : bad ? "worse" : "lbl"}">${dlt < 0 ? "▼" : dlt > 0 ? "▲" : ""} ${txt} <span class="lbl">· after n=${m.after.n}</span></div>`; }
+  return bar("Before", b, "#5b6672") + (m.after && m.after.n ? bar(m.early ? "So far" : "After", a, "var(--s2)") : "") + chg;
 }
 function renderSummary() {
   const host = document.getElementById("sum"), d = state.desk, S = d && d.summary;
@@ -3331,10 +3336,11 @@ function renderSummary() {
       return ` Across the whole initiative: <b style="color:var(--text)">${p} prioritized</b> in ${I.sprints.map(x => esc(x.name.replace(/^\d{4}\.Q\d\./, ""))).join(" and ")}, ${b} in backlog; <a href="#" id="sm-to-road">see the Roadmap tab</a>.`; })() : ""}</p>
 
     <h2 class="sm-h">Is it working?</h2>
-    <p class="sm-note">Each shipped change on the metric it targets: the 2 weeks before it went live against since. Lower is better on all of these.</p>
+    <p class="sm-note">Each shipped change on the metric it targets: the 2 weeks before it went live against since. Lower is better, except where a template writing more posts is the point. Under 5 days in shows as "So far", an early read rather than a result.</p>
     <div class="sm-ba">${(S.changes || []).map(c => `<div class="sm-card"><h4><a href="https://gdcgroup.atlassian.net/browse/${esc(c.key)}" target="_blank" rel="noopener">${esc(c.key)} ${esc(c.label)}</a></h4>
       <div class="lbl">live ${smDay(c.live)}${c.too_soon ? ` · ${c.days_since} day${c.days_since === 1 ? "" : "s"} in, too soon to call` : ""}</div>
-      ${[...c.metrics].sort((a, b) => b.main - a.main).map(m => `<div class="sm-m"><div class="t">${esc(m.label)}${m.main && c.metrics.length > 1 ? " <span>· main metric</span>" : ""}</div>${smBars(m)}</div>`).join("")}</div>`).join("")}</div>`;
+      ${[...c.metrics].sort((a, b) => b.main - a.main).map(m => `<div class="sm-m"><div class="t">${esc(m.label)}${m.main && c.metrics.length > 1 ? " <span>· main metric</span>" : ""}</div>${smBars({ ...m, early: c.too_soon })}</div>`).join("")}</div>`).join("")}</div>
+    ${(S.unmeasured || []).length ? `<div class="sm-unm"><div class="t">Shipped, no card yet</div>${S.unmeasured.map(t => `<div class="sm-unm-r"><a href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.key)}</a> ${esc(t.summary.replace(/^(Breaking News AI|News Admin|Desk Speed|News Monitor): /, ""))} <span class="lbl">· ${esc(t.status)}</span></div>`).join("")}<div class="lbl">Each one needs a card above (what it should move) or a reason it isn't measured, in config.yaml.</div></div>` : ""}`;
   const smDraw = () => { host.querySelectorAll(".sm-mode button").forEach(b => { b.classList.toggle("on", b.dataset.m === smMode); b.setAttribute("aria-pressed", b.dataset.m === smMode); });
     smChart(document.getElementById("sm-chart"), S); };
   host.querySelectorAll(".sm-mode button").forEach(b => b.onclick = () => { smMode = b.dataset.m; try { localStorage.setItem("sm-mode", smMode); } catch (e) {} smDraw(); });

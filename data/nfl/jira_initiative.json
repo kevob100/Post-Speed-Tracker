@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-16T09:33:48.878135+00:00",
+ "fetched_at": "2026-10-16T17:28:15.357420+00:00",
  "root": "RD-8097",
  "issues": [
   {
@@ -2172,7 +2172,7 @@
    "summary": "Breaking News AI: Templated NFL Practice Report Posts",
    "type": "Story",
    "parent": "RD-8099",
-   "status": "In Progress",
+   "status": "In Review",
    "category": "indeterminate",
    "assignee": "Matthew Kulina",
    "priority": "Highest",
@@ -2244,7 +2244,7 @@
    "summary": "Breaking News AI: NFL Practice Report Watchlist and Auto Updates",
    "type": "Story",
    "parent": "RD-8099",
-   "status": "In Progress",
+   "status": "In Review",
    "category": "indeterminate",
    "assignee": "Matthew Kulina",
    "priority": "Highest",
@@ -2348,7 +2348,7 @@
    "summary": "Breaking News AI: Read NFL Injury Report Images",
    "type": "Story",
    "parent": "RD-8099",
-   "status": "In Refinement",
+   "status": "Ready for Work",
    "category": "new",
    "assignee": "Matthew Kulina",
    "priority": "Highest",
@@ -2548,10 +2548,50 @@
    "summary": "Breaking News AI: Image-Only Sources Get an Invented Player Status",
    "type": "Bug",
    "parent": "RD-8099",
+   "status": "Done",
+   "category": "done",
+   "assignee": "Matthew Kulina",
+   "priority": "Highest",
+   "resolved": "2026-10-16T17:55:55.051+0100",
+   "sprints": [
+    {
+     "id": 21838,
+     "name": "2026.Q4.S21",
+     "state": "future",
+     "start": "2026-10-15T13:00:00.000Z",
+     "end": "2026-10-28T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8175",
+   "summary": "Breaking News AI: Practice Report Templates Fire More Often",
+   "type": "Story",
+   "parent": "RD-8099",
+   "status": "Done",
+   "category": "done",
+   "assignee": "Matthew Kulina",
+   "priority": "Highest",
+   "resolved": "2026-10-16T17:48:05.181+0100",
+   "sprints": [
+    {
+     "id": 21838,
+     "name": "2026.Q4.S21",
+     "state": "future",
+     "start": "2026-10-15T13:00:00.000Z",
+     "end": "2026-10-28T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8176",
+   "summary": "Breaking News AI: Flag Drafts From Sources It Can't Read",
+   "type": "Bug",
+   "parent": "RD-8099",
    "status": "Ready for Work",
    "category": "new",
    "assignee": "Matthew Kulina",
-   "priority": "Highest",
+   "priority": "Low",
    "resolved": null,
    "sprints": [
     {
