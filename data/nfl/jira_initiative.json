@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-16T20:13:14.997002+00:00",
+ "fetched_at": "2026-10-17T09:06:47.063615+00:00",
  "root": "RD-8097",
  "issues": [
   {
@@ -2349,11 +2349,11 @@
    "summary": "News Admin: Slack Ping on Every Post on X",
    "type": "Story",
    "parent": "RD-8100",
-   "status": "In Review",
-   "category": "indeterminate",
+   "status": "Done",
+   "category": "done",
    "assignee": "Matthew Kulina",
    "priority": "Medium",
-   "resolved": null,
+   "resolved": "2026-10-16T21:47:44.325+0100",
    "sprints": [
     {
      "id": 21038,
@@ -2623,10 +2623,50 @@
    "summary": "Breaking News AI: Flag Drafts From Sources It Can't Read",
    "type": "Bug",
    "parent": "RD-8099",
+   "status": "Done",
+   "category": "done",
+   "assignee": "Kevin O'Brien",
+   "priority": "Medium",
+   "resolved": "2026-10-16T23:23:29.268+0100",
+   "sprints": [
+    {
+     "id": 21838,
+     "name": "2026.Q4.S21",
+     "state": "active",
+     "start": "2026-10-15T13:00:00.505Z",
+     "end": "2026-10-28T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8177",
+   "summary": "Breaking News AI: Pick the Injury Status When Adding a Line",
+   "type": "Story",
+   "parent": "RD-8099",
    "status": "Ready for Work",
    "category": "new",
    "assignee": "Matthew Kulina",
-   "priority": "Low",
+   "priority": "High",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21838,
+     "name": "2026.Q4.S21",
+     "state": "active",
+     "start": "2026-10-15T13:00:00.505Z",
+     "end": "2026-10-28T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8178",
+   "summary": "Breaking News AI: No-Designation Wording and Team Website Credits",
+   "type": "Story",
+   "parent": "RD-8099",
+   "status": "Ready for Work",
+   "category": "new",
+   "assignee": "Matthew Kulina",
+   "priority": "Medium",
    "resolved": null,
    "sprints": [
     {
