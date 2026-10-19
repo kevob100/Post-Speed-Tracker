@@ -24,7 +24,7 @@ import json
 from datetime import datetime
 import os
 
-from . import (aggregate, classify, collect, credits, desk_speed, desk_summary, slack_report, develop, games, match, positions, practice,
+from . import (aggregate, classify, collect, credits, desk_speed, desk_summary, news_recap, slack_report, develop, games, match, positions, practice,
                source, sprout, staffing_import, xapi)
 from .config import (
     DOCS_DATA_DIR,
@@ -195,6 +195,13 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
             print(f"[slack]     {slack_report.maybe_post(data_dir, out, cc.get('names') or {}, accounts['underdog']['handle'], sheet)}")
         except Exception as e:  # never fail the run over the credits table
             print(f"[credits]   build skipped: {e}")
+
+    # Daily + Monday news speed recap for #news-project-core.
+    if ds_cfg:
+        try:
+            print(f"[recap]     {news_recap.maybe_post(data_dir, docs_dir, ds_cfg.get('roadmap_auto_epic'))}")
+        except Exception as e:  # never fail the run over the Slack post
+            print(f"[recap]     skipped: {e}")
 
     s = agg["summary"]
     print(

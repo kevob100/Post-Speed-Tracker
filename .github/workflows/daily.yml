@@ -55,7 +55,7 @@ jobs:
           ROTOWIRE_MCP_TOKEN: ${{ secrets.ROTOWIRE_MCP_TOKEN }}   # Desk Speed panel; skipped if unset
           JIRA_EMAIL: ${{ secrets.JIRA_EMAIL }}               # Summary ticket statuses; stored ones kept if unset
           JIRA_API_TOKEN: ${{ secrets.JIRA_API_TOKEN }}
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}         # weekly Underdog-sources post for KOB; skipped if unset
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}         # #news-project-core: KOB sources post + news speed recap; skipped if unset
         # The pipeline is idempotent (since_id state + classification/verdict caches),
         # so retrying is safe and cheap — it absorbs transient X/Anthropic API hiccups
         # (rate limits, 5xx) that would otherwise fail the whole scheduled run.
