@@ -61,7 +61,7 @@ sports:
         label: Breaking News AI
         prioritize_assignee: Matthew Kulina
       # Shipped changes the Summary's "Is it working?" cards measure: the metric(s) each
-      # targets, 14 days before `live` vs since. Metrics: arrival_turbo, arrival, open_to_x,
+      # targets, 14 days before `live` vs since. Metrics: arrival_turbo, arrival, monitor_to_open, open_to_x,
       # edited_pct, change_pct, margin, manual_pct. The first `main: true` leads the card.
       changes:
       - key: RD-8036
@@ -111,6 +111,11 @@ sports:
         metrics:
         - {metric: change_pct, label: Share of draft changed, main: true, note: 'All NFL posts. The flag itself isn''t in the MCP yet, so this can''t isolate the flagged drafts.'}
         - {metric: edited_pct, label: Posts edited, note: 'All NFL posts.'}
+      # No ticket: Kulina made the editor page update live instead of every 10s (10/16, ~3:20pm ET).
+      - label: Live editor page (no 10s refresh)
+        live: '2026-10-16T19:20:00'
+        metrics:
+        - {metric: monitor_to_open, label: 'In Monitor to opened (step 2)', main: true}
       # Shipped tickets with no card on purpose. Anything else under the initiative that is In
       # Review or recently Done shows under the cards as "shipped, no card yet" until it gets
       # a card above or a reason here.
@@ -153,6 +158,8 @@ sports:
         - {key: none, label: Posted as drafted, n: 1, color: '#5b6672', needed: false, detail: ''}
       # The tickets behind each step (Summary: "What we're doing about it"). Status comes
       # from Jira when JIRA_EMAIL / JIRA_API_TOKEN are set, else data/nfl/jira_tickets.json.
+      # Tickets under this epic that aren't in a step below show as "Not placed in a step yet".
+      roadmap_auto_epic: RD-8099
       roadmap:
       - step: s1
         label: Getting tweets in

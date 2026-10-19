@@ -138,6 +138,12 @@ def _metric(name: str, a: datetime, b: datetime, rows: list[dict], stories: list
         xs = [r["arrival_seconds"] for r in rows if not r.get("manual") and r.get("arrival_seconds") is not None
               and ina(r.get("tweet_posted_at"))]
         return {"value": _med(xs), "n": len(xs), "unit": "s"}
+    if name == "monitor_to_open":
+        # Step 2, as on the Summary: draft time plus the wait until an editor opens it.
+        xs = [(r.get("ingest_to_draft_seconds") or 0) + r["draft_to_open_seconds"] for r in rows
+              if not r.get("manual") and r.get("draft_to_open_seconds") is not None
+              and r.get("open_to_x_seconds") is not None and ina(r.get("posted_to_x_at"))]
+        return {"value": _med(xs), "n": len(xs), "unit": "s"}
     if name == "open_to_x":
         xs = [r["open_to_x_seconds"] for r in rows if not r.get("manual") and r.get("open_to_x_seconds") is not None
               and ina(r.get("posted_to_x_at"))]
@@ -181,7 +187,7 @@ def changes(cfg_changes: list[dict], now: datetime, **data) -> list[dict]:
             metrics.append({"metric": m["metric"], "label": m["label"], "main": bool(m.get("main")), "note": m.get("note"),
                             "higher_better": m["metric"] in HIGHER_BETTER,
                             "unit": before["unit"], "before": before, "after": after})
-        out.append({"key": c["key"], "label": c["label"], "live": c["live"], "days_since": days_since,
+        out.append({"key": c.get("key"), "label": c["label"], "live": c["live"], "days_since": days_since,
                     "too_soon": days_since < MIN_AFTER_DAYS, "metrics": metrics})
     return out
 
@@ -191,7 +197,7 @@ def unmeasured(data_dir: Path, cfg_changes: list[dict], skip: list[dict], now: d
     """Initiative tickets that shipped (In Review, or Done in the last UNMEASURED_DAYS) with no
     "Is it working?" card and no not_measured reason. The nightly Jira pull keeps this current,
     so a new change can't go live without anyone checking whether it worked."""
-    have = {c["key"] for c in cfg_changes or []} | {x["key"] for x in skip or []}
+    have = {c.get("key") for c in cfg_changes or []} | {x["key"] for x in skip or []}
     cut = max((now - timedelta(days=UNMEASURED_DAYS)).isoformat(), since or "")
     out = []
     for i in _initiative_issues(data_dir).get("issues", []):
@@ -232,7 +238,8 @@ def _stored(data_dir: Path) -> list[dict]:
     return json.loads(p.read_text()).get("tickets", []) if p.exists() else []
 
 
-def roadmap(data_dir: Path, cfg_roadmap: list[dict]) -> dict:
+def roadmap(data_dir: Path, cfg_roadmap: list[dict], auto_epic: str | None = None,
+            since: str | None = None) -> dict:
     stored = {t["key"]: t for t in _stored(data_dir)}
     fetched = json.loads((data_dir / "jira_tickets.json").read_text()).get("fetched_at") \
         if (data_dir / "jira_tickets.json").exists() else None
@@ -251,6 +258,16 @@ def roadmap(data_dir: Path, cfg_roadmap: list[dict]) -> dict:
         for n in st.get("no_ticket", []):
             items.append({"key": None, "title": n, "status": "No ticket", "category": "none"})
         steps.append({"step": st["step"], "label": st["label"], "items": items})
+    # New tickets under auto_epic that nobody has placed in a step yet: open, or shipped since
+    # measure_since. Shown as "not placed yet" so a new ticket can't go missing from the page.
+    if auto_epic:
+        placed = {t["key"] for st in cfg_roadmap or [] for t in st.get("tickets", [])}
+        loose = [i for i in ini.get("issues", []) if i.get("parent") == auto_epic and i["key"] not in placed
+                 and i["status"] != "Cancelled"
+                 and (i["category"] != "done" or (i.get("resolved") or "") >= (since or ""))]
+        steps.append({"step": "unsorted", "label": "Not placed in a step yet", "items": [
+            {"key": i["key"], "title": i["summary"], "status": i["status"], "category": i["category"],
+             "url": f"{JIRA}/browse/{i['key']}"} for i in sorted(loose, key=lambda i: i["key"])]})
     return {"fetched_at": fetched, "steps": steps}
 
 
@@ -267,7 +284,7 @@ def build(cfg: dict, data_dir: Path, rows: list[dict], stories: list[dict], manu
                            turbo=turbo, manual_pct=manual_pct, templates_daily=templates_daily),
         "unmeasured": unmeasured(data_dir, cfg.get("changes"), cfg.get("not_measured"), now,
                                  cfg.get("measure_since")),
-        "roadmap": roadmap(data_dir, cfg.get("roadmap")),
+        "roadmap": roadmap(data_dir, cfg.get("roadmap"), cfg.get("roadmap_auto_epic"), cfg.get("measure_since")),
         "initiative": initiative(data_dir, cfg.get("initiative") or {}),
     }
 

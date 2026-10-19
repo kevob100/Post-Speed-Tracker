@@ -3270,7 +3270,7 @@ addEventListener("resize", () => { clearTimeout(window._edResize); window._edRes
 // moved their metric. Details holds everything below it for the desk work.
 const SM_STEPS = [["sent_to_monitor", "s1", "Sent to in Monitor"], ["monitor_to_open", "s2", "In Monitor to opened"], ["open_to_x", "s3", "Opened to posted"]];
 const smUD = v => v == null ? "–" : v > 0 ? `UD +${dkFmt(v)}` : v < 0 ? `RW +${dkFmt(-v)}` : "even";
-const smDay = iso => { const [, m, d] = iso.split("-"); return `${+m}/${+d}`; };
+const smDay = iso => { const [, m, d] = iso.slice(0, 10).split("-"); return `${+m}/${+d}`; };
 function smPill(it, short) {
   const cls = { done: "done", indeterminate: "prog", new: "todo", none: "none" }[it.category] || "todo";
   if (!it.key) return `<span class="pill none">${esc(short ? "no ticket" : it.title)}</span>`;
@@ -3400,6 +3400,10 @@ function renderSummary() {
         <div class="sm-delta">${P.manual.from_source.median != null ? `${dkFmt(P.manual.from_source.median)} from source` : ""}${T.hand != null ? ` · to tie: <b style="color:var(--text)">${dkFmt(T.hand)}</b>` : ""}</div></div>
         ${smTix(smRoad(S, "hand").items)}</div>
     </div>
+    ${(() => { const un = smRoad(S, "unsorted").items; if (!un.length) return "";
+      return `<div class="sm-band"><div><div class="lbl">New under Tweet Speed, not placed in a step yet</div>
+        <div class="sm-tgt">Add each to a step in config.yaml (roadmap) so it shows with the step it speeds up</div></div>
+        <div class="pills">${un.map(i => smPill(i)).join("")}</div></div>`; })()}
     ${(() => { const wkr = smRoad(S, "work").items.filter(i => i.key); if (!wkr.length) return "";
       const done = wkr.filter(i => i.category === "done").length;
       return `<div class="sm-band"><div><div class="lbl">Manual work off the desk</div><div class="sm-metric">${done} of ${wkr.length}</div>
@@ -3411,7 +3415,7 @@ function renderSummary() {
 
     <h2 class="sm-h">Is it working?</h2>
     <p class="sm-note">Each shipped change on the metric it targets: the 2 weeks before it went live against since. Lower is better, except where a template writing more posts is the point. Under 5 days in shows as "So far", an early read rather than a result.</p>
-    <div class="sm-ba">${(S.changes || []).map(c => `<div class="sm-card"><h3><a href="https://gdcgroup.atlassian.net/browse/${esc(c.key)}" target="_blank" rel="noopener">${esc(c.key)} ${esc(c.label)}</a></h3>
+    <div class="sm-ba">${(S.changes || []).map(c => `<div class="sm-card"><h3>${c.key ? `<a href="https://gdcgroup.atlassian.net/browse/${esc(c.key)}" target="_blank" rel="noopener">${esc(c.key)} ${esc(c.label)}</a>` : `${esc(c.label)} <span class="lbl">· no ticket</span>`}</h3>
       <div class="lbl">live ${smDay(c.live)}${c.too_soon ? ` · ${c.days_since} day${c.days_since === 1 ? "" : "s"} in, too soon to call` : ""}</div>
       ${[...c.metrics].sort((a, b) => b.main - a.main).map(m => `<div class="sm-m"><div class="t">${esc(m.label)}${m.main && c.metrics.length > 1 ? " <span>· main metric</span>" : ""}</div>${m.note ? `<div class="lbl sm-m-note">${esc(m.note)}</div>` : ""}${smBars({ ...m, early: c.too_soon })}</div>`).join("")}</div>`).join("")}</div>
     ${(S.unmeasured || []).length ? `<div class="sm-unm"><div class="t">Shipped, no card yet</div>${S.unmeasured.map(t => `<div class="sm-unm-r"><a href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.key)}</a> ${esc(t.summary.replace(/^(Breaking News AI|News Admin|Desk Speed|News Monitor): /, ""))} <span class="lbl">· ${esc(t.status)}</span></div>`).join("")}<div class="lbl">Each of these needs a card above saying what it should move, or a note on why it isn't measured.</div></div>` : ""}`;
