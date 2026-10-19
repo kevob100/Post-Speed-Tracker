@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T20:28:49.555971+00:00",
+  "generated_at": "2026-10-19T20:53:23.043283+00:00",
   "window": {
     "from": "2026-09-19",
     "to": "2026-10-19",
@@ -8,9 +8,9 @@
   "opens_tracked_since": "2026-10-13",
   "paths": {
     "all": {
-      "posts": 1109,
+      "posts": 1110,
       "race": {
-        "n": 845,
+        "n": 846,
         "median_gap": 104,
         "underdog_first_pct": 87.8,
         "gaps": [
@@ -411,6 +411,7 @@
           93,
           95,
           95,
+          96,
           96,
           96,
           96,
@@ -868,8 +869,8 @@
         }
       },
       "from_source": {
-        "median": 167,
-        "n": 771
+        "median": 166,
+        "n": 772
       }
     },
     "monitor": {
@@ -1344,9 +1345,9 @@
       }
     },
     "manual": {
-      "posts": 429,
+      "posts": 430,
       "race": {
-        "n": 326,
+        "n": 327,
         "median_gap": 99,
         "underdog_first_pct": 88.7,
         "gaps": [
@@ -1509,6 +1510,7 @@
           93,
           93,
           95,
+          96,
           96,
           98,
           98,
@@ -1686,11 +1688,11 @@
       },
       "from_source": {
         "median": 151,
-        "n": 270
+        "n": 271
       },
       "add_line_to_x": {
-        "median": 57,
-        "n": 75
+        "median": 54,
+        "n": 76
       }
     },
     "other": {
@@ -1799,7 +1801,7 @@
       }
     },
     "manual_pct": 38.7,
-    "other_pct": 11.5
+    "other_pct": 11.4
   },
   "manual_weekly": [
     {
@@ -1834,9 +1836,9 @@
     },
     {
       "week": "2026-10-19",
-      "posts": 16,
-      "manual": 4,
-      "pct": 25.0
+      "posts": 17,
+      "manual": 5,
+      "pct": 29.4
     }
   ],
   "edits": {
@@ -2227,9 +2229,9 @@
       },
       {
         "day": "2026-10-19",
-        "posts": 15,
-        "scored": 15,
-        "edited_pct": 93.3,
+        "posts": 16,
+        "scored": 16,
+        "edited_pct": 93.8,
         "change_pct": 48.9,
         "stored_pct": 100.0,
         "open_to_x": {
@@ -2353,14 +2355,23 @@
         "version": "generate_v29_2026_10_16",
         "first_day": "2026-10-16",
         "last_day": "2026-10-19",
-        "posts": 85,
-        "scored": 85,
-        "edited_pct": 85.9,
-        "change_pct": 42.4,
+        "posts": 86,
+        "scored": 86,
+        "edited_pct": 86.0,
+        "change_pct": 42.5,
         "stored_pct": 100.0
       }
     ],
     "examples": [
+      {
+        "posted_at": "2026-10-19T20:32:07Z",
+        "generate_prompt_version": "generate_v29_2026_10_16",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.4865,
+        "draft": "Jordan Mason (thumb) will have his practice window opened Monday.\n\nVia @Vikings",
+        "posted": "Jordan Mason (thumb) was designated to return from injured reserve Monday.\n\nVia @Vikings"
+      },
       {
         "posted_at": "2026-10-19T20:19:07Z",
         "generate_prompt_version": "generate_v29_2026_10_16",
@@ -2891,23 +2902,14 @@
         "distance": 0.7544,
         "draft": "Couldn't read the source (likely an image or video with no player details). Please write this one from the source.\n\nVia @Commanders",
         "posted": "Jacory Croskey-Merritt (groin) remained a non-participant on Friday's injury report.\n\nVia @Commanders"
-      },
-      {
-        "posted_at": "2026-10-16T21:02:42Z",
-        "generate_prompt_version": "generate_v28_2026_10_16",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.3371,
-        "draft": "DJ Moore (shoulder) will be listed as questionable on the Bills' final injury report.\n\nVia @JaySkurski",
-        "posted": "DJ Moore (shoulder) will be listed as questionable for Sunday's game against the Raiders.\n\nVia @JaySkurski"
       }
     ],
     "last30": {
-      "posts": 1034,
-      "scored": 1034,
+      "posts": 1035,
+      "scored": 1035,
       "edited_pct": 97.2,
       "change_pct": 51.9,
-      "stored_pct": 19.3
+      "stored_pct": 19.4
     },
     "by_path": {
       "monitor": {
@@ -2918,11 +2920,11 @@
         "stored_pct": 19.8
       },
       "manual": {
-        "posts": 453,
-        "scored": 453,
+        "posts": 454,
+        "scored": 454,
         "edited_pct": 97.8,
         "change_pct": 53.0,
-        "stored_pct": 18.8
+        "stored_pct": 18.9
       }
     },
     "stored_since": "2026-10-14",
@@ -2964,7 +2966,7 @@
       },
       {
         "day": "2026-10-19",
-        "sampled": 15,
+        "sampled": 16,
         "drafted_by_template": 7,
         "posted_in_template_form": 3,
         "untouched": 1
@@ -4045,11 +4047,11 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 137,
+          "posts": 138,
           "race": {
-            "n": 98,
-            "median_gap": 127,
-            "underdog_first_pct": 87.8,
+            "n": 99,
+            "median_gap": 122,
+            "underdog_first_pct": 87.9,
             "gaps": [
               -4694,
               -4452,
@@ -4091,6 +4093,7 @@
               91,
               91,
               92,
+              96,
               96,
               103,
               105,
@@ -4150,7 +4153,7 @@
               12610,
               19034
             ],
-            "underdog_before_source_pct": 15.8,
+            "underdog_before_source_pct": 15.6,
             "before_source": {
               "n": 15,
               "monitor_had_earlier": 4,
@@ -4158,8 +4161,8 @@
             }
           },
           "from_source": {
-            "median": 212,
-            "n": 98
+            "median": 210,
+            "n": 99
           }
         },
         "monitor": {
@@ -4267,11 +4270,11 @@
           }
         },
         "manual": {
-          "posts": 47,
+          "posts": 48,
           "race": {
-            "n": 34,
-            "median_gap": 144,
-            "underdog_first_pct": 85.3,
+            "n": 35,
+            "median_gap": 141,
+            "underdog_first_pct": 85.7,
             "gaps": [
               -324,
               -80,
@@ -4287,6 +4290,7 @@
               84,
               89,
               91,
+              96,
               132,
               135,
               141,
@@ -4308,7 +4312,7 @@
               2953,
               12610
             ],
-            "underdog_before_source_pct": 11.8,
+            "underdog_before_source_pct": 11.4,
             "before_source": {
               "n": 4,
               "monitor_had_earlier": 0,
@@ -4316,12 +4320,12 @@
             }
           },
           "from_source": {
-            "median": 204,
-            "n": 34
+            "median": 198,
+            "n": 35
           },
           "add_line_to_x": {
             "median": 72,
-            "n": 4
+            "n": 5
           }
         },
         "other": {
@@ -4341,8 +4345,8 @@
             "n": 3
           }
         },
-        "manual_pct": 34.3,
-        "other_pct": 4.4
+        "manual_pct": 34.8,
+        "other_pct": 4.3
       }
     },
     {
@@ -14287,6 +14291,14 @@
       "post": 12,
       "total": 146,
       "edited": "yes"
+    },
+    "2112280657577550331": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 18,
+      "edited": "yes"
     }
   },
   "sheets": [
@@ -14341,12 +14353,12 @@
   "summary": {
     "margin": {
       "last30": {
-        "n": 848,
+        "n": 849,
         "median": 104,
         "rw_first_pct": 8.0,
         "tie_pct": 24.6,
-        "ud_first_pct": 67.3,
-        "ud_mid_pct": 50.1,
+        "ud_first_pct": 67.4,
+        "ud_mid_pct": 50.2,
         "ud_blowout_pct": 17.2
       },
       "prior30": {
@@ -14991,10 +15003,10 @@
         ],
         [
           "2026-10-19",
-          84,
+          85,
           104,
-          176,
-          12
+          155,
+          13
         ]
       ]
     },
@@ -15046,8 +15058,8 @@
           "n": 236
         },
         "margin": {
-          "median": 99,
-          "n": 266
+          "median": 98,
+          "n": 267
         }
       },
       "off": {
@@ -15127,8 +15139,8 @@
               "unit": "s"
             },
             "after": {
-              "value": 176,
-              "n": 12,
+              "value": 155,
+              "n": 13,
               "unit": "s"
             }
           }
@@ -15456,7 +15468,7 @@
       }
     ],
     "roadmap": {
-      "fetched_at": "2026-10-19T20:28:49.296782+00:00",
+      "fetched_at": "2026-10-19T20:53:22.743516+00:00",
       "steps": [
         {
           "step": "s1",
@@ -15692,7 +15704,7 @@
     "initiative": {
       "root": "RD-8097",
       "label": "Breaking News AI",
-      "fetched_at": "2026-10-19T20:28:49.296782+00:00",
+      "fetched_at": "2026-10-19T20:53:22.743516+00:00",
       "url": "https://gdcgroup.atlassian.net/browse/RD-8097",
       "assignee": "Matthew Kulina",
       "sprints": [
