@@ -4,7 +4,7 @@ Three things, all from data the pipeline already holds:
 
 - margin: the typical per-story gap to Underdog over the last 30 days against the 30 days
   before, plus rolling 7- and 30-day medians for the chart.
-- turbo: News Admin scans NFL sources every 10s instead of 30s in fixed ET windows (its
+- turbo: News Admin scans NFL sources every 5s (10s before 10/15) instead of 30s in fixed ET windows (its
   config/scraper.php -> nfl_scan_schedule, mirrored in config.yaml). Step 1 and the margin
   are split by whether a tweet landed inside a window, since turbo went live.
 - changes: each shipped change in config.yaml, with the metric(s) it targets measured over

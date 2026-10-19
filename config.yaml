@@ -28,10 +28,11 @@ sports:
       # NFL turbo scan (News Admin RD-8036): sources scanned every `seconds` inside these
       # ET windows instead of every `normal_seconds`. Mirror of News Admin's
       # config/scraper.php -> nfl_scan_schedule; keep the two in sync. day: 0 = Sunday.
+      # Turbo cadence: 20s from 10/5, 10s from 10/9 (#564), 5s from 10/15 4:18pm ET.
       turbo:
         since: '2026-10-05'
         timezone: America/New_York
-        seconds: 10
+        seconds: 5
         normal_seconds: 30
         windows:
         - {day: 0, start: '06:00', end: '08:00'}
@@ -84,6 +85,12 @@ sports:
         live: '2026-10-16'
         metrics:
         - {metric: template_written_pct, label: 'Template-worded posts the template wrote', main: true}
+        - {metric: edited_pct, label: Posts edited, note: 'All NFL posts.'}
+      - key: RD-8176
+        label: Flag drafts from sources it can't read
+        live: '2026-10-17'
+        metrics:
+        - {metric: change_pct, label: Share of draft changed, main: true, note: 'All NFL posts. The flag itself isn''t in the MCP yet, so this can''t isolate the flagged drafts.'}
         - {metric: edited_pct, label: Posts edited, note: 'All NFL posts.'}
       # Shipped tickets with no card on purpose. Anything else under the initiative that is In
       # Review or recently Done shows under the cards as "shipped, no card yet" until it gets
@@ -152,10 +159,13 @@ sports:
         - {key: RD-8171, title: Stop inventing a status from image-only sources}
         - {key: RD-8114, title: Read NFL injury report images}
         - {key: RD-8175, title: Practice report templates fire more often}
+        - {key: RD-8176, title: Flag drafts from sources it can't read}
+        - {key: RD-8178, title: No-designation wording and team website credits}
       - step: hand
         label: Added by hand
         tickets:
         - {key: RD-8163, title: Add Line posts in the speed data}
+        - {key: RD-8177, title: Pick the injury status when adding a line}
       # Not one of the three steps: work taken off the desk so editors spend their time on
       # posting. `replaces` is the manual job each one removes.
       - step: work
