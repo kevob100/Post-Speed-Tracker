@@ -4,7 +4,7 @@ Daily (every day, first run after midnight ET): yesterday's share of shared stor
 first and the typical gap to Underdog, each next to the last 7 days. Some days move a lot, so
 the single day and the rolling week sit side by side.
 
-Weekly (Mondays, after the daily): the Mon-Sun week that just ended against the week before:
+Weekly (Mondays, mid-morning from src.monday_posts, so it lands apart from the daily): the Mon-Sun week that just ended against the week before:
 share first, typical gap, ties, how many AI drafts editors changed, the three step times, and
 the Highest-priority Tweet Speed tickets in the current sprint.
 
@@ -145,7 +145,7 @@ def _send(hook: str, text: str) -> None:
 
 
 def maybe_post(data_dir: Path, docs_dir: Path, epic: str | None, now: datetime | None = None,
-               force: bool = False) -> str:
+               force: bool = False, daily: bool = True, weekly: bool = True) -> str:
     hook = os.environ.get("NEWS_SLACK_WEBHOOK_URL") or os.environ.get("SLACK_WEBHOOK_URL")
     if not hook:
         return "no SLACK_WEBHOOK_URL, skipped"
@@ -157,12 +157,12 @@ def maybe_post(data_dir: Path, docs_dir: Path, epic: str | None, now: datetime |
     stories = json.loads((docs_dir / "stories.json").read_text())
     stories = stories.get("stories", stories) if isinstance(stories, dict) else stories
     done = []
-    if force or state.get("daily") != yesterday.date().isoformat():
+    if daily and (force or state.get("daily") != yesterday.date().isoformat()):
         _send(hook, daily_message(stories, yesterday))
         state["daily"] = yesterday.date().isoformat()
         done.append("daily")
     week_start = today - timedelta(days=7)
-    if today.weekday() == 0 and (force or state.get("weekly") != week_start.date().isoformat()):
+    if weekly and today.weekday() == 0 and (force or state.get("weekly") != week_start.date().isoformat()):
         rows = [r for r in load_jsonl(data_dir / "desk_timeline.jsonl") if r.get("posted_to_x_at")]
         dsj = json.loads((docs_dir / "desk_speed.json").read_text()) if (docs_dir / "desk_speed.json").exists() else {}
         _send(hook, weekly_message(data_dir, stories, rows, (dsj.get("edits") or {}).get("daily") or [],

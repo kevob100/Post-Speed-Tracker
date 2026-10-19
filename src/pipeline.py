@@ -24,7 +24,7 @@ import json
 from datetime import datetime
 import os
 
-from . import (aggregate, classify, collect, credits, desk_speed, desk_summary, news_recap, slack_report, develop, games, match, positions, practice,
+from . import (aggregate, classify, collect, credits, desk_speed, desk_summary, news_recap, develop, games, match, positions, practice,
                source, sprout, staffing_import, xapi)
 from .config import (
     DOCS_DATA_DIR,
@@ -191,15 +191,14 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
             out = credits.build(data_dir, docs_dir, json.loads((docs_dir / "stories.json").read_text()),
                                 cc.get("names") or {}, accounts["underdog"]["handle"])
             print(f"[credits]   {len(out['accounts'])} credited accounts, {out['missing']} not on our list")
-            sheet = f"https://docs.google.com/spreadsheets/d/{cc['dismiss_sheet']}/edit" if cc.get("dismiss_sheet") else None
-            print(f"[slack]     {slack_report.maybe_post(data_dir, out, cc.get('names') or {}, accounts['underdog']['handle'], sheet)}")
         except Exception as e:  # never fail the run over the credits table
             print(f"[credits]   build skipped: {e}")
 
-    # Daily + Monday news speed recap for #news-project-core.
+    # Daily news speed recap for #news-project-core. The Monday weekly and KOB's sources post
+    # go out later that morning from src.monday_posts (monday-posts.yml), spaced apart.
     if ds_cfg:
         try:
-            print(f"[recap]     {news_recap.maybe_post(data_dir, docs_dir, ds_cfg.get('roadmap_auto_epic'))}")
+            print(f"[recap]     {news_recap.maybe_post(data_dir, docs_dir, ds_cfg.get('roadmap_auto_epic'), weekly=False)}")
         except Exception as e:  # never fail the run over the Slack post
             print(f"[recap]     skipped: {e}")
 

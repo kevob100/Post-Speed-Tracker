@@ -1,0 +1,70 @@
+name: monday-posts
+
+# Monday Slack posts to #news-project-core, spaced apart from the daily recap the overnight
+# daily-pipeline run sends: the news speed weekly mid-morning, KOB's Underdog sources post
+# later. Each has a second slot an hour on, in case the overnight run finished late (the post
+# skips until it has). Cron is UTC: 13:30 = 9:30am EDT / 8:30am EST.
+
+on:
+  schedule:
+    - cron: "30 13 * * 1"   # weekly
+    - cron: "30 14 * * 1"   # weekly, retry
+    - cron: "0 15 * * 1"    # kob
+    - cron: "0 16 * * 1"    # kob, retry
+  workflow_dispatch:
+    inputs:
+      post:
+        description: weekly or kob
+        required: true
+        default: weekly
+
+permissions:
+  contents: write            # commit the "already posted" record back
+
+concurrency:
+  group: daily-pipeline      # never overlap the overnight run's commit
+  cancel-in-progress: false
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.11"
+          cache: pip
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Post
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          SCHEDULE: ${{ github.event.schedule }}
+          INPUT: ${{ github.event.inputs.post }}
+        run: |
+          case "$SCHEDULE" in
+            "30 13 * * 1"|"30 14 * * 1") kind=weekly ;;
+            "0 15 * * 1"|"0 16 * * 1") kind=kob ;;
+            *) kind="$INPUT" ;;
+          esac
+          python -m src.monday_posts "$kind"
+
+      - name: Commit the posted record
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/nfl/news_recap_state.json data/nfl/slack_report_state.json
+          if git diff --cached --quiet; then
+            echo "Nothing posted, nothing to commit."
+            exit 0
+          fi
+          git commit -m "chore: record Monday Slack post [skip ci]"
+          for attempt in 1 2 3 4 5; do
+            git push && break
+            [ "$attempt" -eq 5 ] && { echo "::error::push failed"; exit 1; }
+            git fetch origin main && git rebase -X theirs origin/main || { git rebase --abort; exit 1; }
+          done
