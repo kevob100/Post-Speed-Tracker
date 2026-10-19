@@ -86,11 +86,26 @@ def margin(stories: list[dict], now: datetime) -> dict:
 
 def in_windows(t: str, turbo: dict) -> bool:
     tz = ZoneInfo(turbo.get("timezone", "America/New_York"))
-    d = parse_dt(t).astimezone(tz)
+    dt = parse_dt(t)
+    d = dt.astimezone(tz)
     hm = d.strftime("%H:%M")
     # config days follow Carbon / JS: 0 = Sunday
     dow = (d.weekday() + 1) % 7
-    return any(int(w["day"]) == dow and w["start"] <= hm < w["end"] for w in turbo.get("windows", []))
+    # The schedule in force at t: an earlier one from `previous` if t falls before its `until`.
+    windows = turbo.get("windows", [])
+    for p in sorted(turbo.get("previous") or [], key=lambda p: p["until"]):
+        if dt < parse_dt(p["until"]):
+            windows = p["windows"]
+            break
+
+    def hit(w: dict) -> bool:
+        day = int(w["day"])
+        if w["start"] < w["end"]:
+            return dow == day and w["start"] <= hm < w["end"]
+        # Ends past midnight (08:00-01:00): the start day's evening, then the next morning.
+        return (dow == day and hm >= w["start"]) or (dow == (day + 1) % 7 and hm < w["end"])
+
+    return any(hit(w) for w in windows)
 
 
 def turbo_split(rows: list[dict], stories: list[dict], turbo: dict) -> dict | None:

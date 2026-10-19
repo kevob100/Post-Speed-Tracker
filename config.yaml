@@ -29,17 +29,30 @@ sports:
       # ET windows instead of every `normal_seconds`. Mirror of News Admin's
       # config/scraper.php -> nfl_scan_schedule; keep the two in sync. day: 0 = Sunday.
       # Turbo cadence: 20s from 10/5, 10s from 10/9 (#564), 5s from 10/15 4:18pm ET.
+      # All day except overnight from 10/19 (RD-8180, #782): an end before its start runs
+      # past midnight into the next day. `previous` keeps older schedules so past posts
+      # are still judged by the windows in force when they were posted.
       turbo:
         since: '2026-10-05'
         timezone: America/New_York
         seconds: 5
         normal_seconds: 30
         windows:
-        - {day: 0, start: '06:00', end: '08:00'}
-        - {day: 0, start: '11:00', end: '18:00'}
-        - {day: 3, start: '12:00', end: '18:00'}
-        - {day: 4, start: '12:00', end: '19:00'}
-        - {day: 5, start: '12:00', end: '17:00'}
+        - {day: 0, start: '06:00', end: '01:00'}
+        - {day: 1, start: '08:00', end: '01:00'}
+        - {day: 2, start: '08:00', end: '01:00'}
+        - {day: 3, start: '08:00', end: '01:00'}
+        - {day: 4, start: '08:00', end: '01:00'}
+        - {day: 5, start: '08:00', end: '01:00'}
+        - {day: 6, start: '08:00', end: '01:00'}
+        previous:
+        - until: '2026-10-19T18:00:00Z'
+          windows:
+          - {day: 0, start: '06:00', end: '08:00'}
+          - {day: 0, start: '11:00', end: '18:00'}
+          - {day: 3, start: '12:00', end: '18:00'}
+          - {day: 4, start: '12:00', end: '19:00'}
+          - {day: 5, start: '12:00', end: '17:00'}
       # The Jira initiative this work rolls up to (Roadmap tab), pulled nightly: its epics
       # and every ticket under them. Prioritized = assigned to prioritize_assignee and in
       # an open sprint (active or next); everything else not done is backlog.

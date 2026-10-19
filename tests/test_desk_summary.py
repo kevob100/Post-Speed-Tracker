@@ -53,6 +53,19 @@ def test_turbo_windows_use_sunday_zero():
     assert not dsum.in_windows("2026-10-12T16:00:00Z", turbo)   # Mon 12pm ET
 
 
+def test_turbo_windows_past_midnight_and_previous_schedule():
+    turbo = {"timezone": "America/New_York",
+             "windows": [{"day": 1, "start": "08:00", "end": "01:00"}],
+             "previous": [{"until": "2026-10-19T18:00:00Z",
+                           "windows": [{"day": 3, "start": "12:00", "end": "18:00"}]}]}
+    assert dsum.in_windows("2026-10-27T03:30:00Z", turbo)       # Mon 11:30pm ET
+    assert dsum.in_windows("2026-10-27T04:30:00Z", turbo)       # Tue 12:30am ET, carried over
+    assert not dsum.in_windows("2026-10-27T05:30:00Z", turbo)   # Tue 1:30am ET
+    assert not dsum.in_windows("2026-10-27T10:00:00Z", turbo)   # Tue 6am ET
+    assert not dsum.in_windows("2026-10-12T16:00:00Z", turbo)   # Mon 12pm ET, old schedule
+    assert dsum.in_windows("2026-10-14T17:00:00Z", turbo)       # Wed 1pm ET, old schedule
+
+
 def test_margin_rows_carry_each_days_own_median_and_count():
     from datetime import datetime, timezone
 
