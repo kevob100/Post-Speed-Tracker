@@ -69,6 +69,12 @@ sports:
         live: '2026-10-05'
         metrics:
         - {metric: arrival_turbo, label: 'Sent to in Monitor, turbo windows', main: true}
+      - key: RD-8180
+        label: Turbo all day
+        live: '2026-10-19'
+        metrics:
+        - {metric: arrival, label: 'Sent to in Monitor, all day', main: true}
+        - {metric: margin, label: Gap behind Underdog}
       - key: RD-8090
         label: Practice report templates
         live: '2026-10-09'
@@ -152,6 +158,7 @@ sports:
         label: Getting tweets in
         tickets:
         - {key: RD-8036, title: Turbo scan mode for peak windows}
+        - {key: RD-8180, title: Turbo all day except overnight}
       - step: s2
         label: Finding them in the Monitor
         tickets:
