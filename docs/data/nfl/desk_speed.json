@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-19T10:36:44.377632+00:00",
+  "generated_at": "2026-10-19T15:17:49.213612+00:00",
   "window": {
     "from": "2026-09-19",
     "to": "2026-10-19",
@@ -8,9 +8,9 @@
   "opens_tracked_since": "2026-10-13",
   "paths": {
     "all": {
-      "posts": 1101,
+      "posts": 1103,
       "race": {
-        "n": 838,
+        "n": 841,
         "median_gap": 103,
         "underdog_first_pct": 87.6,
         "gaps": [
@@ -217,6 +217,7 @@
           39,
           40,
           40,
+          41,
           41,
           41,
           41,
@@ -620,6 +621,7 @@
           193,
           195,
           196,
+          196,
           197,
           198,
           199,
@@ -753,6 +755,7 @@
           423,
           425,
           428,
+          434,
           436,
           436,
           437,
@@ -862,13 +865,13 @@
       },
       "from_source": {
         "median": 166,
-        "n": 764
+        "n": 767
       }
     },
     "monitor": {
-      "posts": 543,
+      "posts": 545,
       "race": {
-        "n": 420,
+        "n": 422,
         "median_gap": 101,
         "underdog_first_pct": 87.4,
         "gaps": [
@@ -982,6 +985,7 @@
           38,
           39,
           40,
+          41,
           41,
           41,
           42,
@@ -1177,6 +1181,7 @@
           192,
           193,
           195,
+          196,
           197,
           198,
           200,
@@ -1293,7 +1298,7 @@
           9219,
           19034
         ],
-        "underdog_before_source_pct": 17.4,
+        "underdog_before_source_pct": 17.3,
         "before_source": {
           "n": 73,
           "monitor_had_earlier": 22,
@@ -1302,36 +1307,36 @@
       },
       "from_source": {
         "median": 176,
-        "n": 420
+        "n": 422
       },
       "steps": {
         "sent_to_monitor": {
           "median": 26,
-          "n": 571
+          "n": 573
         },
         "monitor_to_open": {
           "median": 55,
-          "n": 125
+          "n": 127
         },
         "open_to_x": {
           "median": 28,
-          "n": 125
+          "n": 127
         },
         "monitor_to_x": {
           "median": 143,
-          "n": 571
+          "n": 573
         },
         "split": true,
         "edited": {
           "pct": 96.7,
-          "n": 571
+          "n": 573
         }
       }
     },
     "manual": {
-      "posts": 429,
+      "posts": 430,
       "race": {
-        "n": 327,
+        "n": 328,
         "median_gap": 98,
         "underdog_first_pct": 88.4,
         "gaps": [
@@ -1621,6 +1626,7 @@
           417,
           423,
           428,
+          434,
           436,
           460,
           465,
@@ -1671,16 +1677,16 @@
         }
       },
       "from_source": {
-        "median": 149,
-        "n": 271
+        "median": 150,
+        "n": 272
       },
       "add_line_to_x": {
-        "median": 52,
-        "n": 71
+        "median": 54,
+        "n": 72
       }
     },
     "other": {
-      "posts": 129,
+      "posts": 128,
       "race": {
         "n": 91,
         "median_gap": 123,
@@ -1785,7 +1791,7 @@
       }
     },
     "manual_pct": 39.0,
-    "other_pct": 11.7
+    "other_pct": 11.6
   },
   "manual_weekly": [
     {
@@ -1820,9 +1826,9 @@
     },
     {
       "week": "2026-10-19",
-      "posts": 1,
-      "manual": 0,
-      "pct": 0.0
+      "posts": 4,
+      "manual": 1,
+      "pct": 25.0
     }
   ],
   "edits": {
@@ -2210,6 +2216,18 @@
           "median": 17,
           "n": 27
         }
+      },
+      {
+        "day": "2026-10-19",
+        "posts": 3,
+        "scored": 3,
+        "edited_pct": 100.0,
+        "change_pct": 51.6,
+        "stored_pct": 100.0,
+        "open_to_x": {
+          "median": 34,
+          "n": 2
+        }
       }
     ],
     "versions": [
@@ -2326,15 +2344,42 @@
       {
         "version": "generate_v29_2026_10_16",
         "first_day": "2026-10-16",
-        "last_day": "2026-10-18",
-        "posts": 70,
-        "scored": 70,
-        "edited_pct": 84.3,
-        "change_pct": 41.1,
+        "last_day": "2026-10-19",
+        "posts": 73,
+        "scored": 73,
+        "edited_pct": 84.9,
+        "change_pct": 41.5,
         "stored_pct": 100.0
       }
     ],
     "examples": [
+      {
+        "posted_at": "2026-10-19T14:30:43Z",
+        "generate_prompt_version": "generate_v29_2026_10_16",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.6174,
+        "draft": "Caleb Douglas (ankle), per head coach Jeff Hafley, is returning to practice and will be limited at Monday's drills.\n\nVia @DavidFurones_",
+        "posted": "Caleb Douglas (ankle) will return to practice Monday as a limited participant, per head coach Jeff Hafley.\n\nVia @DavidFurones_"
+      },
+      {
+        "posted_at": "2026-10-19T14:15:39Z",
+        "generate_prompt_version": "generate_v29_2026_10_16",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.4255,
+        "draft": "Jalen Hurts (blood clots), per Tom Pelissero, is expected to be sidelined for multiple months after new imaging over the weekend found several blood clots in his lungs.\n\nVia @TomPelissero",
+        "posted": "Jalen Hurts (calf) is expected to be sidelined for multiple months and will likely miss the rest of the season after new imaging over the weekend detected several blood clots in his lungs.\n\nVia @TomPelissero"
+      },
+      {
+        "posted_at": "2026-10-19T12:26:35Z",
+        "generate_prompt_version": "generate_v29_2026_10_16",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.5047,
+        "draft": "Jordyn Tyson (hamstring), per head coach Kellen Moore, made the trip to Paris with the Saints.\n\nVia @nofnetwork",
+        "posted": "Jordyn Tyson (hamstring) traveled to Paris with the Saints for the team’s Week 7 matchup with the Steelers.\n\nVia @nofnetwork"
+      },
       {
         "posted_at": "2026-10-18T22:33:59Z",
         "generate_prompt_version": "generate_v29_2026_10_16",
@@ -2847,56 +2892,29 @@
         "distance": 0.6594,
         "draft": "Rico Dowdle (toe) is listed as questionable for Sunday's game against the Buccaneers after he was a full participant in Friday's practice.\n\nVia",
         "posted": "Rico Dowdle (toe) practiced fully Friday but is listed as questionable for Sunday's matchup with the Buccaneers.\n\nVia @steelers"
-      },
-      {
-        "posted_at": "2026-10-16T19:15:49Z",
-        "generate_prompt_version": "generate_v28_2026_10_16",
-        "manual": true,
-        "baseline_source": "stored",
-        "distance": 0.2109,
-        "draft": "DK Metcalf (illness) was added to Friday's injury report and is listed as questionable for Sunday's game against the Buccaneers.\n\nVia",
-        "posted": "DK Metcalf (illness) did not practice Friday and is listed as questionable for Sunday's game against the Buccaneers.\n\nVia @steelers"
-      },
-      {
-        "posted_at": "2026-10-16T19:13:47Z",
-        "generate_prompt_version": "generate_v28_2026_10_16",
-        "manual": true,
-        "baseline_source": "stored",
-        "distance": 0.3265,
-        "draft": "Quentin Johnston (chest) is off the injury report for Sunday's game against the Chiefs.\n\nVia @bynoahfurtado",
-        "posted": "Quentin Johnston (chest) does not have an injury designation for Sunday's matchup with the Chiefs.\n\nVia @bynoahfurtado"
-      },
-      {
-        "posted_at": "2026-10-16T19:12:32Z",
-        "generate_prompt_version": "generate_v28_2026_10_16",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.2234,
-        "draft": "Ladd McConkey (foot) is off the injury report for Sunday's game against the Chiefs.\n\nVia @bynoahfurtado",
-        "posted": "Ladd McConkey (foot) does not have an injury designation for Sunday's game against the Chiefs.\n\nVia @bynoahfurtado"
       }
     ],
     "last30": {
-      "posts": 1019,
-      "scored": 1019,
+      "posts": 1022,
+      "scored": 1022,
       "edited_pct": 97.3,
       "change_pct": 52.0,
-      "stored_pct": 18.2
+      "stored_pct": 18.4
     },
     "by_path": {
       "monitor": {
-        "posts": 570,
-        "scored": 570,
+        "posts": 572,
+        "scored": 572,
         "edited_pct": 96.7,
         "change_pct": 51.1,
-        "stored_pct": 18.2
+        "stored_pct": 18.5
       },
       "manual": {
-        "posts": 449,
-        "scored": 449,
+        "posts": 450,
+        "scored": 450,
         "edited_pct": 98.0,
         "change_pct": 53.1,
-        "stored_pct": 18.0
+        "stored_pct": 18.2
       }
     },
     "stored_since": "2026-10-14",
@@ -2935,6 +2953,13 @@
         "drafted_by_template": 9,
         "posted_in_template_form": 10,
         "untouched": 4
+      },
+      {
+        "day": "2026-10-19",
+        "sampled": 3,
+        "drafted_by_template": 3,
+        "posted_in_template_form": 0,
+        "untouched": 0
       }
     ],
     "breakdown": {
@@ -4012,11 +4037,11 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 122,
+          "posts": 125,
           "race": {
-            "n": 86,
+            "n": 89,
             "median_gap": 122,
-            "underdog_first_pct": 86.0,
+            "underdog_first_pct": 86.5,
             "gaps": [
               -4694,
               -4452,
@@ -4037,6 +4062,7 @@
               22,
               30,
               32,
+              41,
               42,
               45,
               46,
@@ -4075,6 +4101,7 @@
               175,
               186,
               192,
+              196,
               201,
               209,
               212,
@@ -4096,6 +4123,7 @@
               352,
               417,
               428,
+              434,
               439,
               779,
               802,
@@ -4105,7 +4133,7 @@
               12610,
               19034
             ],
-            "underdog_before_source_pct": 15.7,
+            "underdog_before_source_pct": 15.1,
             "before_source": {
               "n": 13,
               "monitor_had_earlier": 3,
@@ -4113,16 +4141,16 @@
             }
           },
           "from_source": {
-            "median": 212,
-            "n": 86
+            "median": 215,
+            "n": 89
           }
         },
         "monitor": {
-          "posts": 73,
+          "posts": 75,
           "race": {
-            "n": 52,
+            "n": 54,
             "median_gap": 119,
-            "underdog_first_pct": 88.5,
+            "underdog_first_pct": 88.9,
             "gaps": [
               -4694,
               -4452,
@@ -4134,6 +4162,7 @@
               22,
               30,
               32,
+              41,
               42,
               45,
               47,
@@ -4156,6 +4185,7 @@
               135,
               153,
               192,
+              196,
               201,
               212,
               218,
@@ -4177,7 +4207,7 @@
               4107,
               19034
             ],
-            "underdog_before_source_pct": 19.2,
+            "underdog_before_source_pct": 18.5,
             "before_source": {
               "n": 10,
               "monitor_had_earlier": 3,
@@ -4186,38 +4216,38 @@
           },
           "from_source": {
             "median": 232,
-            "n": 52
+            "n": 54
           },
           "steps": {
             "sent_to_monitor": {
-              "median": 42,
-              "n": 77
+              "median": 41,
+              "n": 79
             },
             "monitor_to_open": {
-              "median": null,
-              "n": 0
+              "median": 126,
+              "n": 2
             },
             "open_to_x": {
-              "median": null,
-              "n": 0
+              "median": 34,
+              "n": 2
             },
             "monitor_to_x": {
               "median": 201,
-              "n": 77
+              "n": 79
             },
             "split": false,
             "edited": {
               "pct": 100.0,
-              "n": 77
+              "n": 79
             }
           }
         },
         "manual": {
-          "posts": 43,
+          "posts": 44,
           "race": {
-            "n": 31,
-            "median_gap": 135,
-            "underdog_first_pct": 83.9,
+            "n": 32,
+            "median_gap": 138,
+            "underdog_first_pct": 84.4,
             "gaps": [
               -324,
               -80,
@@ -4247,11 +4277,12 @@
               328,
               417,
               428,
+              434,
               779,
               2953,
               12610
             ],
-            "underdog_before_source_pct": 9.7,
+            "underdog_before_source_pct": 9.4,
             "before_source": {
               "n": 3,
               "monitor_had_earlier": 0,
@@ -4259,12 +4290,12 @@
             }
           },
           "from_source": {
-            "median": 198,
-            "n": 31
+            "median": 204,
+            "n": 32
           },
           "add_line_to_x": {
-            "median": null,
-            "n": 0
+            "median": 204,
+            "n": 1
           }
         },
         "other": {
@@ -4285,7 +4316,7 @@
           }
         },
         "manual_pct": 35.2,
-        "other_pct": 4.9
+        "other_pct": 4.8
       }
     },
     {
@@ -5261,7 +5292,7 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 56,
+          "posts": 55,
           "race": {
             "n": 41,
             "median_gap": 117,
@@ -5426,7 +5457,7 @@
           }
         },
         "other": {
-          "posts": 6,
+          "posts": 5,
           "race": {
             "n": 4,
             "median_gap": 186,
@@ -5443,8 +5474,8 @@
             "n": 3
           }
         },
-        "manual_pct": 44.6,
-        "other_pct": 10.7
+        "manual_pct": 45.5,
+        "other_pct": 9.1
       }
     }
   ],
@@ -14120,6 +14151,30 @@
       "post": 8,
       "total": 49,
       "edited": "no"
+    },
+    "2112158466601037976": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 177,
+      "edited": "yes"
+    },
+    "2112185914373894507": {
+      "hand": false,
+      "monitor": 17,
+      "open": 201,
+      "post": 47,
+      "total": 265,
+      "edited": "yes"
+    },
+    "2112189707782062331": {
+      "hand": false,
+      "monitor": 30,
+      "open": 51,
+      "post": 21,
+      "total": 102,
+      "edited": "yes"
     }
   },
   "sheets": [
@@ -14174,22 +14229,22 @@
   "summary": {
     "margin": {
       "last30": {
-        "n": 841,
+        "n": 844,
         "median": 103,
         "rw_first_pct": 8.2,
         "tie_pct": 24.9,
         "ud_first_pct": 66.9,
         "ud_mid_pct": 49.9,
-        "ud_blowout_pct": 17.0
+        "ud_blowout_pct": 17.1
       },
       "prior30": {
-        "n": 410,
-        "median": 133,
+        "n": 409,
+        "median": 134,
         "rw_first_pct": 10.0,
         "tie_pct": 17.1,
         "ud_first_pct": 72.9,
-        "ud_mid_pct": 48.3,
-        "ud_blowout_pct": 24.6
+        "ud_mid_pct": 48.2,
+        "ud_blowout_pct": 24.7
       },
       "rolling": [
         [
@@ -14826,14 +14881,14 @@
           "2026-10-19",
           83,
           103,
-          null,
-          0
+          196,
+          3
         ]
       ]
     },
     "turbo": {
       "since": "2026-10-05",
-      "seconds": 10,
+      "seconds": 5,
       "normal_seconds": 30,
       "windows": [
         {
@@ -14876,11 +14931,11 @@
       "off": {
         "arrival": {
           "median": 30,
-          "n": 116
+          "n": 118
         },
         "margin": {
-          "median": 132,
-          "n": 132
+          "median": 134,
+          "n": 135
         }
       }
     },
@@ -15136,19 +15191,56 @@
             }
           }
         ]
-      }
-    ],
-    "unmeasured": [
+      },
       {
         "key": "RD-8176",
-        "summary": "Breaking News AI: Flag Drafts From Sources It Can't Read",
-        "status": "Done",
-        "resolved": "2026-10-16T23:23:29.268+0100",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8176"
+        "label": "Flag drafts from sources it can't read",
+        "live": "2026-10-17",
+        "days_since": 2,
+        "too_soon": true,
+        "metrics": [
+          {
+            "metric": "change_pct",
+            "label": "Share of draft changed",
+            "main": true,
+            "note": "All NFL posts. The flag itself isn't in the MCP yet, so this can't isolate the flagged drafts.",
+            "higher_better": false,
+            "unit": "%",
+            "before": {
+              "value": 49.1,
+              "n": 514,
+              "unit": "%"
+            },
+            "after": {
+              "value": 40.8,
+              "n": 66,
+              "unit": "%"
+            }
+          },
+          {
+            "metric": "edited_pct",
+            "label": "Posts edited",
+            "main": false,
+            "note": "All NFL posts.",
+            "higher_better": false,
+            "unit": "%",
+            "before": {
+              "value": 96.7,
+              "n": 514,
+              "unit": "%"
+            },
+            "after": {
+              "value": 83.3,
+              "n": 66,
+              "unit": "%"
+            }
+          }
+        ]
       }
     ],
+    "unmeasured": [],
     "roadmap": {
-      "fetched_at": "2026-10-19T10:36:44.169467+00:00",
+      "fetched_at": "2026-10-19T15:17:48.882200+00:00",
       "steps": [
         {
           "step": "s1",
@@ -15288,6 +15380,24 @@
               "status": "Done",
               "category": "done",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8175"
+            },
+            {
+              "key": "RD-8176",
+              "title": "Flag drafts from sources it can't read",
+              "note": null,
+              "replaces": null,
+              "status": "Done",
+              "category": "done",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8176"
+            },
+            {
+              "key": "RD-8178",
+              "title": "No-designation wording and team website credits",
+              "note": null,
+              "replaces": null,
+              "status": "Ready for Work",
+              "category": "new",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8178"
             }
           ]
         },
@@ -15303,6 +15413,15 @@
               "status": "Done",
               "category": "done",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8163"
+            },
+            {
+              "key": "RD-8177",
+              "title": "Pick the injury status when adding a line",
+              "note": null,
+              "replaces": null,
+              "status": "Ready for Work",
+              "category": "new",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8177"
             }
           ]
         },
@@ -15335,7 +15454,7 @@
     "initiative": {
       "root": "RD-8097",
       "label": "Breaking News AI",
-      "fetched_at": "2026-10-19T10:36:44.169467+00:00",
+      "fetched_at": "2026-10-19T15:17:48.882200+00:00",
       "url": "https://gdcgroup.atlassian.net/browse/RD-8097",
       "assignee": "Matthew Kulina",
       "sprints": [
