@@ -1,72 +1,45 @@
 {
-  "generated_at": "2026-10-19T20:53:25.623157+00:00",
+  "generated_at": "2026-10-20T09:52:33.066239+00:00",
   "window_days": 30,
-  "posts": 1422,
+  "posts": 1444,
   "kinds": {
     "none": {
-      "n": 766,
-      "pct": 53.9
+      "n": 776,
+      "pct": 53.7
     },
     "reporter": {
-      "n": 273,
-      "pct": 19.2
+      "n": 275,
+      "pct": 19.0
     },
     "handle": {
-      "n": 223,
-      "pct": 15.7
+      "n": 225,
+      "pct": 15.6
     },
     "quote": {
-      "n": 93,
-      "pct": 6.5
+      "n": 98,
+      "pct": 6.8
     },
     "presser": {
-      "n": 67,
-      "pct": 4.7
+      "n": 70,
+      "pct": 4.8
     }
   },
   "list": {
     "id": "103681593",
-    "fetched_at": "2026-10-19T20:53:24.818497+00:00",
-    "members": 325
+    "fetched_at": "2026-10-20T09:52:32.431103+00:00",
+    "members": 326
   },
-  "missing": 45,
-  "dismissed": 0,
-  "added": [],
+  "missing": 41,
+  "dismissed": 3,
+  "added": [
+    {
+      "date": "2026-10-20",
+      "handle": "SteelersPRBurt",
+      "credited": 2
+    }
+  ],
   "tracking_since": "2026-10-17",
   "accounts": [
-    {
-      "handle": "DanGraziano",
-      "credited": 8,
-      "last": "2026-10-18T15:05:46.000Z",
-      "on_list": false,
-      "dismissed": false,
-      "seen_in_monitor": false,
-      "shared": 1,
-      "we_first_pct": 0.0,
-      "median_gap": 1873
-    },
-    {
-      "handle": "SumerSports",
-      "credited": 6,
-      "last": "2026-10-19T15:30:01.000Z",
-      "on_list": false,
-      "dismissed": false,
-      "seen_in_monitor": false,
-      "shared": 0,
-      "we_first_pct": null,
-      "median_gap": null
-    },
-    {
-      "handle": "krisrhim1",
-      "credited": 4,
-      "last": "2026-10-02T19:14:28.000Z",
-      "on_list": false,
-      "dismissed": false,
-      "seen_in_monitor": true,
-      "shared": 3,
-      "we_first_pct": 33.3,
-      "median_gap": 19
-    },
     {
       "handle": "MrUram",
       "credited": 3,
@@ -154,17 +127,6 @@
       "shared": 0,
       "we_first_pct": null,
       "median_gap": null
-    },
-    {
-      "handle": "SteelersPRBurt",
-      "credited": 2,
-      "last": "2026-10-17T16:22:34.000Z",
-      "on_list": false,
-      "dismissed": false,
-      "seen_in_monitor": false,
-      "shared": 2,
-      "we_first_pct": 0.0,
-      "median_gap": 79
     },
     {
       "handle": "TonyGrossi",
@@ -553,14 +515,14 @@
     },
     {
       "handle": "JFowlerESPN",
-      "credited": 37,
-      "last": "2026-10-19T17:01:53.000Z",
+      "credited": 38,
+      "last": "2026-10-19T23:38:30.000Z",
       "on_list": true,
       "dismissed": false,
       "seen_in_monitor": true,
-      "shared": 17,
+      "shared": 18,
       "we_first_pct": 0.0,
-      "median_gap": 142
+      "median_gap": 131
     },
     {
       "handle": "TomPelissero",
@@ -597,14 +559,36 @@
     },
     {
       "handle": "Schultz_Report",
-      "credited": 12,
-      "last": "2026-10-16T15:00:38.000Z",
+      "credited": 13,
+      "last": "2026-10-20T02:13:49.000Z",
       "on_list": true,
       "dismissed": false,
       "seen_in_monitor": true,
       "shared": 4,
       "we_first_pct": 0.0,
       "median_gap": 200
+    },
+    {
+      "handle": "DanGraziano",
+      "credited": 8,
+      "last": "2026-10-18T15:05:46.000Z",
+      "on_list": false,
+      "dismissed": true,
+      "seen_in_monitor": false,
+      "shared": 1,
+      "we_first_pct": 0.0,
+      "median_gap": 1873
+    },
+    {
+      "handle": "SumerSports",
+      "credited": 6,
+      "last": "2026-10-19T15:30:01.000Z",
+      "on_list": false,
+      "dismissed": true,
+      "seen_in_monitor": false,
+      "shared": 0,
+      "we_first_pct": null,
+      "median_gap": null
     },
     {
       "handle": "CameronWolfe",
@@ -649,6 +633,17 @@
       "shared": 4,
       "we_first_pct": 0.0,
       "median_gap": 70
+    },
+    {
+      "handle": "krisrhim1",
+      "credited": 4,
+      "last": "2026-10-02T19:14:28.000Z",
+      "on_list": false,
+      "dismissed": true,
+      "seen_in_monitor": true,
+      "shared": 3,
+      "we_first_pct": 33.3,
+      "median_gap": 19
     },
     {
       "handle": "SeifertESPN",
@@ -992,6 +987,17 @@
       "median_gap": 124
     },
     {
+      "handle": "SteelersPRBurt",
+      "credited": 2,
+      "last": "2026-10-17T16:22:34.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": false,
+      "shared": 2,
+      "we_first_pct": 0.0,
+      "median_gap": 79
+    },
+    {
       "handle": "Tim_McManus",
       "credited": 2,
       "last": "2026-10-01T22:54:59.000Z",
@@ -1289,6 +1295,17 @@
       "median_gap": 73
     },
     {
+      "handle": "gbellseattle",
+      "credited": 1,
+      "last": "2026-10-19T22:49:29.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": true,
+      "shared": 1,
+      "we_first_pct": 0.0,
+      "median_gap": 151
+    },
+    {
       "handle": "gregauman",
       "credited": 1,
       "last": "2026-09-30T15:49:03.000Z",
@@ -1331,6 +1348,17 @@
       "shared": 1,
       "we_first_pct": 0.0,
       "median_gap": 120
+    },
+    {
+      "handle": "jenniferleechan",
+      "credited": 1,
+      "last": "2026-10-20T03:34:52.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": true,
+      "shared": 1,
+      "we_first_pct": 0.0,
+      "median_gap": 78
     },
     {
       "handle": "jonmachota",
