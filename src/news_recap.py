@@ -1,8 +1,8 @@
 """NFL news speed recap for #news-project-core, posted through SLACK_WEBHOOK_URL.
 
 Daily (every day, first run after midnight ET): yesterday's share of shared stories we posted
-first and the typical gap to Underdog, each next to the last 7 days. Some days move a lot, so
-the single day and the rolling week sit side by side.
+first, the typical gap to Underdog, and the share of AI drafts editors changed, each next to
+the last 7 days. Some days move a lot, so the single day and the rolling week sit side by side.
 
 Weekly (Mondays, mid-morning from src.monday_posts, so it lands apart from the daily): the Mon-Sun week that just ended against the week before:
 share first, typical gap, ties, how many AI drafts editors changed, the three step times, and
@@ -82,14 +82,17 @@ def priorities(data_dir: Path, epic: str, now: datetime, limit: int = 5) -> list
     return sorted(out, key=lambda i: (rank.get(i["category"], 2), i["key"]))[:limit]
 
 
-def daily_message(stories: list[dict], day: datetime) -> str:
+def daily_message(stories: list[dict], edit_daily: list[dict], day: datetime) -> str:
     a, b = day, day + timedelta(days=1)
     d, w = race(stories, a, b), race(stories, b - timedelta(days=7), b)
+    e, ew = edits(edit_daily, a, b), edits(edit_daily, b - timedelta(days=7), b)
     return "\n".join([
         f"*NFL News Speed - {day.strftime('%A %b')} {day.day}*",
         f"We post first: *{_pct(d['first'])}* of {d['n']} shared stories that day · "
         f"{_pct(w['first'])} of {w['n']} over the last 7 days",
         f"Typical gap: *{_gap_text(d['gap'])}* that day · {_gap_text(w['gap'])} over the last 7 days",
+        f"AI drafts edited: *{_pct(e['edited'])}* of {e['n']} that day · "
+        f"{_pct(ew['edited'])} of {ew['n']} over the last 7 days",
         f"<{TRACKER}|Full dashboard>",
     ])
 
@@ -156,16 +159,17 @@ def maybe_post(data_dir: Path, docs_dir: Path, epic: str | None, now: datetime |
     state = json.loads(state_p.read_text()) if state_p.exists() else {}
     stories = json.loads((docs_dir / "stories.json").read_text())
     stories = stories.get("stories", stories) if isinstance(stories, dict) else stories
+    dsj = json.loads((docs_dir / "desk_speed.json").read_text()) if (docs_dir / "desk_speed.json").exists() else {}
+    edit_daily = (dsj.get("edits") or {}).get("daily") or []
     done = []
     if daily and (force or state.get("daily") != yesterday.date().isoformat()):
-        _send(hook, daily_message(stories, yesterday))
+        _send(hook, daily_message(stories, edit_daily, yesterday))
         state["daily"] = yesterday.date().isoformat()
         done.append("daily")
     week_start = today - timedelta(days=7)
     if weekly and today.weekday() == 0 and (force or state.get("weekly") != week_start.date().isoformat()):
         rows = [r for r in load_jsonl(data_dir / "desk_timeline.jsonl") if r.get("posted_to_x_at")]
-        dsj = json.loads((docs_dir / "desk_speed.json").read_text()) if (docs_dir / "desk_speed.json").exists() else {}
-        _send(hook, weekly_message(data_dir, stories, rows, (dsj.get("edits") or {}).get("daily") or [],
+        _send(hook, weekly_message(data_dir, stories, rows, edit_daily,
                                    week_start, epic, now))
         state["weekly"] = week_start.date().isoformat()
         done.append("weekly")
