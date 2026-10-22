@@ -111,6 +111,14 @@ sports:
         metrics:
         - {metric: change_pct, label: Share of draft changed, main: true, note: 'All NFL posts. The flag itself isn''t in the MCP yet, so this can''t isolate the flagged drafts.'}
         - {metric: edited_pct, label: Posts edited, note: 'All NFL posts.'}
+      # Game days only (inactives ~90 min before kickoff), so the all-post numbers move less
+      # than its share of game-day posts. First real test was TNF 10/22 (MNF 10/19 inactives came out before it shipped).
+      - key: RD-8196
+        label: Auto active posts for game-time decisions
+        live: '2026-10-20'
+        metrics:
+        - {metric: manual_pct, label: Posts added by hand, main: true, note: 'All NFL posts. Active calls were typed in by hand before this; it only fires on game days.'}
+        - {metric: margin, label: Gap behind Underdog, note: 'All NFL stories, not just actives.'}
       # No ticket: Kulina made the editor page update live instead of every 10s (10/16, ~3:20pm ET).
       - label: Live editor page (no 10s refresh)
         live: '2026-10-16T19:20:00'
@@ -188,6 +196,7 @@ sports:
         - {key: RD-8175, title: Practice report templates fire more often}
         - {key: RD-8176, title: Flag drafts from sources it can't read}
         - {key: RD-8178, title: No-designation wording and team website credits}
+        - {key: RD-8196, title: Auto active posts for questionable players not on the inactives list}
       - step: hand
         label: Added by hand
         tickets:
