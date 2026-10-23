@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-10-22T09:57:13.323995+00:00",
+ "fetched_at": "2026-10-23T09:50:40.280295+00:00",
  "root": "RD-8097",
  "issues": [
   {
@@ -2691,8 +2691,8 @@
    "summary": "Monitor: priority level filter so editors can stay on top players",
    "type": "Story",
    "parent": "RD-8100",
-   "status": "Ready for Work",
-   "category": "new",
+   "status": "In Review",
+   "category": "indeterminate",
    "assignee": "Matthew Kulina",
    "priority": "Medium",
    "resolved": null,
@@ -2775,6 +2775,118 @@
      "state": "active",
      "start": "2026-10-15T13:00:00.505Z",
      "end": "2026-10-28T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8227",
+   "summary": "Breaking News AI: Monitor Tweet Lookup in the MCP",
+   "type": "Task",
+   "parent": "RD-8099",
+   "status": "In Review",
+   "category": "indeterminate",
+   "assignee": "Kevin O'Brien",
+   "priority": "Medium",
+   "resolved": null,
+   "sprints": []
+  },
+  {
+   "key": "RD-8238",
+   "summary": "Breaking News AI: One Monitor Item Per Player in Multi-Player Tweets",
+   "type": "Story",
+   "parent": "RD-8099",
+   "status": "In Review",
+   "category": "indeterminate",
+   "assignee": "Matthew Kulina",
+   "priority": "Medium",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21838,
+     "name": "2026.Q4.S21",
+     "state": "active",
+     "start": "2026-10-15T13:00:00.505Z",
+     "end": "2026-10-28T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8239",
+   "summary": "Breaking News AI: Tweets About Players Who Share a Name",
+   "type": "Story",
+   "parent": "RD-8098",
+   "status": "In Review",
+   "category": "indeterminate",
+   "assignee": "Matthew Kulina",
+   "priority": "Medium",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21838,
+     "name": "2026.Q4.S21",
+     "state": "active",
+     "start": "2026-10-15T13:00:00.505Z",
+     "end": "2026-10-28T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8240",
+   "summary": "News Admin: Check Player Names and Opponents in Notes Before Sending",
+   "type": "Story",
+   "parent": "RD-8100",
+   "status": "In Review",
+   "category": "indeterminate",
+   "assignee": "Matthew Kulina",
+   "priority": "Medium",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21838,
+     "name": "2026.Q4.S21",
+     "state": "active",
+     "start": "2026-10-15T13:00:00.505Z",
+     "end": "2026-10-28T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8242",
+   "summary": "Breaking News AI: Read Report Images When the Caption Says Injury or Participant",
+   "type": "Story",
+   "parent": "RD-8099",
+   "status": "In Review",
+   "category": "indeterminate",
+   "assignee": "Kevin O'Brien",
+   "priority": "High",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21838,
+     "name": "2026.Q4.S21",
+     "state": "active",
+     "start": "2026-10-15T13:00:00.505Z",
+     "end": "2026-10-28T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8243",
+   "summary": "Breaking News AI: Non-Report Photos Swallow the Tweet",
+   "type": "Bug",
+   "parent": "RD-8099",
+   "status": "In Review",
+   "category": "indeterminate",
+   "assignee": "Matthew Kulina",
+   "priority": "Low",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21839,
+     "name": "2026.Q4.S22",
+     "state": "future",
+     "start": "2026-10-29T13:00:00.000Z",
+     "end": "2026-11-11T21:00:00.000Z"
     }
    ]
   }
