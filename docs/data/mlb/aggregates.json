@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-24T09:24:03.265122+00:00",
+  "generated_at": "2026-10-25T09:38:31.521880+00:00",
   "analysis_start": null,
   "summary": {
     "matched": 1224,
@@ -22,21 +22,21 @@
   "headline": {
     "days": 30,
     "tie_seconds": 60,
-    "since": "2026-09-24",
-    "matched": 48,
-    "rotowire_first": 4,
-    "ties": 8,
-    "underdog_first": 36,
-    "rotowire_first_rate": 0.0833,
-    "tie_rate": 0.1667,
-    "underdog_first_rate": 0.75,
-    "median_lead_seconds": -252.0,
-    "stories": 148,
-    "matched_rate": 0.3243,
-    "rotowire_missed": 69,
-    "rotowire_missed_rate": 0.4662,
-    "underdog_missed": 31,
-    "underdog_missed_rate": 0.2095
+    "since": "2026-09-25",
+    "matched": 44,
+    "rotowire_first": 3,
+    "ties": 7,
+    "underdog_first": 34,
+    "rotowire_first_rate": 0.0682,
+    "tie_rate": 0.1591,
+    "underdog_first_rate": 0.7727,
+    "median_lead_seconds": -265.5,
+    "stories": 136,
+    "matched_rate": 0.3235,
+    "rotowire_missed": 65,
+    "rotowire_missed_rate": 0.4779,
+    "underdog_missed": 27,
+    "underdog_missed_rate": 0.1985
   },
   "weekly": [
     {
@@ -9764,6 +9764,16 @@
       "date": "2026-10-24",
       "account": "underdog",
       "followers_count": 213099
+    },
+    {
+      "date": "2026-10-25",
+      "account": "rotowire",
+      "followers_count": 13410
+    },
+    {
+      "date": "2026-10-25",
+      "account": "underdog",
+      "followers_count": 213106
     }
   ],
   "audience": {
@@ -11689,6 +11699,10 @@
         {
           "date": "2026-10-24",
           "followers": 13409
+        },
+        {
+          "date": "2026-10-25",
+          "followers": 13410
         }
       ],
       "underdog": [
@@ -11787,27 +11801,31 @@
         {
           "date": "2026-10-24",
           "followers": 213099
+        },
+        {
+          "date": "2026-10-25",
+          "followers": 213106
         }
       ]
     },
     "growth": {
       "rotowire": {
         "first_date": "2026-10-01",
-        "last_date": "2026-10-24",
-        "days": 23,
-        "followers": 13409,
-        "gained": -23,
-        "gained_rate": -0.00171,
-        "per_day": -1.0
+        "last_date": "2026-10-25",
+        "days": 24,
+        "followers": 13410,
+        "gained": -22,
+        "gained_rate": -0.00164,
+        "per_day": -0.9
       },
       "underdog": {
         "first_date": "2026-10-01",
-        "last_date": "2026-10-24",
-        "days": 23,
-        "followers": 213099,
-        "gained": 1534,
-        "gained_rate": 0.00725,
-        "per_day": 66.7
+        "last_date": "2026-10-25",
+        "days": 24,
+        "followers": 213106,
+        "gained": 1541,
+        "gained_rate": 0.00728,
+        "per_day": 64.2
       }
     },
     "views_by_week": [

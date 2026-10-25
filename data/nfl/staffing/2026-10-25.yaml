@@ -1,0 +1,88 @@
+# Generated from the x_watcher staffing sheet; edit the sheet, not this file.
+date: '2026-10-25'
+timezone: America/Chicago
+source: x_watcher
+roles: {tweets: Tweets (L1-2), distributor: Distributor (L3-5), writers: Writers}
+slots:
+- start: 05:00
+  tweets: [KOB]
+  distributor: [KOB]
+  writers: [KOB]
+- start: 06:00
+  tweets: [KOB]
+  distributor: [KOB]
+  writers: [KOB]
+- start: 07:00
+  tweets: [Adam]
+  distributor: [Adam]
+  writers: [Adam]
+- start: 08:00
+  tweets: [Adam]
+  distributor: [Adam]
+  writers: [Adam]
+- start: 09:00
+  tweets: [KOB]
+  distributor: [Eric C.]
+  writers: [Eric C.]
+- start: '10:00'
+  tweets: [Adam, KOB]
+  distributor:
+  - {name: Eric C., until: '10:30'}
+  - Adam
+  writers:
+  - {name: Eric C., until: '10:30'}
+  - Adam
+- start: '11:00'
+  tweets: [Adam]
+  distributor: [Adam]
+  writers: [Adam]
+- start: '12:00'
+  tweets: [Adam]
+  distributor: [Ryan W.]
+  writers: [Eric C., Cullum, Dante]
+- start: '13:00'
+  tweets:
+  - {name: Adam, until: '13:50'}
+  - Cullum
+  distributor: [Ryan W.]
+  writers: [Eric C., Cullum, Dante]
+- start: '14:00'
+  tweets: [Adam]
+  distributor: [Ryan W.]
+  writers: [Eric C., Cullum, Dante]
+- start: '15:00'
+  tweets: [Cullum]
+  distributor: [Ryan W.]
+  writers: [Dante]
+- start: '16:00'
+  tweets: [Cullum]
+  distributor: [Ryan W.]
+  writers: [Eric C., Nick B.]
+- start: '17:00'
+  tweets: [Cullum]
+  distributor: [Ryan W.]
+  writers: [Eric C., Nick B.]
+- start: '18:00'
+  tweets: [Sasha]
+  distributor: [Sasha]
+  writers: [Mensio, Nick B.]
+- start: '19:00'
+  tweets: [Sasha]
+  distributor: [Sasha]
+  writers: [Mensio, Nick B.]
+- start: '20:00'
+  tweets: [Sasha]
+  distributor: [Sasha]
+  writers: [Mensio, Nick B.]
+- start: '21:00'
+  tweets: [Sasha]
+  distributor: [Sasha]
+  writers: [Mensio, Nick B.]
+- start: '22:00'
+  tweets: [Sasha]
+  distributor: [Sasha]
+  writers: [Mensio, Nick B.]
+- start: '23:00'
+  tweets: [Sasha]
+  distributor: [Sasha]
+  writers: [Mensio, Nick B.]
