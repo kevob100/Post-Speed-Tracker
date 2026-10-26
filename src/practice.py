@@ -9,8 +9,9 @@ matter to fantasy players:
   post  the session's result, usually from the official practice / injury report:
         full / limited / did not participate, "officially", "listed as"
 
-The development grouper treats both as the same story (so a RotoWire pre-practice post
-hours before Underdog's report is a RotoWire win). This module tracks them separately,
+The development grouper treats both as the same story, but a RotoWire pre-practice post
+hours before Underdog's report is past the score window, so it is not scored as a race
+(see develop.py). This module tracks the two phases separately,
 per player per practice day, so a day where Underdog skipped the pre-practice update
 shows up as exactly that.
 

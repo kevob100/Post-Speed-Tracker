@@ -365,7 +365,7 @@ def test_step_only_one_side_posted_is_an_update_gap(tmp_path):
 def test_same_development_outside_window_is_not_an_update_gap(tmp_path):
     posts = [_post("rw1", RW, 0), _post("rw2", RW, 80), _post("ud1", UD, 150)]
     s = _run(tmp_path, posts, FixedGrouper(["rw1", "rw2", "ud1"]))
-    assert s["st_ud1"]["gap_kind"] != "update" and s["st_rw1"]["gap_kind"] != "update"
+    assert s["st_rw1"]["gap_kind"] == "late" and s["st_ud1"]["same_event_duplicate"]
 
 
 def test_included_hype_kind_counts_as_news():
@@ -428,6 +428,24 @@ def test_late_first_reply_joins_the_session_and_matches_within_six_hours(tmp_pat
     s = _run(tmp_path, posts, FixedGrouper(["ud1", "rw1"]))
     assert s["st_rw1_ud1"]["status"] == "matched"
     assert s["st_rw1_ud1"]["time_delta_seconds"] == -150 * 60
+
+
+def test_same_news_past_the_score_window_is_not_a_race(tmp_path, monkeypatch):
+    cfg = {**CFG, "matching": {"time_window_minutes": 90, "match_window_minutes": 360,
+                               "score_window_minutes": 30}}
+    monkeypatch.setattr(develop, "load_config", lambda: cfg)
+    # RW pre-practice post, UD's practice report 3h later: same development, not scored.
+    posts = [_post("rw1", RW, 0), _post("ud1", UD, 180)]
+    s = _run(tmp_path, posts, FixedGrouper(["rw1", "ud1"]))
+    assert not any(x["status"] == "matched" for x in s.values())
+    assert s["st_rw1"]["gap_kind"] == "late"
+    assert s["st_rw1"]["other_side_later"]["tweet_id"] == "ud1"
+    assert s["st_rw1"]["other_side_later"]["delay_seconds"] == 180 * 60
+    assert s["st_ud1"]["same_event_duplicate"] and s["st_ud1"]["duplicate_of"] == "st_rw1"
+    # Within the score window the two still race.
+    posts = [_post("rw2", RW, 0), _post("ud2", UD, 20)]
+    s = _run(tmp_path / "b", posts, FixedGrouper(["rw2", "ud2"]))
+    assert s["st_rw2_ud2"]["status"] == "matched"
 
 
 def test_bridge_only_for_the_other_accounts_first_post(tmp_path, monkeypatch):

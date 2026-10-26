@@ -56,6 +56,9 @@ def margin(stories: list[dict], now: datetime) -> dict:
     that day's own median and story count."""
     m = [s for s in stories if s.get("status") == "matched" and s.get("rotowire") and s.get("underdog")]
     pts = sorted((_at(s), _gap(s)) for s in m)
+    # Same news, too far apart to race (develop.py's score window): who posted it first.
+    early = [(parse_dt((s["rotowire"] or s["underdog"])["created_at"]), bool(s["rotowire"]))
+             for s in stories if s.get("split_from_other")]
 
     def window(a, b):
         g = [x for t, x in pts if a <= t < b]
@@ -66,7 +69,9 @@ def margin(stories: list[dict], now: datetime) -> dict:
                 "ud_first_pct": round(100 * sum(x > TIE_SECONDS for x in g) / n, 1) if n else None,
                 # Underdog's wins split: 1-5 minutes, and blowouts of 5+ minutes.
                 "ud_mid_pct": round(100 * sum(TIE_SECONDS < x <= BLOWOUT_SECONDS for x in g) / n, 1) if n else None,
-                "ud_blowout_pct": round(100 * sum(x > BLOWOUT_SECONDS for x in g) / n, 1) if n else None}
+                "ud_blowout_pct": round(100 * sum(x > BLOWOUT_SECONDS for x in g) / n, 1) if n else None,
+                "rw_early_n": sum(1 for t, rw in early if a <= t < b and rw),
+                "ud_early_n": sum(1 for t, rw in early if a <= t < b and not rw)}
 
     rolling = []
     today = now.astimezone(TZ).date()
@@ -278,7 +283,7 @@ def build(cfg: dict, data_dir: Path, rows: list[dict], stories: list[dict], manu
     templates_daily = json.loads(tp.read_text()) if tp.exists() else {}
     m = [s for s in stories if s.get("rotowire")]
     return {
-        "margin": margin(m, now),
+        "margin": margin([s for s in stories if s.get("rotowire") or s.get("split_from_other")], now),
         "turbo": turbo_split(rows, m, turbo),
         "changes": changes(cfg.get("changes"), now, rows=rows, stories=m, edit_rows=edit_rows,
                            turbo=turbo, manual_pct=manual_pct, templates_daily=templates_daily),

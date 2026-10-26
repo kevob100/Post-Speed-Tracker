@@ -19,8 +19,12 @@ This module scores each news DEVELOPMENT once instead:
      Groupings are cached in data/<sport>/developments.jsonl, keyed by the exact set of
      posts in the session, so a session is re-grouped only when a new post joins it.
   4. Stories: per development, the earliest post on each side is that side's report.
-     Both sides within the time window -> one `matched` story timed on those two posts.
-     Otherwise each side's report is a one-sided coverage gap. Every later post on the
+     Both sides within matching.score_window_minutes -> one `matched` story timed on those
+     two posts. Speed is only a fair race when both accounts post the same news close
+     together, so a pair further apart (a RotoWire pre-practice post hours before Underdog's
+     practice report) is not scored: the earlier report is a one-sided story with gap_kind
+     "late" and other_side_later naming the later report, and the later report is filed as
+     its follow-up. Without a counterpart, each side's report is a one-sided coverage gap. Every later post on the
      development is a follow-up, written as a one-sided story with
      same_event_duplicate=true and duplicate_of pointing at the development's story, so
      the dashboard's existing duplicates tab lists them.
@@ -232,6 +236,7 @@ def resolve_developments(
     cfg = load_config()
     window_s = cfg["matching"]["time_window_minutes"] * 60
     match_s = (cfg["matching"].get("match_window_minutes") or cfg["matching"]["time_window_minutes"]) * 60
+    score_s = (cfg["matching"].get("score_window_minutes") or match_s // 60) * 60
     accounts = accounts if accounts is not None else sport_accounts(cfg, sport)
     rw_handle = accounts["rotowire"]["handle"]
 
@@ -282,7 +287,7 @@ def resolve_developments(
                 # One account's step inside a session both accounts posted in: an update gap.
                 update_gap = two_sided and len({m["post"]["account"] for m in ms}) == 1
                 for st in _development_stories(
-                        ms, g.get("label"), player, pkey, team, rw_handle, match_s, source,
+                        ms, g.get("label"), player, pkey, team, rw_handle, score_s, source,
                         roundup_window_s=window_s):
                     st["session_two_sided"] = update_gap
                     stories.append(st)
@@ -327,6 +332,10 @@ def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str,
         if st["status"] == "matched" or st.get("same_event_duplicate"):
             continue
         lone = st["rotowire"] or st["underdog"]
+        if st.get("split_from_other"):
+            st["gap_kind"] = "late"
+            st["other_side_later"] = st["split_from_other"]
+            continue
         if st.get("roundup"):
             st["gap_kind"] = "roundup"
             st["other_side_later"] = None
@@ -365,9 +374,10 @@ def _mark_gaps(stories: list[dict], news: list[dict], rw_handle: str,
 
 def _development_stories(ms, label, player, pkey, team, rw_handle, window_s, source,
                          roundup_window_s: int | None = None) -> list[dict]:
-    """Stories for one development. A roundup post on either side only matches within
-    roundup_window_s (the 90-minute session window): a digest naming many players is not
-    the same report as a single post hours away."""
+    """Stories for one development. The two sides' reports match within window_s (the
+    score window). A roundup post on either side only matches within roundup_window_s (the
+    90-minute session window): a digest naming many players is not the same report as a
+    single post hours away."""
     rw = [m for m in ms if m["post"]["account"] == rw_handle]
     ud = [m for m in ms if m["post"]["account"] != rw_handle]
     multi = any(m["multi_player"] for m in ms)
@@ -416,6 +426,19 @@ def _development_stories(ms, label, player, pkey, team, rw_handle, window_s, sou
                     "match_confidence": None,
                     "match_method": source})
         heads = {"rw": sid, "ud": sid}
+    elif delta is not None:
+        # Same development, too far apart to race: the earlier report stands alone and the
+        # later one is its follow-up.
+        early, late = (first_rw, first_ud) if delta > 0 else (first_ud, first_rw)
+        story = one_sided(early)
+        story["split_from_other"] = {
+            "tweet_id": late["post"]["id"], "created_at": late["post"]["created_at"],
+            "text": late["post"].get("text", ""), "delay_seconds": abs(delta)}
+        out.append(story)
+        heads = {"rw": story["story_id"], "ud": story["story_id"]}
+        late_story = one_sided(late, dup_of=story["story_id"])
+        late_story["split_follow_up"] = True
+        out.append(late_story)
     else:
         for key, first in (("rw", first_rw), ("ud", first_ud)):
             if first:

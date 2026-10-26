@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T10:51:07.463857+00:00",
+  "generated_at": "2026-10-26T13:55:31.743293+00:00",
   "window": {
     "from": "2026-09-26",
     "to": "2026-10-26",
@@ -10,61 +10,10 @@
     "all": {
       "posts": 1088,
       "race": {
-        "n": 801,
-        "median_gap": 93,
-        "underdog_first_pct": 87.8,
+        "n": 718,
+        "median_gap": 96,
+        "underdog_first_pct": 93.5,
         "gaps": [
-          -20439,
-          -19551,
-          -16799,
-          -16380,
-          -15152,
-          -15134,
-          -14946,
-          -14875,
-          -14669,
-          -13990,
-          -13358,
-          -12975,
-          -12516,
-          -12420,
-          -12259,
-          -12255,
-          -12245,
-          -12233,
-          -11944,
-          -11772,
-          -11460,
-          -11421,
-          -11350,
-          -11266,
-          -11175,
-          -10946,
-          -10908,
-          -10068,
-          -9763,
-          -8988,
-          -8719,
-          -8108,
-          -8072,
-          -7872,
-          -7339,
-          -7047,
-          -6672,
-          -6102,
-          -5741,
-          -5375,
-          -5306,
-          -5269,
-          -5174,
-          -4694,
-          -4452,
-          -3164,
-          -3110,
-          -2326,
-          -2310,
-          -2100,
-          -1911,
           -1619,
           -1246,
           -976,
@@ -782,89 +731,27 @@
           1651,
           1657,
           1753,
-          1780,
-          1825,
-          1873,
-          2104,
-          2564,
-          2678,
-          2753,
-          2809,
-          2813,
-          2953,
-          2993,
-          3056,
-          3225,
-          3692,
-          3857,
-          4107,
-          4275,
-          4339,
-          4994,
-          5159,
-          5242,
-          5322,
-          5684,
-          7004,
-          7289,
-          7680,
-          7771,
-          9219,
-          12610,
-          12645,
-          17275,
-          19034,
-          19919
+          1780
         ],
-        "underdog_before_source_pct": 12.6,
+        "underdog_before_source_pct": 12.0,
         "before_source": {
-          "n": 96,
+          "n": 82,
           "monitor_had_earlier": 32,
-          "monitor_never_had": 64
+          "monitor_never_had": 50
         }
       },
       "from_source": {
-        "median": 154,
-        "n": 730
+        "median": 150,
+        "n": 656
       }
     },
     "monitor": {
       "posts": 619,
       "race": {
-        "n": 471,
-        "median_gap": 88,
-        "underdog_first_pct": 87.7,
+        "n": 428,
+        "median_gap": 94,
+        "underdog_first_pct": 93.5,
         "gaps": [
-          -20439,
-          -19551,
-          -16380,
-          -14946,
-          -14669,
-          -13990,
-          -13358,
-          -12975,
-          -12516,
-          -12420,
-          -12259,
-          -12255,
-          -12233,
-          -11772,
-          -11421,
-          -11266,
-          -11175,
-          -10068,
-          -8108,
-          -8072,
-          -7872,
-          -5306,
-          -5269,
-          -5174,
-          -4694,
-          -4452,
-          -3164,
-          -3110,
-          -2100,
-          -1911,
           -1246,
           -976,
           -876,
@@ -1292,31 +1179,18 @@
           1303,
           1533,
           1651,
-          1780,
-          2809,
-          2813,
-          2993,
-          3056,
-          3225,
-          4107,
-          4339,
-          4994,
-          7004,
-          7771,
-          9219,
-          17275,
-          19034
+          1780
         ],
-        "underdog_before_source_pct": 16.6,
+        "underdog_before_source_pct": 16.1,
         "before_source": {
-          "n": 78,
+          "n": 69,
           "monitor_had_earlier": 30,
-          "monitor_never_had": 48
+          "monitor_never_had": 39
         }
       },
       "from_source": {
-        "median": 153,
-        "n": 471
+        "median": 152,
+        "n": 428
       },
       "steps": {
         "sent_to_monitor": {
@@ -1345,26 +1219,10 @@
     "manual": {
       "posts": 398,
       "race": {
-        "n": 288,
+        "n": 255,
         "median_gap": 92,
-        "underdog_first_pct": 88.2,
+        "underdog_first_pct": 92.9,
         "gaps": [
-          -16799,
-          -15134,
-          -14875,
-          -12245,
-          -11944,
-          -11460,
-          -11350,
-          -10946,
-          -10908,
-          -8988,
-          -8719,
-          -7047,
-          -6672,
-          -6102,
-          -5741,
-          -5375,
           -665,
           -165,
           -80,
@@ -1619,35 +1477,18 @@
           1118,
           1640,
           1657,
-          1753,
-          1825,
-          1873,
-          2564,
-          2678,
-          2753,
-          2953,
-          3692,
-          4275,
-          5159,
-          5242,
-          5322,
-          5684,
-          7289,
-          7680,
-          12610,
-          12645,
-          19919
+          1753
         ],
-        "underdog_before_source_pct": 6.2,
+        "underdog_before_source_pct": 5.1,
         "before_source": {
-          "n": 18,
+          "n": 13,
           "monitor_had_earlier": 2,
-          "monitor_never_had": 16
+          "monitor_never_had": 11
         }
       },
       "from_source": {
-        "median": 145,
-        "n": 229
+        "median": 141,
+        "n": 201
       },
       "add_line_to_x": {
         "median": 48,
@@ -1657,15 +1498,10 @@
     "other": {
       "posts": 71,
       "race": {
-        "n": 42,
-        "median_gap": 247,
-        "underdog_first_pct": 85.7,
+        "n": 35,
+        "median_gap": 254,
+        "underdog_first_pct": 97.1,
         "gaps": [
-          -15152,
-          -9763,
-          -7339,
-          -2326,
-          -2310,
           -1619,
           36,
           68,
@@ -1700,14 +1536,12 @@
           940,
           966,
           1077,
-          1366,
-          2104,
-          3857
+          1366
         ]
       },
       "from_source": {
-        "median": 278,
-        "n": 30
+        "median": 284,
+        "n": 27
       }
     },
     "manual_pct": 36.6,
@@ -3098,15 +2932,10 @@
         "all": {
           "posts": 254,
           "race": {
-            "n": 219,
-            "median_gap": 93,
-            "underdog_first_pct": 90.0,
+            "n": 203,
+            "median_gap": 89,
+            "underdog_first_pct": 91.6,
             "gaps": [
-              -16380,
-              -14669,
-              -3110,
-              -2326,
-              -2310,
               -1246,
               -876,
               -665,
@@ -3309,41 +3138,27 @@
               1117,
               1640,
               1651,
-              1753,
-              1825,
-              1873,
-              2104,
-              2753,
-              2809,
-              3225,
-              3692,
-              3857,
-              5242,
-              7289,
-              19919
+              1753
             ],
-            "underdog_before_source_pct": 12.8,
+            "underdog_before_source_pct": 12.6,
             "before_source": {
-              "n": 27,
+              "n": 25,
               "monitor_had_earlier": 16,
-              "monitor_never_had": 11
+              "monitor_never_had": 9
             }
           },
           "from_source": {
-            "median": 134,
-            "n": 185
+            "median": 133,
+            "n": 178
           }
         },
         "monitor": {
           "posts": 159,
           "race": {
-            "n": 140,
+            "n": 135,
             "median_gap": 80,
-            "underdog_first_pct": 90.7,
+            "underdog_first_pct": 92.6,
             "gaps": [
-              -16380,
-              -14669,
-              -3110,
               -1246,
               -876,
               -136,
@@ -3478,20 +3293,18 @@
               725,
               764,
               1045,
-              1651,
-              2809,
-              3225
+              1651
             ],
-            "underdog_before_source_pct": 18.6,
+            "underdog_before_source_pct": 17.8,
             "before_source": {
-              "n": 26,
+              "n": 24,
               "monitor_had_earlier": 16,
-              "monitor_never_had": 10
+              "monitor_never_had": 8
             }
           },
           "from_source": {
-            "median": 134,
-            "n": 140
+            "median": 133,
+            "n": 135
           },
           "steps": {
             "sent_to_monitor": {
@@ -3520,9 +3333,9 @@
         "manual": {
           "posts": 85,
           "race": {
-            "n": 71,
-            "median_gap": 104,
-            "underdog_first_pct": 90.1,
+            "n": 64,
+            "median_gap": 92,
+            "underdog_first_pct": 89.1,
             "gaps": [
               -665,
               -165,
@@ -3587,16 +3400,9 @@
               777,
               1117,
               1640,
-              1753,
-              1825,
-              1873,
-              2753,
-              3692,
-              5242,
-              7289,
-              19919
+              1753
             ],
-            "underdog_before_source_pct": 1.4,
+            "underdog_before_source_pct": 1.6,
             "before_source": {
               "n": 1,
               "monitor_had_earlier": 0,
@@ -3604,8 +3410,8 @@
             }
           },
           "from_source": {
-            "median": 134,
-            "n": 42
+            "median": 128,
+            "n": 40
           },
           "add_line_to_x": {
             "median": 2026,
@@ -3615,18 +3421,14 @@
         "other": {
           "posts": 10,
           "race": {
-            "n": 8,
+            "n": 4,
             "median_gap": 376,
-            "underdog_first_pct": 75.0,
+            "underdog_first_pct": 100.0,
             "gaps": [
-              -2326,
-              -2310,
               189,
               285,
               466,
-              630,
-              2104,
-              3857
+              630
             ]
           },
           "from_source": {
@@ -3646,21 +3448,10 @@
         "all": {
           "posts": 207,
           "race": {
-            "n": 146,
-            "median_gap": 90,
-            "underdog_first_pct": 86.3,
+            "n": 128,
+            "median_gap": 92,
+            "underdog_first_pct": 93.0,
             "gaps": [
-              -13990,
-              -12975,
-              -12420,
-              -12245,
-              -8988,
-              -8719,
-              -6672,
-              -6102,
-              -5174,
-              -3164,
-              -1911,
               -435,
               -254,
               -141,
@@ -3788,40 +3579,27 @@
               460,
               642,
               940,
-              966,
-              2564,
-              2678,
-              4275,
-              4994,
-              5159,
-              5684,
-              17275
+              966
             ],
-            "underdog_before_source_pct": 11.6,
+            "underdog_before_source_pct": 9.2,
             "before_source": {
-              "n": 16,
+              "n": 11,
               "monitor_had_earlier": 4,
-              "monitor_never_had": 12
+              "monitor_never_had": 7
             }
           },
           "from_source": {
-            "median": 142,
-            "n": 136
+            "median": 139,
+            "n": 118
           }
         },
         "monitor": {
           "posts": 97,
           "race": {
-            "n": 75,
-            "median_gap": 96,
-            "underdog_first_pct": 84.0,
+            "n": 67,
+            "median_gap": 97,
+            "underdog_first_pct": 91.0,
             "gaps": [
-              -13990,
-              -12975,
-              -12420,
-              -5174,
-              -3164,
-              -1911,
               -435,
               -254,
               -141,
@@ -3888,20 +3666,18 @@
               350,
               353,
               404,
-              642,
-              4994,
-              17275
+              642
             ],
-            "underdog_before_source_pct": 16.0,
+            "underdog_before_source_pct": 14.9,
             "before_source": {
-              "n": 12,
+              "n": 10,
               "monitor_had_earlier": 4,
-              "monitor_never_had": 8
+              "monitor_never_had": 6
             }
           },
           "from_source": {
-            "median": 140,
-            "n": 75
+            "median": 138,
+            "n": 67
           },
           "steps": {
             "sent_to_monitor": {
@@ -3930,15 +3706,10 @@
         "manual": {
           "posts": 93,
           "race": {
-            "n": 63,
+            "n": 53,
             "median_gap": 81,
-            "underdog_first_pct": 87.3,
+            "underdog_first_pct": 94.3,
             "gaps": [
-              -12245,
-              -8988,
-              -8719,
-              -6672,
-              -6102,
               -24,
               -5,
               -5,
@@ -3991,23 +3762,18 @@
               343,
               345,
               409,
-              460,
-              2564,
-              2678,
-              4275,
-              5159,
-              5684
+              460
             ],
-            "underdog_before_source_pct": 6.3,
+            "underdog_before_source_pct": 1.9,
             "before_source": {
-              "n": 4,
+              "n": 1,
               "monitor_had_earlier": 0,
-              "monitor_never_had": 4
+              "monitor_never_had": 1
             }
           },
           "from_source": {
-            "median": 143,
-            "n": 54
+            "median": 132,
+            "n": 44
           },
           "add_line_to_x": {
             "median": 42,
@@ -4048,12 +3814,10 @@
         "all": {
           "posts": 120,
           "race": {
-            "n": 85,
-            "median_gap": 134,
-            "underdog_first_pct": 91.8,
+            "n": 78,
+            "median_gap": 122,
+            "underdog_first_pct": 93.6,
             "gaps": [
-              -4694,
-              -4452,
               -1619,
               -976,
               -80,
@@ -4131,34 +3895,27 @@
               434,
               439,
               779,
-              802,
-              2813,
-              2953,
-              4107,
-              12610,
-              19034
+              802
             ],
-            "underdog_before_source_pct": 18.5,
+            "underdog_before_source_pct": 16.2,
             "before_source": {
-              "n": 15,
+              "n": 12,
               "monitor_had_earlier": 6,
-              "monitor_never_had": 9
+              "monitor_never_had": 6
             }
           },
           "from_source": {
-            "median": 219,
-            "n": 84
+            "median": 215,
+            "n": 77
           }
         },
         "monitor": {
           "posts": 80,
           "race": {
-            "n": 59,
-            "median_gap": 121,
-            "underdog_first_pct": 93.2,
+            "n": 54,
+            "median_gap": 120,
+            "underdog_first_pct": 96.3,
             "gaps": [
-              -4694,
-              -4452,
               -976,
               -2,
               21,
@@ -4212,21 +3969,18 @@
               352,
               409,
               439,
-              802,
-              2813,
-              4107,
-              19034
+              802
             ],
-            "underdog_before_source_pct": 20.3,
+            "underdog_before_source_pct": 18.5,
             "before_source": {
-              "n": 12,
+              "n": 10,
               "monitor_had_earlier": 6,
-              "monitor_never_had": 6
+              "monitor_never_had": 4
             }
           },
           "from_source": {
-            "median": 173,
-            "n": 59
+            "median": 170,
+            "n": 54
           },
           "steps": {
             "sent_to_monitor": {
@@ -4255,9 +4009,9 @@
         "manual": {
           "posts": 32,
           "race": {
-            "n": 22,
-            "median_gap": 156,
-            "underdog_first_pct": 90.9,
+            "n": 20,
+            "median_gap": 145,
+            "underdog_first_pct": 90.0,
             "gaps": [
               -80,
               -30,
@@ -4278,20 +4032,18 @@
               328,
               417,
               434,
-              779,
-              2953,
-              12610
+              779
             ],
-            "underdog_before_source_pct": 13.6,
+            "underdog_before_source_pct": 10.0,
             "before_source": {
-              "n": 3,
+              "n": 2,
               "monitor_had_earlier": 0,
-              "monitor_never_had": 3
+              "monitor_never_had": 2
             }
           },
           "from_source": {
-            "median": 267,
-            "n": 21
+            "median": 223,
+            "n": 19
           },
           "add_line_to_x": {
             "median": 42,
@@ -4328,11 +4080,10 @@
         "all": {
           "posts": 24,
           "race": {
-            "n": 12,
-            "median_gap": 88,
-            "underdog_first_pct": 83.3,
+            "n": 11,
+            "median_gap": 94,
+            "underdog_first_pct": 90.9,
             "gaps": [
-              -5741,
               -43,
               11,
               22,
@@ -4345,7 +4096,7 @@
               459,
               828
             ],
-            "underdog_before_source_pct": 16.7,
+            "underdog_before_source_pct": 18.2,
             "before_source": {
               "n": 2,
               "monitor_had_earlier": 0,
@@ -4353,8 +4104,8 @@
             }
           },
           "from_source": {
-            "median": 136,
-            "n": 12
+            "median": 147,
+            "n": 11
           }
         },
         "monitor": {
@@ -4413,11 +4164,10 @@
         "manual": {
           "posts": 4,
           "race": {
-            "n": 2,
-            "median_gap": -2829,
-            "underdog_first_pct": 50.0,
+            "n": 1,
+            "median_gap": 83,
+            "underdog_first_pct": 100.0,
             "gaps": [
-              -5741,
               83
             ],
             "underdog_before_source_pct": 0.0,
@@ -4428,8 +4178,8 @@
             }
           },
           "from_source": {
-            "median": 136,
-            "n": 2
+            "median": 147,
+            "n": 1
           },
           "add_line_to_x": {
             "median": null,
@@ -4461,38 +4211,10 @@
         "all": {
           "posts": 196,
           "race": {
-            "n": 133,
-            "median_gap": 65,
-            "underdog_first_pct": 75.9,
+            "n": 104,
+            "median_gap": 83,
+            "underdog_first_pct": 96.2,
             "gaps": [
-              -19551,
-              -16799,
-              -15152,
-              -15134,
-              -14946,
-              -14875,
-              -12516,
-              -12259,
-              -12255,
-              -12233,
-              -11944,
-              -11772,
-              -11460,
-              -11421,
-              -11350,
-              -11266,
-              -11175,
-              -10946,
-              -10908,
-              -10068,
-              -9763,
-              -8108,
-              -8072,
-              -7872,
-              -7047,
-              -5375,
-              -5306,
-              -2100,
               -85,
               -57,
               -53,
@@ -4596,44 +4318,27 @@
               672,
               756,
               1533,
-              1780,
-              5322
+              1780
             ],
-            "underdog_before_source_pct": 7.2,
+            "underdog_before_source_pct": 8.2,
             "before_source": {
-              "n": 9,
+              "n": 8,
               "monitor_had_earlier": 1,
-              "monitor_never_had": 8
+              "monitor_never_had": 7
             }
           },
           "from_source": {
-            "median": 162,
-            "n": 126
+            "median": 164,
+            "n": 97
           }
         },
         "monitor": {
           "posts": 99,
           "race": {
-            "n": 71,
-            "median_gap": 51,
-            "underdog_first_pct": 71.8,
+            "n": 55,
+            "median_gap": 76,
+            "underdog_first_pct": 92.7,
             "gaps": [
-              -19551,
-              -14946,
-              -12516,
-              -12259,
-              -12255,
-              -12233,
-              -11772,
-              -11421,
-              -11266,
-              -11175,
-              -10068,
-              -8108,
-              -8072,
-              -7872,
-              -5306,
-              -2100,
               -85,
               -57,
               -53,
@@ -4690,7 +4395,7 @@
               1533,
               1780
             ],
-            "underdog_before_source_pct": 7.0,
+            "underdog_before_source_pct": 9.1,
             "before_source": {
               "n": 5,
               "monitor_had_earlier": 1,
@@ -4698,8 +4403,8 @@
             }
           },
           "from_source": {
-            "median": 173,
-            "n": 71
+            "median": 180,
+            "n": 55
           },
           "steps": {
             "sent_to_monitor": {
@@ -4728,20 +4433,10 @@
         "manual": {
           "posts": 82,
           "race": {
-            "n": 54,
-            "median_gap": 70,
-            "underdog_first_pct": 81.5,
+            "n": 43,
+            "median_gap": 90,
+            "underdog_first_pct": 100.0,
             "gaps": [
-              -16799,
-              -15134,
-              -14875,
-              -11944,
-              -11460,
-              -11350,
-              -10946,
-              -10908,
-              -7047,
-              -5375,
               6,
               24,
               30,
@@ -4784,19 +4479,18 @@
               254,
               269,
               357,
-              756,
-              5322
+              756
             ],
-            "underdog_before_source_pct": 7.4,
+            "underdog_before_source_pct": 7.0,
             "before_source": {
-              "n": 4,
+              "n": 3,
               "monitor_had_earlier": 0,
-              "monitor_never_had": 4
+              "monitor_never_had": 3
             }
           },
           "from_source": {
-            "median": 139,
-            "n": 49
+            "median": 124,
+            "n": 38
           },
           "add_line_to_x": {
             "median": 46,
@@ -4806,12 +4500,10 @@
         "other": {
           "posts": 15,
           "race": {
-            "n": 8,
-            "median_gap": 212,
-            "underdog_first_pct": 75.0,
+            "n": 6,
+            "median_gap": 257,
+            "underdog_first_pct": 100.0,
             "gaps": [
-              -15152,
-              -9763,
               36,
               168,
               257,
@@ -4821,8 +4513,8 @@
             ]
           },
           "from_source": {
-            "median": 198,
-            "n": 6
+            "median": 278,
+            "n": 4
           }
         },
         "manual_pct": 41.8,
@@ -4837,14 +4529,10 @@
         "all": {
           "posts": 221,
           "race": {
-            "n": 160,
-            "median_gap": 102,
-            "underdog_first_pct": 92.5,
+            "n": 150,
+            "median_gap": 100,
+            "underdog_first_pct": 94.7,
             "gaps": [
-              -20439,
-              -13358,
-              -7339,
-              -5269,
               -616,
               -546,
               -79,
@@ -4994,36 +4682,27 @@
               1077,
               1118,
               1303,
-              1366,
-              3056,
-              7004,
-              7680,
-              7771,
-              9219,
-              12645
+              1366
             ],
-            "underdog_before_source_pct": 14.6,
+            "underdog_before_source_pct": 14.1,
             "before_source": {
-              "n": 22,
+              "n": 20,
               "monitor_had_earlier": 4,
-              "monitor_never_had": 18
+              "monitor_never_had": 16
             }
           },
           "from_source": {
-            "median": 172,
-            "n": 146
+            "median": 167,
+            "n": 136
           }
         },
         "monitor": {
           "posts": 128,
           "race": {
-            "n": 89,
+            "n": 82,
             "median_gap": 96,
-            "underdog_first_pct": 92.1,
+            "underdog_first_pct": 95.1,
             "gaps": [
-              -20439,
-              -13358,
-              -5269,
               -616,
               -546,
               -79,
@@ -5105,22 +4784,18 @@
               436,
               579,
               847,
-              1303,
-              3056,
-              7004,
-              7771,
-              9219
+              1303
             ],
-            "underdog_before_source_pct": 19.1,
+            "underdog_before_source_pct": 18.3,
             "before_source": {
-              "n": 17,
+              "n": 15,
               "monitor_had_earlier": 2,
-              "monitor_never_had": 15
+              "monitor_never_had": 13
             }
           },
           "from_source": {
-            "median": 199,
-            "n": 89
+            "median": 188,
+            "n": 82
           },
           "steps": {
             "sent_to_monitor": {
@@ -5149,9 +4824,9 @@
         "manual": {
           "posts": 79,
           "race": {
-            "n": 62,
-            "median_gap": 100,
-            "underdog_first_pct": 93.5,
+            "n": 60,
+            "median_gap": 97,
+            "underdog_first_pct": 93.3,
             "gaps": [
               -53,
               -20,
@@ -5212,11 +4887,9 @@
               687,
               998,
               1072,
-              1118,
-              7680,
-              12645
+              1118
             ],
-            "underdog_before_source_pct": 8.1,
+            "underdog_before_source_pct": 8.3,
             "before_source": {
               "n": 5,
               "monitor_had_earlier": 2,
@@ -5224,8 +4897,8 @@
             }
           },
           "from_source": {
-            "median": 145,
-            "n": 50
+            "median": 144,
+            "n": 48
           },
           "add_line_to_x": {
             "median": 47,
@@ -5235,11 +4908,10 @@
         "other": {
           "posts": 14,
           "race": {
-            "n": 9,
-            "median_gap": 247,
-            "underdog_first_pct": 88.9,
+            "n": 8,
+            "median_gap": 250,
+            "underdog_first_pct": 100.0,
             "gaps": [
-              -7339,
               82,
               111,
               167,
@@ -5251,8 +4923,8 @@
             ]
           },
           "from_source": {
-            "median": 271,
-            "n": 7
+            "median": 269,
+            "n": 6
           }
         },
         "manual_pct": 35.7,
@@ -5267,9 +4939,9 @@
         "all": {
           "posts": 66,
           "race": {
-            "n": 46,
-            "median_gap": 133,
-            "underdog_first_pct": 93.5,
+            "n": 44,
+            "median_gap": 124,
+            "underdog_first_pct": 93.2,
             "gaps": [
               -73,
               -63,
@@ -5314,28 +4986,26 @@
               560,
               931,
               1039,
-              1657,
-              2993,
-              4339
+              1657
             ],
-            "underdog_before_source_pct": 12.2,
+            "underdog_before_source_pct": 10.3,
             "before_source": {
-              "n": 5,
+              "n": 4,
               "monitor_had_earlier": 1,
-              "monitor_never_had": 4
+              "monitor_never_had": 3
             }
           },
           "from_source": {
-            "median": 213,
-            "n": 41
+            "median": 180,
+            "n": 39
           }
         },
         "monitor": {
           "posts": 37,
           "race": {
-            "n": 27,
-            "median_gap": 136,
-            "underdog_first_pct": 96.3,
+            "n": 25,
+            "median_gap": 101,
+            "underdog_first_pct": 96.0,
             "gaps": [
               -73,
               12,
@@ -5361,20 +5031,18 @@
               269,
               312,
               511,
-              1039,
-              2993,
-              4339
+              1039
             ],
-            "underdog_before_source_pct": 14.8,
+            "underdog_before_source_pct": 12.0,
             "before_source": {
-              "n": 4,
+              "n": 3,
               "monitor_had_earlier": 1,
-              "monitor_never_had": 3
+              "monitor_never_had": 2
             }
           },
           "from_source": {
-            "median": 176,
-            "n": 27
+            "median": 156,
+            "n": 25
           },
           "steps": {
             "sent_to_monitor": {
@@ -16108,541 +15776,545 @@
   "summary": {
     "margin": {
       "last30": {
-        "n": 804,
-        "median": 93,
-        "rw_first_pct": 9.1,
-        "tie_pct": 26.9,
-        "ud_first_pct": 64.1,
-        "ud_mid_pct": 47.4,
-        "ud_blowout_pct": 16.7
+        "n": 720,
+        "median": 97,
+        "rw_first_pct": 2.9,
+        "tie_pct": 30.0,
+        "ud_first_pct": 67.1,
+        "ud_mid_pct": 52.9,
+        "ud_blowout_pct": 14.2,
+        "rw_early_n": 52,
+        "ud_early_n": 38
       },
       "prior30": {
-        "n": 553,
-        "median": 127,
-        "rw_first_pct": 9.2,
-        "tie_pct": 19.5,
-        "ud_first_pct": 71.2,
-        "ud_mid_pct": 49.2,
-        "ud_blowout_pct": 22.1
+        "n": 491,
+        "median": 123,
+        "rw_first_pct": 5.5,
+        "tie_pct": 22.0,
+        "ud_first_pct": 72.5,
+        "ud_mid_pct": 55.2,
+        "ud_blowout_pct": 17.3,
+        "rw_early_n": 29,
+        "ud_early_n": 39
       },
       "rolling": [
         [
           "2026-07-28",
           null,
           null,
-          105,
-          13
+          54,
+          10
         ],
         [
           "2026-07-29",
-          163,
-          144,
-          204,
-          16
+          null,
+          88,
+          147,
+          13
         ],
         [
           "2026-07-30",
-          155,
-          144,
+          106,
+          104,
           222,
           4
         ],
         [
           "2026-07-31",
-          125,
-          140,
+          73,
+          104,
           12,
           1
         ],
         [
           "2026-08-01",
-          105,
-          108,
-          20,
-          8
+          58,
+          68,
+          11,
+          7
         ],
         [
           "2026-08-02",
-          106,
-          108,
+          53,
+          68,
           null,
           0
         ],
         [
           "2026-08-03",
-          125,
-          132,
-          657,
-          11
+          86,
+          95,
+          524,
+          9
         ],
         [
           "2026-08-04",
-          166,
-          144,
-          864,
-          12
+          78,
+          76,
+          -10,
+          7
         ],
         [
           "2026-08-05",
-          269,
-          166,
-          418,
-          8
+          123,
+          104,
+          486,
+          7
         ],
         [
           "2026-08-06",
-          217,
-          170,
+          109,
+          104,
           190,
           7
         ],
         [
           "2026-08-07",
-          220,
-          180,
+          146,
+          105,
           224,
           3
         ],
         [
           "2026-08-08",
-          408,
-          190,
-          436,
-          5
+          218,
+          104,
+          -11,
+          3
         ],
         [
           "2026-08-09",
-          408,
-          190,
+          218,
+          104,
           398,
           4
         ],
         [
           "2026-08-10",
-          222,
-          180,
-          141,
-          13
+          166,
+          108,
+          127,
+          9
         ],
         [
           "2026-08-11",
-          210,
-          169,
-          138,
-          24
+          168,
+          107,
+          105,
+          20
         ],
         [
           "2026-08-12",
-          134,
-          145,
+          105,
+          104,
           34,
           8
         ],
         [
           "2026-08-13",
-          130,
-          143,
+          108,
+          106,
           132,
           13
         ],
         [
           "2026-08-14",
-          107,
-          126,
+          89,
+          102,
           34,
           10
         ],
         [
           "2026-08-15",
-          72,
-          110,
-          -5,
-          11
+          65,
+          76,
+          2,
+          10
         ],
         [
           "2026-08-16",
-          89,
-          114,
+          82,
+          86,
           141,
           10
         ],
         [
           "2026-08-17",
-          60,
-          107,
-          45,
-          21
+          59,
+          76,
+          42,
+          16
         ],
         [
           "2026-08-18",
           54,
-          103,
-          70,
-          22
+          79,
+          88,
+          18
         ],
         [
           "2026-08-19",
-          52,
-          95,
+          54,
+          73,
           30,
           12
         ],
         [
           "2026-08-20",
-          46,
-          95,
-          99,
-          8
+          49,
+          79,
+          109,
+          7
         ],
         [
           "2026-08-21",
-          56,
-          104,
+          60,
+          85,
           278,
-          8
+          6
         ],
         [
           "2026-08-22",
+          88,
           86,
-          106,
           424,
           3
         ],
         [
           "2026-08-23",
           86,
-          102,
+          86,
           93,
           8
         ],
         [
           "2026-08-24",
-          99,
-          104,
-          108,
-          20
+          107,
+          89,
+          109,
+          19
         ],
         [
           "2026-08-25",
-          109,
-          106,
-          119,
-          12
+          112,
+          89,
+          115,
+          11
         ],
         [
           "2026-08-26",
-          132,
-          107,
+          142,
+          96,
           180,
           7
         ],
         [
           "2026-08-27",
           170,
-          110,
+          104,
           172,
           10
         ],
         [
           "2026-08-28",
-          160,
-          110,
-          155,
-          5
+          158,
+          106,
+          148,
+          4
         ],
         [
           "2026-08-29",
-          148,
-          109,
+          141,
+          103,
           213,
           4
         ],
         [
           "2026-08-30",
-          130,
-          109,
+          123,
           103,
-          25
+          101,
+          24
         ],
         [
           "2026-08-31",
-          158,
-          111,
+          141,
+          109,
           337,
           5
         ],
         [
           "2026-09-01",
-          155,
-          112,
-          142,
-          23
+          148,
+          110,
+          126,
+          22
         ],
         [
           "2026-09-02",
-          142,
-          111,
-          134,
-          11
+          140,
+          109,
+          132,
+          10
         ],
         [
           "2026-09-03",
-          130,
+          117,
           110,
           66,
           8
         ],
         [
           "2026-09-04",
-          123,
-          110,
+          113,
+          109,
           null,
           0
         ],
         [
           "2026-09-05",
-          117,
-          110,
-          -2002,
-          1
+          113,
+          108,
+          null,
+          0
         ],
         [
           "2026-09-06",
-          138,
-          109,
+          134,
+          107,
           99,
           6
         ],
         [
           "2026-09-07",
-          111,
-          109,
+          110,
+          107,
           61,
           16
         ],
         [
           "2026-09-08",
+          94,
           106,
-          109,
-          125,
-          17
+          78,
+          14
         ],
         [
           "2026-09-09",
-          133,
-          112,
-          178,
-          44
+          124,
+          110,
+          164,
+          38
         ],
         [
           "2026-09-10",
-          137,
-          114,
-          136,
-          22
+          131,
+          111,
+          141,
+          21
         ],
         [
           "2026-09-11",
-          146,
-          117,
-          179,
-          17
+          131,
+          114,
+          139,
+          12
         ],
         [
           "2026-09-12",
-          147,
-          118,
-          202,
-          10
+          133,
+          113,
+          164,
+          7
         ],
         [
           "2026-09-13",
-          146,
-          123,
-          126,
-          29
+          130,
+          116,
+          127,
+          28
         ],
         [
           "2026-09-14",
-          167,
-          129,
-          313,
-          10
+          148,
+          125,
+          274,
+          7
         ],
         [
           "2026-09-15",
-          170,
-          128,
-          108,
-          5
+          157,
+          122,
+          33,
+          3
         ],
         [
           "2026-09-16",
-          153,
           130,
-          105,
-          24
+          126,
+          101,
+          23
         ],
         [
           "2026-09-17",
-          134,
-          133,
-          99,
-          22
+          127,
+          127,
+          123,
+          16
         ],
         [
           "2026-09-18",
-          113,
-          133,
-          104,
-          30
+          112,
+          126,
+          102,
+          27
         ],
         [
           "2026-09-19",
           110,
-          133,
+          126,
           74,
           6
         ],
         [
           "2026-09-20",
-          108,
-          126,
-          104,
-          56
+          112,
+          123,
+          116,
+          45
         ],
         [
           "2026-09-21",
-          99,
-          123,
+          103,
+          120,
           78,
           26
         ],
         [
           "2026-09-22",
-          100,
-          123,
+          104,
+          121,
           226,
           6
         ],
         [
           "2026-09-23",
-          90,
-          121,
-          76,
-          34
+          99,
+          115,
+          72,
+          29
         ],
         [
           "2026-09-24",
           104,
-          126,
-          162,
-          43
-        ],
-        [
-          "2026-09-25",
-          116,
-          127,
-          144,
+          121,
+          160,
           38
         ],
         [
-          "2026-09-26",
+          "2026-09-25",
           120,
-          125,
-          130,
-          8
+          123,
+          150,
+          37
+        ],
+        [
+          "2026-09-26",
+          122,
+          121,
+          117,
+          7
         ],
         [
           "2026-09-27",
-          113,
-          120,
+          110,
+          114,
           77,
-          53
+          49
         ],
         [
           "2026-09-28",
-          116,
-          120,
+          114,
+          114,
           110,
-          18
+          16
         ],
         [
           "2026-09-29",
-          116,
-          120,
-          -2753,
-          2
+          114,
+          117,
+          235,
+          1
         ],
         [
           "2026-09-30",
           122,
-          120,
-          130,
-          36
+          116,
+          127,
+          35
         ],
         [
           "2026-10-01",
-          108,
-          116,
-          59,
-          36
+          110,
+          114,
+          76,
+          28
         ],
         [
           "2026-10-02",
-          91,
-          111,
+          92,
+          110,
           74,
           38
         ],
         [
           "2026-10-03",
-          91,
-          112,
+          93,
+          111,
           226,
           4
         ],
         [
           "2026-10-04",
-          93,
-          111,
-          99,
-          49
+          96,
+          110,
+          94,
+          46
         ],
         [
           "2026-10-05",
-          96,
-          112,
-          134,
-          27
+          97,
+          111,
+          124,
+          22
         ],
         [
           "2026-10-06",
           96,
-          112,
+          110,
           96,
           2
         ],
         [
           "2026-10-07",
-          92,
-          111,
-          105,
-          41
+          96,
+          110,
+          107,
+          37
         ],
         [
           "2026-10-08",
           101,
           111,
-          120,
-          38
+          134,
+          36
         ],
         [
           "2026-10-09",
           107,
           108,
-          106,
-          48
+          96,
+          45
         ],
         [
           "2026-10-10",
@@ -16653,113 +16325,113 @@
         ],
         [
           "2026-10-11",
-          113,
+          112,
           108,
-          170,
-          50
+          163,
+          48
         ],
         [
           "2026-10-12",
-          116,
+          114,
           110,
-          201,
-          17
+          196,
+          16
         ],
         [
           "2026-10-13",
-          126,
+          125,
           110,
           459,
           3
         ],
         [
           "2026-10-14",
-          114,
+          113,
           107,
-          80,
-          35
+          83,
+          27
         ],
         [
           "2026-10-15",
-          105,
-          105,
-          73,
-          31
+          106,
+          106,
+          83,
+          25
         ],
         [
           "2026-10-16",
-          102,
-          104,
+          106,
+          106,
           98,
-          34
+          31
         ],
         [
           "2026-10-17",
+          108,
           105,
-          104,
-          130,
-          13
+          108,
+          12
         ],
         [
           "2026-10-18",
-          86,
-          103,
+          90,
+          104,
           77,
-          39
+          35
         ],
         [
           "2026-10-19",
-          83,
-          103,
+          88,
+          104,
           110,
           25
         ],
         [
           "2026-10-20",
-          82,
-          102,
+          84,
+          103,
           22,
           5
         ],
         [
           "2026-10-21",
-          80,
-          101,
-          66,
-          34
+          82,
+          102,
+          75,
+          29
         ],
         [
           "2026-10-22",
-          76,
-          97,
-          -24,
-          28
+          80,
+          100,
+          51,
+          15
         ],
         [
           "2026-10-23",
-          80,
-          100,
+          88,
+          105,
           233,
-          40
+          36
         ],
         [
           "2026-10-24",
-          79,
-          98,
+          88,
+          103,
           161,
           11
         ],
         [
           "2026-10-25",
-          72,
-          93,
-          46,
-          29
+          80,
+          97,
+          45,
+          26
         ],
         [
           "2026-10-26",
-          64,
-          92,
+          76,
+          96,
           null,
           0
         ]
@@ -16813,8 +16485,8 @@
           "n": 389
         },
         "margin": {
-          "median": 84,
-          "n": 426
+          "median": 91,
+          "n": 378
         }
       },
       "off": {
@@ -16824,7 +16496,7 @@
         },
         "margin": {
           "median": 134,
-          "n": 136
+          "n": 120
         }
       }
     },
@@ -16889,13 +16561,13 @@
             "higher_better": false,
             "unit": "s",
             "before": {
-              "value": 104,
-              "n": 390,
+              "value": 105,
+              "n": 351,
               "unit": "s"
             },
             "after": {
-              "value": 72,
-              "n": 172,
+              "value": 80,
+              "n": 147,
               "unit": "s"
             }
           }
@@ -17204,13 +16876,13 @@
             "higher_better": false,
             "unit": "s",
             "before": {
-              "value": 102,
-              "n": 384,
+              "value": 104,
+              "n": 350,
               "unit": "s"
             },
             "after": {
-              "value": 64,
-              "n": 152,
+              "value": 76,
+              "n": 127,
               "unit": "s"
             }
           }
