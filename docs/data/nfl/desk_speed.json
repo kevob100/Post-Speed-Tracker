@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-26T13:55:31.743293+00:00",
+  "generated_at": "2026-10-26T14:07:27.853651+00:00",
   "window": {
     "from": "2026-09-26",
     "to": "2026-10-26",
@@ -8,7 +8,7 @@
   "opens_tracked_since": "2026-10-13",
   "paths": {
     "all": {
-      "posts": 1088,
+      "posts": 1087,
       "race": {
         "n": 718,
         "median_gap": 96,
@@ -746,7 +746,7 @@
       }
     },
     "monitor": {
-      "posts": 619,
+      "posts": 618,
       "race": {
         "n": 428,
         "median_gap": 94,
@@ -1195,7 +1195,7 @@
       "steps": {
         "sent_to_monitor": {
           "median": 18,
-          "n": 649
+          "n": 648
         },
         "monitor_to_open": {
           "median": 56,
@@ -1207,12 +1207,12 @@
         },
         "monitor_to_x": {
           "median": 135,
-          "n": 649
+          "n": 648
         },
         "split": true,
         "edited": {
           "pct": 94.1,
-          "n": 649
+          "n": 648
         }
       }
     },
@@ -4937,7 +4937,7 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 66,
+          "posts": 65,
           "race": {
             "n": 44,
             "median_gap": 124,
@@ -5001,7 +5001,7 @@
           }
         },
         "monitor": {
-          "posts": 37,
+          "posts": 36,
           "race": {
             "n": 25,
             "median_gap": 101,
@@ -5046,8 +5046,8 @@
           },
           "steps": {
             "sent_to_monitor": {
-              "median": 18,
-              "n": 40
+              "median": 17,
+              "n": 39
             },
             "monitor_to_open": {
               "median": 35,
@@ -5058,13 +5058,13 @@
               "n": 27
             },
             "monitor_to_x": {
-              "median": 102,
-              "n": 40
+              "median": 101,
+              "n": 39
             },
             "split": true,
             "edited": {
-              "pct": 77.5,
-              "n": 40
+              "pct": 76.9,
+              "n": 39
             }
           }
         },
@@ -5125,8 +5125,8 @@
             "n": 3
           }
         },
-        "manual_pct": 34.8,
-        "other_pct": 9.1
+        "manual_pct": 35.4,
+        "other_pct": 9.2
       }
     }
   ],
@@ -17186,6 +17186,12 @@
               "status": "In Review",
               "category": "indeterminate",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8196"
+            },
+            {
+              "key": null,
+              "title": "Finalize the template wording (KOB is reviewing the proposed changes)",
+              "status": "No ticket",
+              "category": "none"
             }
           ]
         },

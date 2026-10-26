@@ -3364,7 +3364,8 @@ function renderSummary() {
   const dl = (a, b, unit) => { if (a == null || b == null) return ""; const v = a - b; if (!v) return "no change";
     return `<span class="${v < 0 ? "up" : "worse"}">${v < 0 ? "▼" : "▲"} ${dkFmt(Math.abs(v))} ${v < 0 ? "closer" : "further behind"}</span>`; };
   const biggest = SM_STEPS.reduce((m, s) => ((st[s[0]] || {}).median || 0) > ((st[m[0]] || {}).median || 0) ? s : m, SM_STEPS[0])[0];
-  const s3 = smRoad(S, "s3").items.filter(i => i.key);
+  const s3 = smRoad(S, "s3").items.filter(i => i.key), s3now = smRoad(S, "s3").items.filter(i => !i.key);
+  const s3shipped = s3.filter(i => i.category !== "new"), s3left = s3.filter(i => i.category === "new");
   host.innerHTML = `
     <div class="sm-top">
       <div class="sm-card">
@@ -3386,7 +3387,9 @@ function renderSummary() {
           return `<div class="eb-bar sm-eb" role="img" aria-label="${B.buckets.map(b => `${b.label} ${b.n}`).join(", ")}">${B.buckets.filter(b => b.n).map(b => `<span style="flex:${b.n};background:${b.color}" title="${esc(b.label)}: ${b.n}"></span>`).join("")}</div>
             <div class="sm-legend">${B.buckets.filter(b => b.n).map(b => `<span><i style="background:${b.color}"></i>${esc(b.label)} ${b.n}</span>`).join("")}</div>
             <div class="sm-delta"><b style="color:var(--text)">${Math.round(100 * opt / tot)}%</b> of edits in a hand-checked sample changed only the wording, not the facts. <span style="color:#e0702e">${(B.buckets.find(b => b.key === "wrong") || {}).n || 0}</span> of ${tot} drafts were wrong, mostly from image-only sources.</div>`; })()}
-        ${s3.length ? `<div class="dc-f"><div class="t">Being done about it</div><div class="pills">${s3.map(i => smPill(i)).join("")}</div><div class="sm-legend"><span><i class="done"></i>Done</span><span><i class="prog"></i>In progress or review</span><span><i class="todo"></i>Not started</span></div></div>` : ""}
+        ${s3now.length ? `<div class="dc-f"><div class="t">Now</div>${s3now.map(i => `<div class="d" style="color:var(--text)">${esc(i.title)}</div>`).join("")}</div>` : ""}
+        ${s3shipped.length ? `<div class="dc-f"><div class="t">Shipped (${s3shipped.length})</div><div class="pills">${s3shipped.map(i => smPill(i, true)).join("")}</div><div class="sm-legend"><span><i class="done"></i>Done</span><span><i class="prog"></i>In review</span></div></div>` : ""}
+        ${s3left.length ? `<div class="dc-f"><div class="t">Not started (${s3left.length})</div><div class="pills">${s3left.map(i => smPill(i)).join("")}</div></div>` : ""}
       </div>
     </div>
     <div class="sm-cols">
