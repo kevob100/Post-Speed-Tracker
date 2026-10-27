@@ -1,42 +1,42 @@
 {
-  "generated_at": "2026-10-26T13:55:27.543762+00:00",
+  "generated_at": "2026-10-27T10:16:02.592784+00:00",
   "analysis_start": null,
   "summary": {
-    "matched": 1575,
-    "rotowire_first": 171,
-    "rotowire_first_rate": 0.1086,
+    "matched": 1591,
+    "rotowire_first": 172,
+    "rotowire_first_rate": 0.1081,
     "median_lead_seconds": -111,
-    "mean_lead_seconds": -184.1,
-    "avg_lead_seconds": 250.8,
-    "avg_trail_seconds": 237.1,
-    "median_win_lead_seconds": 59,
-    "median_win_trail_seconds": 129.5,
-    "rotowire_only": 900,
-    "underdog_only": 858,
-    "roundup_only": 290,
+    "mean_lead_seconds": -184.3,
+    "avg_lead_seconds": 249.7,
+    "avg_trail_seconds": 236.9,
+    "median_win_lead_seconds": 60.0,
+    "median_win_trail_seconds": 129,
+    "rotowire_only": 905,
+    "underdog_only": 869,
+    "roundup_only": 292,
     "rotowire_update_only": 89,
-    "underdog_update_only": 109,
+    "underdog_update_only": 110,
     "rotowire_duplicate": 252,
     "underdog_duplicate": 364
   },
   "headline": {
     "days": 30,
     "tie_seconds": 60,
-    "since": "2026-09-26",
-    "matched": 720,
+    "since": "2026-09-27",
+    "matched": 729,
     "rotowire_first": 21,
-    "ties": 216,
-    "underdog_first": 483,
-    "rotowire_first_rate": 0.0292,
-    "tie_rate": 0.3,
+    "ties": 219,
+    "underdog_first": 489,
+    "rotowire_first_rate": 0.0288,
+    "tie_rate": 0.3004,
     "underdog_first_rate": 0.6708,
-    "median_lead_seconds": -97.0,
-    "stories": 1201,
-    "matched_rate": 0.5995,
-    "rotowire_missed": 261,
-    "rotowire_missed_rate": 0.2173,
-    "underdog_missed": 220,
-    "underdog_missed_rate": 0.1832
+    "median_lead_seconds": -97,
+    "stories": 1219,
+    "matched_rate": 0.598,
+    "rotowire_missed": 267,
+    "rotowire_missed_rate": 0.219,
+    "underdog_missed": 223,
+    "underdog_missed_rate": 0.1829
   },
   "weekly": [
     {
@@ -611,20 +611,20 @@
     },
     {
       "period": "2026-W44",
-      "matched": 1,
-      "rotowire_first": 0,
-      "rotowire_first_rate": 0.0,
-      "median_lead_seconds": -530,
-      "mean_lead_seconds": -530,
-      "avg_lead_seconds": null,
-      "avg_trail_seconds": 530,
-      "median_win_lead_seconds": null,
-      "median_win_trail_seconds": 530,
-      "rotowire_only": 0,
-      "underdog_only": 2,
-      "roundup_only": 4,
+      "matched": 17,
+      "rotowire_first": 1,
+      "rotowire_first_rate": 0.0588,
+      "median_lead_seconds": -124,
+      "mean_lead_seconds": -225.6,
+      "avg_lead_seconds": 73,
+      "avg_trail_seconds": 244.3,
+      "median_win_lead_seconds": 73,
+      "median_win_trail_seconds": 136.5,
+      "rotowire_only": 5,
+      "underdog_only": 13,
+      "roundup_only": 6,
       "rotowire_update_only": 0,
-      "underdog_update_only": 0,
+      "underdog_update_only": 1,
       "rotowire_duplicate": 1,
       "underdog_duplicate": 1
     }
@@ -746,20 +746,20 @@
     },
     {
       "period": "2026-10",
-      "matched": 613,
-      "rotowire_first": 37,
+      "matched": 629,
+      "rotowire_first": 38,
       "rotowire_first_rate": 0.0604,
       "median_lead_seconds": -96,
-      "mean_lead_seconds": -157.5,
-      "avg_lead_seconds": 167.5,
-      "avg_trail_seconds": 178.3,
-      "median_win_lead_seconds": 53,
-      "median_win_trail_seconds": 104.5,
-      "rotowire_only": 196,
-      "underdog_only": 289,
-      "roundup_only": 123,
+      "mean_lead_seconds": -158.7,
+      "avg_lead_seconds": 165,
+      "avg_trail_seconds": 179.5,
+      "median_win_lead_seconds": 53.0,
+      "median_win_trail_seconds": 105,
+      "rotowire_only": 201,
+      "underdog_only": 300,
+      "roundup_only": 125,
       "rotowire_update_only": 41,
-      "underdog_update_only": 49,
+      "underdog_update_only": 50,
       "rotowire_duplicate": 84,
       "underdog_duplicate": 134
     }
@@ -8842,32 +8842,71 @@
       {
         "period": "2026-10-26",
         "label": "Oct 26",
+        "matched": 16,
+        "rotowire_first": 1,
+        "median_lead_seconds": -120.0,
+        "rolling1_median_seconds": -120.0,
+        "rolling1_matched": 16,
+        "rolling1_days": 1.0,
+        "rolling1_sourced": 15,
+        "rolling1_rw_from_source": 184,
+        "rolling1_ud_from_source": 79,
+        "rolling7_median_seconds": -78.5,
+        "rolling7_matched": 138,
+        "rolling7_days": 7.0,
+        "rolling7_sourced": 104,
+        "rolling7_rw_from_source": 140.0,
+        "rolling7_ud_from_source": 41.5,
+        "rolling30_median_seconds": -97,
+        "rolling30_matched": 729,
+        "rolling30_days": 30.0,
+        "rolling30_sourced": 536,
+        "rolling30_rw_from_source": 138.5,
+        "rolling30_ud_from_source": 39.0,
+        "sourced": 15,
+        "rw_from_source": 184,
+        "ud_from_source": 79,
+        "rolling_median_seconds": -78.5,
+        "rolling_matched": 138,
+        "detail": {
+          "rotowire_first": 1,
+          "ties": 4,
+          "underdog_first": 11,
+          "median_win_lead_seconds": 73,
+          "median_win_trail_seconds": 124,
+          "rotowire_only": 5,
+          "underdog_only": 11
+        }
+      },
+      {
+        "period": "2026-10-27",
+        "label": "Oct 27",
         "matched": 0,
         "rotowire_first": 0,
         "median_lead_seconds": null,
-        "rolling1_median_seconds": -67.5,
+        "rolling1_median_seconds": -108.0,
         "rolling1_matched": 10,
         "rolling1_days": 1.4,
         "rolling1_sourced": 10,
-        "rolling1_rw_from_source": 232.0,
-        "rolling1_ud_from_source": 62.5,
-        "rolling7_median_seconds": -75.5,
-        "rolling7_matched": 122,
+        "rolling1_rw_from_source": 174.5,
+        "rolling1_ud_from_source": 64.0,
+        "rolling7_median_seconds": -80,
+        "rolling7_matched": 133,
         "rolling7_days": 7.0,
-        "rolling7_sourced": 89,
-        "rolling7_rw_from_source": 125,
-        "rolling7_ud_from_source": 38,
-        "rolling30_median_seconds": -96,
-        "rolling30_matched": 713,
+        "rolling7_sourced": 100,
+        "rolling7_rw_from_source": 144.5,
+        "rolling7_ud_from_source": 42.5,
+        "rolling30_median_seconds": -98.0,
+        "rolling30_matched": 680,
         "rolling30_days": 30.0,
-        "rolling30_sourced": 521,
-        "rolling30_rw_from_source": 136,
-        "rolling30_ud_from_source": 39,
+        "rolling30_sourced": 497,
+        "rolling30_rw_from_source": 141,
+        "rolling30_ud_from_source": 40,
         "sourced": 10,
-        "rw_from_source": 232.0,
-        "ud_from_source": 62.5,
-        "rolling_median_seconds": -75.5,
-        "rolling_matched": 122,
+        "rw_from_source": 174.5,
+        "ud_from_source": 64.0,
+        "rolling_median_seconds": -80,
+        "rolling_matched": 133,
         "detail": {
           "rotowire_first": 0,
           "ties": 0,
@@ -9405,19 +9444,37 @@
       {
         "period": "2026-10-20",
         "label": "Week 7",
-        "matched": 122,
-        "rotowire_first": 10,
-        "median_lead_seconds": -75.5,
-        "rolling_median_seconds": -97.0,
-        "rolling_matched": 648,
+        "matched": 138,
+        "rotowire_first": 11,
+        "median_lead_seconds": -78.5,
+        "rolling_median_seconds": -97.5,
+        "rolling_matched": 664,
         "detail": {
-          "rotowire_first": 3,
-          "ties": 50,
-          "underdog_first": 69,
-          "median_win_lead_seconds": 34.5,
-          "median_win_trail_seconds": 81.5,
-          "rotowire_only": 64,
-          "underdog_only": 65
+          "rotowire_first": 4,
+          "ties": 54,
+          "underdog_first": 80,
+          "median_win_lead_seconds": 43,
+          "median_win_trail_seconds": 91,
+          "rotowire_only": 69,
+          "underdog_only": 76
+        }
+      },
+      {
+        "period": "2026-10-27",
+        "label": "Week 8",
+        "matched": 0,
+        "rotowire_first": 0,
+        "median_lead_seconds": null,
+        "rolling_median_seconds": -97.5,
+        "rolling_matched": 490,
+        "detail": {
+          "rotowire_first": 0,
+          "ties": 0,
+          "underdog_first": 0,
+          "median_win_lead_seconds": null,
+          "median_win_trail_seconds": null,
+          "rotowire_only": 0,
+          "underdog_only": 0
         }
       }
     ],
@@ -9533,19 +9590,19 @@
       {
         "period": "2026-10",
         "label": "Oct 2026",
-        "matched": 612,
-        "rotowire_first": 37,
+        "matched": 628,
+        "rotowire_first": 38,
         "median_lead_seconds": -96.0,
         "rolling_median_seconds": -106.0,
-        "rolling_matched": 1446,
+        "rolling_matched": 1462,
         "detail": {
-          "rotowire_first": 15,
-          "ties": 187,
-          "underdog_first": 410,
-          "median_win_lead_seconds": 53,
-          "median_win_trail_seconds": 104,
-          "rotowire_only": 196,
-          "underdog_only": 288
+          "rotowire_first": 16,
+          "ties": 191,
+          "underdog_first": 421,
+          "median_win_lead_seconds": 53.0,
+          "median_win_trail_seconds": 105.0,
+          "rotowire_only": 201,
+          "underdog_only": 299
         }
       }
     ]
@@ -9824,6 +9881,16 @@
       "date": "2026-10-26",
       "account": "underdog",
       "followers_count": 423436
+    },
+    {
+      "date": "2026-10-27",
+      "account": "rotowire",
+      "followers_count": 146299
+    },
+    {
+      "date": "2026-10-27",
+      "account": "underdog",
+      "followers_count": 423765
     }
   ],
   "season_weeks": [
@@ -9993,20 +10060,20 @@
       "week": 7,
       "start": "2026-10-20",
       "end": "2026-10-26",
-      "matched": 122,
-      "rotowire_first": 10,
-      "rotowire_first_rate": 0.082,
-      "median_lead_seconds": -75.5,
-      "mean_lead_seconds": -153.8,
-      "avg_lead_seconds": 50.1,
-      "avg_trail_seconds": 172.0,
-      "median_win_lead_seconds": 34.5,
-      "median_win_trail_seconds": 81.5,
-      "rotowire_only": 64,
-      "underdog_only": 65,
-      "roundup_only": 25,
+      "matched": 138,
+      "rotowire_first": 11,
+      "rotowire_first_rate": 0.0797,
+      "median_lead_seconds": -78.5,
+      "mean_lead_seconds": -159.9,
+      "avg_lead_seconds": 52.2,
+      "avg_trail_seconds": 178.3,
+      "median_win_lead_seconds": 43,
+      "median_win_trail_seconds": 91,
+      "rotowire_only": 69,
+      "underdog_only": 76,
+      "roundup_only": 27,
       "rotowire_update_only": 13,
-      "underdog_update_only": 5,
+      "underdog_update_only": 6,
       "rotowire_duplicate": 23,
       "underdog_duplicate": 27,
       "followups": 50
@@ -10027,9 +10094,9 @@
         "key": "injury_report",
         "label": "Practice / injury report",
         "season": {
-          "matched": 277,
-          "rotowire_first_rate": 0.0794,
-          "median_lead_seconds": -114
+          "matched": 278,
+          "rotowire_first_rate": 0.0791,
+          "median_lead_seconds": -114.0
         },
         "weeks": {
           "Week 1": {
@@ -10063,9 +10130,9 @@
             "median_lead_seconds": -79
           },
           "Week 7": {
-            "matched": 32,
-            "rotowire_first_rate": 0.0625,
-            "median_lead_seconds": -92.0
+            "matched": 33,
+            "rotowire_first_rate": 0.0606,
+            "median_lead_seconds": -96
           }
         }
       },
@@ -10073,9 +10140,9 @@
         "key": "game_status",
         "label": "Game status",
         "season": {
-          "matched": 248,
-          "rotowire_first_rate": 0.0645,
-          "median_lead_seconds": -111.0
+          "matched": 250,
+          "rotowire_first_rate": 0.068,
+          "median_lead_seconds": -110.5
         },
         "weeks": {
           "Week 1": {
@@ -10109,9 +10176,9 @@
             "median_lead_seconds": -84
           },
           "Week 7": {
-            "matched": 35,
-            "rotowire_first_rate": 0.0,
-            "median_lead_seconds": -131
+            "matched": 37,
+            "rotowire_first_rate": 0.027,
+            "median_lead_seconds": -108
           }
         }
       },
@@ -10119,9 +10186,9 @@
         "key": "in_game",
         "label": "In-game",
         "season": {
-          "matched": 210,
-          "rotowire_first_rate": 0.0714,
-          "median_lead_seconds": -101.0
+          "matched": 212,
+          "rotowire_first_rate": 0.0708,
+          "median_lead_seconds": -100.0
         },
         "weeks": {
           "Week 1": {
@@ -10155,8 +10222,8 @@
             "median_lead_seconds": -62
           },
           "Week 7": {
-            "matched": 21,
-            "rotowire_first_rate": 0.1429,
+            "matched": 23,
+            "rotowire_first_rate": 0.1304,
             "median_lead_seconds": -58
           }
         }
@@ -10165,9 +10232,9 @@
         "key": "practice_obs",
         "label": "Practice observation",
         "season": {
-          "matched": 136,
-          "rotowire_first_rate": 0.1176,
-          "median_lead_seconds": -83.5
+          "matched": 139,
+          "rotowire_first_rate": 0.1151,
+          "median_lead_seconds": -83
         },
         "weeks": {
           "Week 1": {
@@ -10201,9 +10268,9 @@
             "median_lead_seconds": -106
           },
           "Week 7": {
-            "matched": 17,
-            "rotowire_first_rate": 0.1176,
-            "median_lead_seconds": -51
+            "matched": 20,
+            "rotowire_first_rate": 0.1,
+            "median_lead_seconds": -53.0
           }
         }
       },
@@ -10211,9 +10278,9 @@
         "key": "comments",
         "label": "Coach / reporter comments",
         "season": {
-          "matched": 86,
-          "rotowire_first_rate": 0.1047,
-          "median_lead_seconds": -119.0
+          "matched": 92,
+          "rotowire_first_rate": 0.0978,
+          "median_lead_seconds": -125.5
         },
         "weeks": {
           "Week 1": {
@@ -10247,9 +10314,9 @@
             "median_lead_seconds": -125.5
           },
           "Week 7": {
-            "matched": 6,
-            "rotowire_first_rate": 0.1667,
-            "median_lead_seconds": -71.5
+            "matched": 12,
+            "rotowire_first_rate": 0.0833,
+            "median_lead_seconds": -121.0
           }
         }
       },
@@ -10303,9 +10370,9 @@
         "key": "diagnosis",
         "label": "Diagnosis / timeline",
         "season": {
-          "matched": 66,
-          "rotowire_first_rate": 0.0606,
-          "median_lead_seconds": -108.0
+          "matched": 68,
+          "rotowire_first_rate": 0.0588,
+          "median_lead_seconds": -108.5
         },
         "weeks": {
           "Week 1": {
@@ -10339,9 +10406,9 @@
             "median_lead_seconds": -155
           },
           "Week 7": {
-            "matched": 1,
+            "matched": 3,
             "rotowire_first_rate": 0.0,
-            "median_lead_seconds": -94
+            "median_lead_seconds": -116
           }
         }
       }
@@ -10375,7 +10442,7 @@
       },
       "Week 7": {
         "rotowire": 0,
-        "underdog": 31
+        "underdog": 41
       }
     },
     "kinds": {
@@ -10383,9 +10450,9 @@
         "other": 2
       },
       "underdog": {
-        "soundbite": 137,
-        "other": 48,
-        "rumor": 8,
+        "soundbite": 141,
+        "other": 52,
+        "rumor": 10,
         "in_game_note": 17,
         "non_fantasy": 5
       }
@@ -10481,7 +10548,7 @@
       "rotowire_posts": 17,
       "underdog_posts": 36,
       "rotowire_all": 38,
-      "underdog_all": 50,
+      "underdog_all": 51,
       "rotowire_links": 21,
       "underdog_links": 0,
       "matched": 11,
@@ -10490,11 +10557,11 @@
     },
     {
       "hour": 8,
-      "rotowire_posts": 48,
-      "underdog_posts": 60,
-      "rotowire_all": 94,
-      "underdog_all": 87,
-      "rotowire_links": 32,
+      "rotowire_posts": 49,
+      "underdog_posts": 62,
+      "rotowire_all": 96,
+      "underdog_all": 91,
+      "rotowire_links": 33,
       "underdog_links": 0,
       "matched": 20,
       "rotowire_first": 2,
@@ -10502,47 +10569,47 @@
     },
     {
       "hour": 9,
-      "rotowire_posts": 57,
-      "underdog_posts": 80,
-      "rotowire_all": 96,
-      "underdog_all": 118,
-      "rotowire_links": 37,
+      "rotowire_posts": 58,
+      "underdog_posts": 81,
+      "rotowire_all": 98,
+      "underdog_all": 121,
+      "rotowire_links": 38,
       "underdog_links": 0,
-      "matched": 44,
+      "matched": 45,
       "rotowire_first": 3,
-      "median_lead_seconds": -113.0
+      "median_lead_seconds": -118
     },
     {
       "hour": 10,
-      "rotowire_posts": 122,
-      "underdog_posts": 138,
-      "rotowire_all": 240,
-      "underdog_all": 179,
-      "rotowire_links": 118,
+      "rotowire_posts": 123,
+      "underdog_posts": 140,
+      "rotowire_all": 242,
+      "underdog_all": 183,
+      "rotowire_links": 119,
       "underdog_links": 0,
-      "matched": 80,
+      "matched": 81,
       "rotowire_first": 7,
-      "median_lead_seconds": -108.0
+      "median_lead_seconds": -108
     },
     {
       "hour": 11,
-      "rotowire_posts": 170,
-      "underdog_posts": 186,
-      "rotowire_all": 317,
-      "underdog_all": 238,
+      "rotowire_posts": 172,
+      "underdog_posts": 188,
+      "rotowire_all": 319,
+      "underdog_all": 243,
       "rotowire_links": 141,
       "underdog_links": 0,
-      "matched": 110,
+      "matched": 112,
       "rotowire_first": 13,
       "median_lead_seconds": -111.0
     },
     {
       "hour": 12,
       "rotowire_posts": 150,
-      "underdog_posts": 182,
-      "rotowire_all": 309,
-      "underdog_all": 261,
-      "rotowire_links": 155,
+      "underdog_posts": 184,
+      "rotowire_all": 311,
+      "underdog_all": 266,
+      "rotowire_links": 157,
       "underdog_links": 0,
       "matched": 110,
       "rotowire_first": 12,
@@ -10550,34 +10617,34 @@
     },
     {
       "hour": 13,
-      "rotowire_posts": 165,
-      "underdog_posts": 204,
-      "rotowire_all": 323,
-      "underdog_all": 286,
-      "rotowire_links": 155,
+      "rotowire_posts": 167,
+      "underdog_posts": 206,
+      "rotowire_all": 326,
+      "underdog_all": 288,
+      "rotowire_links": 156,
       "underdog_links": 0,
-      "matched": 122,
-      "rotowire_first": 10,
+      "matched": 124,
+      "rotowire_first": 11,
       "median_lead_seconds": -84.0
     },
     {
       "hour": 14,
-      "rotowire_posts": 237,
-      "underdog_posts": 255,
-      "rotowire_all": 431,
-      "underdog_all": 357,
-      "rotowire_links": 193,
+      "rotowire_posts": 240,
+      "underdog_posts": 261,
+      "rotowire_all": 438,
+      "underdog_all": 367,
+      "rotowire_links": 197,
       "underdog_links": 0,
-      "matched": 166,
+      "matched": 168,
       "rotowire_first": 13,
       "median_lead_seconds": -94.5
     },
     {
       "hour": 15,
-      "rotowire_posts": 294,
-      "underdog_posts": 304,
-      "rotowire_all": 590,
-      "underdog_all": 402,
+      "rotowire_posts": 295,
+      "underdog_posts": 305,
+      "rotowire_all": 591,
+      "underdog_all": 403,
       "rotowire_links": 293,
       "underdog_links": 0,
       "matched": 186,
@@ -10586,25 +10653,25 @@
     },
     {
       "hour": 16,
-      "rotowire_posts": 113,
-      "underdog_posts": 125,
-      "rotowire_all": 272,
-      "underdog_all": 188,
-      "rotowire_links": 157,
+      "rotowire_posts": 116,
+      "underdog_posts": 127,
+      "rotowire_all": 279,
+      "underdog_all": 191,
+      "rotowire_links": 161,
       "underdog_links": 0,
-      "matched": 67,
+      "matched": 69,
       "rotowire_first": 6,
       "median_lead_seconds": -91
     },
     {
       "hour": 17,
-      "rotowire_posts": 120,
-      "underdog_posts": 147,
-      "rotowire_all": 209,
-      "underdog_all": 194,
-      "rotowire_links": 88,
+      "rotowire_posts": 125,
+      "underdog_posts": 150,
+      "rotowire_all": 219,
+      "underdog_all": 197,
+      "rotowire_links": 93,
       "underdog_links": 0,
-      "matched": 66,
+      "matched": 70,
       "rotowire_first": 5,
       "median_lead_seconds": -95.5
     },
@@ -10613,7 +10680,7 @@
       "rotowire_posts": 48,
       "underdog_posts": 67,
       "rotowire_all": 133,
-      "underdog_all": 132,
+      "underdog_all": 133,
       "rotowire_links": 81,
       "underdog_links": 0,
       "matched": 23,
@@ -10625,7 +10692,7 @@
       "rotowire_posts": 33,
       "underdog_posts": 51,
       "rotowire_all": 73,
-      "underdog_all": 103,
+      "underdog_all": 105,
       "rotowire_links": 31,
       "underdog_links": 0,
       "matched": 18,
@@ -10635,9 +10702,9 @@
     {
       "hour": 20,
       "rotowire_posts": 22,
-      "underdog_posts": 55,
+      "underdog_posts": 56,
       "rotowire_all": 56,
-      "underdog_all": 123,
+      "underdog_all": 127,
       "rotowire_links": 27,
       "underdog_links": 0,
       "matched": 21,
@@ -10646,35 +10713,35 @@
     },
     {
       "hour": 21,
-      "rotowire_posts": 18,
-      "underdog_posts": 34,
-      "rotowire_all": 43,
-      "underdog_all": 92,
-      "rotowire_links": 22,
+      "rotowire_posts": 19,
+      "underdog_posts": 36,
+      "rotowire_all": 45,
+      "underdog_all": 96,
+      "rotowire_links": 23,
       "underdog_links": 0,
-      "matched": 12,
+      "matched": 13,
       "rotowire_first": 0,
-      "median_lead_seconds": -173.0
+      "median_lead_seconds": -163
     },
     {
       "hour": 22,
-      "rotowire_posts": 12,
-      "underdog_posts": 36,
-      "rotowire_all": 41,
-      "underdog_all": 108,
+      "rotowire_posts": 13,
+      "underdog_posts": 37,
+      "rotowire_all": 42,
+      "underdog_all": 112,
       "rotowire_links": 17,
       "underdog_links": 0,
-      "matched": 8,
+      "matched": 9,
       "rotowire_first": 0,
-      "median_lead_seconds": -244.0
+      "median_lead_seconds": -210
     },
     {
       "hour": 23,
       "rotowire_posts": 4,
       "underdog_posts": 7,
-      "rotowire_all": 13,
+      "rotowire_all": 14,
       "underdog_all": 17,
-      "rotowire_links": 7,
+      "rotowire_links": 8,
       "underdog_links": 0,
       "matched": 1,
       "rotowire_first": 0,
@@ -10683,65 +10750,39 @@
   ],
   "practice": {
     "days": 30,
-    "since": "2026-09-26",
+    "since": "2026-09-27",
     "tie_seconds": 60,
     "phases": {
       "pre": {
         "days": 233,
-        "rotowire_posted": 197,
-        "underdog_posted": 132,
-        "rotowire_posted_rate": 0.8455,
-        "underdog_posted_rate": 0.5665,
+        "rotowire_posted": 196,
+        "underdog_posted": 133,
+        "rotowire_posted_rate": 0.8412,
+        "underdog_posted_rate": 0.5708,
         "both": 96,
-        "rotowire_only": 101,
-        "underdog_only": 36,
-        "rotowire_first": 4,
-        "ties": 33,
+        "rotowire_only": 100,
+        "underdog_only": 37,
+        "rotowire_first": 3,
+        "ties": 34,
         "underdog_first": 59,
         "median_lead_seconds": -81.0
       },
       "post": {
-        "days": 354,
-        "rotowire_posted": 262,
-        "underdog_posted": 232,
-        "rotowire_posted_rate": 0.7401,
-        "underdog_posted_rate": 0.6554,
-        "both": 140,
+        "days": 355,
+        "rotowire_posted": 263,
+        "underdog_posted": 233,
+        "rotowire_posted_rate": 0.7408,
+        "underdog_posted_rate": 0.6563,
+        "both": 141,
         "rotowire_only": 122,
         "underdog_only": 92,
         "rotowire_first": 15,
         "ties": 35,
-        "underdog_first": 90,
-        "median_lead_seconds": -78.5
+        "underdog_first": 91,
+        "median_lead_seconds": -79
       }
     },
     "recent": [
-      {
-        "player_key": "jaxon smith njigba",
-        "date": "2026-10-12",
-        "player": "Jaxon Smith-Njigba",
-        "pre": {},
-        "post": {
-          "rotowire": {
-            "tweet_id": "2109741815536484781",
-            "created_at": "2026-10-12T20:23:40.000Z",
-            "text": "Jaxon Smith-Njigba was estimated as a limited practice participant Monday due to an ankle injury.\n\nVia @bcondotta https://t.co/bUDrScUm0q"
-          }
-        }
-      },
-      {
-        "player_key": "lamar jackson",
-        "date": "2026-10-12",
-        "player": "Lamar Jackson",
-        "pre": {
-          "rotowire": {
-            "tweet_id": "2109723072534032706",
-            "created_at": "2026-10-12T19:09:11.000Z",
-            "text": "Lamar Jackson (ankle) is \"definitely doing better\" but is uncertain to return to practice Wednesday, per head coach Jesse Minter.\n\nVia @jamisonhensley https://t.co/GVv5L0RaQC"
-          }
-        },
-        "post": {}
-      },
       {
         "player_key": "caleb douglas",
         "date": "2026-10-13",
@@ -14536,32 +14577,107 @@
           }
         },
         "post": {}
+      },
+      {
+        "player_key": "amon ra st brown",
+        "date": "2026-10-26",
+        "player": "Amon-Ra St. Brown",
+        "pre": {
+          "underdog": {
+            "tweet_id": "2114801233944777080",
+            "created_at": "2026-10-26T19:27:59.000Z",
+            "text": "Campbell: Amon-Ra St. Brown (ankle) not expected to practice Wednesday but should be good to play Week 8."
+          }
+        },
+        "post": {}
+      },
+      {
+        "player_key": "jalen coker",
+        "date": "2026-10-26",
+        "player": "Jalen Coker",
+        "pre": {},
+        "post": {
+          "rotowire": {
+            "tweet_id": "2114830570916134922",
+            "created_at": "2026-10-26T21:24:34.000Z",
+            "text": "Jalen Coker (shoulder) was listed as a limited participant on Monday's injury report.\n\nVia @Panthers https://t.co/F7bEsfgqbG"
+          }
+        }
+      },
+      {
+        "player_key": "jeremiyah love",
+        "date": "2026-10-26",
+        "player": "Jeremiyah Love",
+        "pre": {
+          "underdog": {
+            "tweet_id": "2114832571339096484",
+            "created_at": "2026-10-26T21:32:31.000Z",
+            "text": "Jeremiyah Love (ankle) will practice on Wednesday."
+          },
+          "rotowire": {
+            "tweet_id": "2114832623704920541",
+            "created_at": "2026-10-26T21:32:43.000Z",
+            "text": "Jeremiyah Love (ankle), per head coach Mike LaFleur, will practice Wednesday.\n\nVia @theo_mackie https://t.co/cktFt6ovhi"
+          }
+        },
+        "post": {}
+      },
+      {
+        "player_key": "ladd mcconkey",
+        "date": "2026-10-26",
+        "player": "Ladd McConkey",
+        "pre": {
+          "rotowire": {
+            "tweet_id": "2114824361697820963",
+            "created_at": "2026-10-26T20:59:54.000Z",
+            "text": "Ladd McConkey (concussion) was on the field in a no-contact jersey during the Chargers' unofficial practice session Monday.\n\nVia @bynoahfurtado https://t.co/h0GKbpiMWY"
+          }
+        },
+        "post": {}
+      },
+      {
+        "player_key": "matthew golden",
+        "date": "2026-10-26",
+        "player": "Matthew Golden",
+        "pre": {},
+        "post": {
+          "underdog": {
+            "tweet_id": "2114834013697474855",
+            "created_at": "2026-10-26T21:38:15.000Z",
+            "text": "Matthew Golden (shoulder, foot) listed as DNP in practice Monday."
+          },
+          "rotowire": {
+            "tweet_id": "2114834535711977665",
+            "created_at": "2026-10-26T21:40:19.000Z",
+            "text": "Matthew Golden (shoulder/foot) was listed as a non-participant on Monday's estimated injury report.\n\nVia @mattschneidman https://t.co/gx8Lp1MlEw"
+          }
+        }
       }
     ]
   },
   "focus": {
     "days": 30,
-    "since": "2026-09-26",
+    "since": "2026-09-27",
     "tie_seconds": 60,
     "groups": [
       {
         "key": "injury_report",
         "label": "Practice / injury report",
-        "stories": 313,
+        "stories": 312,
         "matched": 176,
         "rotowire_first": 5,
         "ties": 44,
         "underdog_first": 127,
         "median_lead_seconds": -100.0,
         "minutes_behind": 511,
-        "share_of_time_behind": 0.2486,
-        "missed": 73,
-        "missed_rate": 0.2332,
-        "share_of_misses": 0.2797,
+        "share_of_time_behind": 0.245,
+        "missed": 71,
+        "missed_rate": 0.2276,
+        "share_of_misses": 0.2659,
         "steps_skipped": 4,
-        "rotowire_only": 64,
+        "rotowire_only": 65,
         "underdog_median_views": 111148,
-        "priority": 0.5283,
+        "priority": 0.5109,
         "slowest": [
           {
             "story_id": "st_2110828898485244164_2110821435111571817",
@@ -14652,21 +14768,21 @@
       {
         "key": "insider",
         "label": "Insider reports",
-        "stories": 196,
+        "stories": 198,
         "matched": 128,
         "rotowire_first": 3,
         "ties": 38,
         "underdog_first": 87,
         "median_lead_seconds": -101.5,
-        "minutes_behind": 498,
-        "share_of_time_behind": 0.2425,
-        "missed": 53,
-        "missed_rate": 0.2704,
-        "share_of_misses": 0.2031,
+        "minutes_behind": 494,
+        "share_of_time_behind": 0.2368,
+        "missed": 54,
+        "missed_rate": 0.2727,
+        "share_of_misses": 0.2022,
         "steps_skipped": 6,
-        "rotowire_only": 15,
-        "underdog_median_views": 161663,
-        "priority": 0.4455,
+        "rotowire_only": 16,
+        "underdog_median_views": 157724,
+        "priority": 0.4391,
         "slowest": [
           {
             "story_id": "st_2109258085755666930_2109250733845450879",
@@ -14722,6 +14838,16 @@
         ],
         "recent_misses": [
           {
+            "story_id": "st_2114808263246323739",
+            "player": "Eli Stowers",
+            "underdog": {
+              "tweet_id": "2114808263246323739",
+              "created_at": "2026-10-26T19:55:55.000Z",
+              "text": "Rap: Eagles plan to activate Eli Stowers (quad) to play Week 7.",
+              "impression_count": 157045
+            }
+          },
+          {
             "story_id": "st_2114399361430069520",
             "player": "Puka Nacua",
             "underdog": {
@@ -14740,16 +14866,6 @@
               "text": "Garafolo: Josh Jacobs expected to get \"normal allotment of reps\" for a starting RB in Week 7.",
               "impression_count": 279451
             }
-          },
-          {
-            "story_id": "st_2114335222678650980",
-            "player": "Saquon Barkley",
-            "underdog": {
-              "tweet_id": "2114335222678650980",
-              "created_at": "2026-10-25T12:36:14.000Z",
-              "text": "Garafolo: Saquon Barkley (hamstring) “will be back” in Week 7.",
-              "impression_count": 216320
-            }
           }
         ],
         "rank": 2
@@ -14758,20 +14874,20 @@
         "key": "game_status",
         "label": "Game status",
         "stories": 189,
-        "matched": 139,
-        "rotowire_first": 2,
+        "matched": 138,
+        "rotowire_first": 3,
         "ties": 43,
-        "underdog_first": 94,
-        "median_lead_seconds": -110,
-        "minutes_behind": 387,
-        "share_of_time_behind": 0.1882,
+        "underdog_first": 92,
+        "median_lead_seconds": -107.5,
+        "minutes_behind": 383,
+        "share_of_time_behind": 0.1834,
         "missed": 33,
         "missed_rate": 0.1746,
-        "share_of_misses": 0.1264,
+        "share_of_misses": 0.1236,
         "steps_skipped": 5,
-        "rotowire_only": 17,
-        "underdog_median_views": 117971,
-        "priority": 0.3146,
+        "rotowire_only": 18,
+        "underdog_median_views": 118519,
+        "priority": 0.307,
         "slowest": [
           {
             "story_id": "st_2109444141352374447_2109437216502002079",
@@ -14860,105 +14976,105 @@
         "rank": 3
       },
       {
-        "key": "in_game_alert",
-        "label": "In-game status alerts",
-        "stories": 128,
-        "matched": 107,
-        "rotowire_first": 3,
-        "ties": 43,
-        "underdog_first": 61,
-        "median_lead_seconds": -77,
-        "minutes_behind": 231,
-        "share_of_time_behind": 0.1125,
-        "missed": 21,
-        "missed_rate": 0.1641,
-        "share_of_misses": 0.0805,
+        "key": "comments",
+        "label": "Coach / reporter comments",
+        "stories": 99,
+        "matched": 33,
+        "rotowire_first": 2,
+        "ties": 5,
+        "underdog_first": 26,
+        "median_lead_seconds": -190,
+        "minutes_behind": 138,
+        "share_of_time_behind": 0.066,
+        "missed": 41,
+        "missed_rate": 0.4141,
+        "share_of_misses": 0.1536,
         "steps_skipped": 11,
-        "rotowire_only": 0,
-        "underdog_median_views": 123527,
-        "priority": 0.1929,
+        "rotowire_only": 25,
+        "underdog_median_views": 151598,
+        "priority": 0.2196,
         "slowest": [
           {
-            "story_id": "st_2104375114213073117_2104370732948238526",
-            "player": "Terrance Ferguson",
-            "delta_seconds": -1045,
+            "story_id": "st_2114846429181083747_2114841654523822268_deebo-samuel",
+            "player": "Deebo Samuel",
+            "delta_seconds": -1139,
             "rotowire": {
-              "tweet_id": "2104375114213073117",
-              "created_at": "2026-09-28T00:58:19.000Z",
-              "text": "Terrance Ferguson is questionable to return to Sunday's game against the Broncos due to an ankle injury.\n\nVia @sarahbarshop https://t.co/xMdyqnXDXn",
-              "impression_count": 29956
+              "tweet_id": "2114846429181083747",
+              "created_at": "2026-10-26T22:27:35.000Z",
+              "text": "Deebo Samuel (hamstring), per head coach Kyle Shanahan, has a chance to return for the 49ers' Week 9 matchup with the Raiders.\n\nVia @MaioccoNBCS https://t.co/eaUm5JIMSa",
+              "impression_count": 23864
             },
             "underdog": {
-              "tweet_id": "2104370732948238526",
-              "created_at": "2026-09-28T00:40:54.000Z",
-              "text": "Status alert: Terrance Ferguson headed to locker room Sunday.",
-              "impression_count": 562316
+              "tweet_id": "2114841654523822268",
+              "created_at": "2026-10-26T22:08:36.000Z",
+              "text": "49ers that have a chance to return in Week 9, per HC Shanahan:\n\nNick Bosa\nMike Evans\nDemarcus Robinson\nDeebo Samuel",
+              "impression_count": 128561
             }
           },
           {
-            "story_id": "st_2104400431556239553_2104397171311169579",
-            "player": "RJ Harvey",
-            "delta_seconds": -777,
+            "story_id": "st_2111144914360660023_2111140396365721654",
+            "player": "Jadarian Price",
+            "delta_seconds": -1077,
             "rotowire": {
-              "tweet_id": "2104400431556239553",
-              "created_at": "2026-09-28T02:38:55.000Z",
-              "text": "RJ Harvey left Sunday's game against the Rams in the third quarter and is being evaluated for a possible concussion.\n\nVia @ParkerJGabriel https://t.co/vnNIGNMP2V",
-              "impression_count": 29641
+              "tweet_id": "2111144914360660023",
+              "created_at": "2026-10-16T17:19:05.000Z",
+              "text": "Jadarian Price (chest), per head coach Mike Macdonald, \"should be looking at a sooner-rather-than-later return\" following Seattle's Week 7 matchup against Kansas City.\n\nVia @BradyHenderson https://t.co/Iqk7Pm3Qrw",
+              "impression_count": 31697
             },
             "underdog": {
-              "tweet_id": "2104397171311169579",
-              "created_at": "2026-09-28T02:25:58.000Z",
-              "text": "Status alert: RJ Harvey headed to medical tent Sunday.",
-              "impression_count": 112629
+              "tweet_id": "2111140396365721654",
+              "created_at": "2026-10-16T17:01:08.000Z",
+              "text": "Macdonald: Jadarian Price (chest) likely to return sooner rather than later.\n\nHe's required to miss at least 1 more game.",
+              "impression_count": 170016
             }
           },
           {
-            "story_id": "st_2114539881191862353_2114537656826953911",
-            "player": "Rashid Shaheed",
-            "delta_seconds": -530,
+            "story_id": "st_2104310279748067790_2104307209538826746",
+            "player": "De'Von Achane",
+            "delta_seconds": -732,
             "rotowire": {
-              "tweet_id": "2114539881191862353",
-              "created_at": "2026-10-26T02:09:28.000Z",
-              "text": "Rashid Shaheed is questionable to return to Sunday night's game against the Chiefs due to a knee injury.\n\nVia @Curtis_Crabtree https://t.co/8pSdbEtrIy",
-              "impression_count": 24183
+              "tweet_id": "2104310279748067790",
+              "created_at": "2026-09-27T20:40:41.000Z",
+              "text": "The injury De'Von Achane (knee) sustained Sunday “does not sound very optimistic,\" per head coach Jeff Hafley.\n\nVia @CameronWolfe https://t.co/hGY4G8UFzq",
+              "impression_count": 33126
             },
             "underdog": {
-              "tweet_id": "2114537656826953911",
-              "created_at": "2026-10-26T02:00:38.000Z",
-              "text": "Status alert: Rashid Shaheed headed to locker room Sunday.",
-              "impression_count": 102159
+              "tweet_id": "2104307209538826746",
+              "created_at": "2026-09-27T20:28:29.000Z",
+              "text": "Hafley: De'Von Achane's knee injury \"does not sound optimistic.\"",
+              "impression_count": 330493
             }
           }
         ],
         "recent_misses": [
           {
-            "story_id": "st_2114546202247086460_rashid-shaheed",
-            "player": "Rashid Shaheed",
+            "story_id": "st_2114806909572202567",
+            "player": "Fernando Mendoza",
             "underdog": {
-              "tweet_id": "2114546202247086460",
-              "created_at": "2026-10-26T02:34:35.000Z",
-              "text": "Status alert: Rashid Shaheed (knee) won't return Sunday.",
-              "impression_count": 82613
+              "tweet_id": "2114806909572202567",
+              "created_at": "2026-10-26T19:50:33.000Z",
+              "text": "Kubiak: \"Fernando Mendoza is going to play at some point, but it's not going to be this week.\" https://t.co/ctmGZu6duf",
+              "impression_count": 128554
             }
           },
           {
-            "story_id": "st_2114445812079984662",
-            "player": "Jaylen Wright",
+            "story_id": "st_2114804946692448272",
+            "player": "Saquon Barkley",
             "underdog": {
-              "tweet_id": "2114445812079984662",
-              "created_at": "2026-10-25T19:55:40.000Z",
-              "text": "Status alert: Jaylen Wright (quad) questionable to return Sunday.",
-              "impression_count": 85953
+              "tweet_id": "2114804946692448272",
+              "created_at": "2026-10-26T19:42:45.000Z",
+              "text": "Saquon Barkley (hamstring) said he feels good enough to \"give it a go\" in Week 7 but will try to be smart about his return, per @saltersl.",
+              "impression_count": 676021
             }
           },
           {
-            "story_id": "st_2114436833358622753",
-            "player": "Carnell Tate",
+            "story_id": "st_2114767792196976940_antonio-williams",
+            "player": "Antonio Williams",
             "underdog": {
-              "tweet_id": "2114436833358622753",
-              "created_at": "2026-10-25T19:20:00.000Z",
-              "text": "Status alert: Carnell Tate headed to medical tent Sunday.",
-              "impression_count": 89971
+              "tweet_id": "2114767792196976940",
+              "created_at": "2026-10-26T17:15:06.000Z",
+              "text": "Dan Quinn said Stefon Diggs' workload won't change much with Terry McLaurin out.\n\nCommanders would look to others like Antonio Williams to step up.",
+              "impression_count": 247785
             }
           }
         ],
@@ -14967,21 +15083,21 @@
       {
         "key": "practice_obs",
         "label": "Practice observation",
-        "stories": 186,
-        "matched": 80,
+        "stories": 191,
+        "matched": 83,
         "rotowire_first": 0,
-        "ties": 31,
-        "underdog_first": 49,
-        "median_lead_seconds": -81.0,
-        "minutes_behind": 170,
-        "share_of_time_behind": 0.0826,
-        "missed": 28,
-        "missed_rate": 0.1505,
-        "share_of_misses": 0.1073,
+        "ties": 33,
+        "underdog_first": 50,
+        "median_lead_seconds": -81,
+        "minutes_behind": 173,
+        "share_of_time_behind": 0.0831,
+        "missed": 30,
+        "missed_rate": 0.1571,
+        "share_of_misses": 0.1124,
         "steps_skipped": 3,
         "rotowire_only": 78,
-        "underdog_median_views": 128522,
-        "priority": 0.1899,
+        "underdog_median_views": 128570,
+        "priority": 0.1955,
         "slowest": [
           {
             "story_id": "st_2108254403438256330_2108251230514590111",
@@ -15037,6 +15153,16 @@
         ],
         "recent_misses": [
           {
+            "story_id": "st_2114824141706756572_myles-garrett",
+            "player": "Myles Garrett",
+            "underdog": {
+              "tweet_id": "2114824141706756572",
+              "created_at": "2026-10-26T20:59:01.000Z",
+              "text": "McVay: Rams undecided on whether Myles Garrett (knee), Terrance Ferguson (ankle) will practice this week.",
+              "impression_count": 131003
+            }
+          },
+          {
             "story_id": "st_2113696444574007392_dontayvion-wicks",
             "player": "Dontayvion Wicks",
             "underdog": {
@@ -15055,120 +15181,110 @@
               "text": "Mike Evans (ribs, Achilles), Deebo Samuel (hamstring) don't practice again Thursday.",
               "impression_count": 108553
             }
-          },
-          {
-            "story_id": "st_2111215786635190443",
-            "player": "Bill Croskey-Merritt",
-            "underdog": {
-              "tweet_id": "2111215786635190443",
-              "created_at": "2026-10-16T22:00:42.000Z",
-              "text": "Bill Croskey-Merritt (groin) doesn’t practice again Friday.",
-              "impression_count": 134410
-            }
           }
         ],
         "rank": 5
       },
       {
-        "key": "comments",
-        "label": "Coach / reporter comments",
-        "stories": 88,
-        "matched": 28,
-        "rotowire_first": 2,
-        "ties": 5,
-        "underdog_first": 21,
-        "median_lead_seconds": -175.5,
-        "minutes_behind": 106,
-        "share_of_time_behind": 0.0517,
-        "missed": 36,
-        "missed_rate": 0.4091,
-        "share_of_misses": 0.1379,
+        "key": "in_game_alert",
+        "label": "In-game status alerts",
+        "stories": 130,
+        "matched": 108,
+        "rotowire_first": 3,
+        "ties": 43,
+        "underdog_first": 62,
+        "median_lead_seconds": -77.0,
+        "minutes_behind": 233,
+        "share_of_time_behind": 0.1116,
+        "missed": 22,
+        "missed_rate": 0.1692,
+        "share_of_misses": 0.0824,
         "steps_skipped": 11,
-        "rotowire_only": 24,
-        "underdog_median_views": 151541,
-        "priority": 0.1897,
+        "rotowire_only": 0,
+        "underdog_median_views": 122794,
+        "priority": 0.194,
         "slowest": [
           {
-            "story_id": "st_2111144914360660023_2111140396365721654",
-            "player": "Jadarian Price",
-            "delta_seconds": -1077,
+            "story_id": "st_2104375114213073117_2104370732948238526",
+            "player": "Terrance Ferguson",
+            "delta_seconds": -1045,
             "rotowire": {
-              "tweet_id": "2111144914360660023",
-              "created_at": "2026-10-16T17:19:05.000Z",
-              "text": "Jadarian Price (chest), per head coach Mike Macdonald, \"should be looking at a sooner-rather-than-later return\" following Seattle's Week 7 matchup against Kansas City.\n\nVia @BradyHenderson https://t.co/Iqk7Pm3Qrw",
-              "impression_count": 31697
+              "tweet_id": "2104375114213073117",
+              "created_at": "2026-09-28T00:58:19.000Z",
+              "text": "Terrance Ferguson is questionable to return to Sunday's game against the Broncos due to an ankle injury.\n\nVia @sarahbarshop https://t.co/xMdyqnXDXn",
+              "impression_count": 29956
             },
             "underdog": {
-              "tweet_id": "2111140396365721654",
-              "created_at": "2026-10-16T17:01:08.000Z",
-              "text": "Macdonald: Jadarian Price (chest) likely to return sooner rather than later.\n\nHe's required to miss at least 1 more game.",
-              "impression_count": 170016
+              "tweet_id": "2104370732948238526",
+              "created_at": "2026-09-28T00:40:54.000Z",
+              "text": "Status alert: Terrance Ferguson headed to locker room Sunday.",
+              "impression_count": 562316
             }
           },
           {
-            "story_id": "st_2104310279748067790_2104307209538826746",
-            "player": "De'Von Achane",
-            "delta_seconds": -732,
+            "story_id": "st_2104400431556239553_2104397171311169579",
+            "player": "RJ Harvey",
+            "delta_seconds": -777,
             "rotowire": {
-              "tweet_id": "2104310279748067790",
-              "created_at": "2026-09-27T20:40:41.000Z",
-              "text": "The injury De'Von Achane (knee) sustained Sunday “does not sound very optimistic,\" per head coach Jeff Hafley.\n\nVia @CameronWolfe https://t.co/hGY4G8UFzq",
-              "impression_count": 33126
+              "tweet_id": "2104400431556239553",
+              "created_at": "2026-09-28T02:38:55.000Z",
+              "text": "RJ Harvey left Sunday's game against the Rams in the third quarter and is being evaluated for a possible concussion.\n\nVia @ParkerJGabriel https://t.co/vnNIGNMP2V",
+              "impression_count": 29641
             },
             "underdog": {
-              "tweet_id": "2104307209538826746",
-              "created_at": "2026-09-27T20:28:29.000Z",
-              "text": "Hafley: De'Von Achane's knee injury \"does not sound optimistic.\"",
-              "impression_count": 330493
+              "tweet_id": "2104397171311169579",
+              "created_at": "2026-09-28T02:25:58.000Z",
+              "text": "Status alert: RJ Harvey headed to medical tent Sunday.",
+              "impression_count": 112629
             }
           },
           {
-            "story_id": "st_2111147790348726497_2111145362878828746",
-            "player": "KC Concepcion",
-            "delta_seconds": -579,
+            "story_id": "st_2114539881191862353_2114537656826953911",
+            "player": "Rashid Shaheed",
+            "delta_seconds": -530,
             "rotowire": {
-              "tweet_id": "2111147790348726497",
-              "created_at": "2026-10-16T17:30:31.000Z",
-              "text": "KC Concepcion, per head coach Todd Monken, has cleared concussion protocol and will be available for Sunday's game against the Ravens.\n\nVia @DanielOyefusi https://t.co/4qwyRzZX5e",
-              "impression_count": 30955
+              "tweet_id": "2114539881191862353",
+              "created_at": "2026-10-26T02:09:28.000Z",
+              "text": "Rashid Shaheed is questionable to return to Sunday night's game against the Chiefs due to a knee injury.\n\nVia @Curtis_Crabtree https://t.co/8pSdbEtrIy",
+              "impression_count": 29399
             },
             "underdog": {
-              "tweet_id": "2111145362878828746",
-              "created_at": "2026-10-16T17:20:52.000Z",
-              "text": "KC Concepcion (concussion) cleared to play Week 6.",
-              "impression_count": 122467
+              "tweet_id": "2114537656826953911",
+              "created_at": "2026-10-26T02:00:38.000Z",
+              "text": "Status alert: Rashid Shaheed headed to locker room Sunday.",
+              "impression_count": 126219
             }
           }
         ],
         "recent_misses": [
           {
-            "story_id": "st_2114422872345079861",
-            "player": "Tank Dell",
+            "story_id": "st_2114914628669235424",
+            "player": "Dameon Pierce",
             "underdog": {
-              "tweet_id": "2114422872345079861",
-              "created_at": "2026-10-25T18:24:31.000Z",
-              "text": "WELCOME BACK TANK DELL\n\nhttps://t.co/TwLI4dM9On",
-              "impression_count": 165714
+              "tweet_id": "2114914628669235424",
+              "created_at": "2026-10-27T02:58:35.000Z",
+              "text": "Status alert: Dameon Pierce headed to locker room Monday.",
+              "impression_count": 91047
             }
           },
           {
-            "story_id": "st_2114337054264119425",
-            "player": "Tyrone Tracy Jr.",
+            "story_id": "st_2114546202247086460_rashid-shaheed",
+            "player": "Rashid Shaheed",
             "underdog": {
-              "tweet_id": "2114337054264119425",
-              "created_at": "2026-10-25T12:43:30.000Z",
-              "text": "Tyrone Tracy Jr. also expected to be \"heavily in the mix\" in Week 7, per @JordanRaanan.\n\n\"Probably close to a 50/50 split.\" https://t.co/s8nKyCRl7T",
-              "impression_count": 209613
+              "tweet_id": "2114546202247086460",
+              "created_at": "2026-10-26T02:34:35.000Z",
+              "text": "Status alert: Rashid Shaheed (knee) won't return Sunday.",
+              "impression_count": 110662
             }
           },
           {
-            "story_id": "st_2113630990329364513",
-            "player": "Baker Mayfield",
+            "story_id": "st_2114445812079984662",
+            "player": "Jaylen Wright",
             "underdog": {
-              "tweet_id": "2113630990329364513",
-              "created_at": "2026-10-23T13:57:52.000Z",
-              "text": "Baker Mayfield will wear a custom glove for his injured right hand in Week 7.\n\nThe glove was invented by Tampa Bay Rays home clubhouse attendant Nick Bond, who took a receiver’s glove and ripped off the thumb while inserting a support.\n\n\"I said our guy can do anything. They https://t.co/3j6G6ko7t8",
-              "impression_count": 211827
+              "tweet_id": "2114445812079984662",
+              "created_at": "2026-10-25T19:55:40.000Z",
+              "text": "Status alert: Jaylen Wright (quad) questionable to return Sunday.",
+              "impression_count": 85953
             }
           }
         ],
@@ -15177,21 +15293,21 @@
       {
         "key": "transaction",
         "label": "Transaction",
-        "stories": 48,
+        "stories": 46,
         "matched": 23,
         "rotowire_first": 2,
         "ties": 4,
         "underdog_first": 17,
         "median_lead_seconds": -110,
         "minutes_behind": 66,
-        "share_of_time_behind": 0.032,
-        "missed": 14,
-        "missed_rate": 0.2917,
-        "share_of_misses": 0.0536,
+        "share_of_time_behind": 0.0316,
+        "missed": 13,
+        "missed_rate": 0.2826,
+        "share_of_misses": 0.0487,
         "steps_skipped": 1,
-        "rotowire_only": 11,
-        "underdog_median_views": 132119,
-        "priority": 0.0857,
+        "rotowire_only": 10,
+        "underdog_median_views": 130566,
+        "priority": 0.0803,
         "slowest": [
           {
             "story_id": "st_2114031915208417381_2114029569632014353",
@@ -15282,21 +15398,21 @@
       {
         "key": "diagnosis",
         "label": "Diagnosis / timeline",
-        "stories": 22,
-        "matched": 14,
+        "stories": 23,
+        "matched": 15,
         "rotowire_first": 0,
         "ties": 2,
-        "underdog_first": 12,
-        "median_lead_seconds": -122.5,
-        "minutes_behind": 37,
-        "share_of_time_behind": 0.0178,
+        "underdog_first": 13,
+        "median_lead_seconds": -116,
+        "minutes_behind": 38,
+        "share_of_time_behind": 0.0184,
         "missed": 3,
-        "missed_rate": 0.1364,
-        "share_of_misses": 0.0115,
+        "missed_rate": 0.1304,
+        "share_of_misses": 0.0112,
         "steps_skipped": 1,
         "rotowire_only": 5,
-        "underdog_median_views": 125575,
-        "priority": 0.0293,
+        "underdog_median_views": 128200,
+        "priority": 0.0297,
         "slowest": [
           {
             "story_id": "st_2107227789283774721_2107226312993882582",
@@ -15389,8 +15505,8 @@
         "label": "In-game",
         "stories": 33,
         "matched": 25,
-        "rotowire_first": 4,
-        "ties": 6,
+        "rotowire_first": 3,
+        "ties": 7,
         "underdog_first": 15,
         "median_lead_seconds": -83,
         "minutes_behind": 50,
@@ -15400,7 +15516,7 @@
         "share_of_misses": 0.0,
         "steps_skipped": 0,
         "rotowire_only": 8,
-        "underdog_median_views": 137834,
+        "underdog_median_views": 137449,
         "priority": 0.0241,
         "slowest": [
           {
@@ -17376,6 +17492,10 @@
         {
           "date": "2026-10-26",
           "followers": 146289
+        },
+        {
+          "date": "2026-10-27",
+          "followers": 146299
         }
       ],
       "underdog": [
@@ -17482,27 +17602,31 @@
         {
           "date": "2026-10-26",
           "followers": 423436
+        },
+        {
+          "date": "2026-10-27",
+          "followers": 423765
         }
       ]
     },
     "growth": {
       "rotowire": {
         "first_date": "2026-10-01",
-        "last_date": "2026-10-26",
-        "days": 25,
-        "followers": 146289,
-        "gained": 3768,
-        "gained_rate": 0.02644,
-        "per_day": 150.7
+        "last_date": "2026-10-27",
+        "days": 26,
+        "followers": 146299,
+        "gained": 3778,
+        "gained_rate": 0.02651,
+        "per_day": 145.3
       },
       "underdog": {
         "first_date": "2026-10-01",
-        "last_date": "2026-10-26",
-        "days": 25,
-        "followers": 423436,
-        "gained": 14522,
-        "gained_rate": 0.03551,
-        "per_day": 580.9
+        "last_date": "2026-10-27",
+        "days": 26,
+        "followers": 423765,
+        "gained": 14851,
+        "gained_rate": 0.03632,
+        "per_day": 571.2
       }
     },
     "views_by_week": [
@@ -17643,32 +17767,41 @@
       },
       {
         "week": "2026-10-19",
-        "rotowire_posts": 252,
-        "rotowire_median_views": 27395,
-        "rotowire_total_views": 8903133,
-        "underdog_posts": 252,
-        "underdog_median_views": 136934,
-        "underdog_total_views": 49372884
+        "rotowire_posts": 255,
+        "rotowire_median_views": 27415,
+        "rotowire_total_views": 9042906,
+        "underdog_posts": 265,
+        "underdog_median_views": 135396,
+        "underdog_total_views": 51578858
+      },
+      {
+        "week": "2026-10-26",
+        "rotowire_posts": 17,
+        "rotowire_median_views": 28683,
+        "rotowire_total_views": 588586,
+        "underdog_posts": 22,
+        "underdog_median_views": 129782,
+        "underdog_total_views": 3707866
       }
     ],
     "head_to_head": {
       "rotowire_first": {
-        "stories": 78,
-        "rotowire_median_views": 20014,
-        "underdog_median_views": 151390,
-        "rotowire_share": 0.1327
+        "stories": 79,
+        "rotowire_median_views": 20061,
+        "underdog_median_views": 148230,
+        "rotowire_share": 0.1369
       },
       "tie": {
-        "stories": 402,
-        "rotowire_median_views": 24102,
-        "underdog_median_views": 127866,
-        "rotowire_share": 0.1853
+        "stories": 405,
+        "rotowire_median_views": 24106,
+        "underdog_median_views": 127863,
+        "rotowire_share": 0.1859
       },
       "underdog_first": {
-        "stories": 973,
-        "rotowire_median_views": 23780,
-        "underdog_median_views": 130824,
-        "rotowire_share": 0.1754
+        "stories": 983,
+        "rotowire_median_views": 23831,
+        "underdog_median_views": 130453,
+        "rotowire_share": 0.1762
       },
       "underdog_first_10m": {
         "stories": 99,
@@ -17677,10 +17810,10 @@
         "rotowire_share": 0.1334
       },
       "all": {
-        "stories": 1453,
-        "rotowire_median_views": 23780,
-        "underdog_median_views": 130310,
-        "rotowire_share": 0.1768
+        "stories": 1467,
+        "rotowire_median_views": 23821,
+        "underdog_median_views": 130206,
+        "rotowire_share": 0.1776
       }
     },
     "rotowire_account_impressions": [
@@ -18815,30 +18948,30 @@
       "from": "2026-09-29",
       "until": null,
       "first": "2026-09-29",
-      "last": "2026-10-25",
-      "weeks": 3.9,
-      "matched": 648,
-      "rotowire_first": 38,
-      "rotowire_first_rate": 0.0586,
-      "median_lead_seconds": -97.0,
-      "mean_lead_seconds": -158.1,
-      "avg_lead_seconds": 165.5,
-      "avg_trail_seconds": 178.2,
-      "median_win_lead_seconds": 53.0,
-      "median_win_trail_seconds": 105.0,
-      "rotowire_only": 207,
-      "underdog_only": 304,
-      "roundup_only": 127,
+      "last": "2026-10-26",
+      "weeks": 4.1,
+      "matched": 664,
+      "rotowire_first": 39,
+      "rotowire_first_rate": 0.0587,
+      "median_lead_seconds": -97.5,
+      "mean_lead_seconds": -159.2,
+      "avg_lead_seconds": 163.2,
+      "avg_trail_seconds": 179.4,
+      "median_win_lead_seconds": 53,
+      "median_win_trail_seconds": 105,
+      "rotowire_only": 212,
+      "underdog_only": 315,
+      "roundup_only": 129,
       "rotowire_update_only": 41,
-      "underdog_update_only": 49,
+      "underdog_update_only": 50,
       "rotowire_duplicate": 87,
       "underdog_duplicate": 143,
-      "rotowire_posts_per_week": 252.9,
-      "underdog_posts_per_week": 303.3,
-      "matched_per_week": 165.0,
-      "sourced": 467,
-      "rotowire_from_source_seconds": 139,
-      "underdog_from_source_seconds": 39
+      "rotowire_posts_per_week": 249.2,
+      "underdog_posts_per_week": 299.3,
+      "matched_per_week": 163.2,
+      "sourced": 482,
+      "rotowire_from_source_seconds": 140.5,
+      "underdog_from_source_seconds": 39.5
     }
   ],
   "game_windows": {
@@ -20756,6 +20889,49 @@
         "underdog_update_only": 2,
         "rotowire_duplicate": 2,
         "underdog_duplicate": 5
+      },
+      {
+        "start": "2026-10-26T17:00:00-05:00",
+        "end": "2026-10-27T00:00:00-05:00",
+        "date": "2026-10-26",
+        "label": "Mon Oct 26",
+        "hours": 7.0,
+        "games": [
+          {
+            "name": "DAL @ PHI",
+            "kickoff": "2026-10-27T00:15:00+00:00"
+          }
+        ],
+        "story_ids": [
+          "st_2114841537318121601_2114841054163906993",
+          "st_2114841654523822268_demarcus-robinson",
+          "st_2114841654523822268_nick-bosa",
+          "st_2114841933004587437_2114841654523822268_michael-evans",
+          "st_2114842206074777730",
+          "st_2114846429181083747_2114841654523822268_deebo-samuel",
+          "st_2114850918730514493_2114850878008242504",
+          "st_2114897510703739151_dameon-pierce",
+          "st_2114897510703739151_saquon-barkley",
+          "st_2114910679668850895_2114910259663732894",
+          "st_2114914628669235424",
+          "st_2114926650710175908_2114925771085025625"
+        ],
+        "matched": 6,
+        "rotowire_first": 0,
+        "rotowire_first_rate": 0.0,
+        "median_lead_seconds": -108.0,
+        "mean_lead_seconds": -273.5,
+        "avg_lead_seconds": null,
+        "avg_trail_seconds": 273.5,
+        "median_win_lead_seconds": null,
+        "median_win_trail_seconds": 108.0,
+        "rotowire_only": 1,
+        "underdog_only": 2,
+        "roundup_only": 2,
+        "rotowire_update_only": 0,
+        "underdog_update_only": 1,
+        "rotowire_duplicate": 0,
+        "underdog_duplicate": 0
       }
     ],
     "hours": [
@@ -20970,18 +21146,18 @@
       },
       {
         "hour": 17,
-        "matched": 48,
+        "matched": 52,
         "rotowire_first": 4,
-        "rotowire_first_rate": 0.0833,
+        "rotowire_first_rate": 0.0769,
         "median_lead_seconds": -87.5,
-        "mean_lead_seconds": -170.8,
+        "mean_lead_seconds": -183.2,
         "avg_lead_seconds": 20.8,
-        "avg_trail_seconds": 188.2,
+        "avg_trail_seconds": 200.2,
         "median_win_lead_seconds": 23.5,
         "median_win_trail_seconds": 95.0,
-        "rotowire_only": 9,
+        "rotowire_only": 10,
         "underdog_only": 29,
-        "roundup_only": 0,
+        "roundup_only": 2,
         "rotowire_update_only": 2,
         "underdog_update_only": 8,
         "rotowire_duplicate": 12,
@@ -21037,26 +21213,26 @@
         "median_win_lead_seconds": 14,
         "median_win_trail_seconds": 122.0,
         "rotowire_only": 0,
-        "underdog_only": 9,
+        "underdog_only": 10,
         "roundup_only": 10,
         "rotowire_update_only": 0,
-        "underdog_update_only": 6,
+        "underdog_update_only": 7,
         "rotowire_duplicate": 1,
         "underdog_duplicate": 12
       },
       {
         "hour": 21,
-        "matched": 12,
+        "matched": 13,
         "rotowire_first": 0,
         "rotowire_first_rate": 0.0,
-        "median_lead_seconds": -173.0,
-        "mean_lead_seconds": -324.7,
+        "median_lead_seconds": -163,
+        "mean_lead_seconds": -307.4,
         "avg_lead_seconds": null,
-        "avg_trail_seconds": 324.7,
+        "avg_trail_seconds": 307.4,
         "median_win_lead_seconds": null,
-        "median_win_trail_seconds": 173.0,
+        "median_win_trail_seconds": 163,
         "rotowire_only": 0,
-        "underdog_only": 5,
+        "underdog_only": 6,
         "roundup_only": 0,
         "rotowire_update_only": 0,
         "underdog_update_only": 3,
@@ -21065,15 +21241,15 @@
       },
       {
         "hour": 22,
-        "matched": 7,
+        "matched": 8,
         "rotowire_first": 0,
         "rotowire_first_rate": 0.0,
-        "median_lead_seconds": -146,
-        "mean_lead_seconds": -224.4,
+        "median_lead_seconds": -178.0,
+        "mean_lead_seconds": -222.6,
         "avg_lead_seconds": null,
-        "avg_trail_seconds": 224.4,
+        "avg_trail_seconds": 222.6,
         "median_win_lead_seconds": null,
-        "median_win_trail_seconds": 146,
+        "median_win_trail_seconds": 178.0,
         "rotowire_only": 0,
         "underdog_only": 10,
         "roundup_only": 18,
@@ -21103,42 +21279,42 @@
       }
     ],
     "inside": {
-      "matched": 339,
+      "matched": 345,
       "rotowire_first": 23,
-      "rotowire_first_rate": 0.0678,
+      "rotowire_first_rate": 0.0667,
       "median_lead_seconds": -105,
-      "mean_lead_seconds": -174.7,
+      "mean_lead_seconds": -176.4,
       "avg_lead_seconds": 232.1,
-      "avg_trail_seconds": 204.3,
+      "avg_trail_seconds": 205.6,
       "median_win_lead_seconds": 35,
       "median_win_trail_seconds": 113.0,
-      "rotowire_only": 37,
-      "underdog_only": 147,
-      "roundup_only": 72,
+      "rotowire_only": 38,
+      "underdog_only": 149,
+      "roundup_only": 74,
       "rotowire_update_only": 12,
-      "underdog_update_only": 47,
+      "underdog_update_only": 48,
       "rotowire_duplicate": 49,
       "underdog_duplicate": 138
     },
     "outside": {
-      "matched": 764,
-      "rotowire_first": 64,
-      "rotowire_first_rate": 0.0838,
-      "median_lead_seconds": -106.5,
-      "mean_lead_seconds": -158.7,
-      "avg_lead_seconds": 191.7,
-      "avg_trail_seconds": 190.7,
-      "median_win_lead_seconds": 53.0,
-      "median_win_trail_seconds": 114.0,
-      "rotowire_only": 298,
-      "underdog_only": 349,
+      "matched": 774,
+      "rotowire_first": 65,
+      "rotowire_first_rate": 0.084,
+      "median_lead_seconds": -107.0,
+      "mean_lead_seconds": -158.8,
+      "avg_lead_seconds": 189.9,
+      "avg_trail_seconds": 190.8,
+      "median_win_lead_seconds": 53,
+      "median_win_trail_seconds": 115,
+      "rotowire_only": 302,
+      "underdog_only": 358,
       "roundup_only": 127,
       "rotowire_update_only": 63,
       "underdog_update_only": 43,
       "rotowire_duplicate": 109,
       "underdog_duplicate": 139
     },
-    "inside_hours": 212.0
+    "inside_hours": 219.0
   },
   "staffing": {
     "roles": {
@@ -179656,7 +179832,11 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
+            "story_ids": [
+              "st_2114708796371009864",
+              "st_2114711551722877384",
+              "st_2114715710383329732"
+            ],
             "matched": 0,
             "rotowire_first": 0,
             "rotowire_first_rate": null,
@@ -179666,7 +179846,7 @@
             "avg_trail_seconds": null,
             "median_win_lead_seconds": null,
             "median_win_trail_seconds": null,
-            "rotowire_only": 0,
+            "rotowire_only": 1,
             "underdog_only": 0,
             "roundup_only": 0,
             "rotowire_update_only": 0,
@@ -179674,9 +179854,9 @@
             "rotowire_duplicate": 0,
             "underdog_duplicate": 0,
             "underdog_only_borderline": 0,
-            "rotowire_posts": 0,
-            "underdog_posts": 0,
-            "rotowire_links": 0
+            "rotowire_posts": 1,
+            "underdog_posts": 2,
+            "rotowire_links": 1
           },
           {
             "start": "09:00",
@@ -179691,16 +179871,18 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
-            "matched": 0,
+            "story_ids": [
+              "st_2114720385656623316_2114719090996871598"
+            ],
+            "matched": 1,
             "rotowire_first": 0,
-            "rotowire_first_rate": null,
-            "median_lead_seconds": null,
-            "mean_lead_seconds": null,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -309,
+            "mean_lead_seconds": -309,
             "avg_lead_seconds": null,
-            "avg_trail_seconds": null,
+            "avg_trail_seconds": 309,
             "median_win_lead_seconds": null,
-            "median_win_trail_seconds": null,
+            "median_win_trail_seconds": 309,
             "rotowire_only": 0,
             "underdog_only": 0,
             "roundup_only": 0,
@@ -179709,9 +179891,9 @@
             "rotowire_duplicate": 0,
             "underdog_duplicate": 0,
             "underdog_only_borderline": 0,
-            "rotowire_posts": 0,
-            "underdog_posts": 0,
-            "rotowire_links": 0
+            "rotowire_posts": 1,
+            "underdog_posts": 1,
+            "rotowire_links": 1
           },
           {
             "start": "10:00",
@@ -179726,27 +179908,30 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
-            "matched": 0,
+            "story_ids": [
+              "st_2114737134380749249_2114734723729670557",
+              "st_2114740965265351063"
+            ],
+            "matched": 1,
             "rotowire_first": 0,
-            "rotowire_first_rate": null,
-            "median_lead_seconds": null,
-            "mean_lead_seconds": null,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -575,
+            "mean_lead_seconds": -575,
             "avg_lead_seconds": null,
-            "avg_trail_seconds": null,
+            "avg_trail_seconds": 575,
             "median_win_lead_seconds": null,
-            "median_win_trail_seconds": null,
+            "median_win_trail_seconds": 575,
             "rotowire_only": 0,
-            "underdog_only": 0,
+            "underdog_only": 1,
             "roundup_only": 0,
             "rotowire_update_only": 0,
             "underdog_update_only": 0,
             "rotowire_duplicate": 0,
             "underdog_duplicate": 0,
-            "underdog_only_borderline": 0,
-            "rotowire_posts": 0,
-            "underdog_posts": 0,
-            "rotowire_links": 0
+            "underdog_only_borderline": 1,
+            "rotowire_posts": 1,
+            "underdog_posts": 2,
+            "rotowire_links": 1
           },
           {
             "start": "11:00",
@@ -179761,16 +179946,19 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
-            "matched": 0,
+            "story_ids": [
+              "st_2114763034488885641_2114762861994234288",
+              "st_2114763347132400071_2114762657089654911"
+            ],
+            "matched": 2,
             "rotowire_first": 0,
-            "rotowire_first_rate": null,
-            "median_lead_seconds": null,
-            "mean_lead_seconds": null,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -103.0,
+            "mean_lead_seconds": -103,
             "avg_lead_seconds": null,
-            "avg_trail_seconds": null,
+            "avg_trail_seconds": 103,
             "median_win_lead_seconds": null,
-            "median_win_trail_seconds": null,
+            "median_win_trail_seconds": 103.0,
             "rotowire_only": 0,
             "underdog_only": 0,
             "roundup_only": 0,
@@ -179779,8 +179967,8 @@
             "rotowire_duplicate": 0,
             "underdog_duplicate": 0,
             "underdog_only_borderline": 0,
-            "rotowire_posts": 0,
-            "underdog_posts": 0,
+            "rotowire_posts": 2,
+            "underdog_posts": 2,
             "rotowire_links": 0
           },
           {
@@ -179796,7 +179984,12 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
+            "story_ids": [
+              "st_2114765673070993480",
+              "st_2114767792196976940_antonio-williams",
+              "st_2114767792196976940_stefon-diggs",
+              "st_2114767792196976940_terry-mclaurin"
+            ],
             "matched": 0,
             "rotowire_first": 0,
             "rotowire_first_rate": null,
@@ -179807,7 +180000,7 @@
             "median_win_lead_seconds": null,
             "median_win_trail_seconds": null,
             "rotowire_only": 0,
-            "underdog_only": 0,
+            "underdog_only": 3,
             "roundup_only": 0,
             "rotowire_update_only": 0,
             "underdog_update_only": 0,
@@ -179815,8 +180008,8 @@
             "underdog_duplicate": 0,
             "underdog_only_borderline": 0,
             "rotowire_posts": 0,
-            "underdog_posts": 0,
-            "rotowire_links": 0
+            "underdog_posts": 2,
+            "rotowire_links": 2
           },
           {
             "start": "13:00",
@@ -179831,16 +180024,19 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
-            "matched": 0,
-            "rotowire_first": 0,
-            "rotowire_first_rate": null,
-            "median_lead_seconds": null,
-            "mean_lead_seconds": null,
-            "avg_lead_seconds": null,
-            "avg_trail_seconds": null,
-            "median_win_lead_seconds": null,
-            "median_win_trail_seconds": null,
+            "story_ids": [
+              "st_2114784915375923665_2114785223464669585",
+              "st_2114786540932956539_2114785914333417606"
+            ],
+            "matched": 2,
+            "rotowire_first": 1,
+            "rotowire_first_rate": 0.5,
+            "median_lead_seconds": -38.0,
+            "mean_lead_seconds": -38,
+            "avg_lead_seconds": 73,
+            "avg_trail_seconds": 149,
+            "median_win_lead_seconds": 73,
+            "median_win_trail_seconds": 149,
             "rotowire_only": 0,
             "underdog_only": 0,
             "roundup_only": 0,
@@ -179849,9 +180045,9 @@
             "rotowire_duplicate": 0,
             "underdog_duplicate": 0,
             "underdog_only_borderline": 0,
-            "rotowire_posts": 0,
-            "underdog_posts": 0,
-            "rotowire_links": 0
+            "rotowire_posts": 2,
+            "underdog_posts": 2,
+            "rotowire_links": 1
           },
           {
             "start": "14:00",
@@ -179866,27 +180062,37 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
-            "matched": 0,
+            "story_ids": [
+              "st_2114797000973521281_2114795710130622673",
+              "st_2114801461301240224_2114801233944777080",
+              "st_2114802251873038791_deforest-buckner",
+              "st_2114802251873038791_joshua-sweat",
+              "st_2114802251873038791_khalil-mack",
+              "st_2114804946692448272",
+              "st_2114806909572202567",
+              "st_2114807327794594278",
+              "st_2114808263246323739"
+            ],
+            "matched": 2,
             "rotowire_first": 0,
-            "rotowire_first_rate": null,
-            "median_lead_seconds": null,
-            "mean_lead_seconds": null,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -181.5,
+            "mean_lead_seconds": -181.5,
             "avg_lead_seconds": null,
-            "avg_trail_seconds": null,
+            "avg_trail_seconds": 181.5,
             "median_win_lead_seconds": null,
-            "median_win_trail_seconds": null,
-            "rotowire_only": 0,
-            "underdog_only": 0,
+            "median_win_trail_seconds": 181.5,
+            "rotowire_only": 1,
+            "underdog_only": 3,
             "roundup_only": 0,
             "rotowire_update_only": 0,
             "underdog_update_only": 0,
             "rotowire_duplicate": 0,
             "underdog_duplicate": 0,
             "underdog_only_borderline": 0,
-            "rotowire_posts": 0,
-            "underdog_posts": 0,
-            "rotowire_links": 0
+            "rotowire_posts": 3,
+            "underdog_posts": 6,
+            "rotowire_links": 4
           },
           {
             "start": "15:00",
@@ -179901,7 +180107,11 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
+            "story_ids": [
+              "st_2114824141706756572_myles-garrett",
+              "st_2114824141706756572_terrance-ferguson",
+              "st_2114824361697820963"
+            ],
             "matched": 0,
             "rotowire_first": 0,
             "rotowire_first_rate": null,
@@ -179911,16 +180121,16 @@
             "avg_trail_seconds": null,
             "median_win_lead_seconds": null,
             "median_win_trail_seconds": null,
-            "rotowire_only": 0,
-            "underdog_only": 0,
+            "rotowire_only": 1,
+            "underdog_only": 2,
             "roundup_only": 0,
             "rotowire_update_only": 0,
             "underdog_update_only": 0,
             "rotowire_duplicate": 0,
             "underdog_duplicate": 0,
             "underdog_only_borderline": 0,
-            "rotowire_posts": 0,
-            "underdog_posts": 0,
+            "rotowire_posts": 1,
+            "underdog_posts": 1,
             "rotowire_links": 0
           },
           {
@@ -179938,17 +180148,21 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
-            "matched": 0,
+            "story_ids": [
+              "st_2114830570916134922",
+              "st_2114832623704920541_2114832571339096484",
+              "st_2114834535711977665_2114834013697474855"
+            ],
+            "matched": 2,
             "rotowire_first": 0,
-            "rotowire_first_rate": null,
-            "median_lead_seconds": null,
-            "mean_lead_seconds": null,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -68.0,
+            "mean_lead_seconds": -68,
             "avg_lead_seconds": null,
-            "avg_trail_seconds": null,
+            "avg_trail_seconds": 68,
             "median_win_lead_seconds": null,
-            "median_win_trail_seconds": null,
-            "rotowire_only": 0,
+            "median_win_trail_seconds": 68.0,
+            "rotowire_only": 1,
             "underdog_only": 0,
             "roundup_only": 0,
             "rotowire_update_only": 0,
@@ -179956,9 +180170,9 @@
             "rotowire_duplicate": 0,
             "underdog_duplicate": 0,
             "underdog_only_borderline": 0,
-            "rotowire_posts": 0,
-            "underdog_posts": 0,
-            "rotowire_links": 0
+            "rotowire_posts": 3,
+            "underdog_posts": 2,
+            "rotowire_links": 4
           },
           {
             "start": "17:00",
@@ -179975,27 +180189,35 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
-            "matched": 0,
+            "story_ids": [
+              "st_2114841537318121601_2114841054163906993",
+              "st_2114841654523822268_demarcus-robinson",
+              "st_2114841654523822268_nick-bosa",
+              "st_2114841933004587437_2114841654523822268_michael-evans",
+              "st_2114842206074777730",
+              "st_2114846429181083747_2114841654523822268_deebo-samuel",
+              "st_2114850918730514493_2114850878008242504"
+            ],
+            "matched": 4,
             "rotowire_first": 0,
-            "rotowire_first_rate": null,
-            "median_lead_seconds": null,
-            "mean_lead_seconds": null,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -91.5,
+            "mean_lead_seconds": -332.8,
             "avg_lead_seconds": null,
-            "avg_trail_seconds": null,
+            "avg_trail_seconds": 332.8,
             "median_win_lead_seconds": null,
-            "median_win_trail_seconds": null,
-            "rotowire_only": 0,
+            "median_win_trail_seconds": 91.5,
+            "rotowire_only": 1,
             "underdog_only": 0,
-            "roundup_only": 0,
+            "roundup_only": 2,
             "rotowire_update_only": 0,
             "underdog_update_only": 0,
             "rotowire_duplicate": 0,
             "underdog_duplicate": 0,
             "underdog_only_borderline": 0,
-            "rotowire_posts": 0,
-            "underdog_posts": 0,
-            "rotowire_links": 0
+            "rotowire_posts": 5,
+            "underdog_posts": 3,
+            "rotowire_links": 5
           },
           {
             "start": "18:00",
@@ -180096,7 +180318,10 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
+            "story_ids": [
+              "st_2114897510703739151_dameon-pierce",
+              "st_2114897510703739151_saquon-barkley"
+            ],
             "matched": 0,
             "rotowire_first": 0,
             "rotowire_first_rate": null,
@@ -180107,15 +180332,15 @@
             "median_win_lead_seconds": null,
             "median_win_trail_seconds": null,
             "rotowire_only": 0,
-            "underdog_only": 0,
+            "underdog_only": 1,
             "roundup_only": 0,
             "rotowire_update_only": 0,
-            "underdog_update_only": 0,
+            "underdog_update_only": 1,
             "rotowire_duplicate": 0,
             "underdog_duplicate": 0,
-            "underdog_only_borderline": 0,
+            "underdog_only_borderline": 1,
             "rotowire_posts": 0,
-            "underdog_posts": 0,
+            "underdog_posts": 1,
             "rotowire_links": 0
           },
           {
@@ -180135,27 +180360,30 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
-            "matched": 0,
+            "story_ids": [
+              "st_2114910679668850895_2114910259663732894",
+              "st_2114914628669235424"
+            ],
+            "matched": 1,
             "rotowire_first": 0,
-            "rotowire_first_rate": null,
-            "median_lead_seconds": null,
-            "mean_lead_seconds": null,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -100,
+            "mean_lead_seconds": -100,
             "avg_lead_seconds": null,
-            "avg_trail_seconds": null,
+            "avg_trail_seconds": 100,
             "median_win_lead_seconds": null,
-            "median_win_trail_seconds": null,
+            "median_win_trail_seconds": 100,
             "rotowire_only": 0,
-            "underdog_only": 0,
+            "underdog_only": 1,
             "roundup_only": 0,
             "rotowire_update_only": 0,
             "underdog_update_only": 0,
             "rotowire_duplicate": 0,
             "underdog_duplicate": 0,
             "underdog_only_borderline": 0,
-            "rotowire_posts": 0,
-            "underdog_posts": 0,
-            "rotowire_links": 0
+            "rotowire_posts": 1,
+            "underdog_posts": 2,
+            "rotowire_links": 1
           },
           {
             "start": "22:00",
@@ -180171,16 +180399,18 @@
               "nfl": [],
               "nfl_news": []
             },
-            "story_ids": [],
-            "matched": 0,
+            "story_ids": [
+              "st_2114926650710175908_2114925771085025625"
+            ],
+            "matched": 1,
             "rotowire_first": 0,
-            "rotowire_first_rate": null,
-            "median_lead_seconds": null,
-            "mean_lead_seconds": null,
+            "rotowire_first_rate": 0.0,
+            "median_lead_seconds": -210,
+            "mean_lead_seconds": -210,
             "avg_lead_seconds": null,
-            "avg_trail_seconds": null,
+            "avg_trail_seconds": 210,
             "median_win_lead_seconds": null,
-            "median_win_trail_seconds": null,
+            "median_win_trail_seconds": 210,
             "rotowire_only": 0,
             "underdog_only": 0,
             "roundup_only": 0,
@@ -180189,8 +180419,8 @@
             "rotowire_duplicate": 0,
             "underdog_duplicate": 0,
             "underdog_only_borderline": 0,
-            "rotowire_posts": 0,
-            "underdog_posts": 0,
+            "rotowire_posts": 1,
+            "underdog_posts": 1,
             "rotowire_links": 0
           },
           {
@@ -180227,7 +180457,7 @@
             "underdog_only_borderline": 0,
             "rotowire_posts": 0,
             "underdog_posts": 0,
-            "rotowire_links": 0
+            "rotowire_links": 1
           }
         ],
         "people": {
@@ -180235,30 +180465,224 @@
             {
               "name": "Adam",
               "hours": 7.0,
-              "matched": 0,
-              "rotowire_first": 0,
-              "rotowire_first_rate": null,
-              "median_lead_seconds": null,
-              "mean_lead_seconds": null,
-              "avg_lead_seconds": null,
-              "avg_trail_seconds": null,
-              "median_win_lead_seconds": null,
-              "median_win_trail_seconds": null,
-              "rotowire_only": 0,
-              "underdog_only": 0,
+              "matched": 8,
+              "rotowire_first": 1,
+              "rotowire_first_rate": 0.125,
+              "median_lead_seconds": -157.0,
+              "mean_lead_seconds": -191.1,
+              "avg_lead_seconds": 73,
+              "avg_trail_seconds": 228.9,
+              "median_win_lead_seconds": 73,
+              "median_win_trail_seconds": 165,
+              "rotowire_only": 3,
+              "underdog_only": 6,
               "roundup_only": 0,
               "rotowire_update_only": 0,
               "underdog_update_only": 0,
               "rotowire_duplicate": 0,
               "underdog_duplicate": 0,
-              "underdog_only_borderline": 0,
-              "rotowire_posts": 0,
-              "underdog_posts": 0,
-              "rotowire_links": 0
+              "underdog_only_borderline": 1,
+              "rotowire_posts": 11,
+              "underdog_posts": 16,
+              "rotowire_links": 8
             },
             {
               "name": "Eric C.",
               "hours": 3.0,
+              "matched": 6,
+              "rotowire_first": 0,
+              "rotowire_first_rate": 0.0,
+              "median_lead_seconds": -91.5,
+              "mean_lead_seconds": -244.5,
+              "avg_lead_seconds": null,
+              "avg_trail_seconds": 244.5,
+              "median_win_lead_seconds": null,
+              "median_win_trail_seconds": 91.5,
+              "rotowire_only": 2,
+              "underdog_only": 3,
+              "roundup_only": 2,
+              "rotowire_update_only": 0,
+              "underdog_update_only": 0,
+              "rotowire_duplicate": 0,
+              "underdog_duplicate": 0,
+              "underdog_only_borderline": 0,
+              "rotowire_posts": 8,
+              "underdog_posts": 7,
+              "rotowire_links": 11
+            },
+            {
+              "name": "KOB",
+              "hours": 8.0,
+              "matched": 8,
+              "rotowire_first": 1,
+              "rotowire_first_rate": 0.125,
+              "median_lead_seconds": -157.0,
+              "mean_lead_seconds": -191.1,
+              "avg_lead_seconds": 73,
+              "avg_trail_seconds": 228.9,
+              "median_win_lead_seconds": 73,
+              "median_win_trail_seconds": 165,
+              "rotowire_only": 3,
+              "underdog_only": 9,
+              "roundup_only": 0,
+              "rotowire_update_only": 0,
+              "underdog_update_only": 0,
+              "rotowire_duplicate": 0,
+              "underdog_duplicate": 0,
+              "underdog_only_borderline": 1,
+              "rotowire_posts": 11,
+              "underdog_posts": 18,
+              "rotowire_links": 10
+            },
+            {
+              "name": "Paul",
+              "hours": 6.0,
+              "matched": 2,
+              "rotowire_first": 0,
+              "rotowire_first_rate": 0.0,
+              "median_lead_seconds": -155.0,
+              "mean_lead_seconds": -155,
+              "avg_lead_seconds": null,
+              "avg_trail_seconds": 155,
+              "median_win_lead_seconds": null,
+              "median_win_trail_seconds": 155.0,
+              "rotowire_only": 0,
+              "underdog_only": 2,
+              "roundup_only": 0,
+              "rotowire_update_only": 0,
+              "underdog_update_only": 1,
+              "rotowire_duplicate": 0,
+              "underdog_duplicate": 0,
+              "underdog_only_borderline": 1,
+              "rotowire_posts": 2,
+              "underdog_posts": 4,
+              "rotowire_links": 2
+            }
+          ],
+          "nfl_news": [
+            {
+              "name": "Cullum",
+              "hours": 4.0,
+              "matched": 1,
+              "rotowire_first": 0,
+              "rotowire_first_rate": 0.0,
+              "median_lead_seconds": -100,
+              "mean_lead_seconds": -100,
+              "avg_lead_seconds": null,
+              "avg_trail_seconds": 100,
+              "median_win_lead_seconds": null,
+              "median_win_trail_seconds": 100,
+              "rotowire_only": 0,
+              "underdog_only": 2,
+              "roundup_only": 0,
+              "rotowire_update_only": 0,
+              "underdog_update_only": 1,
+              "rotowire_duplicate": 0,
+              "underdog_duplicate": 0,
+              "underdog_only_borderline": 1,
+              "rotowire_posts": 1,
+              "underdog_posts": 3,
+              "rotowire_links": 1
+            },
+            {
+              "name": "Dante",
+              "hours": 4.0,
+              "matched": 1,
+              "rotowire_first": 0,
+              "rotowire_first_rate": 0.0,
+              "median_lead_seconds": -100,
+              "mean_lead_seconds": -100,
+              "avg_lead_seconds": null,
+              "avg_trail_seconds": 100,
+              "median_win_lead_seconds": null,
+              "median_win_trail_seconds": 100,
+              "rotowire_only": 0,
+              "underdog_only": 2,
+              "roundup_only": 0,
+              "rotowire_update_only": 0,
+              "underdog_update_only": 1,
+              "rotowire_duplicate": 0,
+              "underdog_duplicate": 0,
+              "underdog_only_borderline": 1,
+              "rotowire_posts": 1,
+              "underdog_posts": 3,
+              "rotowire_links": 1
+            },
+            {
+              "name": "Dennis",
+              "hours": 4.0,
+              "matched": 6,
+              "rotowire_first": 0,
+              "rotowire_first_rate": 0.0,
+              "median_lead_seconds": -91.5,
+              "mean_lead_seconds": -244.5,
+              "avg_lead_seconds": null,
+              "avg_trail_seconds": 244.5,
+              "median_win_lead_seconds": null,
+              "median_win_trail_seconds": 91.5,
+              "rotowire_only": 2,
+              "underdog_only": 0,
+              "roundup_only": 2,
+              "rotowire_update_only": 0,
+              "underdog_update_only": 0,
+              "rotowire_duplicate": 0,
+              "underdog_duplicate": 0,
+              "underdog_only_borderline": 0,
+              "rotowire_posts": 8,
+              "underdog_posts": 5,
+              "rotowire_links": 9
+            },
+            {
+              "name": "Mensio",
+              "hours": 8.0,
+              "matched": 8,
+              "rotowire_first": 0,
+              "rotowire_first_rate": 0.0,
+              "median_lead_seconds": -108.0,
+              "mean_lead_seconds": -222.1,
+              "avg_lead_seconds": null,
+              "avg_trail_seconds": 222.1,
+              "median_win_lead_seconds": null,
+              "median_win_trail_seconds": 108.0,
+              "rotowire_only": 2,
+              "underdog_only": 2,
+              "roundup_only": 2,
+              "rotowire_update_only": 0,
+              "underdog_update_only": 1,
+              "rotowire_duplicate": 0,
+              "underdog_duplicate": 0,
+              "underdog_only_borderline": 1,
+              "rotowire_posts": 10,
+              "underdog_posts": 9,
+              "rotowire_links": 11
+            },
+            {
+              "name": "Nick B.",
+              "hours": 4.0,
+              "matched": 1,
+              "rotowire_first": 0,
+              "rotowire_first_rate": 0.0,
+              "median_lead_seconds": -100,
+              "mean_lead_seconds": -100,
+              "avg_lead_seconds": null,
+              "avg_trail_seconds": 100,
+              "median_win_lead_seconds": null,
+              "median_win_trail_seconds": 100,
+              "rotowire_only": 0,
+              "underdog_only": 2,
+              "roundup_only": 0,
+              "rotowire_update_only": 0,
+              "underdog_update_only": 1,
+              "rotowire_duplicate": 0,
+              "underdog_duplicate": 0,
+              "underdog_only_borderline": 1,
+              "rotowire_posts": 1,
+              "underdog_posts": 3,
+              "rotowire_links": 1
+            },
+            {
+              "name": "Nick R.",
+              "hours": 2.0,
               "matched": 0,
               "rotowire_first": 0,
               "rotowire_first_rate": null,
@@ -180269,19 +180693,627 @@
               "median_win_lead_seconds": null,
               "median_win_trail_seconds": null,
               "rotowire_only": 0,
-              "underdog_only": 0,
+              "underdog_only": 1,
               "roundup_only": 0,
               "rotowire_update_only": 0,
-              "underdog_update_only": 0,
+              "underdog_update_only": 1,
               "rotowire_duplicate": 0,
               "underdog_duplicate": 0,
-              "underdog_only_borderline": 0,
+              "underdog_only_borderline": 1,
               "rotowire_posts": 0,
-              "underdog_posts": 0,
+              "underdog_posts": 1,
               "rotowire_links": 0
+            }
+          ]
+        },
+        "total": {
+          "matched": 16,
+          "rotowire_first": 1,
+          "rotowire_first_rate": 0.0625,
+          "median_lead_seconds": -120.0,
+          "mean_lead_seconds": -206.6,
+          "avg_lead_seconds": 73,
+          "avg_trail_seconds": 225.3,
+          "median_win_lead_seconds": 73,
+          "median_win_trail_seconds": 124,
+          "rotowire_only": 5,
+          "underdog_only": 11,
+          "roundup_only": 2,
+          "rotowire_update_only": 0,
+          "underdog_update_only": 1,
+          "rotowire_duplicate": 0,
+          "underdog_duplicate": 0,
+          "underdog_only_borderline": 2,
+          "rotowire_posts": 21,
+          "underdog_posts": 27,
+          "rotowire_links": 21
+        }
+      },
+      {
+        "date": "2026-10-27",
+        "timezone": "America/Chicago",
+        "roles": {
+          "nfl": "NFL desk",
+          "nfl_news": "NFL News"
+        },
+        "slots": [
+          {
+            "start": "08:00",
+            "roles": {
+              "nfl": [
+                "KOB"
+              ],
+              "nfl_news": []
             },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "09:00",
+            "roles": {
+              "nfl": [
+                "Adam"
+              ],
+              "nfl_news": []
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "10:00",
+            "roles": {
+              "nfl": [
+                "Adam"
+              ],
+              "nfl_news": []
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "11:00",
+            "roles": {
+              "nfl": [
+                "Adam"
+              ],
+              "nfl_news": []
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "12:00",
+            "roles": {
+              "nfl": [
+                "Adam"
+              ],
+              "nfl_news": []
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "13:00",
+            "roles": {
+              "nfl": [
+                "Adam"
+              ],
+              "nfl_news": []
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "14:00",
+            "roles": {
+              "nfl": [
+                "Adam"
+              ],
+              "nfl_news": [
+                "Zoe"
+              ]
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "15:00",
+            "roles": {
+              "nfl": [
+                "Adam"
+              ],
+              "nfl_news": [
+                "Zoe"
+              ]
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "16:00",
+            "roles": {
+              "nfl": [
+                "Adam"
+              ],
+              "nfl_news": [
+                "Zoe",
+                "Dennis"
+              ]
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "17:00",
+            "roles": {
+              "nfl": [
+                "KOB"
+              ],
+              "nfl_news": [
+                "Dennis"
+              ]
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "18:00",
+            "roles": {
+              "nfl": [
+                "Mensio"
+              ],
+              "nfl_news": [
+                "Paul",
+                "Cullum"
+              ]
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "19:00",
+            "roles": {
+              "nfl": [
+                "Mensio"
+              ],
+              "nfl_news": [
+                "Paul",
+                "Cullum",
+                "Nick R."
+              ]
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "20:00",
+            "roles": {
+              "nfl": [
+                "Mensio"
+              ],
+              "nfl_news": [
+                "Paul",
+                "Cullum",
+                "Nick R.",
+                "Steven"
+              ]
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "21:00",
+            "roles": {
+              "nfl": [
+                "Mensio"
+              ],
+              "nfl_news": [
+                "Paul",
+                "Cullum"
+              ]
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "22:00",
+            "roles": {
+              "nfl": [
+                "Mensio"
+              ],
+              "nfl_news": [
+                "Paul"
+              ]
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          },
+          {
+            "start": "23:00",
+            "roles": {
+              "nfl": [
+                "Mensio"
+              ],
+              "nfl_news": [
+                "Paul"
+              ]
+            },
+            "handoffs": {
+              "nfl": [],
+              "nfl_news": []
+            },
+            "story_ids": [],
+            "matched": 0,
+            "rotowire_first": 0,
+            "rotowire_first_rate": null,
+            "median_lead_seconds": null,
+            "mean_lead_seconds": null,
+            "avg_lead_seconds": null,
+            "avg_trail_seconds": null,
+            "median_win_lead_seconds": null,
+            "median_win_trail_seconds": null,
+            "rotowire_only": 0,
+            "underdog_only": 0,
+            "roundup_only": 0,
+            "rotowire_update_only": 0,
+            "underdog_update_only": 0,
+            "rotowire_duplicate": 0,
+            "underdog_duplicate": 0,
+            "underdog_only_borderline": 0,
+            "rotowire_posts": 0,
+            "underdog_posts": 0,
+            "rotowire_links": 0
+          }
+        ],
+        "people": {
+          "nfl": [
             {
-              "name": "KOB",
+              "name": "Adam",
               "hours": 8.0,
               "matched": 0,
               "rotowire_first": 0,
@@ -180305,7 +181337,31 @@
               "rotowire_links": 0
             },
             {
-              "name": "Paul",
+              "name": "KOB",
+              "hours": 2.0,
+              "matched": 0,
+              "rotowire_first": 0,
+              "rotowire_first_rate": null,
+              "median_lead_seconds": null,
+              "mean_lead_seconds": null,
+              "avg_lead_seconds": null,
+              "avg_trail_seconds": null,
+              "median_win_lead_seconds": null,
+              "median_win_trail_seconds": null,
+              "rotowire_only": 0,
+              "underdog_only": 0,
+              "roundup_only": 0,
+              "rotowire_update_only": 0,
+              "underdog_update_only": 0,
+              "rotowire_duplicate": 0,
+              "underdog_duplicate": 0,
+              "underdog_only_borderline": 0,
+              "rotowire_posts": 0,
+              "underdog_posts": 0,
+              "rotowire_links": 0
+            },
+            {
+              "name": "Mensio",
               "hours": 6.0,
               "matched": 0,
               "rotowire_first": 0,
@@ -180355,80 +181411,8 @@
               "rotowire_links": 0
             },
             {
-              "name": "Dante",
-              "hours": 4.0,
-              "matched": 0,
-              "rotowire_first": 0,
-              "rotowire_first_rate": null,
-              "median_lead_seconds": null,
-              "mean_lead_seconds": null,
-              "avg_lead_seconds": null,
-              "avg_trail_seconds": null,
-              "median_win_lead_seconds": null,
-              "median_win_trail_seconds": null,
-              "rotowire_only": 0,
-              "underdog_only": 0,
-              "roundup_only": 0,
-              "rotowire_update_only": 0,
-              "underdog_update_only": 0,
-              "rotowire_duplicate": 0,
-              "underdog_duplicate": 0,
-              "underdog_only_borderline": 0,
-              "rotowire_posts": 0,
-              "underdog_posts": 0,
-              "rotowire_links": 0
-            },
-            {
               "name": "Dennis",
-              "hours": 4.0,
-              "matched": 0,
-              "rotowire_first": 0,
-              "rotowire_first_rate": null,
-              "median_lead_seconds": null,
-              "mean_lead_seconds": null,
-              "avg_lead_seconds": null,
-              "avg_trail_seconds": null,
-              "median_win_lead_seconds": null,
-              "median_win_trail_seconds": null,
-              "rotowire_only": 0,
-              "underdog_only": 0,
-              "roundup_only": 0,
-              "rotowire_update_only": 0,
-              "underdog_update_only": 0,
-              "rotowire_duplicate": 0,
-              "underdog_duplicate": 0,
-              "underdog_only_borderline": 0,
-              "rotowire_posts": 0,
-              "underdog_posts": 0,
-              "rotowire_links": 0
-            },
-            {
-              "name": "Mensio",
-              "hours": 8.0,
-              "matched": 0,
-              "rotowire_first": 0,
-              "rotowire_first_rate": null,
-              "median_lead_seconds": null,
-              "mean_lead_seconds": null,
-              "avg_lead_seconds": null,
-              "avg_trail_seconds": null,
-              "median_win_lead_seconds": null,
-              "median_win_trail_seconds": null,
-              "rotowire_only": 0,
-              "underdog_only": 0,
-              "roundup_only": 0,
-              "rotowire_update_only": 0,
-              "underdog_update_only": 0,
-              "rotowire_duplicate": 0,
-              "underdog_duplicate": 0,
-              "underdog_only_borderline": 0,
-              "rotowire_posts": 0,
-              "underdog_posts": 0,
-              "rotowire_links": 0
-            },
-            {
-              "name": "Nick B.",
-              "hours": 4.0,
+              "hours": 2.0,
               "matched": 0,
               "rotowire_first": 0,
               "rotowire_first_rate": null,
@@ -180453,6 +181437,78 @@
             {
               "name": "Nick R.",
               "hours": 2.0,
+              "matched": 0,
+              "rotowire_first": 0,
+              "rotowire_first_rate": null,
+              "median_lead_seconds": null,
+              "mean_lead_seconds": null,
+              "avg_lead_seconds": null,
+              "avg_trail_seconds": null,
+              "median_win_lead_seconds": null,
+              "median_win_trail_seconds": null,
+              "rotowire_only": 0,
+              "underdog_only": 0,
+              "roundup_only": 0,
+              "rotowire_update_only": 0,
+              "underdog_update_only": 0,
+              "rotowire_duplicate": 0,
+              "underdog_duplicate": 0,
+              "underdog_only_borderline": 0,
+              "rotowire_posts": 0,
+              "underdog_posts": 0,
+              "rotowire_links": 0
+            },
+            {
+              "name": "Paul",
+              "hours": 6.0,
+              "matched": 0,
+              "rotowire_first": 0,
+              "rotowire_first_rate": null,
+              "median_lead_seconds": null,
+              "mean_lead_seconds": null,
+              "avg_lead_seconds": null,
+              "avg_trail_seconds": null,
+              "median_win_lead_seconds": null,
+              "median_win_trail_seconds": null,
+              "rotowire_only": 0,
+              "underdog_only": 0,
+              "roundup_only": 0,
+              "rotowire_update_only": 0,
+              "underdog_update_only": 0,
+              "rotowire_duplicate": 0,
+              "underdog_duplicate": 0,
+              "underdog_only_borderline": 0,
+              "rotowire_posts": 0,
+              "underdog_posts": 0,
+              "rotowire_links": 0
+            },
+            {
+              "name": "Steven",
+              "hours": 1.0,
+              "matched": 0,
+              "rotowire_first": 0,
+              "rotowire_first_rate": null,
+              "median_lead_seconds": null,
+              "mean_lead_seconds": null,
+              "avg_lead_seconds": null,
+              "avg_trail_seconds": null,
+              "median_win_lead_seconds": null,
+              "median_win_trail_seconds": null,
+              "rotowire_only": 0,
+              "underdog_only": 0,
+              "roundup_only": 0,
+              "rotowire_update_only": 0,
+              "underdog_update_only": 0,
+              "rotowire_duplicate": 0,
+              "underdog_duplicate": 0,
+              "underdog_only_borderline": 0,
+              "rotowire_posts": 0,
+              "underdog_posts": 0,
+              "rotowire_links": 0
+            },
+            {
+              "name": "Zoe",
+              "hours": 3.0,
               "matched": 0,
               "rotowire_first": 0,
               "rotowire_first_rate": null,
@@ -180505,27 +181561,27 @@
         "nfl": [
           {
             "name": "Adam",
-            "hours": 297.5,
-            "matched": 486,
-            "rotowire_first": 56,
-            "rotowire_first_rate": 0.1152,
+            "hours": 305.5,
+            "matched": 494,
+            "rotowire_first": 57,
+            "rotowire_first_rate": 0.1154,
             "median_lead_seconds": -103.0,
-            "mean_lead_seconds": -145.1,
-            "avg_lead_seconds": 251.3,
-            "avg_trail_seconds": 196.7,
-            "median_win_lead_seconds": 58.0,
-            "median_win_trail_seconds": 115.5,
-            "rotowire_only": 226,
-            "underdog_only": 223,
+            "mean_lead_seconds": -145.9,
+            "avg_lead_seconds": 248.2,
+            "avg_trail_seconds": 197.2,
+            "median_win_lead_seconds": 59,
+            "median_win_trail_seconds": 116,
+            "rotowire_only": 229,
+            "underdog_only": 229,
             "roundup_only": 42,
             "rotowire_update_only": 19,
             "underdog_update_only": 27,
             "rotowire_duplicate": 62,
             "underdog_duplicate": 100,
-            "underdog_only_borderline": 26,
-            "rotowire_posts": 788,
-            "underdog_posts": 846,
-            "rotowire_links": 635
+            "underdog_only_borderline": 27,
+            "rotowire_posts": 799,
+            "underdog_posts": 862,
+            "rotowire_links": 643
           },
           {
             "name": "Chris B.",
@@ -180602,26 +181658,26 @@
           {
             "name": "Eric C.",
             "hours": 605.5,
-            "matched": 729,
+            "matched": 735,
             "rotowire_first": 64,
-            "rotowire_first_rate": 0.0878,
+            "rotowire_first_rate": 0.0871,
             "median_lead_seconds": -107,
-            "mean_lead_seconds": -174.1,
+            "mean_lead_seconds": -174.6,
             "avg_lead_seconds": 219.0,
-            "avg_trail_seconds": 211.9,
+            "avg_trail_seconds": 212.2,
             "median_win_lead_seconds": 53.0,
-            "median_win_trail_seconds": 118,
-            "rotowire_only": 370,
-            "underdog_only": 317,
-            "roundup_only": 46,
+            "median_win_trail_seconds": 117,
+            "rotowire_only": 372,
+            "underdog_only": 320,
+            "roundup_only": 48,
             "rotowire_update_only": 39,
             "underdog_update_only": 55,
             "rotowire_duplicate": 128,
             "underdog_duplicate": 168,
             "underdog_only_borderline": 30,
-            "rotowire_posts": 1264,
-            "underdog_posts": 1292,
-            "rotowire_links": 946
+            "rotowire_posts": 1272,
+            "underdog_posts": 1299,
+            "rotowire_links": 957
           },
           {
             "name": "Ilango",
@@ -180721,27 +181777,27 @@
           },
           {
             "name": "KOB",
-            "hours": 246.0,
-            "matched": 407,
-            "rotowire_first": 40,
-            "rotowire_first_rate": 0.0983,
+            "hours": 248.0,
+            "matched": 415,
+            "rotowire_first": 41,
+            "rotowire_first_rate": 0.0988,
             "median_lead_seconds": -103,
-            "mean_lead_seconds": -149.2,
-            "avg_lead_seconds": 164.7,
-            "avg_trail_seconds": 183.4,
-            "median_win_lead_seconds": 28.0,
-            "median_win_trail_seconds": 112,
-            "rotowire_only": 177,
-            "underdog_only": 164,
+            "mean_lead_seconds": -150.0,
+            "avg_lead_seconds": 162.4,
+            "avg_trail_seconds": 184.3,
+            "median_win_lead_seconds": 30,
+            "median_win_trail_seconds": 112.5,
+            "rotowire_only": 180,
+            "underdog_only": 173,
             "roundup_only": 58,
             "rotowire_update_only": 20,
             "underdog_update_only": 18,
             "rotowire_duplicate": 62,
             "underdog_duplicate": 73,
-            "underdog_only_borderline": 18,
-            "rotowire_posts": 670,
-            "underdog_posts": 704,
-            "rotowire_links": 507
+            "underdog_only_borderline": 19,
+            "rotowire_posts": 681,
+            "underdog_posts": 722,
+            "rotowire_links": 517
           },
           {
             "name": "Mario",
@@ -180769,7 +181825,7 @@
           },
           {
             "name": "Mensio",
-            "hours": 532.0,
+            "hours": 538.0,
             "matched": 321,
             "rotowire_first": 32,
             "rotowire_first_rate": 0.0997,
@@ -180842,26 +181898,26 @@
           {
             "name": "Paul",
             "hours": 456.0,
-            "matched": 42,
+            "matched": 44,
             "rotowire_first": 1,
-            "rotowire_first_rate": 0.0238,
+            "rotowire_first_rate": 0.0227,
             "median_lead_seconds": -113.0,
-            "mean_lead_seconds": -211.5,
+            "mean_lead_seconds": -208.9,
             "avg_lead_seconds": 18,
-            "avg_trail_seconds": 217.1,
+            "avg_trail_seconds": 214.2,
             "median_win_lead_seconds": 18,
             "median_win_trail_seconds": 113,
             "rotowire_only": 25,
-            "underdog_only": 20,
+            "underdog_only": 22,
             "roundup_only": 30,
             "rotowire_update_only": 1,
-            "underdog_update_only": 6,
+            "underdog_update_only": 7,
             "rotowire_duplicate": 10,
             "underdog_duplicate": 22,
-            "underdog_only_borderline": 4,
-            "rotowire_posts": 82,
-            "underdog_posts": 117,
-            "rotowire_links": 38
+            "underdog_only_borderline": 5,
+            "rotowire_posts": 84,
+            "underdog_posts": 121,
+            "rotowire_links": 40
           },
           {
             "name": "Ryan W.",
@@ -180915,75 +181971,75 @@
         "nfl_news": [
           {
             "name": "Cullum",
-            "hours": 230.5,
-            "matched": 162,
+            "hours": 234.5,
+            "matched": 163,
             "rotowire_first": 16,
-            "rotowire_first_rate": 0.0988,
-            "median_lead_seconds": -114.0,
-            "mean_lead_seconds": -175.4,
+            "rotowire_first_rate": 0.0982,
+            "median_lead_seconds": -113,
+            "mean_lead_seconds": -174.9,
             "avg_lead_seconds": 250.6,
-            "avg_trail_seconds": 222.1,
+            "avg_trail_seconds": 221.3,
             "median_win_lead_seconds": 45.5,
-            "median_win_trail_seconds": 136.5,
+            "median_win_trail_seconds": 135,
             "rotowire_only": 67,
-            "underdog_only": 61,
+            "underdog_only": 63,
             "roundup_only": 64,
             "rotowire_update_only": 6,
-            "underdog_update_only": 18,
+            "underdog_update_only": 19,
             "rotowire_duplicate": 35,
             "underdog_duplicate": 56,
-            "underdog_only_borderline": 13,
-            "rotowire_posts": 275,
-            "underdog_posts": 323,
-            "rotowire_links": 224
+            "underdog_only_borderline": 14,
+            "rotowire_posts": 276,
+            "underdog_posts": 326,
+            "rotowire_links": 225
           },
           {
             "name": "Dante",
             "hours": 307.5,
-            "matched": 163,
+            "matched": 164,
             "rotowire_first": 15,
-            "rotowire_first_rate": 0.092,
-            "median_lead_seconds": -123,
-            "mean_lead_seconds": -203.4,
+            "rotowire_first_rate": 0.0915,
+            "median_lead_seconds": -123.0,
+            "mean_lead_seconds": -202.7,
             "avg_lead_seconds": 269.3,
-            "avg_trail_seconds": 251.3,
+            "avg_trail_seconds": 250.2,
             "median_win_lead_seconds": 63,
-            "median_win_trail_seconds": 135.5,
+            "median_win_trail_seconds": 130,
             "rotowire_only": 85,
-            "underdog_only": 57,
+            "underdog_only": 59,
             "roundup_only": 58,
             "rotowire_update_only": 4,
-            "underdog_update_only": 18,
+            "underdog_update_only": 19,
             "rotowire_duplicate": 31,
             "underdog_duplicate": 56,
-            "underdog_only_borderline": 9,
-            "rotowire_posts": 290,
-            "underdog_posts": 345,
-            "rotowire_links": 163
+            "underdog_only_borderline": 10,
+            "rotowire_posts": 291,
+            "underdog_posts": 348,
+            "rotowire_links": 164
           },
           {
             "name": "Dennis",
-            "hours": 118.0,
-            "matched": 106,
+            "hours": 120.0,
+            "matched": 112,
             "rotowire_first": 6,
-            "rotowire_first_rate": 0.0566,
+            "rotowire_first_rate": 0.0536,
             "median_lead_seconds": -110.0,
-            "mean_lead_seconds": -210.1,
+            "mean_lead_seconds": -211.9,
             "avg_lead_seconds": 168.8,
-            "avg_trail_seconds": 232.8,
+            "avg_trail_seconds": 233.5,
             "median_win_lead_seconds": 39.0,
             "median_win_trail_seconds": 114.5,
-            "rotowire_only": 35,
+            "rotowire_only": 37,
             "underdog_only": 56,
-            "roundup_only": 41,
+            "roundup_only": 43,
             "rotowire_update_only": 4,
             "underdog_update_only": 8,
             "rotowire_duplicate": 36,
             "underdog_duplicate": 40,
             "underdog_only_borderline": 8,
-            "rotowire_posts": 189,
-            "underdog_posts": 227,
-            "rotowire_links": 180
+            "rotowire_posts": 197,
+            "underdog_posts": 232,
+            "rotowire_links": 189
           },
           {
             "name": "Jarrad",
@@ -181060,54 +182116,54 @@
           {
             "name": "Mensio",
             "hours": 82.0,
-            "matched": 36,
+            "matched": 44,
             "rotowire_first": 8,
-            "rotowire_first_rate": 0.2222,
-            "median_lead_seconds": -86.5,
-            "mean_lead_seconds": -158.9,
+            "rotowire_first_rate": 0.1818,
+            "median_lead_seconds": -94.0,
+            "mean_lead_seconds": -170.4,
             "avg_lead_seconds": 268.2,
-            "avg_trail_seconds": 281.0,
+            "avg_trail_seconds": 267.9,
             "median_win_lead_seconds": 58.5,
-            "median_win_trail_seconds": 122.5,
-            "rotowire_only": 22,
-            "underdog_only": 26,
-            "roundup_only": 15,
+            "median_win_trail_seconds": 114.5,
+            "rotowire_only": 24,
+            "underdog_only": 28,
+            "roundup_only": 17,
             "rotowire_update_only": 3,
-            "underdog_update_only": 9,
+            "underdog_update_only": 10,
             "rotowire_duplicate": 5,
             "underdog_duplicate": 9,
-            "underdog_only_borderline": 9,
-            "rotowire_posts": 63,
-            "underdog_posts": 84,
-            "rotowire_links": 36
+            "underdog_only_borderline": 10,
+            "rotowire_posts": 73,
+            "underdog_posts": 93,
+            "rotowire_links": 47
           },
           {
             "name": "Nick B.",
             "hours": 153.0,
-            "matched": 90,
+            "matched": 91,
             "rotowire_first": 4,
-            "rotowire_first_rate": 0.0444,
-            "median_lead_seconds": -135.0,
-            "mean_lead_seconds": -244.5,
+            "rotowire_first_rate": 0.044,
+            "median_lead_seconds": -132,
+            "mean_lead_seconds": -242.9,
             "avg_lead_seconds": 59.5,
-            "avg_trail_seconds": 258.6,
+            "avg_trail_seconds": 256.8,
             "median_win_lead_seconds": 46.0,
-            "median_win_trail_seconds": 143.0,
+            "median_win_trail_seconds": 143,
             "rotowire_only": 36,
-            "underdog_only": 46,
+            "underdog_only": 48,
             "roundup_only": 41,
             "rotowire_update_only": 7,
-            "underdog_update_only": 14,
+            "underdog_update_only": 15,
             "rotowire_duplicate": 13,
             "underdog_duplicate": 48,
-            "underdog_only_borderline": 13,
-            "rotowire_posts": 150,
-            "underdog_posts": 243,
-            "rotowire_links": 129
+            "underdog_only_borderline": 14,
+            "rotowire_posts": 151,
+            "underdog_posts": 246,
+            "rotowire_links": 130
           },
           {
             "name": "Nick R.",
-            "hours": 151.5,
+            "hours": 153.5,
             "matched": 46,
             "rotowire_first": 3,
             "rotowire_first_rate": 0.0652,
@@ -181118,20 +182174,20 @@
             "median_win_lead_seconds": 93,
             "median_win_trail_seconds": 114,
             "rotowire_only": 28,
-            "underdog_only": 24,
+            "underdog_only": 25,
             "roundup_only": 46,
             "rotowire_update_only": 0,
-            "underdog_update_only": 6,
+            "underdog_update_only": 7,
             "rotowire_duplicate": 13,
             "underdog_duplicate": 25,
-            "underdog_only_borderline": 8,
+            "underdog_only_borderline": 9,
             "rotowire_posts": 91,
-            "underdog_posts": 113,
+            "underdog_posts": 114,
             "rotowire_links": 71
           },
           {
             "name": "Paul",
-            "hours": 62.0,
+            "hours": 68.0,
             "matched": 26,
             "rotowire_first": 1,
             "rotowire_first_rate": 0.0385,
@@ -181155,7 +182211,7 @@
           },
           {
             "name": "Steven",
-            "hours": 83.5,
+            "hours": 84.5,
             "matched": 32,
             "rotowire_first": 1,
             "rotowire_first_rate": 0.0312,
@@ -181179,7 +182235,7 @@
           },
           {
             "name": "Zoe",
-            "hours": 23.0,
+            "hours": 26.0,
             "matched": 39,
             "rotowire_first": 1,
             "rotowire_first_rate": 0.0256,
@@ -181714,23 +182770,23 @@
         ]
       },
       "total": {
-        "matched": 1525,
-        "rotowire_first": 165,
-        "rotowire_first_rate": 0.1082,
+        "matched": 1541,
+        "rotowire_first": 166,
+        "rotowire_first_rate": 0.1077,
         "median_lead_seconds": -110,
-        "mean_lead_seconds": -181.2,
-        "avg_lead_seconds": 232.9,
-        "avg_trail_seconds": 231.5,
-        "median_win_lead_seconds": 56,
-        "median_win_trail_seconds": 127.0,
-        "rotowire_only": 865,
-        "underdog_only": 802,
-        "roundup_only": 263,
+        "mean_lead_seconds": -181.5,
+        "avg_lead_seconds": 231.9,
+        "avg_trail_seconds": 231.4,
+        "median_win_lead_seconds": 56.5,
+        "median_win_trail_seconds": 127,
+        "rotowire_only": 870,
+        "underdog_only": 813,
+        "roundup_only": 265,
         "rotowire_update_only": 88,
-        "underdog_update_only": 108,
+        "underdog_update_only": 109,
         "rotowire_duplicate": 244,
         "underdog_duplicate": 353,
-        "underdog_only_borderline": 180
+        "underdog_only_borderline": 182
       }
     }
   }
