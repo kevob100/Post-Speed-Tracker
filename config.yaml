@@ -53,11 +53,12 @@ sports:
           - {day: 3, start: '12:00', end: '18:00'}
           - {day: 4, start: '12:00', end: '19:00'}
           - {day: 5, start: '12:00', end: '17:00'}
-      # The Jira initiative this work rolls up to (Roadmap tab), pulled nightly: its epics
-      # and every ticket under them. Prioritized = assigned to prioritize_assignee and in
+      # The Jira root this work rolls up to (Roadmap tab), pulled nightly: Theme RD-8314 with
+      # its NFL / NBA / Shared initiatives, their epics and every ticket under them.
+      # Prioritized = assigned to prioritize_assignee and in
       # an open sprint (active or next); everything else not done is backlog.
       initiative:
-        root: RD-8097
+        root: RD-8314
         label: Breaking News AI
         prioritize_assignee: Matthew Kulina
       # Shipped changes the Summary's "Is it working?" cards measure: the metric(s) each

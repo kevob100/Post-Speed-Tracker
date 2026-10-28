@@ -206,7 +206,7 @@ def unmeasured(data_dir: Path, cfg_changes: list[dict], skip: list[dict], now: d
     cut = max((now - timedelta(days=UNMEASURED_DAYS)).isoformat(), since or "")
     out = []
     for i in _initiative_issues(data_dir).get("issues", []):
-        if i["type"] == "Epic" or i["key"] in have:
+        if i["type"] == "Epic" or i["type"] in ABOVE_EPIC or i["key"] in have:
             continue
         if i["status"] == "In Review" or (i["status"] == "Done" and (i.get("resolved") or "") >= cut):
             out.append({"key": i["key"], "summary": i["summary"], "status": i["status"],
@@ -329,15 +329,25 @@ def _slim(i: dict) -> dict:
                          "start": sp.get("startDate"), "end": sp.get("endDate")} for sp in f.get("customfield_10010") or []]}
 
 
+# Levels above Epic: the root can be a Theme (RD-8314) with an initiative per sport under it.
+ABOVE_EPIC = ("Initiative", "Theme")
+
+
 def sync_initiative(data_dir: Path, root: str) -> str:
-    """Every epic under the initiative and every ticket under those epics, read-only."""
+    """Everything under the root, level by level (theme, initiatives, epics, tickets), read-only."""
     if not (os.environ.get("JIRA_EMAIL") and os.environ.get("JIRA_API_TOKEN")):
         return "no JIRA_EMAIL / JIRA_API_TOKEN, kept stored initiative"
-    epics = [_slim(i) for i in _jira_search(f"parent = {root} ORDER BY key ASC")]
-    kids = [_slim(i) for i in _jira_search(f"parent in ({','.join(e['key'] for e in epics)}) ORDER BY key ASC")] if epics else []
+    issues, level = [], [root]
+    for _ in range(4):
+        found = [_slim(i) for i in _jira_search(f"parent in ({','.join(level)}) ORDER BY key ASC")]
+        issues += found
+        level = [i["key"] for i in found if i["type"] in ABOVE_EPIC or i["type"] == "Epic"]
+        if not level:
+            break
     (data_dir / INITIATIVE_FILE).write_text(json.dumps(
-        {"fetched_at": now_iso(), "root": root, "issues": epics + kids}, ensure_ascii=False, indent=1))
-    return f"{len(epics)} epics, {len(kids)} tickets"
+        {"fetched_at": now_iso(), "root": root, "issues": issues}, ensure_ascii=False, indent=1))
+    epics = sum(i["type"] == "Epic" for i in issues)
+    return f"{epics} epics, {sum(i['type'] not in ABOVE_EPIC and i['type'] != 'Epic' for i in issues)} tickets"
 
 
 def _initiative_issues(data_dir: Path) -> dict:
