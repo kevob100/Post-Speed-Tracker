@@ -60,6 +60,8 @@ sports:
       initiative:
         root: RD-8314
         label: Breaking News AI
+        # "Shipped, no card yet" only checks NFL tickets; NBA and Shared aren't measured on this tab
+        measure_under: RD-8097
         prioritize_assignee: Matthew Kulina
       # Shipped changes the Summary's "Is it working?" cards measure: the metric(s) each
       # targets, 14 days before `live` vs since. Metrics: arrival_turbo, arrival, monitor_to_open, open_to_x,
