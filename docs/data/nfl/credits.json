@@ -1,37 +1,42 @@
 {
-  "generated_at": "2026-10-28T11:03:28.074216+00:00",
+  "generated_at": "2026-10-29T11:24:04.399584+00:00",
   "window_days": 30,
-  "posts": 1276,
+  "posts": 1289,
   "kinds": {
     "none": {
-      "n": 703,
-      "pct": 55.1
+      "n": 728,
+      "pct": 56.5
     },
     "reporter": {
-      "n": 231,
-      "pct": 18.1
+      "n": 221,
+      "pct": 17.1
     },
     "handle": {
-      "n": 206,
-      "pct": 16.1
+      "n": 214,
+      "pct": 16.6
     },
     "quote": {
-      "n": 71,
-      "pct": 5.6
+      "n": 68,
+      "pct": 5.3
     },
     "presser": {
-      "n": 65,
-      "pct": 5.1
+      "n": 58,
+      "pct": 4.5
     }
   },
   "list": {
     "id": "103681593",
-    "fetched_at": "2026-10-28T11:03:27.026344+00:00",
-    "members": 329
+    "fetched_at": "2026-10-29T11:24:03.627659+00:00",
+    "members": 330
   },
-  "missing": 4,
-  "dismissed": 38,
+  "missing": 6,
+  "dismissed": 37,
   "added": [
+    {
+      "date": "2026-10-29",
+      "handle": "Trags",
+      "credited": 2
+    },
     {
       "date": "2026-10-22",
       "handle": "BreeAldridge",
@@ -59,6 +64,17 @@
       "handle": "AtoZSports",
       "credited": 1,
       "last": "2026-10-21T16:35:58.000Z",
+      "on_list": false,
+      "dismissed": false,
+      "seen_in_monitor": false,
+      "shared": 0,
+      "we_first_pct": null,
+      "median_gap": null
+    },
+    {
+      "handle": "DetroitOnLion",
+      "credited": 1,
+      "last": "2026-10-28T17:05:39.000Z",
       "on_list": false,
       "dismissed": false,
       "seen_in_monitor": false,
@@ -100,19 +116,30 @@
       "median_gap": null
     },
     {
+      "handle": "sportswcoleman",
+      "credited": 1,
+      "last": "2026-10-28T16:52:51.000Z",
+      "on_list": false,
+      "dismissed": false,
+      "seen_in_monitor": false,
+      "shared": 1,
+      "we_first_pct": 0.0,
+      "median_gap": 71
+    },
+    {
       "handle": "RapSheet",
-      "credited": 75,
-      "last": "2026-10-27T23:56:17.000Z",
+      "credited": 68,
+      "last": "2026-10-28T14:01:35.000Z",
       "on_list": true,
       "dismissed": false,
       "seen_in_monitor": true,
-      "shared": 37,
-      "we_first_pct": 2.7,
-      "median_gap": 96
+      "shared": 33,
+      "we_first_pct": 3.0,
+      "median_gap": 94
     },
     {
       "handle": "AdamSchefter",
-      "credited": 53,
+      "credited": 52,
       "last": "2026-10-27T17:23:46.000Z",
       "on_list": true,
       "dismissed": false,
@@ -123,8 +150,8 @@
     },
     {
       "handle": "JFowlerESPN",
-      "credited": 37,
-      "last": "2026-10-27T17:25:58.000Z",
+      "credited": 36,
+      "last": "2026-10-28T16:16:33.000Z",
       "on_list": true,
       "dismissed": false,
       "seen_in_monitor": true,
@@ -133,20 +160,9 @@
       "median_gap": 62
     },
     {
-      "handle": "TomPelissero",
-      "credited": 21,
-      "last": "2026-10-27T20:44:24.000Z",
-      "on_list": true,
-      "dismissed": false,
-      "seen_in_monitor": true,
-      "shared": 3,
-      "we_first_pct": 0.0,
-      "median_gap": 400
-    },
-    {
       "handle": "Schultz_Report",
-      "credited": 18,
-      "last": "2026-10-27T21:02:55.000Z",
+      "credited": 19,
+      "last": "2026-10-28T17:14:17.000Z",
       "on_list": true,
       "dismissed": false,
       "seen_in_monitor": true,
@@ -155,15 +171,15 @@
       "median_gap": 165
     },
     {
-      "handle": "JayGlazer",
-      "credited": 15,
-      "last": "2026-10-25T16:51:06.000Z",
+      "handle": "TomPelissero",
+      "credited": 19,
+      "last": "2026-10-27T20:44:24.000Z",
       "on_list": true,
       "dismissed": false,
-      "seen_in_monitor": false,
-      "shared": 4,
-      "we_first_pct": 25.0,
-      "median_gap": 197
+      "seen_in_monitor": true,
+      "shared": 3,
+      "we_first_pct": 0.0,
+      "median_gap": 400
     },
     {
       "handle": "MikeGarafolo",
@@ -177,9 +193,20 @@
       "median_gap": 208
     },
     {
+      "handle": "JayGlazer",
+      "credited": 14,
+      "last": "2026-10-25T16:51:06.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": false,
+      "shared": 3,
+      "we_first_pct": 33.3,
+      "median_gap": 303
+    },
+    {
       "handle": "DanGraziano",
-      "credited": 7,
-      "last": "2026-10-21T13:35:59.000Z",
+      "credited": 8,
+      "last": "2026-10-28T12:30:08.000Z",
       "on_list": false,
       "dismissed": true,
       "seen_in_monitor": false,
@@ -222,14 +249,36 @@
     },
     {
       "handle": "ZackBlatt",
-      "credited": 4,
-      "last": "2026-10-21T16:20:01.000Z",
+      "credited": 5,
+      "last": "2026-10-28T16:10:18.000Z",
       "on_list": true,
       "dismissed": false,
       "seen_in_monitor": true,
-      "shared": 2,
+      "shared": 3,
       "we_first_pct": 0.0,
-      "median_gap": 76
+      "median_gap": 96
+    },
+    {
+      "handle": "Jeff_McLane",
+      "credited": 4,
+      "last": "2026-10-28T22:01:41.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": true,
+      "shared": 1,
+      "we_first_pct": 0.0,
+      "median_gap": 54
+    },
+    {
+      "handle": "AdamGrosbard",
+      "credited": 3,
+      "last": "2026-10-28T20:47:35.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": true,
+      "shared": 3,
+      "we_first_pct": 0.0,
+      "median_gap": 58
     },
     {
       "handle": "BenStandig",
@@ -287,17 +336,6 @@
       "median_gap": 165
     },
     {
-      "handle": "Jeff_McLane",
-      "credited": 3,
-      "last": "2026-10-06T00:41:44.000Z",
-      "on_list": true,
-      "dismissed": false,
-      "seen_in_monitor": true,
-      "shared": 1,
-      "we_first_pct": 0.0,
-      "median_gap": 54
-    },
-    {
       "handle": "john_keim",
       "credited": 3,
       "last": "2026-10-11T00:26:45.000Z",
@@ -307,6 +345,17 @@
       "shared": 3,
       "we_first_pct": 33.3,
       "median_gap": 253
+    },
+    {
+      "handle": "jonmalexander",
+      "credited": 3,
+      "last": "2026-10-28T21:22:04.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": true,
+      "shared": 2,
+      "we_first_pct": 0.0,
+      "median_gap": 76
     },
     {
       "handle": "krisrhim1",
@@ -329,17 +378,6 @@
       "shared": 3,
       "we_first_pct": 0.0,
       "median_gap": 423
-    },
-    {
-      "handle": "mzenitz",
-      "credited": 3,
-      "last": "2026-10-22T15:18:46.000Z",
-      "on_list": true,
-      "dismissed": false,
-      "seen_in_monitor": true,
-      "shared": 2,
-      "we_first_pct": 0.0,
-      "median_gap": 76
     },
     {
       "handle": "RomeovilleKid",
@@ -373,28 +411,6 @@
       "shared": 3,
       "we_first_pct": 66.7,
       "median_gap": -53
-    },
-    {
-      "handle": "AdamGrosbard",
-      "credited": 2,
-      "last": "2026-10-10T20:09:07.000Z",
-      "on_list": true,
-      "dismissed": false,
-      "seen_in_monitor": true,
-      "shared": 2,
-      "we_first_pct": 0.0,
-      "median_gap": 60
-    },
-    {
-      "handle": "BrendanSugrue",
-      "credited": 2,
-      "last": "2026-10-07T17:19:14.000Z",
-      "on_list": false,
-      "dismissed": true,
-      "seen_in_monitor": false,
-      "shared": 1,
-      "we_first_pct": 0.0,
-      "median_gap": 347
     },
     {
       "handle": "brianwacker1",
@@ -485,17 +501,6 @@
       "median_gap": 472
     },
     {
-      "handle": "JennaLaineESPN",
-      "credited": 2,
-      "last": "2026-09-28T23:50:22.000Z",
-      "on_list": true,
-      "dismissed": false,
-      "seen_in_monitor": false,
-      "shared": 0,
-      "we_first_pct": null,
-      "median_gap": null
-    },
-    {
       "handle": "JoeBuscaglia",
       "credited": 2,
       "last": "2026-10-09T18:28:32.000Z",
@@ -507,15 +512,15 @@
       "median_gap": 233
     },
     {
-      "handle": "jonmalexander",
+      "handle": "JohnnyVenerable",
       "credited": 2,
-      "last": "2026-10-07T18:10:29.000Z",
-      "on_list": true,
-      "dismissed": false,
-      "seen_in_monitor": true,
-      "shared": 1,
-      "we_first_pct": 0.0,
-      "median_gap": 41
+      "last": "2026-10-28T15:41:32.000Z",
+      "on_list": false,
+      "dismissed": true,
+      "seen_in_monitor": false,
+      "shared": 0,
+      "we_first_pct": null,
+      "median_gap": null
     },
     {
       "handle": "JordanRaanan",
@@ -562,6 +567,17 @@
       "median_gap": 118
     },
     {
+      "handle": "mchappell51",
+      "credited": 2,
+      "last": "2026-10-28T15:30:39.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": true,
+      "shared": 0,
+      "we_first_pct": null,
+      "median_gap": null
+    },
+    {
       "handle": "mike_e_kaye",
       "credited": 2,
       "last": "2026-10-01T17:55:20.000Z",
@@ -571,6 +587,28 @@
       "shared": 1,
       "we_first_pct": 0.0,
       "median_gap": 83
+    },
+    {
+      "handle": "mikeklis9news",
+      "credited": 2,
+      "last": "2026-10-28T14:17:23.000Z",
+      "on_list": false,
+      "dismissed": true,
+      "seen_in_monitor": false,
+      "shared": 0,
+      "we_first_pct": null,
+      "median_gap": null
+    },
+    {
+      "handle": "mzenitz",
+      "credited": 2,
+      "last": "2026-10-22T15:18:46.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": true,
+      "shared": 2,
+      "we_first_pct": 0.0,
+      "median_gap": 76
     },
     {
       "handle": "NickiJhabvala",
@@ -628,6 +666,17 @@
       "median_gap": 25
     },
     {
+      "handle": "TDavenport_NFL",
+      "credited": 2,
+      "last": "2026-10-28T16:29:05.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": true,
+      "shared": 2,
+      "we_first_pct": 0.0,
+      "median_gap": 125
+    },
+    {
       "handle": "TonyGrossi",
       "credited": 2,
       "last": "2026-10-14T16:16:08.000Z",
@@ -642,7 +691,7 @@
       "handle": "Trags",
       "credited": 2,
       "last": "2026-10-09T15:18:02.000Z",
-      "on_list": false,
+      "on_list": true,
       "dismissed": true,
       "seen_in_monitor": false,
       "shared": 1,
@@ -725,6 +774,17 @@
       "shared": 0,
       "we_first_pct": null,
       "median_gap": null
+    },
+    {
+      "handle": "BrendanSugrue",
+      "credited": 1,
+      "last": "2026-10-07T17:19:14.000Z",
+      "on_list": false,
+      "dismissed": true,
+      "seen_in_monitor": false,
+      "shared": 1,
+      "we_first_pct": 0.0,
+      "median_gap": 347
     },
     {
       "handle": "briannadixNFL",
@@ -821,6 +881,17 @@
       "on_list": true,
       "dismissed": false,
       "seen_in_monitor": false,
+      "shared": 0,
+      "we_first_pct": null,
+      "median_gap": null
+    },
+    {
+      "handle": "Connor_J_Hughes",
+      "credited": 1,
+      "last": "2026-10-28T19:25:10.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": true,
       "shared": 0,
       "we_first_pct": null,
       "median_gap": null
@@ -1013,17 +1084,6 @@
       "median_gap": 78
     },
     {
-      "handle": "JesseSBSN",
-      "credited": 1,
-      "last": "2026-09-28T23:44:51.000Z",
-      "on_list": false,
-      "dismissed": true,
-      "seen_in_monitor": false,
-      "shared": 0,
-      "we_first_pct": null,
-      "median_gap": null
-    },
-    {
       "handle": "JohnDeShazier",
       "credited": 1,
       "last": "2026-10-07T20:16:04.000Z",
@@ -1035,23 +1095,23 @@
       "median_gap": -254
     },
     {
-      "handle": "JohnnyVenerable",
-      "credited": 1,
-      "last": "2026-10-10T18:45:23.000Z",
-      "on_list": false,
-      "dismissed": true,
-      "seen_in_monitor": false,
-      "shared": 0,
-      "we_first_pct": null,
-      "median_gap": null
-    },
-    {
       "handle": "jonmachota",
       "credited": 1,
       "last": "2026-10-15T21:21:03.000Z",
       "on_list": true,
       "dismissed": false,
       "seen_in_monitor": false,
+      "shared": 0,
+      "we_first_pct": null,
+      "median_gap": null
+    },
+    {
+      "handle": "kfitz134",
+      "credited": 1,
+      "last": "2026-10-28T17:46:30.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": true,
       "shared": 0,
       "we_first_pct": null,
       "median_gap": null
@@ -1156,31 +1216,9 @@
       "median_gap": null
     },
     {
-      "handle": "mchappell51",
-      "credited": 1,
-      "last": "2026-10-10T15:15:46.000Z",
-      "on_list": true,
-      "dismissed": false,
-      "seen_in_monitor": true,
-      "shared": 0,
-      "we_first_pct": null,
-      "median_gap": null
-    },
-    {
       "handle": "mdwojak94",
       "credited": 1,
       "last": "2026-10-16T16:49:34.000Z",
-      "on_list": false,
-      "dismissed": true,
-      "seen_in_monitor": false,
-      "shared": 0,
-      "we_first_pct": null,
-      "median_gap": null
-    },
-    {
-      "handle": "mikeklis9news",
-      "credited": 1,
-      "last": "2026-10-16T19:41:42.000Z",
       "on_list": false,
       "dismissed": true,
       "seen_in_monitor": false,
@@ -1376,6 +1414,17 @@
       "median_gap": null
     },
     {
+      "handle": "SamMcDowell11",
+      "credited": 1,
+      "last": "2026-10-28T12:46:18.000Z",
+      "on_list": true,
+      "dismissed": false,
+      "seen_in_monitor": true,
+      "shared": 0,
+      "we_first_pct": null,
+      "median_gap": null
+    },
+    {
       "handle": "samwarren83",
       "credited": 1,
       "last": "2026-10-09T16:33:15.000Z",
@@ -1420,26 +1469,15 @@
       "median_gap": null
     },
     {
-      "handle": "SteveReedAP",
+      "handle": "StuJRams",
       "credited": 1,
-      "last": "2026-09-28T17:29:02.000Z",
+      "last": "2026-10-28T20:44:29.000Z",
       "on_list": true,
       "dismissed": false,
       "seen_in_monitor": true,
       "shared": 0,
       "we_first_pct": null,
       "median_gap": null
-    },
-    {
-      "handle": "TDavenport_NFL",
-      "credited": 1,
-      "last": "2026-09-30T16:29:18.000Z",
-      "on_list": true,
-      "dismissed": false,
-      "seen_in_monitor": true,
-      "shared": 1,
-      "we_first_pct": 0.0,
-      "median_gap": 188
     },
     {
       "handle": "Tdrake4sports",
