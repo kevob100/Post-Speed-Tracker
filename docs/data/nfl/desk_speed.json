@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-10-29T11:24:01.139722+00:00",
+  "generated_at": "2026-10-30T11:16:45.562647+00:00",
   "window": {
-    "from": "2026-09-29",
-    "to": "2026-10-29",
+    "from": "2026-09-30",
+    "to": "2026-10-30",
     "days": 30
   },
   "opens_tracked_since": "2026-10-13",
   "paths": {
     "all": {
-      "posts": 1070,
+      "posts": 1123,
       "race": {
-        "n": 698,
-        "median_gap": 96,
+        "n": 734,
+        "median_gap": 98,
         "underdog_first_pct": 94.1,
         "gaps": [
           -1246,
@@ -44,9 +44,11 @@
           -24,
           -23,
           -20,
+          -20,
           -19,
           -18,
           -18,
+          -10,
           -9,
           -6,
           -6,
@@ -85,6 +87,7 @@
           13,
           13,
           13,
+          13,
           14,
           16,
           16,
@@ -101,6 +104,7 @@
           21,
           21,
           21,
+          22,
           22,
           22,
           22,
@@ -155,6 +159,7 @@
           38,
           38,
           38,
+          38,
           39,
           39,
           39,
@@ -166,6 +171,7 @@
           41,
           41,
           41,
+          42,
           42,
           42,
           42,
@@ -199,6 +205,8 @@
           49,
           49,
           49,
+          50,
+          50,
           50,
           50,
           50,
@@ -297,6 +305,7 @@
           77,
           77,
           77,
+          78,
           78,
           78,
           78,
@@ -406,10 +415,13 @@
           110,
           110,
           110,
+          110,
           111,
           111,
           111,
           111,
+          111,
+          112,
           112,
           112,
           112,
@@ -449,6 +461,7 @@
           131,
           131,
           133,
+          133,
           134,
           134,
           134,
@@ -457,6 +470,7 @@
           135,
           135,
           135,
+          136,
           136,
           136,
           137,
@@ -468,6 +482,7 @@
           143,
           144,
           144,
+          145,
           145,
           145,
           145,
@@ -496,11 +511,14 @@
           165,
           166,
           167,
+          167,
+          168,
           168,
           168,
           168,
           168,
           171,
+          172,
           174,
           174,
           175,
@@ -563,11 +581,12 @@
           233,
           234,
           235,
-          235,
           240,
           240,
           240,
           241,
+          246,
+          247,
           247,
           247,
           247,
@@ -596,9 +615,11 @@
           269,
           271,
           272,
+          273,
           277,
           277,
           277,
+          279,
           280,
           281,
           285,
@@ -611,9 +632,11 @@
           293,
           295,
           295,
+          295,
           297,
           298,
           303,
+          306,
           308,
           309,
           309,
@@ -622,8 +645,12 @@
           312,
           312,
           313,
+          313,
+          314,
+          317,
           317,
           318,
+          323,
           327,
           328,
           329,
@@ -642,11 +669,13 @@
           354,
           357,
           358,
+          364,
           370,
           371,
           372,
           378,
           380,
+          386,
           388,
           388,
           388,
@@ -659,10 +688,13 @@
           409,
           409,
           413,
+          414,
+          416,
           417,
           421,
           423,
           425,
+          434,
           434,
           436,
           436,
@@ -672,8 +704,10 @@
           460,
           465,
           466,
+          466,
           472,
           478,
+          481,
           484,
           484,
           506,
@@ -681,9 +715,11 @@
           513,
           530,
           544,
+          558,
           560,
           575,
           579,
+          582,
           626,
           630,
           642,
@@ -713,22 +749,22 @@
           1753,
           1780
         ],
-        "underdog_before_source_pct": 12.7,
+        "underdog_before_source_pct": 12.6,
         "before_source": {
-          "n": 81,
+          "n": 80,
           "monitor_had_earlier": 32,
-          "monitor_never_had": 49
+          "monitor_never_had": 48
         }
       },
       "from_source": {
-        "median": 145,
-        "n": 634
+        "median": 146,
+        "n": 651
       }
     },
     "monitor": {
-      "posts": 597,
+      "posts": 594,
       "race": {
-        "n": 419,
+        "n": 418,
         "median_gap": 96,
         "underdog_first_pct": 93.8,
         "gaps": [
@@ -1063,7 +1099,6 @@
           230,
           233,
           234,
-          235,
           240,
           240,
           241,
@@ -1152,21 +1187,21 @@
           1651,
           1780
         ],
-        "underdog_before_source_pct": 16.2,
+        "underdog_before_source_pct": 16.0,
         "before_source": {
-          "n": 68,
+          "n": 67,
           "monitor_had_earlier": 30,
-          "monitor_never_had": 38
+          "monitor_never_had": 37
         }
       },
       "from_source": {
         "median": 146,
-        "n": 419
+        "n": 418
       },
       "steps": {
         "sent_to_monitor": {
           "median": 16,
-          "n": 626
+          "n": 623
         },
         "monitor_to_open": {
           "median": 58,
@@ -1178,17 +1213,17 @@
         },
         "monitor_to_x": {
           "median": 129,
-          "n": 626
+          "n": 623
         },
         "split": true,
         "edited": {
           "pct": 93.6,
-          "n": 626
+          "n": 623
         }
       }
     },
     "manual": {
-      "posts": 354,
+      "posts": 353,
       "race": {
         "n": 219,
         "median_gap": 96,
@@ -1431,21 +1466,29 @@
       }
     },
     "other": {
-      "posts": 119,
+      "posts": 176,
       "race": {
-        "n": 60,
-        "median_gap": 106,
-        "underdog_first_pct": 96.7,
+        "n": 97,
+        "median_gap": 145,
+        "underdog_first_pct": 95.9,
         "gaps": [
+          -20,
+          -10,
           -5,
           -2,
           10,
+          13,
           17,
+          22,
           22,
           33,
           36,
+          38,
+          42,
           45,
           47,
+          50,
+          50,
           53,
           58,
           61,
@@ -1455,6 +1498,7 @@
           69,
           71,
           75,
+          78,
           78,
           78,
           82,
@@ -1467,15 +1511,26 @@
           98,
           99,
           101,
+          110,
+          111,
           111,
           112,
+          112,
           115,
+          133,
+          136,
           144,
+          145,
           161,
           167,
+          167,
           168,
+          168,
+          172,
           227,
           235,
+          246,
+          247,
           247,
           247,
           254,
@@ -1484,14 +1539,31 @@
           257,
           261,
           262,
+          273,
+          279,
           285,
+          295,
+          306,
+          313,
+          314,
+          317,
+          323,
+          364,
+          386,
           388,
           396,
+          414,
+          416,
+          434,
           443,
           466,
+          466,
           478,
+          481,
           544,
+          558,
           560,
+          582,
           630,
           940,
           966,
@@ -1500,12 +1572,12 @@
         ]
       },
       "from_source": {
-        "median": 236,
-        "n": 42
+        "median": 260,
+        "n": 60
       }
     },
-    "manual_pct": 33.1,
-    "other_pct": 11.1
+    "manual_pct": 31.4,
+    "other_pct": 15.7
   },
   "manual_weekly": [
     {
@@ -1546,9 +1618,9 @@
     },
     {
       "week": "2026-10-26",
-      "posts": 82,
+      "posts": 140,
       "manual": 4,
-      "pct": 4.9
+      "pct": 2.9
     }
   ],
   "edits": {
@@ -2731,26 +2803,26 @@
       }
     ],
     "last30": {
-      "posts": 990,
-      "scored": 990,
-      "edited_pct": 94.4,
-      "change_pct": 47.2,
-      "stored_pct": 46.7
+      "posts": 948,
+      "scored": 948,
+      "edited_pct": 94.2,
+      "change_pct": 46.8,
+      "stored_pct": 48.7
     },
     "by_path": {
       "monitor": {
-        "posts": 623,
-        "scored": 623,
-        "edited_pct": 93.6,
-        "change_pct": 45.0,
-        "stored_pct": 46.9
+        "posts": 609,
+        "scored": 609,
+        "edited_pct": 93.4,
+        "change_pct": 44.6,
+        "stored_pct": 47.9
       },
       "manual": {
-        "posts": 367,
-        "scored": 367,
-        "edited_pct": 95.9,
-        "change_pct": 50.8,
-        "stored_pct": 46.3
+        "posts": 339,
+        "scored": 339,
+        "edited_pct": 95.6,
+        "change_pct": 50.7,
+        "stored_pct": 50.1
       }
     },
     "stored_since": "2026-10-14",
@@ -4037,11 +4109,11 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 30,
+          "posts": 25,
           "race": {
-            "n": 16,
-            "median_gap": 102,
-            "underdog_first_pct": 93.8,
+            "n": 15,
+            "median_gap": 94,
+            "underdog_first_pct": 93.3,
             "gaps": [
               -43,
               11,
@@ -4052,7 +4124,6 @@
               83,
               94,
               110,
-              235,
               241,
               285,
               400,
@@ -4060,24 +4131,24 @@
               459,
               828
             ],
-            "underdog_before_source_pct": 12.5,
+            "underdog_before_source_pct": 6.7,
             "before_source": {
-              "n": 2,
+              "n": 1,
               "monitor_had_earlier": 0,
-              "monitor_never_had": 2
+              "monitor_never_had": 1
             }
           },
           "from_source": {
-            "median": 147,
-            "n": 15
+            "median": 128,
+            "n": 14
           }
         },
         "monitor": {
-          "posts": 24,
+          "posts": 21,
           "race": {
-            "n": 14,
-            "median_gap": 102,
-            "underdog_first_pct": 92.9,
+            "n": 13,
+            "median_gap": 94,
+            "underdog_first_pct": 92.3,
             "gaps": [
               -43,
               11,
@@ -4087,28 +4158,27 @@
               76,
               94,
               110,
-              235,
               241,
               285,
               400,
               459,
               828
             ],
-            "underdog_before_source_pct": 14.3,
+            "underdog_before_source_pct": 7.7,
             "before_source": {
-              "n": 2,
+              "n": 1,
               "monitor_had_earlier": 0,
-              "monitor_never_had": 2
+              "monitor_never_had": 1
             }
           },
           "from_source": {
-            "median": 160,
-            "n": 14
+            "median": 108,
+            "n": 13
           },
           "steps": {
             "sent_to_monitor": {
-              "median": 15,
-              "n": 24
+              "median": 14,
+              "n": 21
             },
             "monitor_to_open": {
               "median": 57,
@@ -4119,18 +4189,18 @@
               "n": 18
             },
             "monitor_to_x": {
-              "median": 128,
-              "n": 24
+              "median": 121,
+              "n": 21
             },
             "split": true,
             "edited": {
-              "pct": 87.5,
-              "n": 24
+              "pct": 85.7,
+              "n": 21
             }
           }
         },
         "manual": {
-          "posts": 5,
+          "posts": 4,
           "race": {
             "n": 2,
             "median_gap": 248,
@@ -4156,7 +4226,7 @@
           }
         },
         "other": {
-          "posts": 1,
+          "posts": 0,
           "race": {
             "n": 0,
             "median_gap": null,
@@ -4168,8 +4238,8 @@
             "n": 0
           }
         },
-        "manual_pct": 16.7,
-        "other_pct": 3.3
+        "manual_pct": 16.0,
+        "other_pct": 0.0
       }
     },
     {
@@ -4178,23 +4248,26 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 196,
+          "posts": 253,
           "race": {
-            "n": 104,
-            "median_gap": 83,
-            "underdog_first_pct": 96.2,
+            "n": 140,
+            "median_gap": 109,
+            "underdog_first_pct": 96.4,
             "gaps": [
               -85,
               -57,
               -53,
               -53,
+              -10,
               4,
               5,
               6,
               11,
               12,
               13,
+              13,
               19,
+              22,
               24,
               25,
               30,
@@ -4204,11 +4277,15 @@
               36,
               36,
               37,
+              38,
               41,
+              42,
               42,
               43,
               45,
               48,
+              50,
+              50,
               50,
               51,
               51,
@@ -4232,6 +4309,7 @@
               73,
               76,
               78,
+              78,
               81,
               81,
               82,
@@ -4246,19 +4324,28 @@
               106,
               107,
               108,
+              110,
+              111,
+              112,
               114,
               115,
               116,
               118,
               125,
               127,
+              133,
+              136,
               136,
               144,
+              145,
               156,
               159,
               163,
+              167,
               168,
               168,
+              168,
+              172,
               174,
               183,
               186,
@@ -4272,17 +4359,36 @@
               223,
               224,
               240,
+              246,
+              247,
               249,
               254,
               257,
               257,
               261,
               269,
+              273,
               277,
+              279,
+              295,
+              306,
+              313,
+              314,
+              317,
+              323,
               357,
+              364,
+              386,
               396,
+              414,
+              416,
               421,
+              434,
+              466,
+              481,
               513,
+              558,
+              582,
               626,
               672,
               756,
@@ -4297,8 +4403,8 @@
             }
           },
           "from_source": {
-            "median": 164,
-            "n": 97
+            "median": 173,
+            "n": 114
           }
         },
         "monitor": {
@@ -4467,27 +4573,63 @@
           }
         },
         "other": {
-          "posts": 15,
+          "posts": 72,
           "race": {
-            "n": 6,
-            "median_gap": 257,
-            "underdog_first_pct": 100.0,
+            "n": 42,
+            "median_gap": 252,
+            "underdog_first_pct": 97.6,
             "gaps": [
+              -10,
+              13,
+              22,
               36,
+              38,
+              42,
+              50,
+              50,
+              78,
+              110,
+              111,
+              112,
+              133,
+              136,
+              145,
+              167,
               168,
+              168,
+              172,
+              246,
+              247,
               257,
               257,
               261,
-              396
+              273,
+              279,
+              295,
+              306,
+              313,
+              314,
+              317,
+              323,
+              364,
+              386,
+              396,
+              414,
+              416,
+              434,
+              466,
+              481,
+              558,
+              582
             ]
           },
           "from_source": {
-            "median": 278,
-            "n": 4
+            "median": 299,
+            "n": 21
           }
         },
-        "manual_pct": 41.8,
-        "other_pct": 7.7
+        "manual_pct": 32.4,
+        "other_pct": 28.5
       }
     },
     {
@@ -4496,17 +4638,18 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 221,
+          "posts": 222,
           "race": {
-            "n": 150,
-            "median_gap": 100,
-            "underdog_first_pct": 94.7,
+            "n": 151,
+            "median_gap": 98,
+            "underdog_first_pct": 94.0,
             "gaps": [
               -616,
               -546,
               -79,
               -55,
               -53,
+              -20,
               -20,
               -18,
               -6,
@@ -4661,8 +4804,8 @@
             }
           },
           "from_source": {
-            "median": 167,
-            "n": 136
+            "median": 166,
+            "n": 137
           }
         },
         "monitor": {
@@ -4875,12 +5018,13 @@
           }
         },
         "other": {
-          "posts": 14,
+          "posts": 15,
           "race": {
-            "n": 8,
-            "median_gap": 250,
-            "underdog_first_pct": 100.0,
+            "n": 9,
+            "median_gap": 247,
+            "underdog_first_pct": 88.9,
             "gaps": [
+              -20,
               82,
               111,
               167,
@@ -4892,12 +5036,12 @@
             ]
           },
           "from_source": {
-            "median": 269,
-            "n": 6
+            "median": 267,
+            "n": 7
           }
         },
-        "manual_pct": 35.7,
-        "other_pct": 6.3
+        "manual_pct": 35.6,
+        "other_pct": 6.8
       }
     },
     {
@@ -15947,35 +16091,28 @@
   "summary": {
     "margin": {
       "last30": {
-        "n": 699,
-        "median": 96,
-        "rw_first_pct": 2.4,
-        "tie_pct": 29.6,
-        "ud_first_pct": 68.0,
-        "ud_mid_pct": 53.8,
-        "ud_blowout_pct": 14.2,
-        "rw_early_n": 54,
-        "ud_early_n": 38
-      },
-      "prior30": {
-        "n": 546,
-        "median": 114,
-        "rw_first_pct": 5.9,
-        "tie_pct": 24.2,
-        "ud_first_pct": 70.0,
-        "ud_mid_pct": 53.5,
-        "ud_blowout_pct": 16.5,
-        "rw_early_n": 32,
+        "n": 735,
+        "median": 99,
+        "rw_first_pct": 2.3,
+        "tie_pct": 29.3,
+        "ud_first_pct": 68.4,
+        "ud_mid_pct": 53.1,
+        "ud_blowout_pct": 15.4,
+        "rw_early_n": 59,
         "ud_early_n": 41
       },
+      "prior30": {
+        "n": 523,
+        "median": 117,
+        "rw_first_pct": 6.1,
+        "tie_pct": 24.5,
+        "ud_first_pct": 69.4,
+        "ud_mid_pct": 53.2,
+        "ud_blowout_pct": 16.3,
+        "rw_early_n": 33,
+        "ud_early_n": 40
+      },
       "rolling": [
-        [
-          "2026-07-31",
-          73,
-          104,
-          12,
-          1
-        ],
         [
           "2026-08-01",
           58,
@@ -16601,8 +16738,15 @@
         ],
         [
           "2026-10-29",
-          94,
-          96,
+          115,
+          99,
+          246,
+          37
+        ],
+        [
+          "2026-10-30",
+          98,
+          98,
           null,
           0
         ]
@@ -16656,8 +16800,8 @@
           "n": 412
         },
         "margin": {
-          "median": 91,
-          "n": 429
+          "median": 96,
+          "n": 466
         }
       },
       "off": {
@@ -16676,7 +16820,7 @@
         "key": "RD-8036",
         "label": "Turbo mode",
         "live": "2026-10-05",
-        "days_since": 24,
+        "days_since": 25,
         "too_soon": false,
         "metrics": [
           {
@@ -16703,7 +16847,7 @@
         "key": "RD-8180",
         "label": "Turbo all day",
         "live": "2026-10-19",
-        "days_since": 10,
+        "days_since": 11,
         "too_soon": false,
         "metrics": [
           {
@@ -16737,8 +16881,8 @@
               "unit": "s"
             },
             "after": {
-              "value": 80,
-              "n": 198,
+              "value": 96,
+              "n": 235,
               "unit": "s"
             }
           }
@@ -16748,7 +16892,7 @@
         "key": "RD-8090",
         "label": "Practice report templates",
         "live": "2026-10-09",
-        "days_since": 20,
+        "days_since": 21,
         "too_soon": false,
         "metrics": [
           {
@@ -16793,7 +16937,7 @@
         "key": "RD-8092",
         "label": "Transaction templates",
         "live": "2026-10-13",
-        "days_since": 16,
+        "days_since": 17,
         "too_soon": false,
         "metrics": [
           {
@@ -16838,7 +16982,7 @@
         "key": "RD-8091",
         "label": "Game day templates",
         "live": "2026-10-14",
-        "days_since": 15,
+        "days_since": 16,
         "too_soon": false,
         "metrics": [
           {
@@ -16883,7 +17027,7 @@
         "key": "RD-8175",
         "label": "Templates fire more often",
         "live": "2026-10-16",
-        "days_since": 13,
+        "days_since": 14,
         "too_soon": false,
         "metrics": [
           {
@@ -16928,7 +17072,7 @@
         "key": "RD-8094",
         "label": "Practice report watchlist and auto updates",
         "live": "2026-10-16",
-        "days_since": 13,
+        "days_since": 14,
         "too_soon": false,
         "metrics": [
           {
@@ -16973,7 +17117,7 @@
         "key": "RD-8176",
         "label": "Flag drafts from sources it can't read",
         "live": "2026-10-17",
-        "days_since": 12,
+        "days_since": 13,
         "too_soon": false,
         "metrics": [
           {
@@ -17018,7 +17162,7 @@
         "key": "RD-8196",
         "label": "Auto active posts for game-time decisions",
         "live": "2026-10-20",
-        "days_since": 9,
+        "days_since": 10,
         "too_soon": false,
         "metrics": [
           {
@@ -17034,8 +17178,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 25.4,
-              "n": 311,
+              "value": 21.4,
+              "n": 369,
               "unit": "%"
             }
           },
@@ -17052,8 +17196,8 @@
               "unit": "s"
             },
             "after": {
-              "value": 78,
-              "n": 178,
+              "value": 91,
+              "n": 215,
               "unit": "s"
             }
           }
@@ -17063,7 +17207,7 @@
         "key": null,
         "label": "Live editor page (no 10s refresh)",
         "live": "2026-10-16T19:20:00",
-        "days_since": 12,
+        "days_since": 13,
         "too_soon": false,
         "metrics": [
           {
@@ -17094,6 +17238,13 @@
         "status": "Done",
         "resolved": "2026-10-19T18:10:36.240+0100",
         "url": "https://gdcgroup.atlassian.net/browse/RD-7580"
+      },
+      {
+        "key": "RD-8093",
+        "summary": "Breaking News AI: One Player, Facts Only in Every NFL Post",
+        "status": "Done",
+        "resolved": "2026-10-29T19:31:46.624+0000",
+        "url": "https://gdcgroup.atlassian.net/browse/RD-8093"
       },
       {
         "key": "RD-8114",
@@ -17195,7 +17346,7 @@
       }
     ],
     "roadmap": {
-      "fetched_at": "2026-10-29T11:24:00.853719+00:00",
+      "fetched_at": "2026-10-30T11:16:45.259851+00:00",
       "steps": [
         {
           "step": "s1",
@@ -17481,7 +17632,7 @@
     "initiative": {
       "root": "RD-8314",
       "label": "Breaking News AI",
-      "fetched_at": "2026-10-29T11:24:00.853719+00:00",
+      "fetched_at": "2026-10-30T11:16:45.259851+00:00",
       "url": "https://gdcgroup.atlassian.net/browse/RD-8314",
       "assignee": "Matthew Kulina",
       "sprints": [
@@ -17559,41 +17710,15 @@
               "sprint_state": "active"
             },
             {
-              "key": "RD-8338",
-              "summary": "NBA Injury Report: Body Part, Default Filter and Dismiss",
-              "type": "Story",
-              "status": "Ready for Work",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "Medium",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8338",
-              "sprint": "2026.Q4.S22",
-              "sprint_state": "active"
-            },
-            {
               "key": "RD-8339",
               "summary": "NBA Injury Report: Slack Alert on Every New Report",
               "type": "Story",
-              "status": "Ready for Work",
-              "category": "new",
+              "status": "In Progress",
+              "category": "indeterminate",
               "assignee": "Matthew Kulina",
               "priority": "Medium",
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-8339",
-              "sprint": "2026.Q4.S22",
-              "sprint_state": "active"
-            },
-            {
-              "key": "RD-8340",
-              "summary": "NBA Injury Report: G League Designations Move the Player's Level, Not His Injury",
-              "type": "Story",
-              "status": "Ready for Work",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "Medium",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8340",
               "sprint": "2026.Q4.S22",
               "sprint_state": "active"
             },
@@ -17625,91 +17750,28 @@
             }
           ],
           "backlog": [],
-          "done": []
-        },
-        {
-          "key": "RD-8317",
-          "summary": "Breaking News AI: NBA Desk",
-          "status": "Ready for Work",
-          "category": "new",
-          "url": "https://gdcgroup.atlassian.net/browse/RD-8317",
-          "prioritized": [
-            {
-              "key": "RD-8185",
-              "summary": "NBA More Details replies on X",
-              "type": "Story",
-              "status": "In Progress",
-              "category": "indeterminate",
-              "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8185",
-              "sprint": "2026.Q4.S22",
-              "sprint_state": "active"
-            },
-            {
-              "key": "RD-8300",
-              "summary": "News Admin: Run the NFL Desk Features for NBA",
-              "type": "Story",
-              "status": "Ready for Work",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8300",
-              "sprint": "2026.Q4.S22",
-              "sprint_state": "active"
-            },
-            {
-              "key": "RD-8313",
-              "summary": "Breaking News AI: Text Tweets Get the \"Couldn't Read the Source\" Notice",
-              "type": "Bug",
-              "status": "Ready for Work",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "Medium",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8313",
-              "sprint": "2026.Q4.S22",
-              "sprint_state": "active"
-            },
-            {
-              "key": "RD-8343",
-              "summary": "NBA Drafts: Formulaic Injury Template and Style Fixes",
-              "type": "Story",
-              "status": "Ready for Work",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "Medium",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8343",
-              "sprint": "2026.Q4.S22",
-              "sprint_state": "active"
-            }
-          ],
-          "backlog": [],
           "done": [
             {
-              "key": "RD-8329",
-              "summary": "NBA Daily Lineups: Slack Alert When Confirmed Starters Do Not Match",
-              "type": "Task",
-              "status": "Cancelled",
-              "category": "done",
-              "assignee": "Matthew Kulina",
-              "priority": "Medium",
-              "resolved": "2026-10-29T03:37:56.002+0000",
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8329"
-            },
-            {
-              "key": "RD-8184",
-              "summary": "NBA turbo scanning: run all day except 1am to 8am",
+              "key": "RD-8340",
+              "summary": "NBA Injury Report: G League Designations Move the Player's Level, Not His Injury",
               "type": "Story",
               "status": "Done",
               "category": "done",
               "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": "2026-10-26T21:15:00.487+0000",
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8184"
+              "priority": "Medium",
+              "resolved": "2026-10-30T04:59:31.625+0000",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8340"
+            },
+            {
+              "key": "RD-8338",
+              "summary": "NBA Injury Report: Body Part, Default Filter and Dismiss",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-10-30T04:59:30.224+0000",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8338"
             }
           ]
         },
@@ -17771,20 +17833,20 @@
               "priority": "Medium",
               "resolved": null,
               "url": "https://gdcgroup.atlassian.net/browse/RD-7238"
-            },
+            }
+          ],
+          "done": [
             {
               "key": "RD-8093",
               "summary": "Breaking News AI: One Player, Facts Only in Every NFL Post",
               "type": "Story",
-              "status": "Ready for Work",
-              "category": "new",
+              "status": "Done",
+              "category": "done",
               "assignee": "Matthew Kulina",
               "priority": "High",
-              "resolved": null,
+              "resolved": "2026-10-29T19:31:46.624+0000",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8093"
-            }
-          ],
-          "done": [
+            },
             {
               "key": "RD-8285",
               "summary": "Breaking News AI: Show Why a Draft Was Replaced in the MCP",
@@ -17839,6 +17901,90 @@
               "priority": "Medium",
               "resolved": "2026-10-13T18:33:13.135+0100",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8111"
+            }
+          ]
+        },
+        {
+          "key": "RD-8317",
+          "summary": "Breaking News AI: NBA Desk",
+          "status": "Ready for Work",
+          "category": "new",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-8317",
+          "prioritized": [
+            {
+              "key": "RD-8185",
+              "summary": "NBA More Details replies on X",
+              "type": "Story",
+              "status": "In Progress",
+              "category": "indeterminate",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8185",
+              "sprint": "2026.Q4.S22",
+              "sprint_state": "active"
+            },
+            {
+              "key": "RD-8300",
+              "summary": "News Admin: Run the NFL Desk Features for NBA",
+              "type": "Story",
+              "status": "In Progress",
+              "category": "indeterminate",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8300",
+              "sprint": "2026.Q4.S22",
+              "sprint_state": "active"
+            },
+            {
+              "key": "RD-8343",
+              "summary": "NBA Drafts: Formulaic Injury Template and Style Fixes",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8343",
+              "sprint": "2026.Q4.S22",
+              "sprint_state": "active"
+            }
+          ],
+          "backlog": [],
+          "done": [
+            {
+              "key": "RD-8313",
+              "summary": "Breaking News AI: Text Tweets Get the \"Couldn't Read the Source\" Notice",
+              "type": "Bug",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-10-30T05:46:35.000+0000",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8313"
+            },
+            {
+              "key": "RD-8329",
+              "summary": "NBA Daily Lineups: Slack Alert When Confirmed Starters Do Not Match",
+              "type": "Task",
+              "status": "Cancelled",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-10-29T03:37:56.002+0000",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8329"
+            },
+            {
+              "key": "RD-8184",
+              "summary": "NBA turbo scanning: run all day except 1am to 8am",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": "2026-10-26T21:15:00.487+0000",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8184"
             }
           ]
         },
