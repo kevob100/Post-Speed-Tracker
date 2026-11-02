@@ -67,6 +67,7 @@ def _call(tool: str, args: dict) -> dict:
         "Authorization": "Bearer " + os.environ["ROTOWIRE_MCP_TOKEN"],
         "Content-Type": "application/json",
         "Accept": "application/json, text/event-stream",
+        "User-Agent": "post-speed-tracker",  # News Admin 403s Python-urllib's default UA (since 2026-10-29)
     })
     with urllib.request.urlopen(req, timeout=120) as r:
         text = r.read().decode()
@@ -118,13 +119,14 @@ def sync_edits(data_dir: Path, league: str) -> str:
     draft-vs-posted examples, which are what the templates get rewritten from."""
     today = datetime.now(timezone.utc).date()
     rows_path, ex_path = data_dir / "x_post_edits.jsonl", data_dir / "x_post_examples.jsonl"
-    key = lambda r: f"{r['day']}|{r['league']}|{r['generate_prompt_version']}|{r.get('manual')}"  # noqa: E731
-    stored = {key(r): r for r in load_jsonl(rows_path)}
     frm = (today - timedelta(days=FETCH_DAYS - 1)).isoformat()
     fresh = _call("x_post_edits", {"from": frm, "to": today.isoformat(), "leagues": [league]})["rows"]
-    for r in fresh:
-        stored[key(r)] = r
-    write_jsonl(rows_path, sorted(stored.values(), key=key))
+    # Since RD-8168 a day/version splits further by template and note category, so re-pulled
+    # days replace what's stored wholesale instead of merging row by row.
+    kept = [r for r in load_jsonl(rows_path) if r["day"] < frm]
+    key = lambda r: (r["day"], r["generate_prompt_version"], str(r.get("manual")), str(r.get("template")),  # noqa: E731
+                     str(r.get("template_case")), str(r.get("note_category")))
+    write_jsonl(rows_path, sorted(kept + fresh, key=key))
 
     ex = {e["article_id"]: e for e in load_jsonl(ex_path)}
     first = not ex
