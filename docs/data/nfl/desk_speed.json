@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-02T13:14:08.843020+00:00",
+  "generated_at": "2026-11-02T18:56:28.807777+00:00",
   "window": {
     "from": "2026-10-03",
     "to": "2026-11-02",
@@ -8,11 +8,11 @@
   "opens_tracked_since": "2026-10-13",
   "paths": {
     "all": {
-      "posts": 1094,
+      "posts": 1097,
       "race": {
-        "n": 723,
+        "n": 721,
         "median_gap": 106,
-        "underdog_first_pct": 94.5,
+        "underdog_first_pct": 94.3,
         "gaps": [
           -1246,
           -976,
@@ -31,6 +31,7 @@
           -73,
           -71,
           -61,
+          -59,
           -55,
           -53,
           -53,
@@ -520,7 +521,6 @@
           192,
           193,
           194,
-          195,
           196,
           197,
           197,
@@ -580,7 +580,6 @@
           254,
           254,
           254,
-          256,
           257,
           257,
           258,
@@ -724,7 +723,6 @@
           828,
           854,
           998,
-          1039,
           1072,
           1077,
           1102,
@@ -738,24 +736,24 @@
           1753,
           1780
         ],
-        "underdog_before_source_pct": 13.9,
+        "underdog_before_source_pct": 14.7,
         "before_source": {
-          "n": 76,
-          "monitor_had_earlier": 30,
-          "monitor_never_had": 46
+          "n": 103,
+          "monitor_had_earlier": 45,
+          "monitor_never_had": 58
         }
       },
       "from_source": {
-        "median": 146,
-        "n": 627
+        "median": 144,
+        "n": 678
       }
     },
     "monitor": {
-      "posts": 540,
+      "posts": 716,
       "race": {
-        "n": 383,
-        "median_gap": 96,
-        "underdog_first_pct": 93.7,
+        "n": 507,
+        "median_gap": 101,
+        "underdog_first_pct": 94.1,
         "gaps": [
           -1246,
           -976,
@@ -770,7 +768,9 @@
           -79,
           -73,
           -73,
+          -71,
           -61,
+          -59,
           -55,
           -53,
           -53,
@@ -778,9 +778,14 @@
           -43,
           -26,
           -23,
+          -20,
           -19,
+          -10,
           -9,
+          -5,
           -2,
+          -2,
+          1,
           2,
           2,
           3,
@@ -791,6 +796,8 @@
           8,
           9,
           10,
+          10,
+          11,
           11,
           11,
           11,
@@ -800,8 +807,10 @@
           12,
           12,
           13,
+          13,
           16,
           16,
+          17,
           17,
           17,
           19,
@@ -811,17 +820,24 @@
           21,
           21,
           21,
+          21,
+          22,
+          22,
           22,
           22,
           22,
           23,
           23,
           23,
+          23,
+          24,
           24,
           25,
           25,
           26,
           26,
+          26,
+          26,
           27,
           27,
           27,
@@ -835,6 +851,8 @@
           30,
           32,
           32,
+          32,
+          33,
           33,
           34,
           34,
@@ -846,9 +864,14 @@
           36,
           36,
           36,
+          36,
+          36,
+          36,
           37,
           37,
           37,
+          38,
+          38,
           38,
           38,
           39,
@@ -856,6 +879,9 @@
           40,
           41,
           41,
+          41,
+          42,
+          42,
           42,
           42,
           42,
@@ -865,6 +891,8 @@
           44,
           44,
           44,
+          44,
+          45,
           45,
           46,
           46,
@@ -873,19 +901,27 @@
           47,
           47,
           47,
+          47,
           48,
           48,
           49,
           49,
           50,
+          50,
+          51,
           51,
           51,
           52,
           52,
           53,
           53,
+          53,
+          53,
           54,
           54,
+          54,
+          54,
+          55,
           55,
           55,
           55,
@@ -895,8 +931,13 @@
           57,
           58,
           58,
+          58,
           59,
           60,
+          60,
+          61,
+          61,
+          62,
           62,
           62,
           63,
@@ -910,12 +951,16 @@
           67,
           67,
           67,
+          67,
           68,
           69,
           69,
+          69,
+          71,
           71,
           73,
           73,
+          75,
           76,
           76,
           77,
@@ -933,6 +978,7 @@
           81,
           81,
           82,
+          82,
           83,
           83,
           83,
@@ -940,7 +986,10 @@
           88,
           88,
           88,
+          88,
           89,
+          89,
+          90,
           91,
           91,
           92,
@@ -950,9 +999,12 @@
           96,
           96,
           96,
+          96,
           97,
           97,
           97,
+          99,
+          100,
           100,
           100,
           100,
@@ -963,6 +1015,8 @@
           105,
           105,
           106,
+          106,
+          107,
           107,
           107,
           107,
@@ -971,6 +1025,9 @@
           108,
           110,
           110,
+          110,
+          112,
+          112,
           112,
           112,
           113,
@@ -979,61 +1036,90 @@
           114,
           114,
           114,
+          114,
+          115,
           115,
           116,
           116,
           118,
           118,
           118,
+          118,
+          120,
           121,
           126,
           128,
           128,
           131,
           131,
+          131,
+          132,
+          133,
           134,
           134,
+          134,
+          135,
           135,
           135,
           135,
           135,
           136,
+          136,
+          139,
           139,
           140,
           142,
           143,
           144,
           145,
+          145,
+          145,
           146,
           147,
           149,
           151,
           152,
+          152,
           153,
+          155,
+          156,
+          157,
           158,
           158,
+          159,
+          161,
           161,
           161,
           163,
           165,
           165,
           166,
+          166,
+          167,
+          168,
           168,
           171,
+          171,
+          172,
+          172,
+          172,
+          173,
           174,
           175,
           175,
+          178,
           178,
           179,
           183,
           186,
           187,
+          187,
           189,
           189,
           190,
+          190,
           192,
           194,
-          195,
           196,
           197,
           197,
@@ -1043,50 +1129,72 @@
           201,
           201,
           206,
+          206,
+          208,
           208,
           209,
           210,
+          214,
           217,
           217,
           218,
           221,
+          225,
+          227,
           227,
           229,
           230,
+          230,
+          231,
           233,
           234,
+          234,
+          235,
+          238,
           240,
           240,
           241,
           247,
+          247,
           249,
           249,
           249,
+          250,
           252,
           252,
           253,
           254,
           257,
           260,
+          261,
           264,
           269,
           269,
           271,
+          271,
           272,
+          273,
           277,
           277,
           277,
+          279,
           280,
           281,
           285,
+          287,
+          288,
+          291,
           291,
           291,
           293,
+          294,
           295,
           295,
           297,
           298,
+          306,
           308,
+          309,
           309,
           309,
           311,
@@ -1099,7 +1207,9 @@
           335,
           337,
           340,
+          345,
           347,
+          348,
           350,
           352,
           352,
@@ -1116,16 +1226,27 @@
           404,
           406,
           409,
+          414,
           421,
           425,
           436,
           437,
+          441,
+          447,
           459,
+          466,
+          474,
+          478,
+          481,
           511,
           513,
           530,
+          531,
+          544,
+          558,
           575,
           579,
+          582,
           626,
           642,
           672,
@@ -1134,54 +1255,55 @@
           764,
           802,
           828,
-          1039,
+          854,
+          1102,
           1139,
           1303,
           1533,
           1651,
           1780
         ],
-        "underdog_before_source_pct": 16.4,
+        "underdog_before_source_pct": 17.4,
         "before_source": {
-          "n": 63,
-          "monitor_had_earlier": 28,
-          "monitor_never_had": 35
+          "n": 88,
+          "monitor_had_earlier": 41,
+          "monitor_never_had": 47
         }
       },
       "from_source": {
-        "median": 141,
-        "n": 383
+        "median": 140,
+        "n": 507
       },
       "steps": {
         "sent_to_monitor": {
           "median": 16,
-          "n": 566
+          "n": 748
         },
         "monitor_to_open": {
-          "median": 58,
-          "n": 313
+          "median": 61,
+          "n": 495
         },
         "open_to_x": {
-          "median": 27,
-          "n": 313
+          "median": 25,
+          "n": 495
         },
         "monitor_to_x": {
-          "median": 126,
-          "n": 566
+          "median": 122,
+          "n": 748
         },
         "split": true,
         "edited": {
-          "pct": 92.9,
-          "n": 566
+          "pct": 89.3,
+          "n": 748
         }
       }
     },
     "manual": {
-      "posts": 282,
+      "posts": 326,
       "race": {
-        "n": 164,
-        "median_gap": 103,
-        "underdog_first_pct": 93.3,
+        "n": 192,
+        "median_gap": 108,
+        "underdog_first_pct": 94.3,
         "gaps": [
           -665,
           -165,
@@ -1210,6 +1332,7 @@
           33,
           38,
           38,
+          38,
           39,
           41,
           45,
@@ -1217,6 +1340,7 @@
           47,
           48,
           49,
+          50,
           50,
           51,
           55,
@@ -1228,6 +1352,7 @@
           61,
           61,
           62,
+          65,
           65,
           65,
           65,
@@ -1245,6 +1370,8 @@
           75,
           76,
           76,
+          78,
+          78,
           80,
           81,
           82,
@@ -1259,8 +1386,11 @@
           90,
           90,
           91,
+          91,
           92,
           96,
+          98,
+          98,
           98,
           99,
           99,
@@ -1274,25 +1404,31 @@
           109,
           110,
           111,
+          111,
           112,
           114,
           116,
+          117,
           117,
           120,
           122,
           123,
           124,
           125,
+          126,
           127,
           130,
           134,
           135,
           137,
+          140,
+          141,
           141,
           155,
           155,
           156,
           157,
+          168,
           168,
           168,
           174,
@@ -1310,28 +1446,42 @@
           224,
           231,
           232,
+          232,
           233,
           240,
+          246,
           254,
+          258,
           269,
+          278,
           288,
           291,
+          295,
           303,
+          304,
           309,
           312,
+          313,
+          314,
+          317,
+          323,
           328,
           329,
           343,
           345,
           351,
           357,
+          364,
           372,
+          381,
+          386,
           389,
           409,
           409,
           413,
           417,
           423,
+          434,
           434,
           436,
           465,
@@ -1348,214 +1498,60 @@
           1657,
           1753
         ],
-        "underdog_before_source_pct": 7.9,
+        "underdog_before_source_pct": 7.8,
         "before_source": {
-          "n": 13,
-          "monitor_had_earlier": 2,
+          "n": 15,
+          "monitor_had_earlier": 4,
           "monitor_never_had": 11
         }
       },
       "from_source": {
-        "median": 143,
-        "n": 131
+        "median": 147,
+        "n": 157
       },
       "add_line_to_x": {
-        "median": 48,
-        "n": 160
+        "median": 49,
+        "n": 206
       }
     },
     "other": {
-      "posts": 272,
+      "posts": 55,
       "race": {
-        "n": 176,
-        "median_gap": 140,
-        "underdog_first_pct": 97.2,
+        "n": 22,
+        "median_gap": 256,
+        "underdog_first_pct": 100.0,
         "gaps": [
-          -71,
-          -20,
-          -10,
-          -5,
-          -2,
-          1,
-          10,
-          11,
-          13,
-          17,
-          21,
-          22,
-          22,
-          23,
-          24,
-          26,
-          26,
-          32,
-          33,
-          36,
-          36,
-          36,
-          38,
-          38,
-          38,
-          41,
-          42,
-          42,
-          44,
-          45,
-          47,
-          50,
-          50,
-          51,
-          53,
-          53,
-          54,
-          54,
-          55,
-          58,
-          60,
-          61,
-          61,
-          62,
-          65,
-          67,
-          69,
-          71,
-          75,
           78,
-          78,
-          78,
-          82,
           82,
           83,
           84,
           84,
-          88,
-          89,
-          90,
-          91,
           92,
-          96,
-          98,
-          98,
-          99,
-          100,
           101,
-          106,
-          107,
-          110,
-          111,
-          112,
-          112,
-          114,
-          115,
-          117,
-          118,
-          120,
-          126,
-          131,
-          132,
-          133,
-          134,
-          135,
-          136,
-          139,
-          140,
-          141,
           144,
-          145,
-          145,
-          152,
-          155,
-          156,
-          157,
-          159,
-          161,
-          166,
           167,
-          167,
-          168,
-          168,
-          171,
-          172,
-          172,
-          172,
-          173,
-          178,
-          187,
-          190,
-          206,
-          208,
-          214,
-          225,
-          227,
-          230,
-          231,
-          232,
-          234,
-          235,
-          238,
-          246,
           247,
-          247,
-          250,
           254,
-          256,
           257,
-          258,
           261,
-          261,
-          271,
-          273,
-          278,
-          279,
           285,
-          287,
-          288,
-          291,
-          294,
-          295,
-          304,
-          306,
-          309,
-          313,
-          314,
-          317,
-          323,
-          345,
-          348,
-          364,
-          381,
-          386,
           388,
           396,
-          414,
           416,
-          434,
-          441,
-          447,
           466,
-          466,
-          474,
-          478,
-          481,
-          531,
-          544,
-          558,
           560,
-          582,
           630,
-          854,
           1077,
-          1102,
           1366
         ]
       },
       "from_source": {
-        "median": 186,
-        "n": 113
+        "median": 282,
+        "n": 14
       }
     },
-    "manual_pct": 25.8,
-    "other_pct": 24.9
+    "manual_pct": 29.7,
+    "other_pct": 5.0
   },
   "manual_weekly": [
     {
@@ -1597,12 +1593,12 @@
     {
       "week": "2026-10-26",
       "posts": 249,
-      "manual": 4,
-      "pct": 1.6
+      "manual": 48,
+      "pct": 19.3
     },
     {
       "week": "2026-11-02",
-      "posts": 1,
+      "posts": 7,
       "manual": 0,
       "pct": 0.0
     }
@@ -2046,7 +2042,7 @@
         "posts": 54,
         "scored": 54,
         "edited_pct": 87.0,
-        "change_pct": 31.7,
+        "change_pct": 31.8,
         "stored_pct": 100.0,
         "open_to_x": {
           "median": 22,
@@ -2099,6 +2095,78 @@
         "open_to_x": {
           "median": 28,
           "n": 7
+        }
+      },
+      {
+        "day": "2026-10-28",
+        "posts": 53,
+        "scored": 53,
+        "edited_pct": 92.5,
+        "change_pct": 33.9,
+        "stored_pct": 100.0,
+        "open_to_x": {
+          "median": 28,
+          "n": 45
+        }
+      },
+      {
+        "day": "2026-10-29",
+        "posts": 56,
+        "scored": 56,
+        "edited_pct": 83.9,
+        "change_pct": 35.4,
+        "stored_pct": 100.0,
+        "open_to_x": {
+          "median": 23,
+          "n": 36
+        }
+      },
+      {
+        "day": "2026-10-30",
+        "posts": 42,
+        "scored": 42,
+        "edited_pct": 59.5,
+        "change_pct": 20.8,
+        "stored_pct": 100.0,
+        "open_to_x": {
+          "median": 16,
+          "n": 37
+        }
+      },
+      {
+        "day": "2026-10-31",
+        "posts": 12,
+        "scored": 12,
+        "edited_pct": 66.7,
+        "change_pct": 26.0,
+        "stored_pct": 100.0,
+        "open_to_x": {
+          "median": 20,
+          "n": 9
+        }
+      },
+      {
+        "day": "2026-11-01",
+        "posts": 59,
+        "scored": 59,
+        "edited_pct": 79.7,
+        "change_pct": 35.7,
+        "stored_pct": 100.0,
+        "open_to_x": {
+          "median": 26,
+          "n": 50
+        }
+      },
+      {
+        "day": "2026-11-02",
+        "posts": 9,
+        "scored": 9,
+        "edited_pct": 100.0,
+        "change_pct": 45.2,
+        "stored_pct": 100.0,
+        "open_to_x": {
+          "median": 65,
+          "n": 8
         }
       }
     ],
@@ -2236,15 +2304,414 @@
       {
         "version": "generate_v31_2026_10_27",
         "first_day": "2026-10-27",
-        "last_day": "2026-10-27",
-        "posts": 4,
-        "scored": 4,
-        "edited_pct": 75.0,
-        "change_pct": 45.6,
+        "last_day": "2026-10-29",
+        "posts": 77,
+        "scored": 77,
+        "edited_pct": 88.3,
+        "change_pct": 34.2,
+        "stored_pct": 100.0
+      },
+      {
+        "version": "generate_v32_2026_10_29",
+        "first_day": "2026-10-29",
+        "last_day": "2026-10-30",
+        "posts": 43,
+        "scored": 43,
+        "edited_pct": 86.0,
+        "change_pct": 34.0,
+        "stored_pct": 100.0
+      },
+      {
+        "version": "generate_v33_2026_10_30",
+        "first_day": "2026-10-30",
+        "last_day": "2026-10-30",
+        "posts": 35,
+        "scored": 35,
+        "edited_pct": 54.3,
+        "change_pct": 21.1,
+        "stored_pct": 100.0
+      },
+      {
+        "version": "generate_v34_2026_10_30",
+        "first_day": "2026-10-31",
+        "last_day": "2026-11-02",
+        "posts": 80,
+        "scored": 80,
+        "edited_pct": 80.0,
+        "change_pct": 35.3,
         "stored_pct": 100.0
       }
     ],
     "examples": [
+      {
+        "posted_at": "2026-11-02T17:13:08Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.5093,
+        "draft": "Travis Etienne Jr. (hamstring) will be looked at Monday to determine whether he has a chance to return to practice Wednesday.\n\nVia @RossJacksonNOLA",
+        "posted": "Travis Etienne Jr. (hamstring), per head coach Kellen Moore, \"will be looked at Monday\" with the intent of determining whether or not he will practice this week.\n\nVia @RossJacksonNOLA"
+      },
+      {
+        "posted_at": "2026-11-02T17:11:05Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.6214,
+        "draft": "Jordyn Tyson (hamstring), per head coach Kellen Moore, remains TBD and a decision will be made by Wednesday.\n\nVia @nick_underhill",
+        "posted": "The Saints, per head coach Kellen Moore, have not decided if Jordyn Tyson (hamstring) will practice this week but will do so \"by Wednesday.\"\n\nVia @nick_underhill"
+      },
+      {
+        "posted_at": "2026-11-02T16:31:49Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.3805,
+        "draft": "Mack Hollins (calf) is considered potentially able to return off injured reserve this week.\n\nVia @DougKyed",
+        "posted": "Mack Hollins (calf), per head coach Mike Vrabel, could \"potentially\" be activated from injured reserve this week.\n\nVia @DougKyed"
+      },
+      {
+        "posted_at": "2026-11-02T16:30:28Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.717,
+        "draft": "A.J. Brown (ankle), per head coach Mike Vrabel, \"we'll see\" if he can practice this week.\n\nVia @DougKyed",
+        "posted": "When asked Monday if A.J. Brown (ankle) will practice this week, head coach Mike Vrabel said, \"We'll see.\"\n\nVia @DougKyed"
+      },
+      {
+        "posted_at": "2026-11-02T16:20:18Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.6114,
+        "draft": "David Montgomery (groin) has no significant update and will be evaluated throughout the week.\n\nVia @jonmalexander",
+        "posted": "Head coach DeMeco Ryans said Monday that he did not have a \"significant update\" on David Montgomery (groin) and that the Texans will see how he progresses throughout the week.\n\nVia @jonmalexander"
+      },
+      {
+        "posted_at": "2026-11-02T15:34:39Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.4792,
+        "draft": "Michael Pittman Jr. (plantar fasciitis) said he began running last week and again Monday and is in a program to return, but he has no timetable.\n\nVia @rayfitt1",
+        "posted": "Michael Pittman Jr. (foot) \"began to run last week and ran again Monday\" but \"does not have a return timetable.\"\n\nVia @rayfitt1"
+      },
+      {
+        "posted_at": "2026-11-02T15:23:27Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.4952,
+        "draft": "Breece Hall (quadriceps) is ready to return to the field after missing Sunday's game against the Raiders.\n\nVia @RapSheet",
+        "posted": "Breece Hall (quadriceps) \"should play\" in Week 9 against the Chiefs.\n\nVia @RapSheet"
+      },
+      {
+        "posted_at": "2026-11-02T03:32:12Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.1481,
+        "draft": "Jeremy McNichols headed to the locker room during Sunday's game against the Eagles after appearing to sustain an injury.\n\nVia @tashanreed",
+        "posted": "Jeremy McNichols headed to the locker room in the second half of Sunday's game against the Eagles after appearing to sustain an injury.\n\nVia @tashanreed"
+      },
+      {
+        "posted_at": "2026-11-02T00:06:45Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.1075,
+        "draft": "Hunter Henry (foot) has been ruled out for the rest of Sunday's game against the Dolphins.\n\nVia @PatriotsComms",
+        "posted": "Hunter Henry (foot) was downgraded to out for the rest of Sunday's game against the Dolphins.\n\nVia @PatriotsComms"
+      },
+      {
+        "posted_at": "2026-11-01T23:59:37Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.1364,
+        "draft": "Jake Ferguson sustained a low ankle sprain injury during Sunday's loss to the Cardinals.\n\nVia @JFowlerESPN",
+        "posted": "Jake Ferguson sustained \"a low ankle sprain\" in Sunday's loss to the Cardinals.\n\nVia @JFowlerESPN"
+      },
+      {
+        "posted_at": "2026-11-01T23:19:32Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.5036,
+        "draft": "Tyler Huntley sustained a turf toe injury during Sunday's loss to the Bills.\n\nVia @AdamSchefter",
+        "posted": "Tyler Huntley sustained \"what is thought to be a turf toe injury\" in Sunday's loss to the Bills and is expected undergo an MRI on Monday.\n\nVia @AdamSchefter"
+      },
+      {
+        "posted_at": "2026-11-01T22:53:13Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.3673,
+        "draft": "Courtland Sutton returned to Sunday's game against the Chiefs.\n\nVia @ZacStevens",
+        "posted": "Courtland Sutton (undisclosed) returned to Sunday's game against the Chiefs in the second quarter.\n\nVia @ZacStevens"
+      },
+      {
+        "posted_at": "2026-11-01T22:43:37Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.3952,
+        "draft": "Courtland Sutton headed to the medical tent during Sunday's game against the Chiefs.\n\nVia @ZacStevens",
+        "posted": "Courtland Sutton went to the medical tent after taking a hard hit in the second quarter of Sunday's game against the Chiefs.\n\nVia @ZacStevens"
+      },
+      {
+        "posted_at": "2026-11-01T22:21:57Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.6697,
+        "draft": "Michael Wilson (ribs) said he has two broken ribs Sunday.\n\nVia @joshweinfuss",
+        "posted": "Michael Wilson said following Sunday's victory over the Cowboys that he is playing through \"two broken ribs.\"\n\nVia @joshweinfuss"
+      },
+      {
+        "posted_at": "2026-11-01T22:20:05Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.0,
+        "draft": "Hunter Henry (foot) is questionable to return to Sunday's game against the Dolphins.\n\nVia @PatriotsComms",
+        "posted": "Hunter Henry (foot) is questionable to return to Sunday's game against the Dolphins.\n\nVia @PatriotsComms"
+      },
+      {
+        "posted_at": "2026-11-01T22:02:15Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.396,
+        "draft": "DJ Moore said he's OK after a knee scare at the end of Sunday's game against the Ravens.\n\nVia @CameronWolfe",
+        "posted": "DJ Moore said he's \"OK\" after sustaining an apparent knee injury in Sunday's victory over the Ravens.\n\nVia @CameronWolfe"
+      },
+      {
+        "posted_at": "2026-11-01T21:49:52Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.6781,
+        "draft": "Joe Fagnano said he hopes to be ready for Thursday and acknowledged he's not 100 percent.\n\nVia @jonas_shaffer",
+        "posted": "Joe Fagnano said following Sunday's loss to the Bills that \"he's not 100 percent\" but \"hopes to be ready\" for Thursday's game against the Jaguars.\n\nVia @jonas_shaffer"
+      },
+      {
+        "posted_at": "2026-11-01T21:44:15Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.5693,
+        "draft": "Kyler Murray (hamstring), per head coach Kevin O'Connell, returned to Sunday's game against the Lions.\n\nVia @alec_lewis",
+        "posted": "Kyler Murray, per head coach Kevin O'Connell, experienced \"hamstring tightness\" during Sunday's loss to the Lions but was able to return.\n\nVia @alec_lewis"
+      },
+      {
+        "posted_at": "2026-11-01T21:33:40Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.1468,
+        "draft": "Lamar Jackson (right thumb), per head coach Jesse Minter, will have surgery and be placed on injured reserve.\n\nVia @brianwacker1",
+        "posted": "Lamar Jackson (thumb), per head coach Jesse Minter, will undergo surgery be placed on injured reserve.\n\nVia @brianwacker1"
+      },
+      {
+        "posted_at": "2026-11-01T21:33:07Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.4912,
+        "draft": "Tyler Huntley (toe) walked out of the locker room with a very evident limp during Sunday's game against the Bills.\n\nVia @giana_jade",
+        "posted": "Tyler Huntley (toe) walked out of the locker room following Sunday's loss to the Bills \"with a very evident limp.\"\n\nVia @giana_jade"
+      },
+      {
+        "posted_at": "2026-11-01T21:31:39Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.7515,
+        "draft": "Daniel Jones could remain the Colts' starting QB, per head coach Shane Steichen.\n\nVia @RomeovilleKid",
+        "posted": "Head coach Shane Steichen said following Sunday's loss to the Jaguars that he's \"evaluating everything, including whether Daniel Jones remains the starting quarterback.\"\n\nVia @RomeovilleKid"
+      },
+      {
+        "posted_at": "2026-11-01T21:26:11Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.7463,
+        "draft": "Ashton Jeanty, per head coach Klint Kubiak, is still \"going to be a big part of our team\" after getting two carries Sunday against the Jets.\n\nVia @ryanmcfadden_",
+        "posted": "Head coach Klint Kubiak, when asked why Ashton Jeanty was limited to two carries in Sunday's victory over the Jets said \"that's my call\" and noted that Jeanty is \"still going to be a big part of our team.\"\n\nVia @ryanmcfadden_"
+      },
+      {
+        "posted_at": "2026-11-01T21:10:44Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.4667,
+        "draft": "DJ Moore headed to the medical tent during Sunday's game against the Ravens.\n\nVia @kfitz134",
+        "posted": "DJ Moore visited the medical tent after limping off the field in the fourth quarter of Sunday's game against the Ravens.\n\nVia @kfitz134"
+      },
+      {
+        "posted_at": "2026-11-01T21:09:00Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.2766,
+        "draft": "Jeremiyah Love (ankle) is questionable to return to Sunday's game against the Cowboys.\n\nVia",
+        "posted": "Jeremiyah Love (ankle) was ruled out for the second half of Sunday's game against the Cowboys.\n\nVia @alexjweiner"
+      },
+      {
+        "posted_at": "2026-11-01T21:01:34Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.6591,
+        "draft": "James Cook (head injury) has been cleared to return to Sunday's game against the Ravens.\n\nVia @BuffaloBillsPR",
+        "posted": "James Cook \"was evaluated for a head injury and cleared to return.\"\n\nVia @BuffaloBillsPR"
+      },
+      {
+        "posted_at": "2026-11-01T20:49:31Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.5763,
+        "draft": "James Cook headed to the blue medical tent during Sunday's game against the Ravens after taking a hard hit on a run.\n\nVia @MattParrino",
+        "posted": "James Cook went to the medical tent after taking a hard hit in the fourth quarter of Sunday's game against the Ravens.\n\nVia @MattParrino"
+      },
+      {
+        "posted_at": "2026-11-01T20:05:01Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.4831,
+        "draft": "Michael Wilson returned to Sunday's game against the Cowboys.\n\nVia @Cardschatter",
+        "posted": "Michael Wilson returned to Sunday's game against the Cowboys for the Cardinals' first possession of the third quarter.\n\nVia @Cardschatter"
+      },
+      {
+        "posted_at": "2026-11-01T20:03:43Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.0,
+        "draft": "Tyler Huntley (toe) has been ruled out for the rest of Sunday's game against the Bills.\n\nVia @Ravens",
+        "posted": "Tyler Huntley (toe) has been ruled out for the rest of Sunday's game against the Bills.\n\nVia @Ravens"
+      },
+      {
+        "posted_at": "2026-11-01T20:02:20Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.4952,
+        "draft": "Bam Knight (concussion) is out for Sunday's game against the Cowboys.\n\nVia @theo_mackie",
+        "posted": "Bam Knight has been ruled out for the remainder of Sunday's game against the Cowboys due to a concussion.\n\nVia @theo_mackie"
+      },
+      {
+        "posted_at": "2026-10-31T20:45:40Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.0,
+        "draft": "Jadarian Price (chest) doesn't have an injury designation for Monday's game against the Bears.\n\nVia @johnpboyle",
+        "posted": "Jadarian Price (chest) doesn't have an injury designation for Monday's game against the Bears.\n\nVia @johnpboyle"
+      },
+      {
+        "posted_at": "2026-10-31T20:44:23Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.0,
+        "draft": "Rashid Shaheed (knee) has been ruled out for Monday's game against the Bears.\n\nVia @Curtis_Crabtree",
+        "posted": "Rashid Shaheed (knee) has been ruled out for Monday's game against the Bears.\n\nVia @Curtis_Crabtree"
+      },
+      {
+        "posted_at": "2026-10-31T20:43:54Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.2878,
+        "draft": "Zach Charbonnet (knee), per head coach Mike Macdonald, is good to go for Monday's game against the Bears.\n\nVia @johnpboyle",
+        "posted": "Zach Charbonnet (knee), per head coach Mike Macdonald, has no injury designation and will be available for Monday's game against the Bears.\n\nVia @johnpboyle"
+      },
+      {
+        "posted_at": "2026-10-31T20:14:52Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.3596,
+        "draft": "RJ Harvey (knee) is being placed on injured reserve and will miss the next four games.\n\nVia @RapSheet",
+        "posted": "RJ Harvey (knee) was placed on injured reserve Saturday and will be required to miss at least the next four games.\n\nVia @RapSheet"
+      },
+      {
+        "posted_at": "2026-10-31T18:54:02Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.75,
+        "draft": "Couldn't read the source (likely an image or video with no player details). Please write this one from the source.\n\nVia @BearsPR",
+        "posted": "Loveland (neck) logged a full practice during Saturday's session and does not have an injury designation for Monday's game against the Seahawks.\n\nVia @BearsPR"
+      },
+      {
+        "posted_at": "2026-10-31T17:48:56Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.1356,
+        "draft": "Jack Bech (forearm) is expected to be activated from injured reserve for Sunday's game against the Jets.\n\nVia @RapSheet",
+        "posted": "Jack Bech (forearm) is expected to be activated from injured reserve Saturday ahead of Sunday's game against the Jets.\n\nVia @RapSheet"
+      },
+      {
+        "posted_at": "2026-10-31T17:04:01Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.1474,
+        "draft": "TreVeyon Henderson (illness) was downgraded ahead of Sunday's game against the Dolphins.\n\nVia @RapSheet",
+        "posted": "TreVeyon Henderson (illness) has been downgraded to out for Sunday's game against the Dolphins.\n\nVia @RapSheet"
+      },
+      {
+        "posted_at": "2026-10-31T17:03:28Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.2551,
+        "draft": "A.J. Brown (ankle) was downgraded for Sunday's game against the Dolphins.\n\nVia @RapSheet",
+        "posted": "A.J. Brown (ankle) was downgraded from questionable to out for Sunday's game against the Dolphins.\n\nVia @RapSheet"
+      },
+      {
+        "posted_at": "2026-10-31T16:50:55Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.0,
+        "draft": "Kyle Monangai (thumb) will not play in Monday's game against the Seahawks, per head coach Ben Johnson.\n\nVia @sean_hammond",
+        "posted": "Kyle Monangai (thumb) will not play in Monday's game against the Seahawks, per head coach Ben Johnson.\n\nVia @sean_hammond"
+      },
+      {
+        "posted_at": "2026-10-31T15:06:03Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.4337,
+        "draft": "Carnell Tate (shoulder) is expected to miss one game and should be good after the bye for Week 10 against the Jaguars.\n\nVia @PaulKuharskyNFL",
+        "posted": "Carnell Tate (shoulder), who has been ruled out for Sunday's contest against the Bengals, is expected to miss only one game and could be back after the Titans' bye for Week 10 against the Jaguars.\n\nVia @PaulKuharskyNFL"
+      },
+      {
+        "posted_at": "2026-10-31T14:04:53Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.7544,
+        "draft": "Couldn't read the source (likely an image or video with no player details). Please write this one from the source.\n\nVia @RapSheet",
+        "posted": "Micah Parsons (knee) is aiming to return for Week 12 against the Rams on Wednesday, Nov. 25.\n\nVia @RapSheet"
+      },
+      {
+        "posted_at": "2026-10-31T11:53:03Z",
+        "generate_prompt_version": "generate_v34_2026_10_30",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.0,
+        "draft": "Jonathan Taylor is available via trade, with the Colts engaged in active talks with multiple teams.\n\nVia",
+        "posted": "Jonathan Taylor is available via trade, with the Colts engaged in active talks with multiple teams.\n\nVia @AdamSchefter"
+      },
       {
         "posted_at": "2026-10-27T20:50:00Z",
         "generate_prompt_version": "generate_v31_2026_10_27",
@@ -2415,398 +2882,29 @@
         "distance": 0.7488,
         "draft": "Couldn't read the source (likely an image or video with no player details). Please write this one from the source.\n\nVia @rich_silva18",
         "posted": "Amon-Ra St. Brown is nursing an ankle injury coming out of Sunday's win over the Packers and is expected to sit out practice Wednesday before returning to the field Thursday, per head coach Dan Campbell.\n\nVia @rich_silva18"
-      },
-      {
-        "posted_at": "2026-10-26T19:11:11Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.5038,
-        "draft": "Lamar Jackson (ankle), per head coach Jesse Minter, is \"working his butt off to be out there\" and \"we'll know more on Wednesday.\"\n\nVia @jeffzrebiec",
-        "posted": "Lamar Jackson (ankle) is \"in a decent spot\" to play Week 8 in Buffalo, per head coach Jesse Minter.\n\n\"We'll know more on Wednesday.\"\n\nVia @jeffzrebiec"
-      },
-      {
-        "posted_at": "2026-10-26T18:29:37Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.431,
-        "draft": "Alec Pierce (heel) most likely will not have his injured reserve practice window opened this week.\n\nVia @JakeArthurNFL",
-        "posted": "Alec Pierce (heel), per head coach Shane Steichen, will \"most likely not\" have his practice window opened this week.\n\nVia @JakeArthurNFL"
-      },
-      {
-        "posted_at": "2026-10-26T18:23:09Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.6905,
-        "draft": "Daniel Jones, per head coach Shane Steichen, is our starting quarterback.\n\nVia @mchappell51",
-        "posted": "Daniel Jones will remain the Colts' starting quarterback for Sunday's game against the Jaguars, per head coach Shane Steichen.\n\nVia @mchappell51"
-      },
-      {
-        "posted_at": "2026-10-26T16:57:27Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.7845,
-        "draft": "Rashid Shaheed (knee), per head coach Mike Macdonald, has positive early returns on his knee after leaving the game.\n\nVia @BradyHenderson",
-        "posted": "Initial evaluations of Rashid Shaheed's knee injury have been \"positive,\" per head coach Mike Macdonald.\n\nVia @BradyHenderson"
-      },
-      {
-        "posted_at": "2026-10-26T16:56:12Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.4162,
-        "draft": "Jadarian Price (ribs/chest), per head coach Mike Macdonald, is planned to practice this week, but his status for next Monday's game against the Bears is still uncertain.\n\nVia @gbellseattle",
-        "posted": "Jadarian Price (ribs/chest) is on track to return to practice in Week 8, but his status for next Monday's game against the Bears is uncertain, per head coach Mike Macdonald.\n\nVia @gbellseattle"
-      },
-      {
-        "posted_at": "2026-10-26T15:13:17Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.7484,
-        "draft": "Aaron Jones (knee) is considered day-to-day after the injury he suffered during Sunday's win over the Colts, and it is not considered significant at this time.\n\nVia @AdamSchefter",
-        "posted": "The knee injury Aaron Jones sustained Sunday \"is not considered to be significant,\" and he is believed to be \"day-to-day.\"\n\nVia @AdamSchefter"
-      },
-      {
-        "posted_at": "2026-10-26T14:06:44Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.5782,
-        "draft": "Cam Skattebo (hamstring), per Mike Garafolo, said he felt something in his hamstring on his 42-yard OT run and all indications are he should be OK.\n\nVia",
-        "posted": "Cam Skattebo is expected to be \"OK\" after tweaking his hamstring on a 42-yard run in overtime of Sunday's win over the Texans.\n\nVia @MikeGarafolo"
-      },
-      {
-        "posted_at": "2026-10-26T13:20:41Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.2804,
-        "draft": "Saquon Barkley (hamstring) continues to trend in the right direction for Monday's game against the Cowboys.\n\nVia @MikeGarafolo",
-        "posted": "Saquon Barkley (hamstring) is \"trending toward playing\" in Monday's game against the Cowboys.\n\nVia @MikeGarafolo"
-      },
-      {
-        "posted_at": "2026-10-26T02:09:28Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.6442,
-        "draft": "Rashid Shaheed (knee) is questionable, per Curtis Crabtree.\n\nVia @Curtis_Crabtree",
-        "posted": "Rashid Shaheed is questionable to return to Sunday night's game against the Chiefs due to a knee injury.\n\nVia @Curtis_Crabtree"
-      },
-      {
-        "posted_at": "2026-10-25T23:15:25Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.6454,
-        "draft": "Jaylen Waddle headed to the locker room during Sunday's game.\n\nVia @ParkerJGabriel",
-        "posted": "Jaylen Waddle went to the locker room in the fourth quarter of Sunday's game against the Cardinals after grabbing at his chest/shoulder area.\n\nVia @ParkerJGabriel"
-      },
-      {
-        "posted_at": "2026-10-25T21:05:20Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.5435,
-        "draft": "Cam Skattebo said he felt something in his hamstring before sliding on the play that set up Devin Singletary's game-winning touchdown Sunday and added, \"Good thing we have a bye week.\"\n\nVia @DanGrazianoESPN",
-        "posted": "Cam Skattebo said he \"felt something\" in his hamstring on his carry in overtime during the Giants' 27-21 win over the Texans.\n\nVia @DanGrazianoESPN"
-      },
-      {
-        "posted_at": "2026-10-25T20:54:18Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.6288,
-        "draft": "Jaylin Noel (toe) was seen walking in a boot after Sunday's game after not finishing because of the injury.\n\nVia @Djbienaime",
-        "posted": "Jaylin Noel (toe) did not return to Sunday's 27-21 overtime loss to the Giants and was seen in a walking boot following the contest.\n\nVia @Djbienaime"
-      },
-      {
-        "posted_at": "2026-10-25T20:23:51Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.5455,
-        "draft": "Aaron Jones (knee) aggravated the same knee he's been dealing with earlier this season.\n\nVia @BenGoessling",
-        "posted": "Per head coach Kevin O'Connell, Aaron Jones aggravated the same knee injury during Sunday's 16-10 win against the Colts that he was dealing with earlier this season.\n\nVia @BenGoessling"
-      },
-      {
-        "posted_at": "2026-10-25T19:56:40Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.6809,
-        "draft": "Jaylin Noel (toe) is listed as questionable for Sunday's game.\n\nVia @HoustonTexans",
-        "posted": "Jaylin Noel is questionable to return to Sunday's game against the Giants due to a toe injury.\n\nVia @HoustonTexans"
-      },
-      {
-        "posted_at": "2026-10-25T19:46:11Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.2588,
-        "draft": "Woody Marks (leg) returned to Sunday's game against the Giants.\n\nVia @AaronWilson_NFL",
-        "posted": "Woody Marks (leg) returned to Sunday's game against the Giants in the fourth quarter.\n\nVia @AaronWilson_NFL"
-      },
-      {
-        "posted_at": "2026-10-25T19:29:24Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.2979,
-        "draft": "Aaron Jones (knee) is questionable to return to Sunday's game against the Colts.\n\nVia @Vikings",
-        "posted": "Aaron Jones is questionable to return to Sunday's game against the Colts due to a knee injury.\n\nVia @Vikings"
-      },
-      {
-        "posted_at": "2026-10-25T19:26:34Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.6036,
-        "draft": "Woody Marks headed to the blue medical tent during Sunday's game after having his left leg examined.\n\nVia @AaronWilson_NFL",
-        "posted": "Woody Marks entered the medical tent on the Texans sideline during the third quarter of Sunday's game against the Giants to be evaluated for an apparent left leg injury.\n\nVia @AaronWilson_NFL"
-      },
-      {
-        "posted_at": "2026-10-25T19:23:45Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.6505,
-        "draft": "Kenny Gainwell rushed for 77 yards Sunday while getting lots of work with Tampa Bay holding a big lead.\n\nVia @gregauman",
-        "posted": "Kenny Gainwell (hip) returned to Sunday's game against the Panthers in the third quarter.\n\nVia @gregauman"
-      },
-      {
-        "posted_at": "2026-10-25T19:20:11Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.557,
-        "draft": "Aaron Jones (sprained left MCL) went straight to the blue medical tent after getting hit on a 17-yard run.\n\nVia @SeifertESPN",
-        "posted": "Aaron Jones checked into the medical tent in the fourth quarter of Sunday's game against the Colts after absorbing a hit at the end of a 17-yard run.\n\nVia @SeifertESPN"
-      },
-      {
-        "posted_at": "2026-10-25T19:00:16Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.4878,
-        "draft": "Drake London (head) returned to Sunday's game.\n\nVia @JoshTheAthletic",
-        "posted": "Drake London (head) has been cleared to return to Sunday's game against the 49ers.\n\nVia @JoshTheAthletic"
-      },
-      {
-        "posted_at": "2026-10-25T18:59:39Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.1839,
-        "draft": "Mike Washington Jr. (foot) is active for Sunday's game against the Rams.\n\nVia @samwarren83",
-        "posted": "Mike Washington Jr. (foot/back) is listed as active for Sunday’s game against the Rams.\n\nVia @samwarren83"
-      },
-      {
-        "posted_at": "2026-10-25T18:59:38Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.0,
-        "draft": "Puka Nacua (calf) is active for Sunday's game against the Raiders.\n\nVia @sarahbarshop",
-        "posted": "Puka Nacua (calf) is active for Sunday's game against the Raiders.\n\nVia @sarahbarshop"
-      },
-      {
-        "posted_at": "2026-10-25T18:58:43Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.1579,
-        "draft": "Drake London is being evaluated for a concussion and is questionable to return to Sunday's game.\n\nVia @tori_mcelhaney",
-        "posted": "Drake London is being evaluated for a concussion and is questionable to return to Sunday's game against the 49ers.\n\nVia @tori_mcelhaney"
-      },
-      {
-        "posted_at": "2026-10-25T18:57:16Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": true,
-        "baseline_source": "stored",
-        "distance": 0.7368,
-        "draft": "Couldn't read the source (likely an image or video with no player details). Please write this one from the source.\n\nVia",
-        "posted": "Josh Jacobs is listed as active for Sunday's game against the Lions.\n\nVia @packers"
-      },
-      {
-        "posted_at": "2026-10-25T18:46:55Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.2626,
-        "draft": "Kenny Gainwell (hip) is questionable to return to Sunday's game against the Panthers.\n\nVia @ScottSBucs",
-        "posted": "Kenny Gainwell is questionable to return to Sunday's game against the Panthers due to a hip injury.\n\nVia @ScottSBucs"
-      },
-      {
-        "posted_at": "2026-10-25T18:45:29Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.7569,
-        "draft": "Couldn't read the source (likely an image or video with no player details). Please write this one from the source.\n\nVia @nwagoner",
-        "posted": "Christian McCaffrey (thigh) is back on the field to begin the 49ers' first possession of the third quarter of Sunday's game against the Falcons.\n\nVia @nwagoner"
-      },
-      {
-        "posted_at": "2026-10-25T18:37:26Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": true,
-        "baseline_source": "stored",
-        "distance": 0.4194,
-        "draft": "Jonah Coleman (ankle) is active for Sunday's game against the Cardinals after being activated from injured reserve Saturday.\n\nVia",
-        "posted": "Jonah Coleman (ankle) is active for Sunday's game against the Cardinals.\n\nVia @Broncos"
-      },
-      {
-        "posted_at": "2026-10-25T18:17:10Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.3762,
-        "draft": "Tyrone Tracy (hamstring) is questionable to return to Sunday's game against the Texans.\n\nVia @JordanRaanan",
-        "posted": "Tyrone Tracy is questionable to return to Sunday's game against the Texans due to a hamstring injury.\n\nVia @JordanRaanan"
-      },
-      {
-        "posted_at": "2026-10-25T18:01:38Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.52,
-        "draft": "Christian McCaffrey jogged to the locker room during Sunday's game after spending a few minutes on the sideline.\n\nVia @harrisonrich_",
-        "posted": "Christian McCaffrey (thigh) headed to the locker room midway through the second quarter of Sunday's game against the Falcons.\n\nVia @harrisonrich_"
-      },
-      {
-        "posted_at": "2026-10-24T20:32:00Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.2,
-        "draft": "Christian Kirk (calf) was activated from injured reserve and had his questionable status removed for Sunday's game against the Falcons.\n\nVia @49ers",
-        "posted": "Christian Kirk (calf) was activated from injured reserve Saturday, and his questionable status for Sunday's game against the Falcons was removed.\n\nVia @49ers"
-      },
-      {
-        "posted_at": "2026-10-24T20:31:37Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.5845,
-        "draft": "Jordan Mason (thumb) was activated to the Vikings' 53-man roster and will enter Sunday's game against the Colts without an injury designation.\n\nVia @Vikings",
-        "posted": "Jordan Mason (thumb) was activated from injured reserve Saturday and will not have an injury designation for Sunday's game against the Colts.\n\nVia @Vikings"
-      },
-      {
-        "posted_at": "2026-10-24T20:06:02Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.3429,
-        "draft": "Jonah Coleman (ankle) is being activated from injured reserve before Sunday's game against the Cardinals.\n\nVia @JFowlerESPN",
-        "posted": "Jonah Coleman (ankle) is being activated from injured reserve Saturday.\n\nVia @JFowlerESPN"
-      },
-      {
-        "posted_at": "2026-10-24T20:03:29Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.0,
-        "draft": "Tank Dell (knee) was activated from injured reserve Saturday.\n\nVia @HoustonTexans",
-        "posted": "Tank Dell (knee) was activated from injured reserve Saturday.\n\nVia @HoustonTexans"
-      },
-      {
-        "posted_at": "2026-10-24T20:02:33Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.367,
-        "draft": "Josh Jacobs was activated by the Packers and is expected to play Sunday at Detroit.\n\nVia @AdamSchefter",
-        "posted": "Josh Jacobs was activated from exempt status Saturday, and he \"is expected to play Sunday\" against the Lions.\n\nVia @AdamSchefter"
-      },
-      {
-        "posted_at": "2026-10-24T19:54:11Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.3182,
-        "draft": "Dontayvion Wicks (ankle) did not practice Saturday and is listed as out for Monday's game against the Cowboys.\n\nVia @Eagles",
-        "posted": "Dontayvion Wicks (ankle) has been ruled out for Monday's game against the Cowboys.\n\nVia @Eagles"
-      },
-      {
-        "posted_at": "2026-10-24T19:53:34Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.5862,
-        "draft": "Dallas Goedert (knee) was upgraded to a full participant on Saturday's practice report.\n\nVia @Eagles",
-        "posted": "Dallas Goedert (knee) doesn't have a designation for Monday's game against the Cowboys.\n\nVia @Eagles"
-      },
-      {
-        "posted_at": "2026-10-24T19:52:40Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.5543,
-        "draft": "Saquon Barkley (hamstring) was upgraded to a full participant on Saturday's practice report.\n\nVia @Eagles",
-        "posted": "Saquon Barkley (hamstring) is listed as questionable for Monday's game against the Cowboys.\n\nVia @Eagles"
-      },
-      {
-        "posted_at": "2026-10-24T19:52:04Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": true,
-        "baseline_source": "stored",
-        "distance": 0.3628,
-        "draft": "DeVonta Smith (hamstring) was ruled out for Monday's game against the Cowboys after he did not practice Saturday.\n\nVia @Eagles",
-        "posted": "DeVonta Smith (hamstring) has been ruled out for Monday's game against the Cowboys.\n\nVia @Eagles"
-      },
-      {
-        "posted_at": "2026-10-24T19:33:16Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": true,
-        "baseline_source": "stored",
-        "distance": 0.7917,
-        "draft": "Couldn't read the source (likely an image or video with no player details). Please write this one from the source.\n\nVia @Ravens",
-        "posted": "Tyler Huntley will start for the Ravens against the Bengals on Sunday after Lamar Jackson (ankle) was downgraded to out.\n\nVia @Ravens"
-      },
-      {
-        "posted_at": "2026-10-24T19:31:46Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": true,
-        "baseline_source": "stored",
-        "distance": 0.7456,
-        "draft": "Couldn't read the source (likely an image or video with no player details). Please write this one from the source.\n\nVia @Ravens",
-        "posted": "Lamar Jackson (ankle) has been downgraded to out for Sunday's game against the Bengals.\n\nVia @Ravens"
-      },
-      {
-        "posted_at": "2026-10-24T17:53:38Z",
-        "generate_prompt_version": "generate_v30_2026_10_19",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.4167,
-        "draft": "Dallas Goedert (knee) said he felt good at Saturday's practice after dealing with some inflammation earlier in the week.\n\nVia @DZangaroNBCS",
-        "posted": "Dallas Goedert (knee) \"felt good\" at Saturday's practice and expects to play Monday against the Cowboys.\n\nVia @DZangaroNBCS"
       }
     ],
     "last30": {
-      "posts": 853,
-      "scored": 853,
-      "edited_pct": 93.8,
-      "change_pct": 46.0,
-      "stored_pct": 54.2
+      "posts": 1084,
+      "scored": 1084,
+      "edited_pct": 90.9,
+      "change_pct": 43.1,
+      "stored_pct": 63.9
     },
     "by_path": {
       "monitor": {
-        "posts": 563,
-        "scored": 563,
-        "edited_pct": 93.1,
-        "change_pct": 43.7,
-        "stored_pct": 51.9
+        "posts": 748,
+        "scored": 748,
+        "edited_pct": 89.3,
+        "change_pct": 40.2,
+        "stored_pct": 63.8
       },
       "manual": {
-        "posts": 290,
-        "scored": 290,
-        "edited_pct": 95.2,
-        "change_pct": 50.3,
-        "stored_pct": 58.6
+        "posts": 336,
+        "scored": 336,
+        "edited_pct": 94.3,
+        "change_pct": 49.6,
+        "stored_pct": 64.3
       }
     },
     "stored_since": "2026-10-14",
@@ -2834,10 +2932,10 @@
       },
       {
         "day": "2026-10-17",
-        "sampled": 20,
-        "drafted_by_template": 7,
-        "posted_in_template_form": 7,
-        "untouched": 4
+        "sampled": 12,
+        "drafted_by_template": 5,
+        "posted_in_template_form": 6,
+        "untouched": 2
       },
       {
         "day": "2026-10-18",
@@ -2908,6 +3006,27 @@
         "drafted_by_template": 4,
         "posted_in_template_form": 2,
         "untouched": 2
+      },
+      {
+        "day": "2026-10-31",
+        "sampled": 12,
+        "drafted_by_template": 2,
+        "posted_in_template_form": 2,
+        "untouched": 3
+      },
+      {
+        "day": "2026-11-01",
+        "sampled": 20,
+        "drafted_by_template": 7,
+        "posted_in_template_form": 5,
+        "untouched": 2
+      },
+      {
+        "day": "2026-11-02",
+        "sampled": 9,
+        "drafted_by_template": 3,
+        "posted_in_template_form": 2,
+        "untouched": 0
       }
     ],
     "breakdown": {
@@ -3190,34 +3309,37 @@
               1651,
               1753
             ],
-            "underdog_before_source_pct": 15.1,
+            "underdog_before_source_pct": 14.1,
             "before_source": {
-              "n": 23,
-              "monitor_had_earlier": 16,
+              "n": 28,
+              "monitor_had_earlier": 21,
               "monitor_never_had": 7
             }
           },
           "from_source": {
-            "median": 132,
-            "n": 182
+            "median": 129,
+            "n": 183
           }
         },
         "monitor": {
-          "posts": 133,
+          "posts": 182,
           "race": {
-            "n": 116,
-            "median_gap": 82,
-            "underdog_first_pct": 94.0,
+            "n": 157,
+            "median_gap": 89,
+            "underdog_first_pct": 94.9,
             "gaps": [
               -1246,
               -136,
               -113,
+              -71,
               -51,
               -26,
               -23,
               -19,
+              1,
               6,
               10,
+              11,
               12,
               13,
               17,
@@ -3225,20 +3347,30 @@
               19,
               21,
               21,
+              21,
               23,
               23,
+              23,
+              24,
               25,
+              26,
+              26,
               26,
               27,
               27,
               30,
+              32,
               34,
               35,
               35,
               36,
+              36,
+              36,
+              36,
               37,
               37,
               39,
+              41,
               42,
               42,
               42,
@@ -3250,11 +3382,16 @@
               48,
               49,
               52,
+              53,
               54,
               54,
+              54,
+              55,
               57,
               58,
               60,
+              60,
+              61,
               62,
               63,
               64,
@@ -3270,39 +3407,58 @@
               83,
               88,
               89,
+              89,
+              90,
               93,
               97,
               100,
               102,
               106,
               107,
+              107,
               112,
               112,
               113,
+              114,
               115,
               118,
+              120,
               121,
               126,
               131,
               134,
               135,
               135,
+              139,
+              152,
+              155,
+              156,
               158,
               158,
+              161,
               168,
               171,
+              172,
+              173,
               175,
+              187,
               189,
+              190,
               201,
+              206,
               206,
               208,
               209,
+              214,
               218,
               221,
+              225,
               227,
               229,
               234,
+              234,
               240,
+              250,
               252,
               254,
               271,
@@ -3314,59 +3470,63 @@
               298,
               318,
               335,
+              345,
               371,
               378,
               380,
               388,
               388,
               437,
+              441,
+              447,
               530,
+              531,
               718,
               725,
               764,
               1651
             ],
-            "underdog_before_source_pct": 19.8,
+            "underdog_before_source_pct": 17.2,
             "before_source": {
-              "n": 23,
-              "monitor_had_earlier": 16,
+              "n": 27,
+              "monitor_had_earlier": 20,
               "monitor_never_had": 7
             }
           },
           "from_source": {
-            "median": 125,
-            "n": 116
+            "median": 112,
+            "n": 157
           },
           "steps": {
             "sent_to_monitor": {
-              "median": 16,
-              "n": 136
+              "median": 15,
+              "n": 187
             },
             "monitor_to_open": {
-              "median": 38,
-              "n": 56
+              "median": 45,
+              "n": 107
             },
             "open_to_x": {
-              "median": 21,
-              "n": 56
+              "median": 23,
+              "n": 107
             },
             "monitor_to_x": {
-              "median": 111,
-              "n": 136
+              "median": 102,
+              "n": 187
             },
             "split": true,
             "edited": {
-              "pct": 92.6,
-              "n": 136
+              "pct": 89.3,
+              "n": 187
             }
           }
         },
         "manual": {
-          "posts": 52,
+          "posts": 62,
           "race": {
-            "n": 36,
-            "median_gap": 99,
-            "underdog_first_pct": 86.1,
+            "n": 42,
+            "median_gap": 104,
+            "underdog_first_pct": 88.1,
             "gaps": [
               -665,
               -165,
@@ -3385,6 +3545,7 @@
               82,
               90,
               92,
+              98,
               99,
               99,
               104,
@@ -3392,101 +3553,59 @@
               111,
               112,
               117,
+              126,
+              141,
               193,
               202,
               210,
               212,
+              232,
               303,
+              304,
               309,
               351,
+              381,
               389,
               409,
               472,
               506,
               1753
             ],
-            "underdog_before_source_pct": 0.0,
+            "underdog_before_source_pct": 2.4,
             "before_source": {
-              "n": 0,
-              "monitor_had_earlier": 0,
+              "n": 1,
+              "monitor_had_earlier": 1,
               "monitor_never_had": 0
             }
           },
           "from_source": {
-            "median": 136,
-            "n": 19
+            "median": 140,
+            "n": 24
           },
           "add_line_to_x": {
-            "median": 2026,
-            "n": 21
+            "median": 60,
+            "n": 31
           }
         },
         "other": {
-          "posts": 67,
+          "posts": 8,
           "race": {
-            "n": 50,
-            "median_gap": 132,
-            "underdog_first_pct": 98.0,
+            "n": 3,
+            "median_gap": 466,
+            "underdog_first_pct": 100.0,
             "gaps": [
-              -71,
-              1,
-              11,
-              21,
-              23,
-              24,
-              26,
-              26,
-              32,
-              36,
-              36,
-              36,
-              41,
-              53,
-              54,
-              55,
-              60,
-              61,
-              89,
-              90,
-              98,
-              107,
-              114,
-              120,
-              126,
-              139,
-              141,
-              152,
-              155,
-              156,
-              161,
-              172,
-              173,
-              187,
-              190,
-              206,
-              214,
-              225,
-              232,
-              234,
-              250,
               285,
-              304,
-              345,
-              381,
-              441,
-              447,
               466,
-              531,
               630
             ]
           },
           "from_source": {
-            "median": 185,
-            "n": 47
+            "median": 476,
+            "n": 2
           }
         },
-        "manual_pct": 20.6,
-        "other_pct": 26.6
+        "manual_pct": 24.6,
+        "other_pct": 3.2
       }
     },
     {
@@ -3625,63 +3744,83 @@
               544,
               642
             ],
-            "underdog_before_source_pct": 11.0,
+            "underdog_before_source_pct": 9.2,
             "before_source": {
-              "n": 10,
+              "n": 11,
               "monitor_had_earlier": 3,
-              "monitor_never_had": 7
+              "monitor_never_had": 8
             }
           },
           "from_source": {
-            "median": 129,
-            "n": 107
+            "median": 120,
+            "n": 117
           }
         },
         "monitor": {
-          "posts": 83,
+          "posts": 128,
           "race": {
-            "n": 58,
-            "median_gap": 96,
-            "underdog_first_pct": 91.4,
+            "n": 82,
+            "median_gap": 80,
+            "underdog_first_pct": 91.5,
             "gaps": [
               -435,
               -254,
               -141,
               -61,
               -9,
+              -5,
+              -2,
               3,
               6,
               7,
               8,
+              10,
+              17,
               20,
+              22,
               24,
               26,
               29,
               29,
               32,
               33,
+              33,
               38,
               44,
+              45,
               46,
+              47,
               49,
               51,
               53,
+              53,
+              58,
+              61,
+              62,
               68,
+              69,
+              71,
               73,
+              75,
               77,
               79,
               80,
               83,
+              88,
+              96,
               96,
               96,
               97,
+              99,
               100,
               105,
               107,
               108,
+              112,
               114,
               114,
               114,
+              115,
               135,
               140,
               145,
@@ -3693,6 +3832,8 @@
               197,
               197,
               200,
+              227,
+              235,
               281,
               313,
               317,
@@ -3701,49 +3842,51 @@
               350,
               353,
               404,
+              478,
+              544,
               642
             ],
-            "underdog_before_source_pct": 15.5,
+            "underdog_before_source_pct": 12.2,
             "before_source": {
-              "n": 9,
+              "n": 10,
               "monitor_had_earlier": 3,
-              "monitor_never_had": 6
+              "monitor_never_had": 7
             }
           },
           "from_source": {
-            "median": 137,
-            "n": 58
+            "median": 118,
+            "n": 82
           },
           "steps": {
             "sent_to_monitor": {
               "median": 16,
-              "n": 89
+              "n": 136
             },
             "monitor_to_open": {
-              "median": 56,
-              "n": 51
+              "median": 53,
+              "n": 97
             },
             "open_to_x": {
-              "median": 30,
-              "n": 51
+              "median": 28,
+              "n": 97
             },
             "monitor_to_x": {
-              "median": 120,
-              "n": 89
+              "median": 100,
+              "n": 136
             },
             "split": true,
             "edited": {
-              "pct": 96.6,
-              "n": 89
+              "pct": 94.9,
+              "n": 136
             }
           }
         },
         "manual": {
-          "posts": 67,
+          "posts": 74,
           "race": {
-            "n": 33,
-            "median_gap": 66,
-            "underdog_first_pct": 90.9,
+            "n": 37,
+            "median_gap": 75,
+            "underdog_first_pct": 91.9,
             "gaps": [
               -24,
               -5,
@@ -3761,11 +3904,15 @@
               58,
               61,
               61,
+              65,
               66,
               75,
+              78,
               80,
               81,
               88,
+              91,
+              98,
               103,
               114,
               123,
@@ -3779,7 +3926,7 @@
               345,
               409
             ],
-            "underdog_before_source_pct": 3.0,
+            "underdog_before_source_pct": 2.7,
             "before_source": {
               "n": 1,
               "monitor_had_earlier": 0,
@@ -3787,62 +3934,34 @@
             }
           },
           "from_source": {
-            "median": 126,
-            "n": 28
+            "median": 121,
+            "n": 32
           },
           "add_line_to_x": {
             "median": 42,
-            "n": 32
+            "n": 40
           }
         },
         "other": {
-          "posts": 65,
+          "posts": 13,
           "race": {
-            "n": 32,
-            "median_gap": 76,
-            "underdog_first_pct": 93.8,
+            "n": 4,
+            "median_gap": 92,
+            "underdog_first_pct": 100.0,
             "gaps": [
-              -5,
-              -2,
-              10,
-              17,
-              22,
-              33,
-              45,
-              47,
-              53,
-              58,
-              61,
-              62,
-              65,
-              69,
-              71,
-              75,
-              78,
               83,
               84,
-              88,
-              91,
-              96,
-              98,
-              99,
               101,
-              112,
-              115,
-              144,
-              227,
-              235,
-              478,
-              544
+              144
             ]
           },
           "from_source": {
-            "median": 119,
-            "n": 21
+            "median": 112,
+            "n": 3
           }
         },
-        "manual_pct": 31.2,
-        "other_pct": 30.2
+        "manual_pct": 34.4,
+        "other_pct": 6.0
       }
     },
     {
@@ -3851,14 +3970,15 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 115,
+          "posts": 121,
           "race": {
-            "n": 78,
+            "n": 79,
             "median_gap": 134,
-            "underdog_first_pct": 94.9,
+            "underdog_first_pct": 93.7,
             "gaps": [
               -976,
               -73,
+              -59,
               -30,
               -2,
               9,
@@ -3936,7 +4056,7 @@
               802,
               1139
             ],
-            "underdog_before_source_pct": 17.1,
+            "underdog_before_source_pct": 16.9,
             "before_source": {
               "n": 13,
               "monitor_had_earlier": 6,
@@ -3944,19 +4064,20 @@
             }
           },
           "from_source": {
-            "median": 176,
-            "n": 76
+            "median": 167,
+            "n": 77
           }
         },
         "monitor": {
-          "posts": 80,
+          "posts": 86,
           "race": {
-            "n": 60,
-            "median_gap": 126,
-            "underdog_first_pct": 95.0,
+            "n": 61,
+            "median_gap": 118,
+            "underdog_first_pct": 93.4,
             "gaps": [
               -976,
               -73,
+              -59,
               -2,
               12,
               21,
@@ -4016,7 +4137,7 @@
               802,
               1139
             ],
-            "underdog_before_source_pct": 16.7,
+            "underdog_before_source_pct": 16.4,
             "before_source": {
               "n": 10,
               "monitor_had_earlier": 6,
@@ -4025,29 +4146,29 @@
           },
           "from_source": {
             "median": 160,
-            "n": 60
+            "n": 61
           },
           "steps": {
             "sent_to_monitor": {
-              "median": 17,
-              "n": 84
+              "median": 16,
+              "n": 91
             },
             "monitor_to_open": {
-              "median": 90,
-              "n": 42
+              "median": 71,
+              "n": 49
             },
             "open_to_x": {
-              "median": 48,
-              "n": 42
+              "median": 49,
+              "n": 49
             },
             "monitor_to_x": {
-              "median": 161,
-              "n": 84
+              "median": 148,
+              "n": 91
             },
             "split": true,
             "edited": {
-              "pct": 96.4,
-              "n": 84
+              "pct": 96.7,
+              "n": 91
             }
           }
         },
@@ -4107,8 +4228,8 @@
             "n": 2
           }
         },
-        "manual_pct": 24.3,
-        "other_pct": 6.1
+        "manual_pct": 23.1,
+        "other_pct": 5.8
       }
     },
     {
@@ -4375,38 +4496,43 @@
               1533,
               1780
             ],
-            "underdog_before_source_pct": 11.0,
+            "underdog_before_source_pct": 12.0,
             "before_source": {
-              "n": 8,
-              "monitor_had_earlier": 1,
-              "monitor_never_had": 7
+              "n": 13,
+              "monitor_had_earlier": 5,
+              "monitor_never_had": 8
             }
           },
           "from_source": {
-            "median": 156,
-            "n": 87
+            "median": 164,
+            "n": 105
           }
         },
         "monitor": {
-          "posts": 75,
+          "posts": 110,
           "race": {
-            "n": 42,
-            "median_gap": 81,
-            "underdog_first_pct": 92.9,
+            "n": 63,
+            "median_gap": 110,
+            "underdog_first_pct": 93.7,
             "gaps": [
               -85,
               -53,
               -53,
+              -10,
               5,
               11,
               12,
+              13,
               19,
+              22,
               25,
               34,
               36,
               37,
+              42,
               43,
               48,
+              50,
               51,
               52,
               55,
@@ -4420,70 +4546,88 @@
               91,
               103,
               108,
+              110,
+              112,
               114,
               116,
+              133,
+              136,
               144,
+              145,
               163,
+              167,
+              172,
               174,
               183,
               186,
               190,
+              247,
               249,
+              273,
               277,
+              279,
+              306,
+              414,
               421,
+              466,
+              481,
               513,
+              558,
+              582,
               626,
               672,
               1533,
               1780
             ],
-            "underdog_before_source_pct": 11.9,
+            "underdog_before_source_pct": 14.3,
             "before_source": {
-              "n": 5,
-              "monitor_had_earlier": 1,
-              "monitor_never_had": 4
+              "n": 9,
+              "monitor_had_earlier": 4,
+              "monitor_never_had": 5
             }
           },
           "from_source": {
-            "median": 142,
-            "n": 42
+            "median": 156,
+            "n": 63
           },
           "steps": {
             "sent_to_monitor": {
               "median": 16,
-              "n": 80
+              "n": 116
             },
             "monitor_to_open": {
-              "median": 76,
-              "n": 53
+              "median": 90,
+              "n": 87
             },
             "open_to_x": {
-              "median": 25,
-              "n": 53
+              "median": 24,
+              "n": 87
             },
             "monitor_to_x": {
-              "median": 122,
-              "n": 80
+              "median": 132,
+              "n": 116
             },
             "split": true,
             "edited": {
-              "pct": 97.5,
-              "n": 80
+              "pct": 90.5,
+              "n": 116
             }
           }
         },
         "manual": {
-          "posts": 63,
+          "posts": 84,
           "race": {
-            "n": 31,
-            "median_gap": 88,
+            "n": 45,
+            "median_gap": 111,
             "underdog_first_pct": 100.0,
             "gaps": [
               6,
               24,
               30,
               33,
+              38,
               45,
+              50,
               57,
               59,
               65,
@@ -4493,95 +4637,72 @@
               69,
               70,
               70,
+              78,
               82,
               88,
               90,
               105,
               106,
+              111,
               125,
               127,
+              168,
               168,
               192,
               192,
               203,
               224,
               240,
+              246,
               254,
               269,
-              357,
-              756
-            ],
-            "underdog_before_source_pct": 9.7,
-            "before_source": {
-              "n": 3,
-              "monitor_had_earlier": 0,
-              "monitor_never_had": 3
-            }
-          },
-          "from_source": {
-            "median": 115,
-            "n": 27
-          },
-          "add_line_to_x": {
-            "median": 46,
-            "n": 43
-          }
-        },
-        "other": {
-          "posts": 68,
-          "race": {
-            "n": 39,
-            "median_gap": 257,
-            "underdog_first_pct": 97.4,
-            "gaps": [
-              -10,
-              13,
-              22,
-              38,
-              42,
-              50,
-              50,
-              78,
-              110,
-              111,
-              112,
-              133,
-              136,
-              145,
-              167,
-              168,
-              172,
-              246,
-              247,
-              257,
-              261,
-              273,
-              279,
               295,
-              306,
               313,
               314,
               317,
               323,
+              357,
               364,
               386,
-              396,
-              414,
-              416,
               434,
-              466,
-              481,
-              558,
-              582
+              756
+            ],
+            "underdog_before_source_pct": 8.9,
+            "before_source": {
+              "n": 4,
+              "monitor_had_earlier": 1,
+              "monitor_never_had": 3
+            }
+          },
+          "from_source": {
+            "median": 166,
+            "n": 40
+          },
+          "add_line_to_x": {
+            "median": 48,
+            "n": 64
+          }
+        },
+        "other": {
+          "posts": 12,
+          "race": {
+            "n": 4,
+            "median_gap": 328,
+            "underdog_first_pct": 100.0,
+            "gaps": [
+              257,
+              261,
+              396,
+              416
             ]
           },
           "from_source": {
-            "median": 356,
-            "n": 18
+            "median": 528,
+            "n": 2
           }
         },
-        "manual_pct": 30.6,
-        "other_pct": 33.0
+        "manual_pct": 40.8,
+        "other_pct": 5.8
       }
     },
     {
@@ -4744,29 +4865,30 @@
               1303,
               1366
             ],
-            "underdog_before_source_pct": 16.0,
+            "underdog_before_source_pct": 20.6,
             "before_source": {
-              "n": 17,
-              "monitor_had_earlier": 3,
-              "monitor_never_had": 14
+              "n": 29,
+              "monitor_had_earlier": 6,
+              "monitor_never_had": 23
             }
           },
           "from_source": {
-            "median": 177,
-            "n": 120
+            "median": 175,
+            "n": 141
           }
         },
         "monitor": {
-          "posts": 112,
+          "posts": 146,
           "race": {
-            "n": 69,
-            "median_gap": 97,
-            "underdog_first_pct": 94.2,
+            "n": 101,
+            "median_gap": 128,
+            "underdog_first_pct": 95.0,
             "gaps": [
               -616,
               -546,
               -79,
               -55,
+              -20,
               2,
               2,
               9,
@@ -4781,49 +4903,78 @@
               29,
               35,
               35,
+              38,
               40,
+              42,
               43,
+              44,
               46,
               50,
+              51,
               53,
+              54,
               55,
               58,
               63,
               65,
               65,
+              67,
               69,
               78,
               79,
+              82,
               88,
               91,
               96,
               97,
+              100,
               105,
+              106,
               107,
               107,
+              118,
               118,
               128,
               128,
               131,
+              131,
+              132,
+              134,
+              135,
               139,
               142,
               143,
               147,
               152,
+              157,
+              159,
               161,
+              166,
+              171,
               175,
               189,
               194,
               201,
+              208,
               217,
+              230,
+              231,
               233,
+              238,
               247,
               249,
+              261,
               264,
               269,
+              271,
               272,
+              287,
+              288,
+              294,
               297,
+              309,
               327,
+              348,
               354,
               358,
               370,
@@ -4831,49 +4982,51 @@
               425,
               436,
               579,
+              854,
+              1102,
               1303
             ],
-            "underdog_before_source_pct": 17.4,
+            "underdog_before_source_pct": 23.8,
             "before_source": {
-              "n": 12,
-              "monitor_had_earlier": 1,
-              "monitor_never_had": 11
+              "n": 24,
+              "monitor_had_earlier": 4,
+              "monitor_never_had": 20
             }
           },
           "from_source": {
-            "median": 195,
-            "n": 69
+            "median": 181,
+            "n": 101
           },
           "steps": {
             "sent_to_monitor": {
               "median": 15,
-              "n": 117
+              "n": 152
             },
             "monitor_to_open": {
-              "median": 70,
-              "n": 66
+              "median": 97,
+              "n": 101
             },
             "open_to_x": {
-              "median": 22,
-              "n": 66
+              "median": 19,
+              "n": 101
             },
             "monitor_to_x": {
-              "median": 150,
-              "n": 117
+              "median": 154,
+              "n": 152
             },
             "split": true,
             "edited": {
-              "pct": 91.5,
-              "n": 117
+              "pct": 83.6,
+              "n": 152
             }
           }
         },
         "manual": {
-          "posts": 53,
+          "posts": 57,
           "race": {
-            "n": 37,
-            "median_gap": 120,
-            "underdog_first_pct": 94.6,
+            "n": 40,
+            "median_gap": 121,
+            "underdog_first_pct": 95.0,
             "gaps": [
               -53,
               -20,
@@ -4893,13 +5046,16 @@
               109,
               110,
               116,
+              117,
               120,
               122,
               134,
               137,
+              140,
               168,
               179,
               233,
+              278,
               288,
               329,
               372,
@@ -4913,7 +5069,7 @@
               1072,
               1118
             ],
-            "underdog_before_source_pct": 13.5,
+            "underdog_before_source_pct": 12.5,
             "before_source": {
               "n": 5,
               "monitor_had_earlier": 2,
@@ -4921,71 +5077,36 @@
             }
           },
           "from_source": {
-            "median": 156,
-            "n": 33
+            "median": 164,
+            "n": 36
           },
           "add_line_to_x": {
-            "median": 47,
-            "n": 40
+            "median": 48,
+            "n": 44
           }
         },
         "other": {
-          "posts": 49,
+          "posts": 11,
           "race": {
-            "n": 41,
-            "median_gap": 166,
-            "underdog_first_pct": 97.6,
+            "n": 6,
+            "median_gap": 321,
+            "underdog_first_pct": 100.0,
             "gaps": [
-              -20,
-              38,
-              42,
-              44,
-              51,
-              54,
-              67,
               82,
-              82,
-              100,
-              106,
-              117,
-              118,
-              131,
-              132,
-              134,
-              135,
-              140,
-              157,
-              159,
-              166,
               167,
-              171,
-              208,
-              230,
-              231,
-              238,
               254,
-              261,
-              271,
-              278,
-              287,
-              288,
-              294,
-              309,
-              348,
               388,
-              854,
               1077,
-              1102,
               1366
             ]
           },
           "from_source": {
-            "median": 210,
-            "n": 18
+            "median": 340,
+            "n": 4
           }
         },
-        "manual_pct": 24.8,
-        "other_pct": 22.9
+        "manual_pct": 26.6,
+        "other_pct": 5.1
       }
     },
     {
@@ -4994,11 +5115,11 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 67,
+          "posts": 64,
           "race": {
-            "n": 46,
-            "median_gap": 146,
-            "underdog_first_pct": 97.8,
+            "n": 43,
+            "median_gap": 136,
+            "underdog_first_pct": 97.7,
             "gaps": [
               -73,
               12,
@@ -5031,10 +5152,8 @@
               178,
               185,
               187,
-              195,
               240,
               253,
-              256,
               257,
               258,
               269,
@@ -5044,27 +5163,26 @@
               474,
               511,
               560,
-              1039,
               1657
             ],
-            "underdog_before_source_pct": 11.8,
+            "underdog_before_source_pct": 20.0,
             "before_source": {
-              "n": 4,
-              "monitor_had_earlier": 1,
-              "monitor_never_had": 3
+              "n": 8,
+              "monitor_had_earlier": 4,
+              "monitor_never_had": 4
             }
           },
           "from_source": {
-            "median": 180,
+            "median": 163,
             "n": 41
           }
         },
         "monitor": {
-          "posts": 36,
+          "posts": 43,
           "race": {
-            "n": 25,
-            "median_gap": 101,
-            "underdog_first_pct": 96.0,
+            "n": 30,
+            "median_gap": 140,
+            "underdog_first_pct": 96.7,
             "gaps": [
               -73,
               12,
@@ -5074,64 +5192,69 @@
               30,
               36,
               38,
+              38,
               40,
               59,
               62,
               87,
               101,
               136,
+              145,
               146,
               161,
+              168,
+              172,
               178,
-              195,
+              178,
               240,
               253,
               257,
               269,
+              291,
               312,
-              511,
-              1039
+              474,
+              511
             ],
-            "underdog_before_source_pct": 12.0,
+            "underdog_before_source_pct": 23.3,
             "before_source": {
-              "n": 3,
-              "monitor_had_earlier": 1,
-              "monitor_never_had": 2
+              "n": 7,
+              "monitor_had_earlier": 4,
+              "monitor_never_had": 3
             }
           },
           "from_source": {
-            "median": 156,
-            "n": 25
+            "median": 142,
+            "n": 30
           },
           "steps": {
             "sent_to_monitor": {
-              "median": 17,
-              "n": 39
+              "median": 15,
+              "n": 45
             },
             "monitor_to_open": {
-              "median": 35,
-              "n": 27
+              "median": 52,
+              "n": 36
             },
             "open_to_x": {
-              "median": 30,
-              "n": 27
+              "median": 29,
+              "n": 36
             },
             "monitor_to_x": {
-              "median": 101,
-              "n": 39
+              "median": 102,
+              "n": 45
             },
             "split": true,
             "edited": {
-              "pct": 76.9,
-              "n": 39
+              "pct": 75.6,
+              "n": 45
             }
           }
         },
         "manual": {
-          "posts": 15,
+          "posts": 17,
           "race": {
-            "n": 9,
-            "median_gap": 130,
+            "n": 10,
+            "median_gap": 158,
             "underdog_first_pct": 100.0,
             "gaps": [
               14,
@@ -5141,10 +5264,11 @@
               130,
               185,
               187,
+              258,
               291,
               1657
             ],
-            "underdog_before_source_pct": 11.1,
+            "underdog_before_source_pct": 10.0,
             "before_source": {
               "n": 1,
               "monitor_had_earlier": 0,
@@ -5152,42 +5276,33 @@
             }
           },
           "from_source": {
-            "median": 221,
-            "n": 9
+            "median": 234,
+            "n": 10
           },
           "add_line_to_x": {
             "median": 50,
-            "n": 12
+            "n": 15
           }
         },
         "other": {
-          "posts": 16,
+          "posts": 4,
           "race": {
-            "n": 12,
-            "median_gap": 175,
+            "n": 3,
+            "median_gap": 92,
             "underdog_first_pct": 100.0,
             "gaps": [
-              38,
               84,
               92,
-              145,
-              168,
-              172,
-              178,
-              256,
-              258,
-              291,
-              474,
               560
             ]
           },
           "from_source": {
-            "median": 269,
-            "n": 7
+            "median": 180,
+            "n": 1
           }
         },
-        "manual_pct": 22.4,
-        "other_pct": 23.9
+        "manual_pct": 26.6,
+        "other_pct": 6.2
       }
     }
   ],
@@ -15999,6 +16114,1782 @@
       "post": 28,
       "total": 420,
       "edited": "yes"
+    },
+    "2115434152136708440": {
+      "hand": false,
+      "monitor": 11,
+      "open": 2198,
+      "post": 31,
+      "total": 2240,
+      "edited": "no"
+    },
+    "2115443906540159458": {
+      "hand": false,
+      "monitor": 13,
+      "open": null,
+      "post": 71,
+      "total": 93,
+      "edited": "yes"
+    },
+    "2115474452251095230": {
+      "hand": false,
+      "monitor": 19,
+      "open": 24,
+      "post": 43,
+      "total": 86,
+      "edited": "yes"
+    },
+    "2115476513705410967": {
+      "hand": false,
+      "monitor": 19,
+      "open": 66,
+      "post": 13,
+      "total": 98,
+      "edited": "yes"
+    },
+    "2115476661021921749": {
+      "hand": false,
+      "monitor": 19,
+      "open": 90,
+      "post": 24,
+      "total": 133,
+      "edited": "yes"
+    },
+    "2115478555073114415": {
+      "hand": false,
+      "monitor": 15,
+      "open": 235,
+      "post": 16,
+      "total": 266,
+      "edited": "yes"
+    },
+    "2115478816684462549": {
+      "hand": false,
+      "monitor": 12,
+      "open": 250,
+      "post": 28,
+      "total": 290,
+      "edited": "yes"
+    },
+    "2115481245584937126": {
+      "hand": false,
+      "monitor": 13,
+      "open": 59,
+      "post": 32,
+      "total": 104,
+      "edited": "yes"
+    },
+    "2115486952782733790": {
+      "hand": false,
+      "monitor": 13,
+      "open": 19,
+      "post": 40,
+      "total": 72,
+      "edited": "yes"
+    },
+    "2115487265799479652": {
+      "hand": false,
+      "monitor": 12,
+      "open": 53,
+      "post": 44,
+      "total": 109,
+      "edited": "yes"
+    },
+    "2115488478674735164": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 66,
+      "edited": "yes"
+    },
+    "2115495526686695922": {
+      "hand": false,
+      "monitor": 11,
+      "open": 25,
+      "post": 97,
+      "total": 133,
+      "edited": "yes"
+    },
+    "2115501275609444718": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 25,
+      "edited": "yes"
+    },
+    "2115504965598785844": {
+      "hand": false,
+      "monitor": 18,
+      "open": 28,
+      "post": 45,
+      "total": 91,
+      "edited": "yes"
+    },
+    "2115510948974809243": {
+      "hand": false,
+      "monitor": 17,
+      "open": 34,
+      "post": 46,
+      "total": 97,
+      "edited": "yes"
+    },
+    "2115513095338524939": {
+      "hand": false,
+      "monitor": 16,
+      "open": 13,
+      "post": 11,
+      "total": 40,
+      "edited": "yes"
+    },
+    "2115521351423299610": {
+      "hand": false,
+      "monitor": 11,
+      "open": 531,
+      "post": 23,
+      "total": 565,
+      "edited": "yes"
+    },
+    "2115525666208649462": {
+      "hand": false,
+      "monitor": 18,
+      "open": 410,
+      "post": 74,
+      "total": 502,
+      "edited": "yes"
+    },
+    "2115528185123102837": {
+      "hand": false,
+      "monitor": 13,
+      "open": 53,
+      "post": 25,
+      "total": 91,
+      "edited": "yes"
+    },
+    "2115532399207469248": {
+      "hand": false,
+      "monitor": 20,
+      "open": 9,
+      "post": 10,
+      "total": 39,
+      "edited": "yes"
+    },
+    "2115534640727441593": {
+      "hand": false,
+      "monitor": 17,
+      "open": 76,
+      "post": 42,
+      "total": 135,
+      "edited": "yes"
+    },
+    "2115534989584474602": {
+      "hand": false,
+      "monitor": 15,
+      "open": 37,
+      "post": 71,
+      "total": 123,
+      "edited": "yes"
+    },
+    "2115535837504958528": {
+      "hand": false,
+      "monitor": 18,
+      "open": 24,
+      "post": 20,
+      "total": 62,
+      "edited": "yes"
+    },
+    "2115536618274554056": {
+      "hand": false,
+      "monitor": 17,
+      "open": 31,
+      "post": 92,
+      "total": 140,
+      "edited": "yes"
+    },
+    "2115539542434369837": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 53,
+      "edited": "yes"
+    },
+    "2115540173161197659": {
+      "hand": false,
+      "monitor": 20,
+      "open": 12,
+      "post": 19,
+      "total": 51,
+      "edited": "yes"
+    },
+    "2115541040664916452": {
+      "hand": false,
+      "monitor": 22,
+      "open": 52,
+      "post": 33,
+      "total": 107,
+      "edited": "yes"
+    },
+    "2115543341186113788": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 21,
+      "edited": "yes"
+    },
+    "2115544512751628377": {
+      "hand": false,
+      "monitor": 17,
+      "open": 27,
+      "post": 20,
+      "total": 64,
+      "edited": "yes"
+    },
+    "2115544802238357689": {
+      "hand": false,
+      "monitor": 13,
+      "open": 15,
+      "post": 51,
+      "total": 79,
+      "edited": "yes"
+    },
+    "2115545027447341153": {
+      "hand": false,
+      "monitor": 14,
+      "open": 42,
+      "post": 18,
+      "total": 74,
+      "edited": "yes"
+    },
+    "2115545219428925715": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 25,
+      "edited": "yes"
+    },
+    "2115546284933120380": {
+      "hand": false,
+      "monitor": 16,
+      "open": 32,
+      "post": 90,
+      "total": 138,
+      "edited": "yes"
+    },
+    "2115547504263495848": {
+      "hand": false,
+      "monitor": 15,
+      "open": 52,
+      "post": 25,
+      "total": 92,
+      "edited": "yes"
+    },
+    "2115549523346932002": {
+      "hand": false,
+      "monitor": 16,
+      "open": 66,
+      "post": 38,
+      "total": 120,
+      "edited": "yes"
+    },
+    "2115551407415640099": {
+      "hand": false,
+      "monitor": 22,
+      "open": 16,
+      "post": 26,
+      "total": 64,
+      "edited": "no"
+    },
+    "2115551580107796712": {
+      "hand": false,
+      "monitor": 22,
+      "open": 54,
+      "post": 29,
+      "total": 105,
+      "edited": "yes"
+    },
+    "2115552606382616681": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 23,
+      "edited": "yes"
+    },
+    "2115553132306407803": {
+      "hand": false,
+      "monitor": 18,
+      "open": 18,
+      "post": 12,
+      "total": 48,
+      "edited": "yes"
+    },
+    "2115553230843195500": {
+      "hand": false,
+      "monitor": 18,
+      "open": 39,
+      "post": 15,
+      "total": 72,
+      "edited": "yes"
+    },
+    "2115553429300895922": {
+      "hand": false,
+      "monitor": 18,
+      "open": 15,
+      "post": 10,
+      "total": 43,
+      "edited": "yes"
+    },
+    "2115555186043191407": {
+      "hand": false,
+      "monitor": 12,
+      "open": 144,
+      "post": 17,
+      "total": 173,
+      "edited": "yes"
+    },
+    "2115562134121644216": {
+      "hand": false,
+      "monitor": 16,
+      "open": 14,
+      "post": 18,
+      "total": 48,
+      "edited": "no"
+    },
+    "2115562538368708818": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 33,
+      "edited": "yes"
+    },
+    "2115565845795475922": {
+      "hand": false,
+      "monitor": 14,
+      "open": 167,
+      "post": 156,
+      "total": 337,
+      "edited": "yes"
+    },
+    "2115567874236416302": {
+      "hand": false,
+      "monitor": 16,
+      "open": 102,
+      "post": 23,
+      "total": 141,
+      "edited": "yes"
+    },
+    "2115568039974375714": {
+      "hand": false,
+      "monitor": 15,
+      "open": 55,
+      "post": 32,
+      "total": 102,
+      "edited": "yes"
+    },
+    "2115578776973115640": {
+      "hand": false,
+      "monitor": 22,
+      "open": 23,
+      "post": 28,
+      "total": 73,
+      "edited": "yes"
+    },
+    "2115578913292243355": {
+      "hand": false,
+      "monitor": 22,
+      "open": 59,
+      "post": 25,
+      "total": 106,
+      "edited": "no"
+    },
+    "2115579039003881759": {
+      "hand": false,
+      "monitor": 22,
+      "open": 91,
+      "post": 23,
+      "total": 136,
+      "edited": "yes"
+    },
+    "2115595957156852222": {
+      "hand": false,
+      "monitor": 23,
+      "open": 71,
+      "post": 27,
+      "total": 121,
+      "edited": "yes"
+    },
+    "2115596092364423327": {
+      "hand": false,
+      "monitor": 23,
+      "open": 114,
+      "post": 17,
+      "total": 154,
+      "edited": "yes"
+    },
+    "2115805411513073747": {
+      "hand": false,
+      "monitor": 12,
+      "open": 5368,
+      "post": 155,
+      "total": 5535,
+      "edited": "yes"
+    },
+    "2115806133810020779": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 151,
+      "edited": "yes"
+    },
+    "2115812793504944441": {
+      "hand": false,
+      "monitor": 13,
+      "open": 306,
+      "post": 38,
+      "total": 357,
+      "edited": "yes"
+    },
+    "2115833973393793280": {
+      "hand": false,
+      "monitor": 15,
+      "open": 43,
+      "post": 42,
+      "total": 100,
+      "edited": "yes"
+    },
+    "2115844285660566011": {
+      "hand": false,
+      "monitor": 13,
+      "open": 142,
+      "post": 20,
+      "total": 175,
+      "edited": "yes"
+    },
+    "2115850264909328450": {
+      "hand": false,
+      "monitor": 13,
+      "open": 14,
+      "post": 7,
+      "total": 34,
+      "edited": "no"
+    },
+    "2115859595662884981": {
+      "hand": false,
+      "monitor": 18,
+      "open": 383,
+      "post": 25,
+      "total": 426,
+      "edited": "no"
+    },
+    "2115859697517347311": {
+      "hand": false,
+      "monitor": 18,
+      "open": 422,
+      "post": 10,
+      "total": 450,
+      "edited": "no"
+    },
+    "2115861656827777433": {
+      "hand": false,
+      "monitor": 16,
+      "open": 210,
+      "post": 67,
+      "total": 293,
+      "edited": "yes"
+    },
+    "2115869718137413725": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 34,
+      "edited": "no"
+    },
+    "2115870039857377355": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 42,
+      "edited": "yes"
+    },
+    "2115874084529619207": {
+      "hand": false,
+      "monitor": 15,
+      "open": 108,
+      "post": 33,
+      "total": 156,
+      "edited": "yes"
+    },
+    "2115874478085283963": {
+      "hand": false,
+      "monitor": 18,
+      "open": 186,
+      "post": 45,
+      "total": 249,
+      "edited": "yes"
+    },
+    "2115876015025045691": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 144,
+      "edited": "yes"
+    },
+    "2115877156618154340": {
+      "hand": false,
+      "monitor": 48,
+      "open": 265,
+      "post": 248,
+      "total": 561,
+      "edited": "yes"
+    },
+    "2115877503260606794": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 41,
+      "edited": "yes"
+    },
+    "2115878578382364977": {
+      "hand": false,
+      "monitor": 13,
+      "open": 15,
+      "post": 37,
+      "total": 65,
+      "edited": "yes"
+    },
+    "2115888530471731304": {
+      "hand": false,
+      "monitor": 13,
+      "open": 239,
+      "post": 33,
+      "total": 285,
+      "edited": "yes"
+    },
+    "2115889880525947201": {
+      "hand": false,
+      "monitor": 14,
+      "open": 135,
+      "post": 24,
+      "total": 173,
+      "edited": "yes"
+    },
+    "2115894133550116972": {
+      "hand": false,
+      "monitor": 12,
+      "open": 31,
+      "post": 18,
+      "total": 61,
+      "edited": "no"
+    },
+    "2115894279948185704": {
+      "hand": false,
+      "monitor": 16,
+      "open": 37,
+      "post": 9,
+      "total": 62,
+      "edited": "no"
+    },
+    "2115895834264961368": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 61,
+      "edited": "yes"
+    },
+    "2115896019653107752": {
+      "hand": false,
+      "monitor": 13,
+      "open": 124,
+      "post": 20,
+      "total": 157,
+      "edited": "yes"
+    },
+    "2115898140792369297": {
+      "hand": false,
+      "monitor": 17,
+      "open": 408,
+      "post": 12,
+      "total": 437,
+      "edited": "yes"
+    },
+    "2115898563003564355": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 41,
+      "edited": "yes"
+    },
+    "2115898772093902858": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 29,
+      "edited": "yes"
+    },
+    "2115899336496230531": {
+      "hand": false,
+      "monitor": 23,
+      "open": 39,
+      "post": 25,
+      "total": 87,
+      "edited": "yes"
+    },
+    "2115900769270460508": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 39,
+      "edited": "yes"
+    },
+    "2115900898111000894": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 57,
+      "edited": "yes"
+    },
+    "2115901108044366295": {
+      "hand": false,
+      "monitor": 22,
+      "open": 368,
+      "post": 15,
+      "total": 405,
+      "edited": "no"
+    },
+    "2115901772606714246": {
+      "hand": false,
+      "monitor": 24,
+      "open": 44,
+      "post": 15,
+      "total": 83,
+      "edited": "yes"
+    },
+    "2115903296116244564": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 20,
+      "edited": "yes"
+    },
+    "2115904115704222118": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 30,
+      "edited": "yes"
+    },
+    "2115904862101598267": {
+      "hand": false,
+      "monitor": 18,
+      "open": null,
+      "post": 42,
+      "total": 116,
+      "edited": "yes"
+    },
+    "2115905924585992231": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 63,
+      "edited": "yes"
+    },
+    "2115906547540779016": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 52,
+      "edited": "yes"
+    },
+    "2115906927146184976": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 49,
+      "edited": "yes"
+    },
+    "2115907502478852307": {
+      "hand": false,
+      "monitor": 39,
+      "open": 35,
+      "post": 73,
+      "total": 147,
+      "edited": "yes"
+    },
+    "2115908663890137375": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 150,
+      "edited": "yes"
+    },
+    "2115909061765988369": {
+      "hand": false,
+      "monitor": 69,
+      "open": 423,
+      "post": 22,
+      "total": 514,
+      "edited": "yes"
+    },
+    "2115911129427767481": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 35,
+      "edited": "yes"
+    },
+    "2115912593944502394": {
+      "hand": false,
+      "monitor": 18,
+      "open": null,
+      "post": 40,
+      "total": 63,
+      "edited": "yes"
+    },
+    "2115917085209403400": {
+      "hand": false,
+      "monitor": 15,
+      "open": 89,
+      "post": 15,
+      "total": 119,
+      "edited": "yes"
+    },
+    "2115917403817201974": {
+      "hand": false,
+      "monitor": 15,
+      "open": 157,
+      "post": 18,
+      "total": 190,
+      "edited": "yes"
+    },
+    "2115917513871573252": {
+      "hand": false,
+      "monitor": 15,
+      "open": 185,
+      "post": 17,
+      "total": 217,
+      "edited": "yes"
+    },
+    "2115919639116943816": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 31,
+      "edited": "yes"
+    },
+    "2115922668780171571": {
+      "hand": false,
+      "monitor": 25,
+      "open": 101,
+      "post": 17,
+      "total": 143,
+      "edited": "yes"
+    },
+    "2115922964621283436": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 32,
+      "edited": "yes"
+    },
+    "2115923590197514610": {
+      "hand": false,
+      "monitor": 17,
+      "open": 161,
+      "post": 18,
+      "total": 196,
+      "edited": "yes"
+    },
+    "2115938389463609832": {
+      "hand": false,
+      "monitor": 21,
+      "open": 90,
+      "post": 26,
+      "total": 137,
+      "edited": "yes"
+    },
+    "2115939270317752419": {
+      "hand": false,
+      "monitor": 15,
+      "open": 267,
+      "post": 13,
+      "total": 295,
+      "edited": "no"
+    },
+    "2115940213302173770": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 62,
+      "edited": "yes"
+    },
+    "2115940370731221020": {
+      "hand": false,
+      "monitor": 25,
+      "open": 464,
+      "post": 7,
+      "total": 496,
+      "edited": "no"
+    },
+    "2115976101126176999": {
+      "hand": false,
+      "monitor": 14,
+      "open": 42,
+      "post": 12,
+      "total": 68,
+      "edited": "yes"
+    },
+    "2115977608118538564": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 20,
+      "edited": "yes"
+    },
+    "2115993636739412065": {
+      "hand": false,
+      "monitor": 11,
+      "open": 13,
+      "post": 7,
+      "total": 31,
+      "edited": "no"
+    },
+    "2116017914163691618": {
+      "hand": false,
+      "monitor": 11,
+      "open": 97,
+      "post": 41,
+      "total": 149,
+      "edited": "yes"
+    },
+    "2116184007142449651": {
+      "hand": false,
+      "monitor": 12,
+      "open": 854,
+      "post": 279,
+      "total": 1145,
+      "edited": "yes"
+    },
+    "2116187032842027436": {
+      "hand": false,
+      "monitor": 19,
+      "open": 132,
+      "post": 19,
+      "total": 170,
+      "edited": "yes"
+    },
+    "2116194598015885455": {
+      "hand": false,
+      "monitor": 17,
+      "open": 161,
+      "post": 20,
+      "total": 198,
+      "edited": "yes"
+    },
+    "2116197728120131956": {
+      "hand": false,
+      "monitor": 18,
+      "open": 72,
+      "post": 8,
+      "total": 98,
+      "edited": "no"
+    },
+    "2116202040955126011": {
+      "hand": false,
+      "monitor": 14,
+      "open": 21,
+      "post": 25,
+      "total": 60,
+      "edited": "yes"
+    },
+    "2116202999236145186": {
+      "hand": false,
+      "monitor": 16,
+      "open": 163,
+      "post": 25,
+      "total": 204,
+      "edited": "yes"
+    },
+    "2116203595603288497": {
+      "hand": false,
+      "monitor": 11,
+      "open": 252,
+      "post": 31,
+      "total": 294,
+      "edited": "yes"
+    },
+    "2116206024256352373": {
+      "hand": false,
+      "monitor": 14,
+      "open": 19,
+      "post": 17,
+      "total": 50,
+      "edited": "yes"
+    },
+    "2116210487603921314": {
+      "hand": false,
+      "monitor": 15,
+      "open": 40,
+      "post": 8,
+      "total": 63,
+      "edited": "no"
+    },
+    "2116216564676448320": {
+      "hand": false,
+      "monitor": 15,
+      "open": 45,
+      "post": 9,
+      "total": 69,
+      "edited": "no"
+    },
+    "2116217002406695203": {
+      "hand": false,
+      "monitor": 13,
+      "open": 231,
+      "post": 14,
+      "total": 258,
+      "edited": "yes"
+    },
+    "2116221861793030289": {
+      "hand": false,
+      "monitor": 11,
+      "open": 230,
+      "post": 23,
+      "total": 264,
+      "edited": "yes"
+    },
+    "2116223817374707823": {
+      "hand": false,
+      "monitor": 16,
+      "open": 282,
+      "post": 11,
+      "total": 309,
+      "edited": "no"
+    },
+    "2116224331097292868": {
+      "hand": false,
+      "monitor": 18,
+      "open": 31,
+      "post": 7,
+      "total": 56,
+      "edited": "no"
+    },
+    "2116224441709449268": {
+      "hand": false,
+      "monitor": 18,
+      "open": 58,
+      "post": 6,
+      "total": 82,
+      "edited": "no"
+    },
+    "2116226152826011780": {
+      "hand": false,
+      "monitor": 15,
+      "open": 298,
+      "post": 16,
+      "total": 329,
+      "edited": "yes"
+    },
+    "2116231049147461984": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 50,
+      "edited": "yes"
+    },
+    "2116231743531307234": {
+      "hand": false,
+      "monitor": 17,
+      "open": 179,
+      "post": 22,
+      "total": 218,
+      "edited": "yes"
+    },
+    "2116232172289896654": {
+      "hand": false,
+      "monitor": 16,
+      "open": 165,
+      "post": 18,
+      "total": 199,
+      "edited": "yes"
+    },
+    "2116249462238507307": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 138,
+      "edited": "yes"
+    },
+    "2116250446025158701": {
+      "hand": false,
+      "monitor": 16,
+      "open": 30,
+      "post": 9,
+      "total": 55,
+      "edited": "no"
+    },
+    "2116250670688850272": {
+      "hand": false,
+      "monitor": 16,
+      "open": 70,
+      "post": 22,
+      "total": 108,
+      "edited": "yes"
+    },
+    "2116255470637736371": {
+      "hand": false,
+      "monitor": 16,
+      "open": 134,
+      "post": 6,
+      "total": 156,
+      "edited": "no"
+    },
+    "2116255620139520232": {
+      "hand": false,
+      "monitor": 26,
+      "open": 281,
+      "post": 14,
+      "total": 321,
+      "edited": "yes"
+    },
+    "2116256739980956047": {
+      "hand": false,
+      "monitor": 20,
+      "open": 31,
+      "post": 29,
+      "total": 80,
+      "edited": "yes"
+    },
+    "2116256999977447727": {
+      "hand": false,
+      "monitor": 20,
+      "open": 106,
+      "post": 16,
+      "total": 142,
+      "edited": "yes"
+    },
+    "2116257159247708456": {
+      "hand": false,
+      "monitor": 20,
+      "open": 139,
+      "post": 21,
+      "total": 180,
+      "edited": "yes"
+    },
+    "2116261335323316561": {
+      "hand": false,
+      "monitor": 20,
+      "open": 116,
+      "post": 9,
+      "total": 145,
+      "edited": "no"
+    },
+    "2116270750424318308": {
+      "hand": false,
+      "monitor": 14,
+      "open": 26,
+      "post": 6,
+      "total": 46,
+      "edited": "no"
+    },
+    "2116271671296344232": {
+      "hand": false,
+      "monitor": 19,
+      "open": 270,
+      "post": 7,
+      "total": 296,
+      "edited": "no"
+    },
+    "2116275127499288627": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 33,
+      "edited": "yes"
+    },
+    "2116275308487680174": {
+      "hand": false,
+      "monitor": 21,
+      "open": 193,
+      "post": 28,
+      "total": 242,
+      "edited": "yes"
+    },
+    "2116275455061827732": {
+      "hand": false,
+      "monitor": 21,
+      "open": 237,
+      "post": 19,
+      "total": 277,
+      "edited": "yes"
+    },
+    "2116275883790983277": {
+      "hand": false,
+      "monitor": 25,
+      "open": 174,
+      "post": 14,
+      "total": 213,
+      "edited": "no"
+    },
+    "2116307129975833049": {
+      "hand": false,
+      "monitor": 25,
+      "open": 83,
+      "post": 8,
+      "total": 116,
+      "edited": "no"
+    },
+    "2116307354568302930": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 19,
+      "edited": "no"
+    },
+    "2116307491743023498": {
+      "hand": false,
+      "monitor": 25,
+      "open": 166,
+      "post": 12,
+      "total": 203,
+      "edited": "no"
+    },
+    "2116498684149919784": {
+      "hand": false,
+      "monitor": 25,
+      "open": 2162,
+      "post": 89,
+      "total": 2276,
+      "edited": "no"
+    },
+    "2116531858485760055": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 85,
+      "edited": "yes"
+    },
+    "2116547253242409409": {
+      "hand": false,
+      "monitor": 12,
+      "open": 33,
+      "post": 69,
+      "total": 114,
+      "edited": "yes"
+    },
+    "2116573644423860261": {
+      "hand": false,
+      "monitor": 13,
+      "open": 34,
+      "post": 10,
+      "total": 57,
+      "edited": "no"
+    },
+    "2116576801380045105": {
+      "hand": false,
+      "monitor": 15,
+      "open": 27,
+      "post": 13,
+      "total": 55,
+      "edited": "yes"
+    },
+    "2116576940429623374": {
+      "hand": false,
+      "monitor": 15,
+      "open": 54,
+      "post": 19,
+      "total": 88,
+      "edited": "yes"
+    },
+    "2116588243474886851": {
+      "hand": false,
+      "monitor": 12,
+      "open": 80,
+      "post": 60,
+      "total": 152,
+      "edited": "yes"
+    },
+    "2116624970646249849": {
+      "hand": false,
+      "monitor": 10,
+      "open": 222,
+      "post": 34,
+      "total": 266,
+      "edited": "yes"
+    },
+    "2116632276960149927": {
+      "hand": false,
+      "monitor": 16,
+      "open": 127,
+      "post": 20,
+      "total": 163,
+      "edited": "yes"
+    },
+    "2116632396812468435": {
+      "hand": false,
+      "monitor": 19,
+      "open": 149,
+      "post": 9,
+      "total": 177,
+      "edited": "no"
+    },
+    "2116632720763654188": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 21,
+      "edited": "no"
+    },
+    "2116865550919868725": {
+      "hand": false,
+      "monitor": 12,
+      "open": 149,
+      "post": 25,
+      "total": 186,
+      "edited": "yes"
+    },
+    "2116865750229025164": {
+      "hand": false,
+      "monitor": 13,
+      "open": 140,
+      "post": 33,
+      "total": 186,
+      "edited": "yes"
+    },
+    "2116866335175037107": {
+      "hand": false,
+      "monitor": 16,
+      "open": 128,
+      "post": 103,
+      "total": 247,
+      "edited": "yes"
+    },
+    "2116867071413719454": {
+      "hand": false,
+      "monitor": 12,
+      "open": 231,
+      "post": 151,
+      "total": 394,
+      "edited": "yes"
+    },
+    "2116868481639465231": {
+      "hand": false,
+      "monitor": 14,
+      "open": 576,
+      "post": 94,
+      "total": 684,
+      "edited": "yes"
+    },
+    "2116869330683985990": {
+      "hand": false,
+      "monitor": 16,
+      "open": 341,
+      "post": 127,
+      "total": 484,
+      "edited": "yes"
+    },
+    "2116874894910661032": {
+      "hand": false,
+      "monitor": 14,
+      "open": 217,
+      "post": 32,
+      "total": 263,
+      "edited": "yes"
+    },
+    "2116894337824944612": {
+      "hand": false,
+      "monitor": 15,
+      "open": 468,
+      "post": 10,
+      "total": 493,
+      "edited": "yes"
+    },
+    "2116898837956546968": {
+      "hand": false,
+      "monitor": 15,
+      "open": 288,
+      "post": 56,
+      "total": 359,
+      "edited": "yes"
+    },
+    "2116904130371330364": {
+      "hand": false,
+      "monitor": 13,
+      "open": 66,
+      "post": 6,
+      "total": 85,
+      "edited": "no"
+    },
+    "2116907557302255911": {
+      "hand": false,
+      "monitor": 18,
+      "open": 22,
+      "post": 26,
+      "total": 66,
+      "edited": "yes"
+    },
+    "2116913955608170702": {
+      "hand": false,
+      "monitor": 15,
+      "open": 319,
+      "post": 276,
+      "total": 610,
+      "edited": "yes"
+    },
+    "2116929034420470227": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 574,
+      "edited": "no"
+    },
+    "2116929097649565717": {
+      "hand": false,
+      "monitor": 14,
+      "open": 174,
+      "post": 7,
+      "total": 195,
+      "edited": "no"
+    },
+    "2116930477500096895": {
+      "hand": false,
+      "monitor": 10,
+      "open": 15,
+      "post": 54,
+      "total": 79,
+      "edited": "yes"
+    },
+    "2116930985610580350": {
+      "hand": false,
+      "monitor": 16,
+      "open": 61,
+      "post": 23,
+      "total": 100,
+      "edited": "yes"
+    },
+    "2116931001213464720": {
+      "hand": false,
+      "monitor": 18,
+      "open": 8,
+      "post": 10,
+      "total": 36,
+      "edited": "no"
+    },
+    "2116931092376600867": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 44,
+      "edited": "yes"
+    },
+    "2116931328675385355": {
+      "hand": false,
+      "monitor": 14,
+      "open": 65,
+      "post": 20,
+      "total": 99,
+      "edited": "no"
+    },
+    "2116931953718906945": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 20,
+      "edited": "no"
+    },
+    "2116955401476362485": {
+      "hand": false,
+      "monitor": 14,
+      "open": 47,
+      "post": 32,
+      "total": 93,
+      "edited": "yes"
+    },
+    "2116956846544023743": {
+      "hand": false,
+      "monitor": 13,
+      "open": 35,
+      "post": 12,
+      "total": 60,
+      "edited": "no"
+    },
+    "2116957518647693794": {
+      "hand": false,
+      "monitor": 13,
+      "open": 20,
+      "post": 55,
+      "total": 88,
+      "edited": "yes"
+    },
+    "2116957855093809220": {
+      "hand": false,
+      "monitor": 17,
+      "open": 39,
+      "post": 26,
+      "total": 82,
+      "edited": "yes"
+    },
+    "2116957970541977853": {
+      "hand": false,
+      "monitor": 10,
+      "open": 68,
+      "post": 18,
+      "total": 96,
+      "edited": "yes"
+    },
+    "2116959407573451171": {
+      "hand": false,
+      "monitor": 12,
+      "open": 190,
+      "post": 12,
+      "total": 214,
+      "edited": "yes"
+    },
+    "2116959654563520688": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 47,
+      "edited": "yes"
+    },
+    "2116962022424236424": {
+      "hand": false,
+      "monitor": 12,
+      "open": 28,
+      "post": 18,
+      "total": 58,
+      "edited": "yes"
+    },
+    "2116962322916778004": {
+      "hand": false,
+      "monitor": 12,
+      "open": 24,
+      "post": 17,
+      "total": 53,
+      "edited": "yes"
+    },
+    "2116965455399117236": {
+      "hand": false,
+      "monitor": 10,
+      "open": 332,
+      "post": 47,
+      "total": 389,
+      "edited": "yes"
+    },
+    "2116967582553039113": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 31,
+      "edited": "yes"
+    },
+    "2116967892281373034": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 28,
+      "edited": "yes"
+    },
+    "2116969227789783193": {
+      "hand": false,
+      "monitor": 11,
+      "open": 43,
+      "post": 6,
+      "total": 60,
+      "edited": "no"
+    },
+    "2116970640058048996": {
+      "hand": false,
+      "monitor": 16,
+      "open": 18,
+      "post": 11,
+      "total": 45,
+      "edited": "yes"
+    },
+    "2116975730152051000": {
+      "hand": false,
+      "monitor": 14,
+      "open": 155,
+      "post": 29,
+      "total": 198,
+      "edited": "yes"
+    },
+    "2116977047549444461": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 36,
+      "edited": "yes"
+    },
+    "2116980576792068281": {
+      "hand": false,
+      "monitor": 11,
+      "open": 25,
+      "post": 19,
+      "total": 55,
+      "edited": "yes"
+    },
+    "2116980947513946620": {
+      "hand": false,
+      "monitor": 12,
+      "open": 57,
+      "post": 6,
+      "total": 75,
+      "edited": "no"
+    },
+    "2116984204634231260": {
+      "hand": false,
+      "monitor": 13,
+      "open": 45,
+      "post": 18,
+      "total": 76,
+      "edited": "yes"
+    },
+    "2116984552035921925": {
+      "hand": false,
+      "monitor": 16,
+      "open": 219,
+      "post": 7,
+      "total": 242,
+      "edited": "no"
+    },
+    "2116984878180741463": {
+      "hand": false,
+      "monitor": 12,
+      "open": 212,
+      "post": 14,
+      "total": 238,
+      "edited": "yes"
+    },
+    "2116996074632008044": {
+      "hand": false,
+      "monitor": 12,
+      "open": 77,
+      "post": 59,
+      "total": 148,
+      "edited": "yes"
+    },
+    "2116999111375249424": {
+      "hand": false,
+      "monitor": 15,
+      "open": 161,
+      "post": 21,
+      "total": 197,
+      "edited": "yes"
+    },
+    "2117000979451101547": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 49,
+      "edited": "yes"
+    },
+    "2117001413645451589": {
+      "hand": false,
+      "monitor": 18,
+      "open": 12,
+      "post": 22,
+      "total": 52,
+      "edited": "yes"
+    },
+    "2117006679686439370": {
+      "hand": false,
+      "monitor": 14,
+      "open": 22,
+      "post": 55,
+      "total": 91,
+      "edited": "yes"
+    },
+    "2117007049401774175": {
+      "hand": false,
+      "monitor": 18,
+      "open": 45,
+      "post": 48,
+      "total": 111,
+      "edited": "yes"
+    },
+    "2117007187473997882": {
+      "hand": false,
+      "monitor": 13,
+      "open": 40,
+      "post": 18,
+      "total": 71,
+      "edited": "yes"
+    },
+    "2117009849280078223": {
+      "hand": false,
+      "monitor": 15,
+      "open": 53,
+      "post": 59,
+      "total": 127,
+      "edited": "yes"
+    },
+    "2117011262940823991": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 52,
+      "edited": "yes"
+    },
+    "2117014382676763128": {
+      "hand": false,
+      "monitor": 16,
+      "open": 27,
+      "post": 54,
+      "total": 97,
+      "edited": "yes"
+    },
+    "2117018867864154547": {
+      "hand": false,
+      "monitor": 13,
+      "open": 31,
+      "post": 8,
+      "total": 52,
+      "edited": "no"
+    },
+    "2117019337001197802": {
+      "hand": false,
+      "monitor": 11,
+      "open": 67,
+      "post": 60,
+      "total": 138,
+      "edited": "yes"
+    },
+    "2117024792377196936": {
+      "hand": false,
+      "monitor": 21,
+      "open": 45,
+      "post": 45,
+      "total": 111,
+      "edited": "yes"
+    },
+    "2117027206698311965": {
+      "hand": false,
+      "monitor": 10,
+      "open": 210,
+      "post": 18,
+      "total": 238,
+      "edited": "yes"
+    },
+    "2117033831253299589": {
+      "hand": false,
+      "monitor": 14,
+      "open": 15,
+      "post": 48,
+      "total": 77,
+      "edited": "yes"
+    },
+    "2117043915874337017": {
+      "hand": false,
+      "monitor": 16,
+      "open": 28,
+      "post": 27,
+      "total": 71,
+      "edited": "yes"
+    },
+    "2117045712739328198": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 21,
+      "edited": "yes"
+    },
+    "2117097414095982946": {
+      "hand": false,
+      "monitor": 14,
+      "open": 33,
+      "post": 53,
+      "total": 100,
+      "edited": "yes"
+    },
+    "2117276408695144497": {
+      "hand": false,
+      "monitor": 15,
+      "open": 26,
+      "post": 72,
+      "total": 113,
+      "edited": "yes"
+    },
+    "2117279225786794316": {
+      "hand": false,
+      "monitor": 18,
+      "open": 18,
+      "post": 74,
+      "total": 110,
+      "edited": "yes"
+    },
+    "2117290714480497045": {
+      "hand": false,
+      "monitor": 14,
+      "open": 28,
+      "post": 100,
+      "total": 142,
+      "edited": "yes"
+    },
+    "2117293614329913504": {
+      "hand": false,
+      "monitor": 15,
+      "open": 18,
+      "post": 32,
+      "total": 65,
+      "edited": "yes"
+    },
+    "2117303492998000958": {
+      "hand": false,
+      "monitor": 14,
+      "open": 56,
+      "post": 58,
+      "total": 128,
+      "edited": "yes"
+    },
+    "2117304008683438393": {
+      "hand": false,
+      "monitor": 16,
+      "open": 45,
+      "post": 94,
+      "total": 155,
+      "edited": "yes"
     }
   },
   "sheets": [
@@ -16053,24 +17944,24 @@
   "summary": {
     "margin": {
       "last30": {
-        "n": 723,
+        "n": 722,
         "median": 106,
         "rw_first_pct": 2.4,
-        "tie_pct": 28.5,
-        "ud_first_pct": 69.2,
-        "ud_mid_pct": 52.8,
+        "tie_pct": 28.7,
+        "ud_first_pct": 69.0,
+        "ud_mid_pct": 52.6,
         "ud_blowout_pct": 16.3,
         "rw_early_n": 53,
-        "ud_early_n": 42
+        "ud_early_n": 43
       },
       "prior30": {
-        "n": 588,
-        "median": 110,
-        "rw_first_pct": 4.9,
-        "tie_pct": 26.2,
-        "ud_first_pct": 68.9,
-        "ud_mid_pct": 55.1,
-        "ud_blowout_pct": 13.8,
+        "n": 586,
+        "median": 111,
+        "rw_first_pct": 4.6,
+        "tie_pct": 26.3,
+        "ud_first_pct": 69.1,
+        "ud_mid_pct": 55.5,
+        "ud_blowout_pct": 13.7,
         "rw_early_n": 40,
         "ud_early_n": 40
       },
@@ -16709,8 +18600,8 @@
           "2026-11-02",
           134,
           106,
-          null,
-          0
+          -59,
+          1
         ]
       ]
     },
@@ -16758,18 +18649,18 @@
       "timezone": "America/New_York",
       "on": {
         "arrival": {
-          "median": 14,
-          "n": 412
+          "median": 15,
+          "n": 596
         },
         "margin": {
-          "median": 105,
-          "n": 555
+          "median": 104,
+          "n": 556
         }
       },
       "off": {
         "arrival": {
           "median": 30,
-          "n": 121
+          "n": 122
         },
         "margin": {
           "median": 134,
@@ -16798,8 +18689,8 @@
               "unit": "s"
             },
             "after": {
-              "value": 14,
-              "n": 412,
+              "value": 15,
+              "n": 596,
               "unit": "s"
             }
           }
@@ -16826,7 +18717,7 @@
             },
             "after": {
               "value": 14,
-              "n": 188,
+              "n": 373,
               "unit": "s"
             }
           },
@@ -16844,7 +18735,7 @@
             },
             "after": {
               "value": 112,
-              "n": 325,
+              "n": 326,
               "unit": "s"
             }
           }
@@ -16870,8 +18761,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 92.4,
-              "n": 660,
+              "value": 89.1,
+              "n": 882,
               "unit": "%"
             }
           },
@@ -16888,8 +18779,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 43.2,
-              "n": 660,
+              "value": 40.3,
+              "n": 882,
               "unit": "%"
             }
           }
@@ -16915,8 +18806,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 90.9,
-              "n": 495,
+              "value": 87.3,
+              "n": 717,
               "unit": "%"
             }
           },
@@ -16933,8 +18824,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 42.2,
-              "n": 495,
+              "value": 39.0,
+              "n": 717,
               "unit": "%"
             }
           }
@@ -16960,8 +18851,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 90.8,
-              "n": 489,
+              "value": 87.2,
+              "n": 711,
               "unit": "%"
             }
           },
@@ -16978,8 +18869,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 42.1,
-              "n": 489,
+              "value": 38.9,
+              "n": 711,
               "unit": "%"
             }
           }
@@ -17005,8 +18896,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 69.2,
-              "n": 104,
+              "value": 71.8,
+              "n": 110,
               "unit": "%"
             }
           },
@@ -17023,8 +18914,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 88.9,
-              "n": 398,
+              "value": 85.5,
+              "n": 620,
               "unit": "%"
             }
           }
@@ -17050,8 +18941,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 69.2,
-              "n": 104,
+              "value": 71.8,
+              "n": 110,
               "unit": "%"
             }
           },
@@ -17068,8 +18959,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 88.9,
-              "n": 398,
+              "value": 85.5,
+              "n": 620,
               "unit": "%"
             }
           }
@@ -17095,8 +18986,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 41.0,
-              "n": 343,
+              "value": 37.4,
+              "n": 565,
               "unit": "%"
             }
           },
@@ -17113,8 +19004,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 88.9,
-              "n": 343,
+              "value": 85.1,
+              "n": 565,
               "unit": "%"
             }
           }
@@ -17140,8 +19031,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 16.5,
-              "n": 479,
+              "value": 25.4,
+              "n": 485,
               "unit": "%"
             }
           },
@@ -17159,7 +19050,7 @@
             },
             "after": {
               "value": 112,
-              "n": 305,
+              "n": 306,
               "unit": "s"
             }
           }
@@ -17185,8 +19076,8 @@
               "unit": "s"
             },
             "after": {
-              "value": 57,
-              "n": 235,
+              "value": 63,
+              "n": 417,
               "unit": "s"
             }
           }
@@ -17322,7 +19213,7 @@
       }
     ],
     "roadmap": {
-      "fetched_at": "2026-11-02T13:14:08.444689+00:00",
+      "fetched_at": "2026-11-02T18:56:28.543971+00:00",
       "steps": [
         {
           "step": "s1",
@@ -17608,7 +19499,7 @@
     "initiative": {
       "root": "RD-8314",
       "label": "Breaking News AI",
-      "fetched_at": "2026-11-02T13:14:08.444689+00:00",
+      "fetched_at": "2026-11-02T18:56:28.543971+00:00",
       "url": "https://gdcgroup.atlassian.net/browse/RD-8314",
       "assignee": "Matthew Kulina",
       "sprints": [
