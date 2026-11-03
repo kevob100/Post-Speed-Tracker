@@ -29,7 +29,7 @@ from .store import load_jsonl, now_iso, parse_dt
 
 JIRA = "https://gdcgroup.atlassian.net"
 BEFORE_DAYS = 14
-HIGHER_BETTER = {"template_written_pct"}
+HIGHER_BETTER = {"template_written_pct", "template_share_pct"}
 UNMEASURED_DAYS = 21
 MIN_AFTER_DAYS = 5
 TIE_SECONDS = 60  # within a minute is "close", not a win for either side
@@ -170,6 +170,14 @@ def _metric(name: str, a: datetime, b: datetime, rows: list[dict], stories: list
         if not n:
             return {"value": None, "n": 0, "unit": "%"}
         return {"value": round(100 * sum(v.get("drafted_by_template") or 0 for v in g) / n, 1), "n": n, "unit": "%"}
+    if name == "template_share_pct":
+        # Of all NFL posts, how many a template drafted (not freeform). Needs the template field
+        # x_post_edits has carried since RD-8168 (10/28); rows without it are left out.
+        g = [r for r in edit_rows if r.get("template") and a.date().isoformat() <= r["day"] < b.date().isoformat()]
+        n = sum(r["posts"] for r in g)
+        if not n:
+            return {"value": None, "n": 0, "unit": "%"}
+        return {"value": round(100 * sum(r["posts"] for r in g if r["template"] != "freeform") / n, 1), "n": n, "unit": "%"}
     if name == "margin":
         xs = [_gap(s) for s in stories if s.get("status") == "matched" and s.get("rotowire") and s.get("underdog")
               and a <= _at(s) < b]

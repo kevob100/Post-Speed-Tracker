@@ -65,7 +65,7 @@ sports:
         prioritize_assignee: Matthew Kulina
       # Shipped changes the Summary's "Is it working?" cards measure: the metric(s) each
       # targets, 14 days before `live` vs since. Metrics: arrival_turbo, arrival, monitor_to_open, open_to_x,
-      # edited_pct, change_pct, margin, manual_pct. The first `main: true` leads the card.
+      # edited_pct, change_pct, template_written_pct, template_share_pct, margin, manual_pct. The first `main: true` leads the card.
       changes:
       - key: RD-8036
         label: Turbo mode
@@ -122,6 +122,14 @@ sports:
         metrics:
         - {metric: manual_pct, label: Posts added by hand, main: true, note: 'All NFL posts. Active calls were typed in by hand before this; it only fires on game days.'}
         - {metric: margin, label: Gap behind Underdog, note: 'All NFL stories, not just actives.'}
+      # Target in the ticket: templates write 75% of NFL posts on the first full Sunday (11/8), 90% stretch.
+      # Baseline 15 of 59 on 11/1. Full replay target (55 of 61) also needs RD-8376 and RD-8377.
+      - key: RD-8375
+        label: Use the best-fitting template instead of falling back
+        live: '2026-11-03'
+        metrics:
+        - {metric: template_share_pct, label: 'NFL posts a template drafted', main: true, note: 'Template field only exists since 10/28 (RD-8168), so the before is about 6 days.'}
+        - {metric: edited_pct, label: Posts edited, note: 'All NFL posts.'}
       # No ticket: Kulina made the editor page update live instead of every 10s (10/16, ~3:20pm ET).
       - label: Live editor page (no 10s refresh)
         live: '2026-10-16T19:20:00'
