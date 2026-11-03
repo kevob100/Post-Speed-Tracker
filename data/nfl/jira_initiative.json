@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-02T18:56:28.543971+00:00",
+ "fetched_at": "2026-11-03T12:42:04.001002+00:00",
  "root": "RD-8314",
  "issues": [
   {
@@ -110,13 +110,6 @@
    "resolved": null,
    "sprints": [
     {
-     "id": 21839,
-     "name": "2026.Q4.S22",
-     "state": "active",
-     "start": "2026-10-28T21:11:15.393Z",
-     "end": "2026-11-11T21:00:00.000Z"
-    },
-    {
      "id": 21838,
      "name": "2026.Q4.S21",
      "state": "closed",
@@ -155,15 +148,7 @@
    "assignee": "Matthew Kulina",
    "priority": "Medium",
    "resolved": null,
-   "sprints": [
-    {
-     "id": 21839,
-     "name": "2026.Q4.S22",
-     "state": "active",
-     "start": "2026-10-28T21:11:15.393Z",
-     "end": "2026-11-11T21:00:00.000Z"
-    }
-   ]
+   "sprints": []
   },
   {
    "key": "RD-8115",
@@ -196,13 +181,6 @@
    "priority": "High",
    "resolved": null,
    "sprints": [
-    {
-     "id": 21839,
-     "name": "2026.Q4.S22",
-     "state": "active",
-     "start": "2026-10-28T21:11:15.393Z",
-     "end": "2026-11-11T21:00:00.000Z"
-    },
     {
      "id": 21838,
      "name": "2026.Q4.S21",
@@ -3447,6 +3425,126 @@
    "assignee": "Matthew Kulina",
    "priority": "Highest",
    "resolved": "2026-10-30T15:44:08.802+0000",
+   "sprints": [
+    {
+     "id": 21839,
+     "name": "2026.Q4.S22",
+     "state": "active",
+     "start": "2026-10-28T21:11:15.393Z",
+     "end": "2026-11-11T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8375",
+   "summary": "Breaking News AI: Always Use the Best-Fitting NFL Template Instead of Falling Back",
+   "type": "Story",
+   "parent": "RD-8098",
+   "status": "In Progress",
+   "category": "indeterminate",
+   "assignee": "Matthew Kulina",
+   "priority": "Highest",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21839,
+     "name": "2026.Q4.S22",
+     "state": "active",
+     "start": "2026-10-28T21:11:15.393Z",
+     "end": "2026-11-11T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8376",
+   "summary": "Breaking News AI: Add Missing NFL Template Cases",
+   "type": "Story",
+   "parent": "RD-8098",
+   "status": "In Progress",
+   "category": "indeterminate",
+   "assignee": "Matthew Kulina",
+   "priority": "High",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21839,
+     "name": "2026.Q4.S22",
+     "state": "active",
+     "start": "2026-10-28T21:11:15.393Z",
+     "end": "2026-11-11T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8377",
+   "summary": "Breaking News AI: NFL Statement Template for Coach and Player Quotes",
+   "type": "Story",
+   "parent": "RD-8098",
+   "status": "Ready for Work",
+   "category": "new",
+   "assignee": "Matthew Kulina",
+   "priority": "High",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21839,
+     "name": "2026.Q4.S22",
+     "state": "active",
+     "start": "2026-10-28T21:11:15.393Z",
+     "end": "2026-11-11T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8379",
+   "summary": "News Admin: Note Opponent Check Uses the Wrong Team's Schedule",
+   "type": "Bug",
+   "parent": "RD-8100",
+   "status": "Ready for Work",
+   "category": "new",
+   "assignee": "Matthew Kulina",
+   "priority": "Medium",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21840,
+     "name": "2026.Q4.S23",
+     "state": "future",
+     "start": "2026-11-12T13:00:00.000Z",
+     "end": "2026-11-25T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8380",
+   "summary": "News Admin: Next 5 Games in the Step 3 Note Section",
+   "type": "Story",
+   "parent": "RD-8100",
+   "status": "Ready for Work",
+   "category": "new",
+   "assignee": "Matthew Kulina",
+   "priority": "Low",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21840,
+     "name": "2026.Q4.S23",
+     "state": "future",
+     "start": "2026-11-12T13:00:00.000Z",
+     "end": "2026-11-25T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8381",
+   "summary": "NBA Injury Report: Draft an X Post for Each Status Change",
+   "type": "Story",
+   "parent": "RD-8145",
+   "status": "Ready for Work",
+   "category": "new",
+   "assignee": "Matthew Kulina",
+   "priority": "Highest",
+   "resolved": null,
    "sprints": [
     {
      "id": 21839,
