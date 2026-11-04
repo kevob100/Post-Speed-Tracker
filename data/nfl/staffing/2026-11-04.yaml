@@ -1,0 +1,44 @@
+# Generated from the breaking_news staffing sheet; edit the sheet, not this file.
+date: '2026-11-04'
+timezone: America/Chicago
+source: breaking_news
+roles: {nfl: NFL desk, nfl_news: NFL News}
+slots:
+- start: 08:00
+  nfl: [KOB]
+- start: 09:00
+  nfl: [Adam, KOB]
+- start: '10:00'
+  nfl: [Adam, Mike D.]
+- start: '11:00'
+  nfl: [Adam, Mike D.]
+- start: '12:00'
+  nfl: [Eric C., Adam, Mike D.]
+- start: '13:00'
+  nfl: [Eric C., Adam, Mike D.]
+  nfl_news: [Zoe]
+- start: '14:00'
+  nfl: [Eric C., Adam, Mike D., John M.]
+  nfl_news: [Zoe]
+- start: '15:00'
+  nfl: [Eric C., Adam, Mike D., John M.]
+- start: '16:00'
+  nfl: [Eric C., Adam, Mike D.]
+- start: '17:00'
+  nfl: [Eric C., Mike D., KOB]
+- start: '18:00'
+  nfl: [Mensio]
+  nfl_news: [Nick B., Nick R.]
+- start: '19:00'
+  nfl: [Mensio]
+  nfl_news: [Nick B., Nick R.]
+- start: '20:00'
+  nfl: [Mensio]
+  nfl_news: [Nick B., Nick R., Steven]
+- start: '21:00'
+  nfl: [Mensio]
+  nfl_news: [Nick B.]
+- start: '22:00'
+  nfl: [Mensio]
+- start: '23:00'
+  nfl: [Mensio]
