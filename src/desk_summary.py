@@ -30,7 +30,6 @@ from .store import load_jsonl, now_iso, parse_dt
 JIRA = "https://gdcgroup.atlassian.net"
 BEFORE_DAYS = 14
 HIGHER_BETTER = {"template_written_pct", "template_share_pct"}
-UNMEASURED_DAYS = 21
 MIN_AFTER_DAYS = 5
 TIE_SECONDS = 60  # within a minute is "close", not a win for either side
 BLOWOUT_SECONDS = 300
@@ -200,39 +199,9 @@ def changes(cfg_changes: list[dict], now: datetime, **data) -> list[dict]:
             metrics.append({"metric": m["metric"], "label": m["label"], "main": bool(m.get("main")), "note": m.get("note"),
                             "higher_better": m["metric"] in HIGHER_BETTER,
                             "unit": before["unit"], "before": before, "after": after})
-        out.append({"key": c.get("key"), "label": c["label"], "live": c["live"], "days_since": days_since,
+        out.append({"key": c.get("key"), "covers": c.get("covers") or [], "label": c["label"], "live": c["live"], "days_since": days_since,
                     "too_soon": days_since < MIN_AFTER_DAYS, "metrics": metrics})
     return out
-
-
-def unmeasured(data_dir: Path, cfg_changes: list[dict], skip: list[dict], now: datetime,
-               since: str | None = None, under: str | None = None) -> list[dict]:
-    """Initiative tickets that shipped (In Review, or Done in the last UNMEASURED_DAYS) with no
-    "Is it working?" card and no not_measured reason. The nightly Jira pull keeps this current,
-    so a new change can't go live without anyone checking whether it worked. `under` limits it to
-    one branch of the theme (the NFL initiative), so NBA and Shared work doesn't land here."""
-    have = {c.get("key") for c in cfg_changes or []} | {x["key"] for x in skip or []}
-    cut = max((now - timedelta(days=UNMEASURED_DAYS)).isoformat(), since or "")
-    issues = _initiative_issues(data_dir).get("issues", [])
-    parent = {i["key"]: i.get("parent") for i in issues}
-
-    def in_branch(key):
-        while key:
-            if key == under:
-                return True
-            key = parent.get(key)
-        return False
-
-    out = []
-    for i in issues:
-        if i["type"] == "Epic" or i["type"] in ABOVE_EPIC or i["key"] in have:
-            continue
-        if under and not in_branch(i["key"]):
-            continue
-        if i["status"] == "In Review" or (i["status"] == "Done" and (i.get("resolved") or "") >= cut):
-            out.append({"key": i["key"], "summary": i["summary"], "status": i["status"],
-                        "resolved": i.get("resolved"), "url": f"{JIRA}/browse/{i['key']}"})
-    return sorted(out, key=lambda t: (t["status"] != "In Review", t["key"]))
 
 
 # ---------------------------------------------------------------- tickets
@@ -308,8 +277,6 @@ def build(cfg: dict, data_dir: Path, rows: list[dict], stories: list[dict], manu
         "turbo": turbo_split(rows, m, turbo),
         "changes": changes(cfg.get("changes"), now, rows=rows, stories=m, edit_rows=edit_rows,
                            turbo=turbo, manual_pct=manual_pct, templates_daily=templates_daily),
-        "unmeasured": unmeasured(data_dir, cfg.get("changes"), cfg.get("not_measured"), now,
-                                 cfg.get("measure_since"), (cfg.get("initiative") or {}).get("measure_under")),
         "roadmap": roadmap(data_dir, cfg.get("roadmap"), cfg.get("roadmap_auto_epic"), cfg.get("measure_since")),
         "initiative": initiative(data_dir, cfg.get("initiative") or {}),
     }

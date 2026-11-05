@@ -60,8 +60,6 @@ sports:
       initiative:
         root: RD-8314
         label: Breaking News AI
-        # "Shipped, no card yet" only checks NFL tickets; NBA and Shared aren't measured on this tab
-        measure_under: RD-8097
         prioritize_assignee: Matthew Kulina
       # Shipped changes the Summary's "Is it working?" cards measure: the metric(s) each
       # targets, 14 days before `live` vs since. Metrics: arrival_turbo, arrival, monitor_to_open, open_to_x,
@@ -78,32 +76,16 @@ sports:
         metrics:
         - {metric: arrival, label: 'Sent to in Monitor, all day', main: true}
         - {metric: margin, label: Gap behind Underdog}
-      - key: RD-8090
-        label: Practice report templates
+      # Template milestones: one card per big round of template work, not one per ticket.
+      # `covers` lists the tickets each round shipped (linked on the card).
+      - label: Templates added
+        covers: [RD-8090, RD-8092, RD-8091]
         live: '2026-10-09'
         metrics:
-        - {metric: edited_pct, label: Posts edited, main: true, note: 'All NFL posts, not just this template''s. Can''t isolate it until RD-8168.'}
+        - {metric: edited_pct, label: Posts edited, main: true, note: 'All NFL posts. Practice templates went live 10/09, transaction 10/13, game day 10/14.'}
         - {metric: change_pct, label: Share of draft changed}
-      - key: RD-8092
-        label: Transaction templates
-        live: '2026-10-13'
-        metrics:
-        - {metric: edited_pct, label: Posts edited, main: true, note: 'All NFL posts, not just this template''s. Can''t isolate it until RD-8168.'}
-        - {metric: change_pct, label: Share of draft changed}
-      - key: RD-8091
-        label: Game day templates
-        live: '2026-10-14'
-        metrics:
-        - {metric: edited_pct, label: Posts edited, main: true, note: 'All NFL posts, not just this template''s. Can''t isolate it until RD-8168.'}
-        - {metric: change_pct, label: Share of draft changed}
-      - key: RD-8175
-        label: Templates fire more often
-        live: '2026-10-16'
-        metrics:
-        - {metric: template_written_pct, label: 'Template-worded posts the template wrote', main: true}
-        - {metric: edited_pct, label: Posts edited, note: 'All NFL posts.'}
-      - key: RD-8094
-        label: Practice report watchlist and auto updates
+      - label: First round of template improvements
+        covers: [RD-8175, RD-8094]
         live: '2026-10-16'
         metrics:
         - {metric: template_written_pct, label: 'Template-worded posts the template wrote', main: true}
@@ -122,10 +104,10 @@ sports:
         metrics:
         - {metric: manual_pct, label: Posts added by hand, main: true, note: 'All NFL posts. Active calls were typed in by hand before this; it only fires on game days.'}
         - {metric: margin, label: Gap behind Underdog, note: 'All NFL stories, not just actives.'}
-      # Target in the ticket: templates write 75% of NFL posts on the first full Sunday (11/8), 90% stretch.
-      # Baseline 15 of 59 on 11/1. Full replay target (55 of 61) also needs RD-8376 and RD-8377.
-      - key: RD-8375
-        label: Use the best-fitting template instead of falling back
+      # Target: templates write 75% of NFL posts on the first full Sunday (11/8), 90% stretch.
+      # Baseline 15 of 59 on 11/1.
+      - label: Best-fitting template instead of falling back
+        covers: [RD-8375, RD-8376, RD-8377]
         live: '2026-11-03'
         metrics:
         - {metric: template_share_pct, label: 'NFL posts a template drafted', main: true, note: 'Template field only exists since 10/28 (RD-8168), so the before is about 6 days.'}
@@ -135,20 +117,9 @@ sports:
         live: '2026-10-16T19:20:00'
         metrics:
         - {metric: monitor_to_open, label: 'In Monitor to opened (step 2)', main: true}
-      # Shipped tickets with no card on purpose. Anything else under the initiative that is In
-      # Review or recently Done shows under the cards as "shipped, no card yet" until it gets
-      # a card above or a reason here.
-      # Tickets done before this were closed in the 10/8 cleanup, before cards existed.
+      # Cards track major changes only; a shipped ticket doesn't need its own card.
+      # Also bounds the Roadmap's shipped list.
       measure_since: '2026-10-09'
-      not_measured:
-      - {key: RD-8163, why: Feeds this dashboard (Add Line in the speed data)}
-      - {key: RD-8164, why: Feeds this dashboard (earliest Monitor tweet)}
-      - {key: RD-8111, why: Investigation}
-      - {key: RD-8013, why: NBA and NHL post style}
-      - {key: RD-8096, why: Counted under Manual work off the desk}
-      - {key: RD-8113, why: Counted under Manual work off the desk}
-      - {key: RD-8112, why: 'Editor opens are only tracked since 10/13, the day it shipped, so there is no before to compare'}
-      - {key: RD-8171, why: Checked by hand in the draft review until the next relabel}
       # Google Sheets the desk works from (Roadmap tab list + links next to the matching section).
       sheets:
       - key: review

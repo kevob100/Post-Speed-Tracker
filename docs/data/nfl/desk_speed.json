@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-05T13:03:56.522253+00:00",
+  "generated_at": "2026-11-05T16:40:21.234935+00:00",
   "window": {
     "from": "2026-10-06",
     "to": "2026-11-05",
@@ -19486,6 +19486,7 @@
     "changes": [
       {
         "key": "RD-8036",
+        "covers": [],
         "label": "Turbo mode",
         "live": "2026-10-05",
         "days_since": 31,
@@ -19513,6 +19514,7 @@
       },
       {
         "key": "RD-8180",
+        "covers": [],
         "label": "Turbo all day",
         "live": "2026-10-19",
         "days_since": 17,
@@ -19557,8 +19559,13 @@
         ]
       },
       {
-        "key": "RD-8090",
-        "label": "Practice report templates",
+        "key": null,
+        "covers": [
+          "RD-8090",
+          "RD-8092",
+          "RD-8091"
+        ],
+        "label": "Templates added",
         "live": "2026-10-09",
         "days_since": 27,
         "too_soon": false,
@@ -19567,7 +19574,7 @@
             "metric": "edited_pct",
             "label": "Posts edited",
             "main": true,
-            "note": "All NFL posts, not just this template's. Can't isolate it until RD-8168.",
+            "note": "All NFL posts. Practice templates went live 10/09, transaction 10/13, game day 10/14.",
             "higher_better": false,
             "unit": "%",
             "before": {
@@ -19602,143 +19609,12 @@
         ]
       },
       {
-        "key": "RD-8092",
-        "label": "Transaction templates",
-        "live": "2026-10-13",
-        "days_since": 23,
-        "too_soon": false,
-        "metrics": [
-          {
-            "metric": "edited_pct",
-            "label": "Posts edited",
-            "main": true,
-            "note": "All NFL posts, not just this template's. Can't isolate it until RD-8168.",
-            "higher_better": false,
-            "unit": "%",
-            "before": {
-              "value": 98.0,
-              "n": 500,
-              "unit": "%"
-            },
-            "after": {
-              "value": 87.9,
-              "n": 827,
-              "unit": "%"
-            }
-          },
-          {
-            "metric": "change_pct",
-            "label": "Share of draft changed",
-            "main": false,
-            "note": null,
-            "higher_better": false,
-            "unit": "%",
-            "before": {
-              "value": 52.2,
-              "n": 500,
-              "unit": "%"
-            },
-            "after": {
-              "value": 39.1,
-              "n": 827,
-              "unit": "%"
-            }
-          }
-        ]
-      },
-      {
-        "key": "RD-8091",
-        "label": "Game day templates",
-        "live": "2026-10-14",
-        "days_since": 22,
-        "too_soon": false,
-        "metrics": [
-          {
-            "metric": "edited_pct",
-            "label": "Posts edited",
-            "main": true,
-            "note": "All NFL posts, not just this template's. Can't isolate it until RD-8168.",
-            "higher_better": false,
-            "unit": "%",
-            "before": {
-              "value": 98.0,
-              "n": 501,
-              "unit": "%"
-            },
-            "after": {
-              "value": 87.8,
-              "n": 821,
-              "unit": "%"
-            }
-          },
-          {
-            "metric": "change_pct",
-            "label": "Share of draft changed",
-            "main": false,
-            "note": null,
-            "higher_better": false,
-            "unit": "%",
-            "before": {
-              "value": 52.2,
-              "n": 501,
-              "unit": "%"
-            },
-            "after": {
-              "value": 38.9,
-              "n": 821,
-              "unit": "%"
-            }
-          }
-        ]
-      },
-      {
-        "key": "RD-8175",
-        "label": "Templates fire more often",
-        "live": "2026-10-16",
-        "days_since": 20,
-        "too_soon": false,
-        "metrics": [
-          {
-            "metric": "template_written_pct",
-            "label": "Template-worded posts the template wrote",
-            "main": true,
-            "note": null,
-            "higher_better": true,
-            "unit": "%",
-            "before": {
-              "value": 0.0,
-              "n": 19,
-              "unit": "%"
-            },
-            "after": {
-              "value": 75.0,
-              "n": 124,
-              "unit": "%"
-            }
-          },
-          {
-            "metric": "edited_pct",
-            "label": "Posts edited",
-            "main": false,
-            "note": "All NFL posts.",
-            "higher_better": false,
-            "unit": "%",
-            "before": {
-              "value": 97.8,
-              "n": 504,
-              "unit": "%"
-            },
-            "after": {
-              "value": 86.4,
-              "n": 730,
-              "unit": "%"
-            }
-          }
-        ]
-      },
-      {
-        "key": "RD-8094",
-        "label": "Practice report watchlist and auto updates",
+        "key": null,
+        "covers": [
+          "RD-8175",
+          "RD-8094"
+        ],
+        "label": "First round of template improvements",
         "live": "2026-10-16",
         "days_since": 20,
         "too_soon": false,
@@ -19783,6 +19659,7 @@
       },
       {
         "key": "RD-8176",
+        "covers": [],
         "label": "Flag drafts from sources it can't read",
         "live": "2026-10-17",
         "days_since": 19,
@@ -19828,6 +19705,7 @@
       },
       {
         "key": "RD-8196",
+        "covers": [],
         "label": "Auto active posts for game-time decisions",
         "live": "2026-10-20",
         "days_since": 16,
@@ -19872,8 +19750,13 @@
         ]
       },
       {
-        "key": "RD-8375",
-        "label": "Use the best-fitting template instead of falling back",
+        "key": null,
+        "covers": [
+          "RD-8375",
+          "RD-8376",
+          "RD-8377"
+        ],
+        "label": "Best-fitting template instead of falling back",
         "live": "2026-11-03",
         "days_since": 2,
         "too_soon": true,
@@ -19918,6 +19801,7 @@
       },
       {
         "key": null,
+        "covers": [],
         "label": "Live editor page (no 10s refresh)",
         "live": "2026-10-16T19:20:00",
         "days_since": 19,
@@ -19942,148 +19826,6 @@
             }
           }
         ]
-      }
-    ],
-    "unmeasured": [
-      {
-        "key": "RD-8376",
-        "summary": "Breaking News AI: Add Missing NFL Template Cases",
-        "status": "In Review",
-        "resolved": null,
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8376"
-      },
-      {
-        "key": "RD-8377",
-        "summary": "Breaking News AI: NFL Statement Template for Coach and Player Quotes",
-        "status": "In Review",
-        "resolved": null,
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8377"
-      },
-      {
-        "key": "RD-7580",
-        "summary": "Add Reply Tweets to Player Note Monitor",
-        "status": "Done",
-        "resolved": "2026-10-19T18:10:36.240+0100",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-7580"
-      },
-      {
-        "key": "RD-8093",
-        "summary": "Breaking News AI: One Player, Facts Only in Every NFL Post",
-        "status": "Done",
-        "resolved": "2026-10-29T19:31:46.624+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8093"
-      },
-      {
-        "key": "RD-8114",
-        "summary": "Breaking News AI: Read NFL Injury Report Images",
-        "status": "Done",
-        "resolved": "2026-10-26T14:24:30.305+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8114"
-      },
-      {
-        "key": "RD-8160",
-        "summary": "Reply Tweet More Details Link: Clean URL, No Preview Card",
-        "status": "Done",
-        "resolved": "2026-10-19T18:27:53.200+0100",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8160"
-      },
-      {
-        "key": "RD-8168",
-        "summary": "Breaking News AI: Record Which Template Wrote Each Draft",
-        "status": "Done",
-        "resolved": "2026-10-28T15:56:32.048+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8168"
-      },
-      {
-        "key": "RD-8169",
-        "summary": "Breaking News AI: Add Templates and Their Revision History to the MCP",
-        "status": "Done",
-        "resolved": "2026-10-26T14:26:40.832+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8169"
-      },
-      {
-        "key": "RD-8178",
-        "summary": "Breaking News AI: No-Designation Wording and Team Website Credits",
-        "status": "Done",
-        "resolved": "2026-10-26T15:41:32.836+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8178"
-      },
-      {
-        "key": "RD-8227",
-        "summary": "Breaking News AI: Monitor Tweet Lookup in the MCP",
-        "status": "Done",
-        "resolved": "2026-10-28T14:54:07.394+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8227"
-      },
-      {
-        "key": "RD-8238",
-        "summary": "Breaking News AI: One Monitor Item Per Player in Multi-Player Tweets",
-        "status": "Done",
-        "resolved": "2026-10-27T18:35:14.342+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8238"
-      },
-      {
-        "key": "RD-8239",
-        "summary": "Breaking News AI: Tweets About Players Who Share a Name",
-        "status": "Done",
-        "resolved": "2026-10-27T18:34:17.736+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8239"
-      },
-      {
-        "key": "RD-8242",
-        "summary": "Breaking News AI: Read Report Images When the Caption Says Injury or Participant",
-        "status": "Done",
-        "resolved": "2026-10-27T18:36:07.712+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8242"
-      },
-      {
-        "key": "RD-8243",
-        "summary": "Breaking News AI: Non-Report Photos Swallow the Tweet",
-        "status": "Done",
-        "resolved": "2026-10-27T18:35:53.825+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8243"
-      },
-      {
-        "key": "RD-8283",
-        "summary": "Breaking News AI: Players Left Off the Inactives List Are Active",
-        "status": "Done",
-        "resolved": "2026-11-02T04:46:20.031+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8283"
-      },
-      {
-        "key": "RD-8284",
-        "summary": "Breaking News AI: In-Game Drafts Should Use the Status the Desk Already Filed",
-        "status": "Done",
-        "resolved": "2026-10-27T18:47:22.781+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8284"
-      },
-      {
-        "key": "RD-8285",
-        "summary": "Breaking News AI: Show Why a Draft Was Replaced in the MCP",
-        "status": "Done",
-        "resolved": "2026-10-28T10:19:24.097+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8285"
-      },
-      {
-        "key": "RD-8293",
-        "summary": "Breaking News AI: NFL Draft and Template Wording From the 10/25 Review",
-        "status": "Done",
-        "resolved": "2026-10-27T18:47:21.311+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8293"
-      },
-      {
-        "key": "RD-8304",
-        "summary": "Breaking News AI: Read Report Images When the Caption Says Estimated or Participation",
-        "status": "Done",
-        "resolved": "2026-10-27T17:12:34.261+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8304"
-      },
-      {
-        "key": "RD-8349",
-        "summary": "Breaking News AI: Practice Report Template Falls Back on Most NFL Posts",
-        "status": "Done",
-        "resolved": "2026-10-30T15:44:08.802+0000",
-        "url": "https://gdcgroup.atlassian.net/browse/RD-8349"
       }
     ],
     "roadmap": {

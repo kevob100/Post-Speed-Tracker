@@ -3418,10 +3418,10 @@ function renderSummary() {
 
     <h2 class="sm-h">Is it working?</h2>
     <p class="sm-note">Each shipped change on the metric it targets: the 2 weeks before it went live against since. Lower is better, except where a template writing more posts is the point. Under 5 days in shows as "So far", an early read rather than a result.</p>
-    <div class="sm-ba">${(S.changes || []).map(c => `<div class="sm-card"><h3>${c.key ? `<a href="https://gdcgroup.atlassian.net/browse/${esc(c.key)}" target="_blank" rel="noopener">${esc(c.key)} ${esc(c.label)}</a>` : `${esc(c.label)} <span class="lbl">· no ticket</span>`}</h3>
+    <div class="sm-ba">${(S.changes || []).map(c => `<div class="sm-card"><h3>${c.key ? `<a href="https://gdcgroup.atlassian.net/browse/${esc(c.key)}" target="_blank" rel="noopener">${esc(c.key)} ${esc(c.label)}</a>` : `${esc(c.label)}${(c.covers || []).length ? ` <span class="lbl">· ${c.covers.map(k => `<a href="https://gdcgroup.atlassian.net/browse/${esc(k)}" target="_blank" rel="noopener">${esc(k)}</a>`).join(", ")}</span>` : ` <span class="lbl">· no ticket</span>`}`}</h3>
       <div class="lbl">live ${smDay(c.live)}${c.too_soon ? ` · ${c.days_since} day${c.days_since === 1 ? "" : "s"} in, too soon to call` : ""}</div>
       ${[...c.metrics].sort((a, b) => b.main - a.main).map(m => `<div class="sm-m"><div class="t">${esc(m.label)}${m.main && c.metrics.length > 1 ? " <span>· main metric</span>" : ""}</div>${m.note ? `<div class="lbl sm-m-note">${esc(m.note)}</div>` : ""}${smBars({ ...m, early: c.too_soon })}</div>`).join("")}</div>`).join("")}</div>
-    ${(S.unmeasured || []).length ? `<div class="sm-unm"><div class="t">Shipped, no card yet</div>${S.unmeasured.map(t => `<div class="sm-unm-r"><a href="${esc(t.url)}" target="_blank" rel="noopener">${esc(t.key)}</a> ${esc(t.summary.replace(/^(Breaking News AI|News Admin|Desk Speed|News Monitor): /, ""))} <span class="lbl">· ${esc(t.status)}</span></div>`).join("")}<div class="lbl">Each of these needs a card above saying what it should move, or a note on why it isn't measured.</div></div>` : ""}`;
+   `;
   const smDraw = () => { host.querySelectorAll(".sm-mode button").forEach(b => { b.classList.toggle("on", b.dataset.m === smMode); b.setAttribute("aria-pressed", b.dataset.m === smMode); });
     smChart(document.getElementById("sm-chart"), S); };
   host.querySelectorAll(".sm-mode button").forEach(b => b.onclick = () => { smMode = b.dataset.m; try { localStorage.setItem("sm-mode", smMode); } catch (e) {} smDraw(); });
