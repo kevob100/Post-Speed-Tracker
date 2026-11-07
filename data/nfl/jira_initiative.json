@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-06T12:49:02.097818+00:00",
+ "fetched_at": "2026-11-07T11:37:02.255495+00:00",
  "root": "RD-8314",
  "issues": [
   {
@@ -945,7 +945,15 @@
    "assignee": "Matthew Kulina",
    "priority": "Medium",
    "resolved": null,
-   "sprints": []
+   "sprints": [
+    {
+     "id": 21840,
+     "name": "2026.Q4.S23",
+     "state": "future",
+     "start": "2026-11-12T13:00:00.000Z",
+     "end": "2026-11-25T21:00:00.000Z"
+    }
+   ]
   },
   {
    "key": "RD-7239",
@@ -3320,11 +3328,11 @@
    "summary": "NBA Injury Report: Slack Alert on Every New Report",
    "type": "Story",
    "parent": "RD-8145",
-   "status": "In Review",
-   "category": "indeterminate",
+   "status": "Done",
+   "category": "done",
    "assignee": "Matthew Kulina",
    "priority": "Medium",
-   "resolved": null,
+   "resolved": "2026-11-06T19:06:36.270+0000",
    "sprints": [
     {
      "id": 21839,
@@ -3577,6 +3585,146 @@
    "assignee": "Matthew Kulina",
    "priority": "High",
    "resolved": "2026-11-05T17:41:06.061+0000",
+   "sprints": [
+    {
+     "id": 21839,
+     "name": "2026.Q4.S22",
+     "state": "active",
+     "start": "2026-10-28T21:11:15.393Z",
+     "end": "2026-11-11T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8432",
+   "summary": "Breaking News AI: NFL Practice Report News Should Always Get the Practice Report Template",
+   "type": "Story",
+   "parent": "RD-8098",
+   "status": "In Review",
+   "category": "indeterminate",
+   "assignee": "Matthew Kulina",
+   "priority": "High",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21839,
+     "name": "2026.Q4.S22",
+     "state": "active",
+     "start": "2026-10-28T21:11:15.393Z",
+     "end": "2026-11-11T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8433",
+   "summary": "Breaking News AI: NFL Statement Template Should Handle Quotes Relayed by Reporters",
+   "type": "Story",
+   "parent": "RD-8098",
+   "status": "In Review",
+   "category": "indeterminate",
+   "assignee": "Matthew Kulina",
+   "priority": "High",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21839,
+     "name": "2026.Q4.S22",
+     "state": "active",
+     "start": "2026-10-28T21:11:15.393Z",
+     "end": "2026-11-11T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8434",
+   "summary": "Breaking News AI: NFL Templates for News With No Template Yet",
+   "type": "Story",
+   "parent": "RD-8098",
+   "status": "In Review",
+   "category": "indeterminate",
+   "assignee": "Matthew Kulina",
+   "priority": "High",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21839,
+     "name": "2026.Q4.S22",
+     "state": "active",
+     "start": "2026-10-28T21:11:15.393Z",
+     "end": "2026-11-11T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8437",
+   "summary": "Breaking News AI: NFL Trade Template Should Handle \"Team Receive:\" Trade Breakdowns",
+   "type": "Story",
+   "parent": "RD-8098",
+   "status": "Done",
+   "category": "done",
+   "assignee": "Matthew Kulina",
+   "priority": "Medium",
+   "resolved": "2026-11-07T01:41:37.455+0000",
+   "sprints": [
+    {
+     "id": 21839,
+     "name": "2026.Q4.S22",
+     "state": "active",
+     "start": "2026-10-28T21:11:15.393Z",
+     "end": "2026-11-11T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8448",
+   "summary": "Editor V2: \"Editing lock lost\" while writing a note",
+   "type": "Bug",
+   "parent": "RD-8100",
+   "status": "Done",
+   "category": "done",
+   "assignee": "Matthew Kulina",
+   "priority": "High",
+   "resolved": "2026-11-07T00:56:30.382+0000",
+   "sprints": [
+    {
+     "id": 21839,
+     "name": "2026.Q4.S22",
+     "state": "active",
+     "start": "2026-10-28T21:11:15.393Z",
+     "end": "2026-11-11T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8449",
+   "summary": "NBA: Let editors post to X when the FanDuel projection check says no",
+   "type": "Story",
+   "parent": "RD-8317",
+   "status": "Done",
+   "category": "done",
+   "assignee": "Matthew Kulina",
+   "priority": "High",
+   "resolved": "2026-11-06T23:50:39.340+0000",
+   "sprints": [
+    {
+     "id": 21839,
+     "name": "2026.Q4.S22",
+     "state": "active",
+     "start": "2026-10-28T21:11:15.393Z",
+     "end": "2026-11-11T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8450",
+   "summary": "NBA: Drafts replaced with \"Couldn't read the source\" on text tweets",
+   "type": "Bug",
+   "parent": "RD-8317",
+   "status": "Done",
+   "category": "done",
+   "assignee": "Matthew Kulina",
+   "priority": "High",
+   "resolved": "2026-11-06T23:23:25.699+0000",
    "sprints": [
     {
      "id": 21839,
