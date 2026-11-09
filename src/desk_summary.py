@@ -53,7 +53,8 @@ def margin(stories: list[dict], now: datetime) -> dict:
     """Typical margin (median per-story gap; positive = Underdog ahead) for the last 30 days
     and the 30 before, and for each of the last 90 days: rolling 7- and 30-day medians, then
     that day's own median and story count."""
-    m = [s for s in stories if s.get("status") == "matched" and s.get("rotowire") and s.get("underdog")]
+    m = [s for s in stories if s.get("status") == "matched" and s.get("rotowire") and s.get("underdog")
+         and s.get("review_status") not in ("rejected", "merged")]
     pts = sorted((_at(s), _gap(s)) for s in m)
     # Same news, too far apart to race (develop.py's score window): who posted it first.
     early = [(parse_dt((s["rotowire"] or s["underdog"])["created_at"]), bool(s["rotowire"]))

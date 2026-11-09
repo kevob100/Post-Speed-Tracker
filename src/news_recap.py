@@ -49,7 +49,7 @@ def _pct(x: float | None, dp: int = 0) -> str:
 def race(stories: list[dict], a: datetime, b: datetime) -> dict:
     """Shared stories whose race ended in [a, b): share we were first, ties, median gap."""
     g = [ds._gap(s) for s in stories if s.get("status") == "matched" and s.get("rotowire")
-         and s.get("underdog") and a <= ds._at(s) < b]
+         and s.get("underdog") and s.get("review_status") not in ("rejected", "merged") and a <= ds._at(s) < b]
     n = len(g)
     return {"n": n, "gap": ds._med(g),
             "first": 100 * sum(x < -ds.TIE_SECONDS for x in g) / n if n else None,
