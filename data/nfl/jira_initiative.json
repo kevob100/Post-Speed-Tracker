@@ -1,5 +1,5 @@
 {
- "fetched_at": "2026-11-09T13:43:42.338937+00:00",
+ "fetched_at": "2026-11-10T13:20:49.471126+00:00",
  "root": "RD-8314",
  "issues": [
   {
@@ -3171,15 +3171,15 @@
    "status": "Ready for Work",
    "category": "new",
    "assignee": "Matthew Kulina",
-   "priority": "Low",
+   "priority": "High",
    "resolved": null,
    "sprints": [
     {
-     "id": 23983,
-     "name": "2026.Q4.S24",
+     "id": 21840,
+     "name": "2026.Q4.S23",
      "state": "future",
-     "start": "2026-11-26T13:00:00.000Z",
-     "end": "2026-12-09T21:00:00.000Z"
+     "start": "2026-11-12T13:00:00.000Z",
+     "end": "2026-11-25T21:00:00.000Z"
     }
    ]
   },
@@ -3268,11 +3268,11 @@
    "summary": "NBA Daily Lineups: Slack Alert When Confirmed Starters Do Not Match",
    "type": "Task",
    "parent": "RD-8100",
-   "status": "In Review",
-   "category": "indeterminate",
+   "status": "Done",
+   "category": "done",
    "assignee": "Matthew Kulina",
    "priority": "Medium",
-   "resolved": null,
+   "resolved": "2026-11-10T05:00:33.059+0000",
    "sprints": [
     {
      "id": 21839,
@@ -3732,6 +3732,46 @@
      "state": "active",
      "start": "2026-10-28T21:11:15.393Z",
      "end": "2026-11-11T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8458",
+   "summary": "Breaking News AI: NFL Template Checks Set a Confidence Level Instead of Falling Back",
+   "type": "Story",
+   "parent": "RD-8098",
+   "status": "Ready for Work",
+   "category": "new",
+   "assignee": "Matthew Kulina",
+   "priority": "Highest",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21840,
+     "name": "2026.Q4.S23",
+     "state": "future",
+     "start": "2026-11-12T13:00:00.000Z",
+     "end": "2026-11-25T21:00:00.000Z"
+    }
+   ]
+  },
+  {
+   "key": "RD-8460",
+   "summary": "Breaking News AI: NFL Template Catalog With Status Levels, Tested Daily by Replay",
+   "type": "Story",
+   "parent": "RD-8098",
+   "status": "Ready for Work",
+   "category": "new",
+   "assignee": "Matthew Kulina",
+   "priority": "High",
+   "resolved": null,
+   "sprints": [
+    {
+     "id": 21840,
+     "name": "2026.Q4.S23",
+     "state": "future",
+     "start": "2026-11-12T13:00:00.000Z",
+     "end": "2026-11-25T21:00:00.000Z"
     }
    ]
   }
