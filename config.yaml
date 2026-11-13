@@ -32,6 +32,9 @@ sports:
       # All day except overnight from 10/19 (RD-8180, #782): an end before its start runs
       # past midnight into the next day. `previous` keeps older schedules so past posts
       # are still judged by the windows in force when they were posted.
+      # Summary tab goals (sent to Restivo 2026-11-13): templates write 90% of NFL posts,
+      # 75% of template posts go out unedited, so about 2/3 of all posts are fully automated.
+      goals: {template_share: 90, template_unedited: 75, automated: 67}
       turbo:
         since: '2026-10-05'
         timezone: America/New_York

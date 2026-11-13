@@ -27,7 +27,7 @@
   .page-seg { margin: 4px 0; }
   .page-seg button { font-size: 14px; padding: 6px 14px; font-weight: 600; }
   /* Audience page: everything that compares post times steps aside. */
-  body.page-audience #lead, body.page-audience #trend, body.page-audience #kpis, body.page-audience #desk, body.page-audience #edits, body.page-audience #sum, body.page-audience #road, body.page-audience #det-cols, body.page-audience #insider, body.page-audience #pagetabs, body.page-audience #credits, body.page-audience #eras,
+  body.page-audience #lead, body.page-audience #trend, body.page-audience #kpis, body.page-audience #desk, body.page-audience #edits, body.page-audience #sum, body.page-audience #sum-old, body.page-audience #road, body.page-audience #det-cols, body.page-audience #insider, body.page-audience #pagetabs, body.page-audience #credits, body.page-audience #eras,
   body.page-audience #tabs-wrap, body.page-audience [id^="view-"]:not(#view-all) { display: none !important; }
   h1 { font-size: 20px; margin: 0 0 2px; }
   .sub { color: var(--muted); font-size: 12px; }
@@ -494,8 +494,9 @@
   .pagetabs button:hover { color: var(--text); }
   .pagetabs button.on { color: var(--text); border-bottom-color: var(--accent); }
   .pagetabs button:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
-  #sum { display: none; --s1: #8fdbe6; --s2: #1fa2b8; --s3: #157f92; --hand: #a7b4c2; --good: #4fbf8a; }
-  body.sp-sum #sum { display: block; }
+  #sum, #sum-old { --s1: #8fdbe6; --s2: #1fa2b8; --s3: #157f92; --hand: #a7b4c2; --good: #4fbf8a; }
+  #sum, #sum-old { display: none; }
+  body.sp-sum #sum, body.sp-det #sum-old { display: block; }
   body.sp-sum .wrap > :not(#pagetabs):not(#sum) { display: none !important; }
   body.sp-det #lead { display: none !important; }
   /* Details: each group folds to a one-line answer; only the desk's to-do starts open. */
@@ -512,6 +513,7 @@
   .dsec-s { color: var(--muted); font-size: 13px; }
   body.sp-det .dsec-h[aria-expanded="true"] { border-bottom-left-radius: 4px; border-bottom-right-radius: 4px; }
   @media (prefers-reduced-motion: reduce) { .dsec-t::before { transition: none; } }
+  body.sp-det .wrap.x-work > :is(#sum-old) { display: none !important; }
   body.sp-det .wrap.x-todo > :is(#credits) { display: none !important; }
   body.sp-det .wrap.x-steps > :is(#det-cols, #desk) { display: none !important; }
   body.sp-det .wrap.x-drafts > :is(#edits) { display: none !important; }
@@ -536,8 +538,8 @@
   .rm-list { list-style: none; padding: 0; margin: 6px 0 0; }
   .rm-list li { display: grid; grid-template-columns: auto auto 1fr; gap: 8px; align-items: baseline; padding: 5px 0; border-top: 1px solid var(--line); font-size: 13px; }
   .rm-list li:first-child { border-top: 0; }
-  #sum .lbl, #det-cols .lbl { font-size: 12px; color: var(--muted); }
-  #sum .up, #det-cols .up { color: var(--good, #4fbf8a); } #sum .worse { color: #f0a070; }
+  :is(#sum, #sum-old) .lbl, #det-cols .lbl { font-size: 12px; color: var(--muted); }
+  :is(#sum, #sum-old) .up, #det-cols .up { color: var(--good, #4fbf8a); } :is(#sum, #sum-old) .worse { color: #f0a070; }
   .sm-top { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 14px; }
   @media (max-width: 900px) { .sm-top { grid-template-columns: minmax(0, 1fr); } }
   .sm-card { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; }
@@ -555,8 +557,8 @@
   .sm-mode { margin-top: 10px; }
   #edits .sm-mode { margin: 4px 0 10px; }
   .sm-mode button { padding: 4px 10px; }
-  #sum svg, #det-cols svg { display: block; width: 100%; height: auto; overflow: visible; }
-  #sum svg text { font-size: 11px; font-variant-numeric: tabular-nums; }
+  :is(#sum, #sum-old) svg, #det-cols svg { display: block; width: 100%; height: auto; overflow: visible; }
+  :is(#sum, #sum-old) svg text { font-size: 11px; font-variant-numeric: tabular-nums; }
   .sm-cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 12px; margin-top: 16px; }
   @media (max-width: 900px) { .sm-cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 560px) { .sm-cols { grid-template-columns: minmax(0, 1fr); } }
@@ -571,8 +573,59 @@
   .sm-metric { font-size: 24px; font-weight: 650; font-variant-numeric: tabular-nums; }
   .sm-tgt { font-size: 12px; color: var(--muted); margin-top: 2px; } .sm-tgt b { color: var(--text); }
   .sm-note { color: var(--muted); font-size: 12px; margin: 8px 0 0; }
-  #sum h2.sm-h { font-size: 18px; margin: 32px 0 4px; }
-  #sum h2.sm-h + .sm-note { margin: 0 0 12px; }
+  /* Summary headline (renderSummary): race on top, then the chain, then the three steps. */
+  .hl-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px 16px; flex-wrap: wrap; margin: 4px 0 14px; }
+  #sum h2.hl-title { font-size: 20px; margin: 0 0 2px; }
+  .hl-win button { white-space: nowrap; }
+  .hl-g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
+  .hl-hero { margin-top: 0; }
+  .hl-big { font-size: 52px; font-weight: 700; line-height: 1.05; margin: 4px 0 6px; font-variant-numeric: tabular-nums; }
+  .hl-mid { font-size: 30px; font-weight: 700; line-height: 1.1; margin: 4px 0; font-variant-numeric: tabular-nums; }
+  .hl-goal { font-size: 14px; font-weight: 400; color: var(--muted); }
+  .hl-d { font-size: 12.5px; color: var(--muted); margin-top: 2px; }
+  .hl-vs { color: var(--muted); }
+  #sum svg.hl-chart { width: 100%; height: 180px; margin-top: 10px; }
+  #sum svg.hl-chart.sm { height: 130px; }
+  #sum svg.hl-chart text { font-size: 10.5px; }
+  .hl-key { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); margin-top: 6px; }
+  .hl-key i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+  .hl-key i.dash { height: 0; border-top: 2px dashed var(--good); }
+  #sum h3.hl-h { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-weight: 600; margin: 30px 0 2px; }
+  #sum .hl-sub { margin: 0 0 12px; font-size: 13px; }
+  .hl-chain { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; }
+  .hl-link { background: var(--panel); border: 1px solid var(--line); border-radius: 10px; padding: 12px 14px; }
+  .hl-link.end { background: var(--panel2); border-color: #3a4654; }
+  .hl-n { font-size: 11px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+  .hl-v { font-size: 26px; font-weight: 700; margin: 2px 0; font-variant-numeric: tabular-nums; }
+  .hl-arrow { display: flex; align-items: center; justify-content: center; width: 26px; color: var(--muted); font-size: 18px; }
+  .hl-bar { position: relative; height: 6px; border-radius: 3px; background: var(--panel2); margin-top: 8px; }
+  .hl-bar i { display: block; height: 100%; border-radius: 3px; }
+  .hl-bar b { position: absolute; top: -3px; bottom: -3px; width: 2px; background: var(--good); }
+  .hl-auto { margin-top: 12px; }
+  .hl-auto-h { display: flex; justify-content: space-between; gap: 4px 12px; flex-wrap: wrap; }
+  .hl-auto-row { display: flex; align-items: center; gap: 16px; flex-wrap: wrap; }
+  .hl-auto .hl-bar { height: 10px; border-radius: 5px; margin: 0; }
+  .hl-auto .hl-bar i { border-radius: 5px; }
+  .hl-tbl { margin-top: 12px; overflow-x: auto; }
+  .hl-tbl table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
+  .hl-tbl th, .hl-tbl td { padding: 9px 8px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
+  .hl-tbl th:first-child, .hl-tbl td:first-child { text-align: left; white-space: normal; }
+  .hl-tbl th { color: var(--muted); font-weight: 500; font-size: 12px; }
+  .hl-tbl tr:last-child td { border-bottom: 0; }
+  .hl-tag { display: inline-block; font-size: 10.5px; color: var(--muted); border: 1px solid var(--line); border-radius: 4px; padding: 0 5px; margin-left: 4px; cursor: help; }
+  .hl-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; }
+  .hl-steps .hl-link { border-top: 3px solid var(--c, var(--line)); }
+  .hl-steps .hl-link.now { border-color: var(--good); border-top-color: var(--c); }
+  .hl-steps .hl-link.hand { border-style: dashed; border-top: 1px dashed var(--line); }
+  .hl-state { margin-top: 10px; font-size: 12px; padding: 6px 8px; border-radius: 6px; background: var(--panel2); color: var(--muted); }
+  .hl-state.done { color: var(--s1); }
+  .hl-state.next { color: #e6c46b; }
+  .hl-state.focus { color: var(--good); background: rgba(79, 191, 138, .12); }
+  .hl-tbar { display: flex; gap: 2px; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 12px; }
+  @media (max-width: 860px) { .hl-chain { grid-template-columns: 1fr; } .hl-arrow { width: auto; height: 22px; transform: rotate(90deg); } .hl-steps { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 640px) { .hl-g2, .hl-steps { grid-template-columns: 1fr; } .hl-big { font-size: 42px; } }
+  :is(#sum, #sum-old) h2.sm-h { font-size: 18px; margin: 32px 0 4px; }
+  :is(#sum, #sum-old) h2.sm-h + .sm-note { margin: 0 0 12px; }
   .pill { display: inline-block; font-size: 11px; font-weight: 600; padding: 1px 8px; border-radius: 999px; white-space: nowrap; text-decoration: none; }
   a.pill:hover { text-decoration: underline; text-underline-offset: 2px; }
   .pill.done { background: rgba(79,191,138,.16); color: #8fdcb5; }
@@ -673,6 +726,8 @@
   <section id="road" aria-label="Roadmap"></section>
   <section id="audience-top" class="hidden"></section>
   <section class="lead timing-lead hidden" id="lead"></section>
+  <button type="button" class="dsec-h" data-g="work" aria-expanded="false"><span class="dsec-t">Is it working? Shipped changes and step tickets</span><span class="dsec-s" id="dsec-work"></span></button>
+  <section id="sum-old" aria-label="Is it working"></section>
   <button type="button" class="dsec-h" data-g="todo" aria-expanded="false"><span class="dsec-t">Desk to-do</span><span class="dsec-s" id="dsec-todo"></span></button>
   <section class="panel hidden" id="credits" aria-labelledby="cr-h"></section>
   <button type="button" class="dsec-h" data-g="steps" aria-expanded="false"><span class="dsec-t">The three steps</span><span class="dsec-s" id="dsec-steps"></span></button>
@@ -2667,6 +2722,7 @@ function init() {
   renderEdits();
   renderCredits();
   renderSummary();
+  renderSummaryOld();
   renderRoad();
   renderDetCols();
   renderInsider();
@@ -3354,8 +3410,135 @@ function smBars(m) {
     chg = `<div class="sm-chg ${good ? "up" : bad ? "worse" : "lbl"}">${dlt < 0 ? "▼" : dlt > 0 ? "▲" : ""} ${txt} <span class="lbl">· after n=${m.after.n}</span></div>`; }
   return bar("Before", b, "#5b6672") + (m.after && m.after.n ? bar(m.early ? "So far" : "After", a, "var(--s2)") : "") + chg;
 }
+// ---------------------------------------------------------------- Summary (headline)
+// The backbone: two headline numbers (median behind Underdog, share we post first), then the
+// chain that moves them (templates write more posts -> they go out unedited -> step 3 gets
+// faster -> the gap shrinks), then the three steps. Every number switches between the last
+// 7 and 30 days, each against the same-length window before it (desk_speed.json -> summary.headline).
+let hlWin = (() => { try { return +localStorage.getItem("pst-hl-win") || 7; } catch (e) { return 7; } })();
+const HL_MIN_PRIOR = 30; // a prior window thinner than this isn't compared against
+const hlPct = v => v == null ? "–" : Math.round(v) + "%";
+const hlGap = v => v == null ? "–" : v >= 0 ? "+" + dkFmt(v) : "−" + dkFmt(-v);
+function hlDelta(cur, prior, { time = false, lowerBetter = false, w, priorN, none = "no earlier data to compare" } = {}) {
+  if (cur == null || prior == null || (priorN != null && priorN < HL_MIN_PRIOR)) return `<span class="hl-vs">${none}</span>`;
+  const v = time ? Math.round(cur) - Math.round(prior) : Math.round(cur) - Math.round(prior);
+  const was = time ? hlGap(prior).replace(/^\+/, "") : hlPct(prior);
+  if (!v) return `<span class="hl-vs">no change vs prior ${w} days (${was})</span>`;
+  const good = lowerBetter ? v < 0 : v > 0;
+  return `<span class="${good ? "up" : "worse"}">${v < 0 ? "▼" : "▲"} ${time ? dkFmt(Math.abs(v)) : Math.abs(v) + " pt" + (Math.abs(v) === 1 ? "" : "s")}</span> <span class="hl-vs">vs prior ${w} days (${was})</span>`;
+}
+// Line chart drawn at the host's real pixel width, so text and strokes never stretch.
+function hlChart(el, { rows, lo, hi, ticks, tf, goal, series, dots }) {
+  if (!el) return;
+  const W = el.clientWidth || 300, H = el.clientHeight || 160, L = 40, R = 10, T = 12, B = 20, n = rows.length;
+  if (n < 2) { el.innerHTML = ""; return; }
+  el.setAttribute("viewBox", `0 0 ${W} ${H}`);
+  const x = i => L + i * (W - L - R) / (n - 1), y = v => T + (hi - Math.max(lo, Math.min(hi, v))) / (hi - lo) * (H - T - B);
+  let s = ticks.map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--panel2)"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end" fill="var(--muted)">${tf(v)}</text>`).join("");
+  [0, Math.floor((n - 1) / 2), n - 1].forEach((i, k) => s += `<text x="${x(i)}" y="${H - 4}" text-anchor="${["start", "middle", "end"][k]}" fill="var(--muted)">${smDay(rows[i][0])}</text>`);
+  if (goal != null) s += `<line x1="${L}" x2="${W - R}" y1="${y(goal)}" y2="${y(goal)}" stroke="var(--good)" stroke-dasharray="4 4"/><text x="${W - R}" y="${y(goal) - 5}" text-anchor="end" fill="var(--good)">goal ${tf(goal)}</text>`;
+  if (dots) s += rows.map((r, i) => { const v = dots(r); return v == null ? "" : `<circle cx="${x(i)}" cy="${y(v)}" r="2.5" fill="#3a4654"/>`; }).join("");
+  series.forEach(({ get, color, width = 2.5 }) => {
+    const segs = []; let cur = [];
+    rows.forEach((r, i) => { const v = get(r); if (v == null) { if (cur.length) segs.push(cur); cur = []; } else cur.push(`${x(i).toFixed(1)},${y(v).toFixed(1)}`); });
+    if (cur.length) segs.push(cur);
+    s += segs.map(p => `<polyline fill="none" stroke="${color}" stroke-width="${width}" stroke-linejoin="round" stroke-linecap="round" points="${p.join(" ")}"/>`).join("");
+    const last = get(rows[n - 1]); if (width > 2 && last != null) s += `<circle cx="${x(n - 1)}" cy="${y(last)}" r="3.5" fill="${color}"/>`;
+  });
+  el.innerHTML = s;
+}
 function renderSummary() {
-  const host = document.getElementById("sum"), d = state.desk, S = d && d.summary;
+  const host = document.getElementById("sum"), d = state.desk, H = d && d.summary && d.summary.headline;
+  if (!host) return;
+  if (!H) { host.innerHTML = ""; return; }
+  const w = H.windows.includes(hlWin) ? hlWin : 7, k = "d" + w, G = H.goals;
+  const R = H.race[k], Tp = H.templates && H.templates[k], St = H.steps[k], B = H.by_template[k];
+  const rc = R.cur, rp = R.prior, tc = Tp && Tp.cur, tpr = Tp && Tp.prior, sc = St.cur, sp = St.prior;
+  const tpN = tpr ? tpr.template_posts + tpr.freeform_posts : 0;
+  const since = H.templates ? smDay(H.templates.since) : null;
+  const tNone = `no earlier data (templates tracked since ${since})`;
+  const bar = (v, goal, color = "var(--green)") => `<div class="hl-bar"><i style="width:${Math.min(100, v || 0)}%;background:${color}"></i><b style="left:${goal}%"></b></div>`;
+  const s2 = sc.s2 || 0, s1 = sc.s1 || 0, s3 = sc.s3 || 0;
+  host.innerHTML = `
+    <div class="hl-top"><div><h2 class="hl-title">NFL news speed</h2>
+      <div class="lbl">Last ${w} days · ${rc.n} stories both accounts posted · updated daily</div></div>
+      <div class="seg-chips hl-win" role="group" aria-label="Time window">${H.windows.map(x => `<button type="button" data-w="${x}" class="${x === w ? "on" : ""}" aria-pressed="${x === w}">Last ${x} days</button>`).join("")}</div></div>
+
+    <div class="hl-g2 hl-hero">
+      <div class="sm-card"><div class="lbl">Median behind Underdog</div><div class="hl-big">${hlGap(rc.median)}</div>
+        <div class="hl-d">${hlDelta(rc.median, rp.median, { time: true, lowerBetter: true, w, priorN: rp.n })}</div>
+        <svg class="hl-chart sm" id="hl-gap" role="img" aria-label="${w}-day median gap behind Underdog, last 90 days"></svg>
+        <div class="hl-key"><span><i style="background:var(--red)"></i>${w}-day median, last 90 days</span></div></div>
+      <div class="sm-card"><div class="lbl">Stories we post first</div><div class="hl-big">${hlPct(rc.rw_first_pct)}</div>
+        <div class="hl-d">${hlDelta(rc.rw_first_pct, rp.rw_first_pct, { w, priorN: rp.n })}</div>
+        <div class="hl-d hl-vs">Tied within a minute: ${hlPct(rc.tie_pct)} (was ${hlPct(rp.tie_pct)}) · Underdog first: ${hlPct(rc.ud_first_pct)}</div>
+        <svg class="hl-chart sm" id="hl-first" role="img" aria-label="Share of stories we post first, ${w}-day, last 90 days"></svg>
+        <div class="hl-key"><span><i style="background:var(--green)"></i>${w}-day share, last 90 days</span></div></div>
+    </div>
+
+    <h3 class="hl-h">How we close the gap</h3>
+    <p class="sm-note hl-sub">Templates write more posts → template posts go out unedited → step 3 (opened to posted) gets faster → we post sooner → the gap to Underdog shrinks.</p>
+    ${tc ? `<div class="hl-chain">
+      <div class="hl-link"><div class="hl-n">1 · Template wrote it</div><div class="hl-v">${hlPct(tc.share)}</div><div class="hl-d">goal ${G.template_share}% · ${hlDelta(tc.share, tpr.share, { w, priorN: tpN, none: tNone })}</div>${bar(tc.share, G.template_share)}</div>
+      <div class="hl-arrow" aria-hidden="true">→</div>
+      <div class="hl-link"><div class="hl-n">2 · Template sent unedited</div><div class="hl-v">${hlPct(tc.template_unedited)}</div><div class="hl-d">goal ${G.template_unedited}% · ${hlDelta(tc.template_unedited, tpr.template_unedited, { w, priorN: tpr.template_posts, none: tNone })}</div>${bar(tc.template_unedited, G.template_unedited)}</div>
+      <div class="hl-arrow" aria-hidden="true">→</div>
+      <div class="hl-link"><div class="hl-n">3 · Step 3: opened → posted</div><div class="hl-v">${sc.s3 == null ? "–" : dkFmt(sc.s3)}</div><div class="hl-d">median · ${hlDelta(sc.s3, sp.s3, { time: true, lowerBetter: true, w, priorN: sp.n })}</div></div>
+      <div class="hl-arrow" aria-hidden="true">→</div>
+      <div class="hl-link end"><div class="hl-n">= Behind Underdog</div><div class="hl-v">${hlGap(rc.median)}</div><div class="hl-d">${hlDelta(rc.median, rp.median, { time: true, lowerBetter: true, w, priorN: rp.n })}</div></div>
+    </div>
+    <div class="sm-card hl-auto"><div class="hl-auto-h"><div class="lbl">Fully automated: a template wrote it and it went out unedited</div><div class="lbl">share of all posts · goal ${G.automated}%</div></div>
+      <div class="hl-auto-row"><div class="hl-v">${hlPct(tc.automated)}</div><div style="flex:1;min-width:160px">${bar(tc.automated, G.automated, "var(--good)")}</div></div>
+      <div class="hl-d">${hlDelta(tc.automated, tpr.automated, { w, priorN: tpN, none: tNone })}</div></div>
+
+    <div class="hl-g2">
+      <div class="sm-card"><div class="lbl">1 · Posts a template wrote</div><div class="hl-mid">${hlPct(tc.share)} <span class="hl-goal">goal ${G.template_share}%</span></div>
+        <svg class="hl-chart" id="hl-c1" role="img" aria-label="Template share of posts, ${w}-day, since ${since}"></svg>
+        <div class="hl-key"><span><i style="background:var(--green)"></i>${w}-day</span><span><i style="background:#3a4654;height:6px;width:6px;border-radius:50%"></i>Each day</span><span><i class="dash"></i>Goal</span></div></div>
+      <div class="sm-card"><div class="lbl">2 · Template posts sent unedited</div><div class="hl-mid">${hlPct(tc.template_unedited)} <span class="hl-goal">goal ${G.template_unedited}%</span></div>
+        <svg class="hl-chart" id="hl-c2" role="img" aria-label="Share of template posts sent unedited, ${w}-day, since ${since}"></svg>
+        <div class="hl-key"><span><i style="background:var(--green)"></i>Template, ${w}-day</span><span><i style="background:#6b7888"></i>Freeform, ${w}-day</span><span><i class="dash"></i>Goal</span></div></div>
+    </div>
+    <div class="sm-card hl-tbl"><table>
+      <thead><tr><th>Last ${w} days</th><th>Template</th><th>Freeform</th></tr></thead><tbody>
+      <tr><td>Posts</td><td>${tc.template_posts} (${hlPct(tc.share)})</td><td>${tc.freeform_posts} (${hlPct(100 - tc.share)})</td></tr>
+      <tr><td>Sent unedited</td><td>${hlPct(tc.template_unedited)}</td><td>${hlPct(tc.freeform_unedited)}</td></tr>
+      <tr><td>Step 3: opened to posted (median) <span class="hl-tag" title="Only the sampled draft-vs-posted examples (up to 20 a day) carry a template and a post time to join on">sample</span></td><td>${B.template.s3 == null ? "–" : dkFmt(B.template.s3)} <span class="hl-vs">n=${B.template.s3_n}</span></td><td>${B.freeform.s3 == null ? "–" : dkFmt(B.freeform.s3)} <span class="hl-vs">n=${B.freeform.s3_n}</span></td></tr>
+      <tr><td>Behind Underdog (median) <span class="hl-tag" title="Same sample, on stories both accounts posted">sample</span></td><td>${hlGap(B.template.gap)} <span class="hl-vs">n=${B.template.gap_n}</span></td><td>${hlGap(B.freeform.gap)} <span class="hl-vs">n=${B.freeform.gap_n}</span></td></tr>
+      </tbody></table></div>` : `<p class="sm-note">No template data yet.</p>`}
+
+    <h3 class="hl-h">Where our time goes · source tweet to on X</h3>
+    <p class="sm-note hl-sub">Median per step, last ${w} days, posts that came through Monitor. A typical post takes ${sc.total == null ? "–" : dkFmt(sc.total)} end to end: ${hlDelta(sc.total, sp.total, { time: true, lowerBetter: true, w, priorN: sp.n })}.</p>
+    <div class="hl-steps">
+      <div class="hl-link" style="--c:var(--s1)"><div class="hl-n">Step 1 · Sent → in Monitor</div><div class="hl-v">${dkFmt(s1)}</div><div class="hl-d">${hlDelta(sc.s1, sp.s1, { time: true, lowerBetter: true, w, priorN: sp.n })}</div>
+        <div class="hl-state done">Done for now: turbo mode fixed most of it</div></div>
+      <div class="hl-link" style="--c:var(--s2)"><div class="hl-n">Step 2 · In Monitor → opened</div><div class="hl-v">${dkFmt(s2)}</div><div class="hl-d">${hlDelta(sc.s2, sp.s2, { time: true, lowerBetter: true, w, priorN: sp.n })}</div>
+        <div class="hl-state next">Next: which tweet editors open first (UI priority, flow, training)</div></div>
+      <div class="hl-link now" style="--c:var(--s3)"><div class="hl-n">Step 3 · Opened → posted</div><div class="hl-v">${dkFmt(s3)}</div><div class="hl-d">${hlDelta(sc.s3, sp.s3, { time: true, lowerBetter: true, w, priorN: sp.n })}</div>
+        <div class="hl-state focus">Focus now: templates, sent unedited</div></div>
+      <div class="hl-link hand"><div class="hl-n">Added by hand (Add Line)</div><div class="hl-v">${hlPct(sc.hand_pct)}</div><div class="hl-d">of posts · goal 0% · ${hlDelta(sc.hand_pct, sp.hand_pct, { lowerBetter: true, w })}</div>
+        <div class="hl-state">Remove: hand-added posts are slower</div></div>
+    </div>
+    <div class="hl-tbar" role="img" aria-label="Share of the typical post each step takes"><i style="flex:${s1};background:var(--s1)"></i><i style="flex:${s2};background:var(--s2)"></i><i style="flex:${s3};background:var(--s3)"></i></div>
+    <div class="hl-key"><span><i style="background:var(--s1)"></i>Step 1</span><span><i style="background:var(--s2)"></i>Step 2</span><span><i style="background:var(--s3)"></i>Step 3</span><span>each step's share of the typical post</span></div>
+    <p class="sm-note">Medians don't add up: each step is the middle value of its own step. The gap counts every story both accounts posted; steps count Monitor posts only. Template numbers come from News Admin's post edit data, tracked since ${since || "–"}. What each shipped change did, the step tickets and every story are in <a href="#" id="hl-to-det">Details</a>.</p>`;
+  host.querySelectorAll(".hl-win button").forEach(b => b.onclick = () => { hlWin = +b.dataset.w; try { localStorage.setItem("pst-hl-win", hlWin); } catch (e) {} renderSummary(); });
+  const td = document.getElementById("hl-to-det");
+  if (td) td.onclick = e => { e.preventDefault(); const b = document.querySelector('#pagetabs [data-t="det"]'); if (b) b.click(); };
+  const gi = w === 7 ? 1 : 2, fi = w === 7 ? 3 : 4, roll = H.race.rolling.filter(r => r[gi] != null || r[fi] != null);
+  const gmax = Math.max(120, ...roll.map(r => r[gi] || 0)), gtop = Math.ceil(gmax / 60) * 60;
+  hlChart(document.getElementById("hl-gap"), { rows: roll, lo: 0, hi: gtop, ticks: Array.from({ length: gtop / 60 + 1 }, (_, i) => i * 60), tf: v => v ? "+" + dkFmt(v) : "0", series: [{ get: r => r[gi], color: "var(--red)" }] });
+  const fmax = Math.max(10, ...roll.map(r => r[fi] || 0)), ftop = Math.ceil(fmax / 5) * 5;
+  hlChart(document.getElementById("hl-first"), { rows: roll, lo: 0, hi: ftop, ticks: [0, ftop / 2, ftop], tf: v => v + "%", series: [{ get: r => r[fi], color: "var(--green)" }] });
+  if (H.templates) {
+    const td2 = H.templates.daily, o = w === 7 ? 3 : 6, t100 = [0, 25, 50, 75, 100], pf = v => v + "%";
+    hlChart(document.getElementById("hl-c1"), { rows: td2, lo: 0, hi: 100, ticks: t100, tf: pf, goal: G.template_share, dots: r => r[1] + r[2] ? 100 * r[1] / (r[1] + r[2]) : null, series: [{ get: r => r[o], color: "var(--green)" }] });
+    hlChart(document.getElementById("hl-c2"), { rows: td2, lo: 0, hi: 100, ticks: t100, tf: pf, goal: G.template_unedited, series: [{ get: r => r[o + 2], color: "#6b7888", width: 1.5 }, { get: r => r[o + 1], color: "var(--green)" }] });
+  }
+}
+// The previous Summary, now the first Details group: is each shipped change working, and the tickets behind each step.
+function renderSummaryOld() {
+  const host = document.getElementById("sum-old"), d = state.desk, S = d && d.summary;
   if (!host) return;
   if (!S || !d.paths) { host.innerHTML = ""; return; }
   const M = S.margin, cur = M.last30, pri = M.prior30, P = d.paths, st = P.monitor.steps;
@@ -3468,13 +3651,14 @@ function renderDetCols() {
 }
 // Details groups: the header carries the one-line answer, the body opens on demand.
 // Open/closed is remembered per viewer; the desk's to-do starts open.
-const DSEC = ["todo", "steps", "drafts", "day", "trend", "insider", "stories"];
+const DSEC = ["work", "todo", "steps", "drafts", "day", "trend", "insider", "stories"];
 function dsecOpen() { try { const v = JSON.parse(localStorage.getItem("pst-dsec")); if (Array.isArray(v)) return v; } catch (e) {} return ["todo"]; }
 function renderDetHeads() {
   const wrap = document.querySelector(".wrap"), d = state.desk, S = d && d.summary;
   if (!wrap) return;
   const set = (g, html) => { const el = document.getElementById("dsec-" + g); if (el) el.innerHTML = html; };
   const cr = state.credits, st = d && d.paths ? d.paths.monitor.steps : null, w = d && d.edits ? (d.edits.last30 || d.edits.last7 || {}) : {}, m = S ? S.margin.last30 : null;
+  set("work", S && S.changes ? `${S.changes.length} shipped changes, before vs since` : "");
   set("todo", cr ? `${cr.missing} accounts Underdog credits that we don't watch` : "");
   set("steps", st ? SM_STEPS.map(([k], i) => `${dkFmt((st[k] || {}).median || 0)} ${["in Monitor", "to open", "to post"][i]}`).join(" · ") : "");
   set("drafts", w.edited_pct != null ? `${Math.round(w.edited_pct)}% edited · ${Math.round(w.change_pct)}% of the draft rewritten` : "");
@@ -3524,11 +3708,11 @@ function applySpeedTab() {
       try { localStorage.setItem("pst-tab", b.dataset.t); } catch (e) { /* private window */ }
       applySpeedTab(); window.scrollTo(0, 0);
       // Charts measure their panel, so redraw whatever just became visible.
-      if (state.speedTab === "sum") renderSummary(); else if (state.speedTab === "road") renderRoad(); else { renderTrend(); renderDay(); renderDesk(); renderEdits(); updateTabFade(); }
+      if (state.speedTab === "sum") renderSummary(); else if (state.speedTab === "road") renderRoad(); else { renderSummaryOld(); renderTrend(); renderDay(); renderDesk(); renderEdits(); updateTabFade(); }
     };
   });
 }
-addEventListener("resize", () => { clearTimeout(window._smResize); window._smResize = setTimeout(() => { if (state.desk && document.body.classList.contains("sp-sum")) renderSummary(); }, 150); });
+addEventListener("resize", () => { clearTimeout(window._smResize); window._smResize = setTimeout(() => { if (!state.desk) return; if (document.body.classList.contains("sp-sum")) renderSummary(); else if (document.body.classList.contains("sp-det")) renderSummaryOld(); }, 150); });
 
 // ---------------------------------------------------------------- Roadmap
 // The whole initiative from Jira: each epic and every ticket under it. Prioritized means

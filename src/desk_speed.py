@@ -481,6 +481,8 @@ def build(data_dir: Path, docs_dir: Path, stories: list[dict], now: datetime | N
         return {"value": round(100 * len(man_ab) / len(sub), 1) if sub else None, "n": len(sub), "unit": "%"}
 
     out["summary"] = desk_summary.build(cfg or {}, data_dir, all_rows, stories, manual_pct, now)
+    from . import headline
+    out["summary"]["headline"] = headline.build(cfg or {}, data_dir, all_rows, stories, manual_pct, now)
     for d in ["Sun", "Wed", "Mon", "Tue", "Thu", "Fri", "Sat"]:
         out["weekdays"].append({"day": d, "note": KEY_DAYS.get(d), "key": d in KEY_DAYS,
                                 "paths": _paths([s for s in win if day(s["rotowire"]["created_at"]) == d],
