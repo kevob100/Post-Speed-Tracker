@@ -1,18 +1,18 @@
 {
-  "generated_at": "2026-11-12T13:38:33.520052+00:00",
+  "generated_at": "2026-11-13T12:57:45.263632+00:00",
   "window": {
-    "from": "2026-10-13",
-    "to": "2026-11-12",
+    "from": "2026-10-14",
+    "to": "2026-11-13",
     "days": 30
   },
   "opens_tracked_since": "2026-10-13",
   "paths": {
     "all": {
-      "posts": 1121,
+      "posts": 1152,
       "race": {
-        "n": 677,
-        "median_gap": 85,
-        "underdog_first_pct": 93.5,
+        "n": 686,
+        "median_gap": 84,
+        "underdog_first_pct": 93.6,
         "gaps": [
           -1047,
           -648,
@@ -74,6 +74,7 @@
           8,
           8,
           8,
+          8,
           9,
           9,
           9,
@@ -97,6 +98,7 @@
           14,
           14,
           15,
+          15,
           16,
           17,
           17,
@@ -104,12 +106,14 @@
           17,
           18,
           18,
+          18,
           19,
           19,
           19,
           19,
           19,
           19,
+          20,
           20,
           20,
           21,
@@ -151,6 +155,7 @@
           30,
           30,
           30,
+          30,
           31,
           31,
           32,
@@ -161,6 +166,7 @@
           33,
           33,
           33,
+          34,
           34,
           34,
           35,
@@ -255,6 +261,7 @@
           55,
           55,
           56,
+          57,
           57,
           57,
           57,
@@ -361,6 +368,7 @@
           88,
           88,
           88,
+          88,
           89,
           89,
           89,
@@ -368,6 +376,7 @@
           90,
           90,
           90,
+          91,
           91,
           91,
           92,
@@ -445,6 +454,7 @@
           126,
           127,
           127,
+          127,
           130,
           130,
           130,
@@ -461,6 +471,7 @@
           136,
           138,
           139,
+          140,
           140,
           140,
           140,
@@ -584,7 +595,6 @@
           281,
           281,
           283,
-          285,
           287,
           288,
           288,
@@ -606,6 +616,7 @@
           313,
           314,
           317,
+          321,
           323,
           327,
           329,
@@ -645,7 +656,6 @@
           446,
           447,
           458,
-          459,
           462,
           465,
           466,
@@ -677,7 +687,6 @@
           728,
           739,
           749,
-          828,
           854,
           998,
           1072,
@@ -692,24 +701,24 @@
           1657,
           1780
         ],
-        "underdog_before_source_pct": 12.6,
+        "underdog_before_source_pct": 12.3,
         "before_source": {
-          "n": 82,
+          "n": 81,
           "monitor_had_earlier": 37,
-          "monitor_never_had": 45
+          "monitor_never_had": 44
         }
       },
       "from_source": {
-        "median": 119,
-        "n": 651
+        "median": 118,
+        "n": 660
       }
     },
     "monitor": {
-      "posts": 775,
+      "posts": 797,
       "race": {
-        "n": 501,
-        "median_gap": 71,
-        "underdog_first_pct": 92.4,
+        "n": 507,
+        "median_gap": 69,
+        "underdog_first_pct": 92.5,
         "gaps": [
           -1047,
           -648,
@@ -760,6 +769,7 @@
           7,
           7,
           8,
+          8,
           9,
           9,
           10,
@@ -781,6 +791,7 @@
           14,
           14,
           15,
+          15,
           16,
           17,
           17,
@@ -788,11 +799,13 @@
           17,
           18,
           18,
+          18,
           19,
           19,
           19,
           19,
           19,
+          20,
           20,
           20,
           21,
@@ -830,6 +843,7 @@
           30,
           30,
           30,
+          30,
           31,
           31,
           32,
@@ -838,6 +852,7 @@
           32,
           33,
           33,
+          34,
           34,
           35,
           35,
@@ -993,6 +1008,7 @@
           87,
           87,
           88,
+          88,
           89,
           89,
           89,
@@ -1045,6 +1061,7 @@
           124,
           125,
           126,
+          127,
           127,
           130,
           130,
@@ -1152,7 +1169,6 @@
           281,
           281,
           281,
-          285,
           287,
           288,
           289,
@@ -1165,6 +1181,7 @@
           309,
           312,
           313,
+          321,
           327,
           340,
           345,
@@ -1183,7 +1200,6 @@
           441,
           447,
           458,
-          459,
           462,
           466,
           474,
@@ -1207,53 +1223,52 @@
           728,
           739,
           749,
-          828,
           854,
           1102,
           1139,
           1780
         ],
-        "underdog_before_source_pct": 13.0,
+        "underdog_before_source_pct": 12.6,
         "before_source": {
-          "n": 65,
+          "n": 64,
           "monitor_had_earlier": 31,
-          "monitor_never_had": 34
+          "monitor_never_had": 33
         }
       },
       "from_source": {
-        "median": 108,
-        "n": 501
+        "median": 107,
+        "n": 507
       },
       "steps": {
         "sent_to_monitor": {
           "median": 15,
-          "n": 811
+          "n": 834
         },
         "monitor_to_open": {
-          "median": 58,
-          "n": 805
+          "median": 57,
+          "n": 829
         },
         "open_to_x": {
-          "median": 25,
-          "n": 805
+          "median": 24,
+          "n": 829
         },
         "monitor_to_x": {
-          "median": 96,
-          "n": 811
+          "median": 92,
+          "n": 834
         },
         "split": true,
         "edited": {
-          "pct": 85.7,
-          "n": 811
+          "pct": 85.4,
+          "n": 834
         }
       }
     },
     "manual": {
-      "posts": 286,
+      "posts": 292,
       "race": {
-        "n": 150,
+        "n": 153,
         "median_gap": 116,
-        "underdog_first_pct": 96.0,
+        "underdog_first_pct": 96.1,
         "gaps": [
           -55,
           -24,
@@ -1288,6 +1303,7 @@
           55,
           57,
           57,
+          57,
           58,
           58,
           59,
@@ -1317,6 +1333,7 @@
           90,
           91,
           91,
+          91,
           92,
           96,
           98,
@@ -1341,6 +1358,7 @@
           127,
           130,
           131,
+          140,
           140,
           141,
           141,
@@ -1406,7 +1424,7 @@
           1118,
           1657
         ],
-        "underdog_before_source_pct": 11.3,
+        "underdog_before_source_pct": 11.1,
         "before_source": {
           "n": 17,
           "monitor_had_earlier": 6,
@@ -1415,15 +1433,15 @@
       },
       "from_source": {
         "median": 146,
-        "n": 130
+        "n": 133
       },
       "add_line_to_x": {
         "median": 46,
-        "n": 274
+        "n": 281
       }
     },
     "other": {
-      "posts": 60,
+      "posts": 63,
       "race": {
         "n": 26,
         "median_gap": 156,
@@ -1462,8 +1480,8 @@
         "n": 20
       }
     },
-    "manual_pct": 25.5,
-    "other_pct": 5.4
+    "manual_pct": 25.3,
+    "other_pct": 5.5
   },
   "manual_weekly": [
     {
@@ -1516,9 +1534,9 @@
     },
     {
       "week": "2026-11-09",
-      "posts": 102,
-      "manual": 17,
-      "pct": 16.7
+      "posts": 139,
+      "manual": 24,
+      "pct": 17.3
     }
   ],
   "edits": {
@@ -2194,6 +2212,30 @@
           "median": 20,
           "n": 35
         }
+      },
+      {
+        "day": "2026-11-12",
+        "posts": 34,
+        "scored": 34,
+        "edited_pct": 82.4,
+        "change_pct": 27.6,
+        "stored_pct": 100.0,
+        "open_to_x": {
+          "median": 15,
+          "n": 27
+        }
+      },
+      {
+        "day": "2026-11-13",
+        "posts": 1,
+        "scored": 1,
+        "edited_pct": 100.0,
+        "change_pct": 22.9,
+        "stored_pct": 100.0,
+        "open_to_x": {
+          "median": 28,
+          "n": 1
+        }
       }
     ],
     "versions": [
@@ -2380,15 +2422,204 @@
       {
         "version": "generate_v41_2026_11_06",
         "first_day": "2026-11-07",
-        "last_day": "2026-11-11",
-        "posts": 163,
-        "scored": 163,
-        "edited_pct": 83.4,
-        "change_pct": 37.1,
+        "last_day": "2026-11-13",
+        "posts": 198,
+        "scored": 198,
+        "edited_pct": 83.3,
+        "change_pct": 35.4,
         "stored_pct": 100.0
       }
     ],
     "examples": [
+      {
+        "posted_at": "2026-11-13T00:34:29Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.2295,
+        "draft": "Puka Nacua (knee) was placed on injured reserve by the Rams.\n\nVia @gregbeacham",
+        "posted": "Puka Nacua (knee/toe) was placed on injured reserve Thursday.\n\nVia @gregbeacham"
+      },
+      {
+        "posted_at": "2026-11-12T23:54:51Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.1647,
+        "draft": "Drew Lock (oblique) remained a limited participant on Thursday's practice report.\n\nVia @johnpboyle",
+        "posted": "Drew Lock (elbow/oblique) remained a limited participant on Thursday's injury report.\n\nVia @johnpboyle"
+      },
+      {
+        "posted_at": "2026-11-12T23:25:21Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.4186,
+        "draft": "Deebo Samuel (hamstring) practiced in a limited capacity Thursday.\n\nVia @MaioccoNBCS",
+        "posted": "Deebo Samuel (hamstring) remained a limited participant on Thursday's practice report.\n\nVia @MaioccoNBCS"
+      },
+      {
+        "posted_at": "2026-11-12T23:24:50Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.1013,
+        "draft": "Mike Evans (achilles) remained a non-participant on Thursday's practice report.\n\nVia @MaioccoNBCS",
+        "posted": "Mike Evans (achilles) remained a non-participant on Thursday's injury report.\n\nVia @MaioccoNBCS"
+      },
+      {
+        "posted_at": "2026-11-12T23:21:03Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.5806,
+        "draft": "Justin Herbert (finger) doesn't carry an injury designation.\n\nVia @chargers",
+        "posted": "Justin Herbert (finger) was not listed on the practice report the Chargers released Thursday.\n\nVia @chargers"
+      },
+      {
+        "posted_at": "2026-11-12T23:19:56Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.0964,
+        "draft": "Ladd McConkey (back) was listed as a non-participant on Thursday's practice report.\n\nVia @chargers",
+        "posted": "Ladd McConkey (back) was listed as a non-participant on Thursday's injury report.\n\nVia @chargers"
+      },
+      {
+        "posted_at": "2026-11-12T22:52:18Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.0,
+        "draft": "T.J. Hockenson (wrist/chest) remained a non-participant on Thursday's practice report.\n\nVia @Vikings",
+        "posted": "T.J. Hockenson (wrist/chest) remained a non-participant on Thursday's practice report.\n\nVia @Vikings"
+      },
+      {
+        "posted_at": "2026-11-12T22:16:27Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.125,
+        "draft": "Marvin Harrison (hamstring) was downgraded to a non-participant on Thursday's practice report.\n\nVia @ceasterlingABJ",
+        "posted": "Marvin Harrison Jr. (hamstring) was downgraded to a non-participant on Thursday's injury report.\n\nVia @ceasterlingABJ"
+      },
+      {
+        "posted_at": "2026-11-12T22:16:07Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.0,
+        "draft": "Woody Marks (knee) was downgraded to a non-participant on Thursday's practice report.\n\nVia @ceasterlingABJ",
+        "posted": "Woody Marks (knee) was downgraded to a non-participant on Thursday's practice report.\n\nVia @ceasterlingABJ"
+      },
+      {
+        "posted_at": "2026-11-12T22:15:45Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.086,
+        "draft": "David Montgomery (groin) was upgraded to a limited participant on Thursday's practice report.\n\nVia @ceasterlingABJ",
+        "posted": "David Montgomery (groin) was upgraded to a limited participant on Thursday's injury report.\n\nVia @ceasterlingABJ"
+      },
+      {
+        "posted_at": "2026-11-12T22:14:36Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.0,
+        "draft": "Harold Fannin (groin) remained a limited participant on Thursday's practice report.\n\nVia @ceasterlingABJ",
+        "posted": "Harold Fannin (groin) remained a limited participant on Thursday's practice report.\n\nVia @ceasterlingABJ"
+      },
+      {
+        "posted_at": "2026-11-12T22:00:59Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.264,
+        "draft": "J.J. McCarthy (hip pointer) will play in Thursday's game against the Commanders and isn't expected to be limited.\n\nVia @JamesPalmerTV",
+        "posted": "J.J. McCarthy (hip) is \"good to go\" for Thursday's game against the Commanders and \"isn't expected to be limited in any way.\"\n\nVia @JamesPalmerTV"
+      },
+      {
+        "posted_at": "2026-11-12T21:16:36Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.1064,
+        "draft": "Dalton Kincaid (ankle) remained a limited participant on Thursday's practice report.\n\nVia @BuffaloBillsPR",
+        "posted": "Dalton Kincaid (ankle) remained listed as a limited participant on Thursday's practice report.\n\nVia @BuffaloBillsPR"
+      },
+      {
+        "posted_at": "2026-11-12T21:14:19Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.3021,
+        "draft": "Travis Etienne (hamstring) was a limited participant in Thursday's practice.\n\nVia @RossJacksonNOLA",
+        "posted": "Travis Etienne (hamstring) remained listed as a limited participant on Thursday's injury report.\n\nVia @RossJacksonNOLA"
+      },
+      {
+        "posted_at": "2026-11-12T21:13:49Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.0,
+        "draft": "Jakobi Meyers (ankle) was upgraded to a limited participant on Thursday's practice report.\n\nVia @Jaguars",
+        "posted": "Jakobi Meyers (ankle) was upgraded to a limited participant on Thursday's practice report.\n\nVia @Jaguars"
+      },
+      {
+        "posted_at": "2026-11-12T21:13:22Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.1935,
+        "draft": "Bhayshul Tuten (ankle/foot) remained a non-participant on Thursday's practice report.\n\nVia @Jaguars",
+        "posted": "Bhayshul Tuten (ankle/foot) remained listed as a non-participant on Thursday's injury report.\n\nVia @Jaguars"
+      },
+      {
+        "posted_at": "2026-11-12T21:07:15Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.7632,
+        "draft": "Couldn't read the source (likely an image or video with no player details). Please write this one from the source.\n\nVia @Lions",
+        "posted": "Jared Goff (chest) was upgraded to a full participant on Thursday's practice report.\n\nVia @Lions"
+      },
+      {
+        "posted_at": "2026-11-12T21:06:37Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": true,
+        "baseline_source": "stored",
+        "distance": 0.7544,
+        "draft": "Couldn't read the source (likely an image or video with no player details). Please write this one from the source.\n\nVia @Lions",
+        "posted": "Amon-Ra St. Brown (ribs) remained listed as a limited participant on Thursday's injury report.\n\nVia @Lions"
+      },
+      {
+        "posted_at": "2026-11-12T21:04:36Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.0,
+        "draft": "Rhamondre Stevenson (knee) was upgraded to a limited participant on Thursday's practice report.\n\nVia @Patriots",
+        "posted": "Rhamondre Stevenson (knee) was upgraded to a limited participant on Thursday's practice report.\n\nVia @Patriots"
+      },
+      {
+        "posted_at": "2026-11-12T21:04:20Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.0941,
+        "draft": "A.J. Brown (ankle/knee) remained a limited participant on Thursday's practice report.\n\nVia @Patriots",
+        "posted": "A.J. Brown (ankle/knee) remained a limited participant on Thursday's injury report.\n\nVia @Patriots"
+      },
+      {
+        "posted_at": "2026-11-12T21:03:57Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.3438,
+        "draft": "Mike Evans (Achilles) was not seen during the early open portion of Thursday practice.\n\nVia @nwagoner",
+        "posted": "Mike Evans (Achilles) was not present during the portion of Thursday practice open to the media.\n\nVia @nwagoner"
+      },
       {
         "posted_at": "2026-11-11T23:58:35Z",
         "generate_prompt_version": "generate_v41_2026_11_06",
@@ -2739,218 +2970,29 @@
         "distance": 0.7069,
         "draft": "Brian Thomas Jr. will remain with the Jaguars through the trade deadline, per sources.\n\nVia @JFowlerESPN",
         "posted": "The Jaguars have \"relayed to interested teams\" that they \"plan to keep\" Brian Thomas Jr. through the trade deadline.\n\nVia @JFowlerESPN"
-      },
-      {
-        "posted_at": "2026-11-10T02:25:12Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.1265,
-        "draft": "Rhamondre Stevenson (knee), per source, is dealing with a knee tendon issue that is not expected to require surgery but could sideline him for a short period of time.\n\nVia @AdamSchefter",
-        "posted": "Rhamondre Stevenson (knee) is dealing with a “tendon issue” that is not expected to require surgery but could sideline him for “a short period of time.”\n\nVia @AdamSchefter"
-      },
-      {
-        "posted_at": "2026-11-09T23:46:47Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.0541,
-        "draft": "Odell Beckham is listed as active for Monday's game against the Bills.\n\nVia @BenGoessling",
-        "posted": "Odell Beckham Jr. is listed as active for Monday's game against the Bills.\n\nVia @BenGoessling"
-      },
-      {
-        "posted_at": "2026-11-09T23:23:56Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.6791,
-        "draft": "Justin Herbert (finger), per head coach Jim Harbaugh, avoided a fracture on his left middle finger after imaging came back \"negative.\"\n\nVia @alexinsdorf99",
-        "posted": "Tests revealed that Justin Herbert (finger) avoided a fracture, per head coach Jim Harbaugh.\n\nVia @alexinsdorf99"
-      },
-      {
-        "posted_at": "2026-11-09T23:22:23Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.5595,
-        "draft": "Ladd McConkey (back), per head coach Jim Harbaugh, is \"day to day\" with back spasms.\n\nVia @alexinsdorf99",
-        "posted": "Ladd McConkey (back) is \"day-to-day,\" per head coach Jim Harbaugh.\n\nVia @alexinsdorf99"
-      },
-      {
-        "posted_at": "2026-11-09T23:21:31Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": true,
-        "baseline_source": "stored",
-        "distance": 0.6064,
-        "draft": "J.J. McCarthy (hip) is dealing with a hip issue.\n\nVia @Dan_Salomone",
-        "posted": "J.J. McCarthy (hip) was listed as a limited participant on Monday's estimated practice report.\n\nVia @Dan_Salomone"
-      },
-      {
-        "posted_at": "2026-11-09T23:20:41Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": true,
-        "baseline_source": "stored",
-        "distance": 0.3608,
-        "draft": "Cam Skattebo (hamstring) was listed on Monday's injury report.\n\nVia @Dan_Salomone",
-        "posted": "Cam Skattebo (hamstring) was listed as a limited participant on Monday's estimated injury report.\n\nVia @Dan_Salomone"
-      },
-      {
-        "posted_at": "2026-11-09T23:12:57Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.7551,
-        "draft": "Sam Darnold (quadriceps), per head coach Mike Macdonald, is expected to be able to play after the Seahawks' bye and start Nov. 29 at San Francisco.\n\nVia @gbellseattle",
-        "posted": "The Seahawks believe Sam Darnold (quadriceps) will be ready to return following the team's Week 11 bye, per head coach Mike Macdonald.\n\nVia @gbellseattle"
-      },
-      {
-        "posted_at": "2026-11-09T22:50:24Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.2976,
-        "draft": "Deebo Samuel (hamstring), per 49ers, is on track to return to practice on Wednesday.\n\nVia @LombardiHimself",
-        "posted": "Deebo Samuel (hamstring) \"is on track\" to practice Wednesday.\n\nVia @LombardiHimself"
-      },
-      {
-        "posted_at": "2026-11-09T22:49:31Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.5806,
-        "draft": "Mike Evans (Achilles), per head coach Kyle Shanahan, is unlikely to be at practice Wednesday.\n\nVia @nwagoner",
-        "posted": "Mike Evans (Achilles) is unlikely to return this week, per head coach Kyle Shanahan.\n\nVia @nwagoner"
-      },
-      {
-        "posted_at": "2026-11-09T22:45:11Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.0,
-        "draft": "Gardner Minshew (torn UCL) is seeking additional medical opinions to confirm that he likely will need season-ending surgery.\n\nVia @AdamSchefter",
-        "posted": "Gardner Minshew (torn UCL) is seeking additional medical opinions to confirm that he likely will need season-ending surgery.\n\nVia @AdamSchefter"
-      },
-      {
-        "posted_at": "2026-11-09T22:09:08Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.7339,
-        "draft": "Puka Nacua (PCL/MCL sprain/turf toe), per head coach Sean McVay, is likely headed to injured reserve.\n\nVia @AdamGrosbard",
-        "posted": "Puka Nacua is likely headed to injured reserve with a PCL/MCL sprain and turf toe, per head coach Sean McVay. \n\nVia @AdamGrosbard"
-      },
-      {
-        "posted_at": "2026-11-09T21:51:27Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.6264,
-        "draft": "Jake Ferguson (knee), per head coach Brian Schottenheimer, will miss multiple weeks.\n\nVia @VoiceOfTheStar",
-        "posted": "Jake Ferguson (knee) is slated to miss multiple weeks, per head coach Brian Schottenheimer.\n\nVia @VoiceOfTheStar"
-      },
-      {
-        "posted_at": "2026-11-09T21:47:26Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.0,
-        "draft": "Jordan Davis is being traded from the Eagles to the Jaguars for a 2027 first-round pick and a 2029 second-round pick.\n\nVia @AdamSchefter",
-        "posted": "Jordan Davis is being traded from the Eagles to the Jaguars for a 2027 first-round pick and a 2029 second-round pick.\n\nVia @AdamSchefter"
-      },
-      {
-        "posted_at": "2026-11-09T21:40:55Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.0,
-        "draft": "Joshua Palmer (hamstring) was placed on injured reserve Monday.\n\nVia @JoeBuscaglia",
-        "posted": "Joshua Palmer (hamstring) was placed on injured reserve Monday.\n\nVia @JoeBuscaglia"
-      },
-      {
-        "posted_at": "2026-11-09T21:36:28Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.2676,
-        "draft": "Gardner Minshew will undergo tests on his right elbow/arm after taking a blow near the end of the first half of Sunday's loss to the Seahawks.\n\nVia @Cardschatter",
-        "posted": "Gardner Minshew will undergo tests after taking a hit to his right elbow/arm near the end of the first half of Sunday's loss to the Seahawks.\n\nVia @Cardschatter"
-      },
-      {
-        "posted_at": "2026-11-09T21:33:44Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.2069,
-        "draft": "Michael Wilson (neck) is out for the season with a neck fracture, per Mike LaFleur.\n\nVia @joshweinfuss",
-        "posted": "Michael Wilson is out for the season with a neck fracture, per head coach Mike LaFleur.\n\nVia @joshweinfuss"
-      },
-      {
-        "posted_at": "2026-11-09T21:12:31Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.6471,
-        "draft": "Josh Jacobs (finger), per head coach Matt LaFleur, may be a candidate for injured reserve after LaFleur said Monday, “I think everything is a possibility.”\n\nVia @mattschneidman",
-        "posted": "Josh Jacobs will undergo surgery this week to repair a fractured right ring finger, and a stint on injured reserve hasn't been ruled out for the running back, per head coach Matt LaFleur.\n\nVia @mattschneidman"
-      },
-      {
-        "posted_at": "2026-11-09T20:36:46Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.5702,
-        "draft": "David Montgomery (groin), per head coach DeMeco Ryans, could practice this week or next week and is making \"progress.\"\n\nVia @AaronWilson_NFL",
-        "posted": "David Montgomery (groin) is making \"progress\" and could return to practice in Week 10 or 11, per head coach DeMeco Ryans.\n\nVia @AaronWilson_NFL"
-      },
-      {
-        "posted_at": "2026-11-09T20:13:52Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.6237,
-        "draft": "Jacoby Brissett, per head coach Minter, is expected to start Monday night.\n\nVia @jeffzrebiec",
-        "posted": "Jacoby Brissett is expected to start next Monday against the Chargers, per head coach Minter.\n\nVia @jeffzrebiec"
-      },
-      {
-        "posted_at": "2026-11-09T20:03:53Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.0,
-        "draft": "Josh Jacobs (finger) is set to undergo surgery this week and is expected to miss up to three weeks.\n\nVia @mzenitz",
-        "posted": "Josh Jacobs (finger) is set to undergo surgery this week and is expected to miss up to three weeks.\n\nVia @mzenitz"
-      },
-      {
-        "posted_at": "2026-11-09T18:35:13Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": false,
-        "baseline_source": "stored",
-        "distance": 0.8217,
-        "draft": "Jonathon Brooks (abdomen), per head coach Dave Canales, is having his status discussed by the Panthers over the next two days.\n\nVia @mike_e_kaye",
-        "posted": "The Panthers will take \"the next two days\" before deciding whether or not to open the practice window for Jonathon Brooks (core).\n\nVia @mike_e_kaye"
       }
     ],
     "last30": {
-      "posts": 1100,
-      "scored": 1100,
-      "edited_pct": 87.2,
-      "change_pct": 38.2,
-      "stored_pct": 97.5
+      "posts": 1086,
+      "scored": 1086,
+      "edited_pct": 86.5,
+      "change_pct": 37.2,
+      "stored_pct": 100.0
     },
     "by_path": {
       "monitor": {
-        "posts": 806,
-        "scored": 806,
-        "edited_pct": 85.6,
-        "change_pct": 35.0,
-        "stored_pct": 97.9
+        "posts": 805,
+        "scored": 805,
+        "edited_pct": 84.8,
+        "change_pct": 33.9,
+        "stored_pct": 100.0
       },
       "manual": {
-        "posts": 294,
-        "scored": 294,
-        "edited_pct": 91.5,
-        "change_pct": 47.0,
-        "stored_pct": 96.6
+        "posts": 281,
+        "scored": 281,
+        "edited_pct": 91.1,
+        "change_pct": 46.4,
+        "stored_pct": 100.0
       }
     },
     "stored_since": "2026-10-14",
@@ -3062,10 +3104,10 @@
       },
       {
         "day": "2026-11-01",
-        "sampled": 20,
-        "drafted_by_template": 7,
-        "posted_in_template_form": 5,
-        "untouched": 2
+        "sampled": 4,
+        "drafted_by_template": 1,
+        "posted_in_template_form": 1,
+        "untouched": 0
       },
       {
         "day": "2026-11-02",
@@ -3136,6 +3178,20 @@
         "drafted_by_template": 11,
         "posted_in_template_form": 11,
         "untouched": 4
+      },
+      {
+        "day": "2026-11-12",
+        "sampled": 20,
+        "drafted_by_template": 13,
+        "posted_in_template_form": 13,
+        "untouched": 5
+      },
+      {
+        "day": "2026-11-13",
+        "sampled": 1,
+        "drafted_by_template": 1,
+        "posted_in_template_form": 1,
+        "untouched": 0
       }
     ],
     "breakdown": {
@@ -4283,11 +4339,11 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 56,
+          "posts": 50,
           "race": {
-            "n": 34,
-            "median_gap": 58,
-            "underdog_first_pct": 97.1,
+            "n": 31,
+            "median_gap": 56,
+            "underdog_first_pct": 96.8,
             "gaps": [
               -43,
               11,
@@ -4316,32 +4372,29 @@
               230,
               241,
               264,
-              285,
               289,
               400,
               413,
-              459,
-              565,
-              828
+              565
             ],
-            "underdog_before_source_pct": 5.9,
+            "underdog_before_source_pct": 3.2,
             "before_source": {
-              "n": 2,
+              "n": 1,
               "monitor_had_earlier": 1,
-              "monitor_never_had": 1
+              "monitor_never_had": 0
             }
           },
           "from_source": {
-            "median": 86,
-            "n": 33
+            "median": 82,
+            "n": 30
           }
         },
         "monitor": {
-          "posts": 48,
+          "posts": 43,
           "race": {
-            "n": 29,
-            "median_gap": 56,
-            "underdog_first_pct": 96.6,
+            "n": 26,
+            "median_gap": 50,
+            "underdog_first_pct": 96.2,
             "gaps": [
               -43,
               11,
@@ -4366,50 +4419,47 @@
               230,
               241,
               264,
-              285,
               289,
               400,
-              459,
-              565,
-              828
+              565
             ],
-            "underdog_before_source_pct": 6.9,
+            "underdog_before_source_pct": 3.8,
             "before_source": {
-              "n": 2,
+              "n": 1,
               "monitor_had_earlier": 1,
-              "monitor_never_had": 1
+              "monitor_never_had": 0
             }
           },
           "from_source": {
-            "median": 89,
-            "n": 29
+            "median": 82,
+            "n": 26
           },
           "steps": {
             "sent_to_monitor": {
               "median": 14,
-              "n": 48
+              "n": 43
             },
             "monitor_to_open": {
-              "median": 54,
-              "n": 46
+              "median": 50,
+              "n": 42
             },
             "open_to_x": {
-              "median": 23,
-              "n": 46
+              "median": 22,
+              "n": 42
             },
             "monitor_to_x": {
-              "median": 81,
-              "n": 48
+              "median": 74,
+              "n": 43
             },
             "split": true,
             "edited": {
-              "pct": 83.3,
-              "n": 48
+              "pct": 81.4,
+              "n": 43
             }
           }
         },
         "manual": {
-          "posts": 7,
+          "posts": 6,
           "race": {
             "n": 5,
             "median_gap": 59,
@@ -4450,8 +4500,8 @@
             "n": 0
           }
         },
-        "manual_pct": 12.5,
-        "other_pct": 1.8
+        "manual_pct": 12.0,
+        "other_pct": 2.0
       }
     },
     {
@@ -4460,26 +4510,32 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 217,
+          "posts": 254,
           "race": {
-            "n": 95,
-            "median_gap": 106,
-            "underdog_first_pct": 97.9,
+            "n": 107,
+            "median_gap": 91,
+            "underdog_first_pct": 98.1,
             "gaps": [
               -53,
               -10,
               4,
               5,
               6,
+              8,
               11,
               13,
               15,
+              15,
+              18,
+              20,
               22,
               22,
               24,
               28,
+              30,
               32,
               33,
+              34,
               34,
               36,
               37,
@@ -4496,6 +4552,7 @@
               55,
               55,
               57,
+              57,
               65,
               65,
               67,
@@ -4509,8 +4566,10 @@
               78,
               82,
               83,
+              88,
               90,
               90,
+              91,
               99,
               103,
               106,
@@ -4520,9 +4579,11 @@
               112,
               116,
               127,
+              127,
               133,
               136,
               138,
+              140,
               145,
               163,
               167,
@@ -4544,6 +4605,7 @@
               313,
               314,
               317,
+              321,
               323,
               364,
               373,
@@ -4562,7 +4624,7 @@
               749,
               1780
             ],
-            "underdog_before_source_pct": 11.4,
+            "underdog_before_source_pct": 10.0,
             "before_source": {
               "n": 10,
               "monitor_had_earlier": 5,
@@ -4570,27 +4632,33 @@
             }
           },
           "from_source": {
-            "median": 142,
-            "n": 91
+            "median": 136,
+            "n": 103
           }
         },
         "monitor": {
-          "posts": 125,
+          "posts": 152,
           "race": {
-            "n": 57,
-            "median_gap": 99,
-            "underdog_first_pct": 96.5,
+            "n": 66,
+            "median_gap": 80,
+            "underdog_first_pct": 97.0,
             "gaps": [
               -53,
               -10,
               4,
               5,
+              8,
               11,
               13,
               15,
+              15,
+              18,
+              20,
               22,
               22,
               28,
+              30,
+              34,
               34,
               36,
               37,
@@ -4609,12 +4677,14 @@
               76,
               78,
               83,
+              88,
               99,
               103,
               108,
               110,
               112,
               116,
+              127,
               133,
               136,
               138,
@@ -4628,6 +4698,7 @@
               273,
               279,
               306,
+              321,
               414,
               466,
               481,
@@ -4639,7 +4710,7 @@
               749,
               1780
             ],
-            "underdog_before_source_pct": 12.3,
+            "underdog_before_source_pct": 10.6,
             "before_source": {
               "n": 7,
               "monitor_had_earlier": 4,
@@ -4647,38 +4718,38 @@
             }
           },
           "from_source": {
-            "median": 139,
-            "n": 57
+            "median": 134,
+            "n": 66
           },
           "steps": {
             "sent_to_monitor": {
               "median": 16,
-              "n": 134
+              "n": 162
             },
             "monitor_to_open": {
-              "median": 76,
-              "n": 131
+              "median": 66,
+              "n": 159
             },
             "open_to_x": {
-              "median": 23,
-              "n": 131
+              "median": 21,
+              "n": 159
             },
             "monitor_to_x": {
-              "median": 104,
-              "n": 134
+              "median": 94,
+              "n": 162
             },
             "split": true,
             "edited": {
-              "pct": 88.8,
-              "n": 134
+              "pct": 87.0,
+              "n": 162
             }
           }
         },
         "manual": {
-          "posts": 75,
+          "posts": 82,
           "race": {
-            "n": 31,
-            "median_gap": 111,
+            "n": 34,
+            "median_gap": 108,
             "underdog_first_pct": 100.0,
             "gaps": [
               6,
@@ -4686,6 +4757,7 @@
               33,
               38,
               50,
+              57,
               57,
               65,
               65,
@@ -4695,9 +4767,11 @@
               78,
               82,
               90,
+              91,
               106,
               111,
               127,
+              140,
               168,
               168,
               203,
@@ -4713,7 +4787,7 @@
               386,
               434
             ],
-            "underdog_before_source_pct": 9.7,
+            "underdog_before_source_pct": 8.8,
             "before_source": {
               "n": 3,
               "monitor_had_earlier": 1,
@@ -4721,16 +4795,16 @@
             }
           },
           "from_source": {
-            "median": 164,
-            "n": 29
+            "median": 158,
+            "n": 32
           },
           "add_line_to_x": {
             "median": 46,
-            "n": 76
+            "n": 83
           }
         },
         "other": {
-          "posts": 17,
+          "posts": 20,
           "race": {
             "n": 7,
             "median_gap": 257,
@@ -4750,8 +4824,8 @@
             "n": 5
           }
         },
-        "manual_pct": 34.6,
-        "other_pct": 7.8
+        "manual_pct": 32.3,
+        "other_pct": 7.9
       }
     },
     {
@@ -20831,6 +20905,278 @@
       "post": null,
       "total": 17,
       "edited": "no"
+    },
+    "2120904292663992475": {
+      "hand": false,
+      "monitor": 13,
+      "open": 29,
+      "post": 17,
+      "total": 59,
+      "edited": "yes"
+    },
+    "2120919545489535323": {
+      "hand": false,
+      "monitor": 12,
+      "open": 115,
+      "post": 38,
+      "total": 165,
+      "edited": "yes"
+    },
+    "2120922919039614978": {
+      "hand": false,
+      "monitor": 11,
+      "open": 28,
+      "post": 54,
+      "total": 93,
+      "edited": "yes"
+    },
+    "2120925356202860925": {
+      "hand": false,
+      "monitor": 18,
+      "open": 43,
+      "post": 22,
+      "total": 83,
+      "edited": "no"
+    },
+    "2120927361679884675": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 57,
+      "edited": "yes"
+    },
+    "2120929955890495940": {
+      "hand": false,
+      "monitor": 14,
+      "open": 48,
+      "post": 26,
+      "total": 88,
+      "edited": "yes"
+    },
+    "2120931690939904121": {
+      "hand": false,
+      "monitor": 14,
+      "open": 13,
+      "post": 30,
+      "total": 57,
+      "edited": "yes"
+    },
+    "2120941563681329556": {
+      "hand": false,
+      "monitor": 13,
+      "open": 203,
+      "post": 12,
+      "total": 228,
+      "edited": "yes"
+    },
+    "2120942338902040998": {
+      "hand": false,
+      "monitor": 13,
+      "open": 38,
+      "post": 13,
+      "total": 64,
+      "edited": "yes"
+    },
+    "2120958931937665086": {
+      "hand": false,
+      "monitor": 12,
+      "open": 42,
+      "post": 15,
+      "total": 69,
+      "edited": "yes"
+    },
+    "2120970134290337813": {
+      "hand": false,
+      "monitor": 22,
+      "open": 14,
+      "post": 22,
+      "total": 58,
+      "edited": "yes"
+    },
+    "2120974909392236784": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 34,
+      "edited": "yes"
+    },
+    "2120985230500667696": {
+      "hand": false,
+      "monitor": 17,
+      "open": 30,
+      "post": 8,
+      "total": 55,
+      "edited": "yes"
+    },
+    "2120985975497142405": {
+      "hand": false,
+      "monitor": 15,
+      "open": 39,
+      "post": 39,
+      "total": 93,
+      "edited": "yes"
+    },
+    "2120986073123692581": {
+      "hand": false,
+      "monitor": 17,
+      "open": 49,
+      "post": 11,
+      "total": 77,
+      "edited": "yes"
+    },
+    "2120986139611804158": {
+      "hand": false,
+      "monitor": 18,
+      "open": 69,
+      "post": 6,
+      "total": 93,
+      "edited": "no"
+    },
+    "2120986644601802867": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 32,
+      "edited": "yes"
+    },
+    "2120986806258643285": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 22,
+      "edited": "yes"
+    },
+    "2120988343395627200": {
+      "hand": false,
+      "monitor": 17,
+      "open": 19,
+      "post": 11,
+      "total": 47,
+      "edited": "yes"
+    },
+    "2120988456482488567": {
+      "hand": false,
+      "monitor": 17,
+      "open": 49,
+      "post": 8,
+      "total": 74,
+      "edited": "no"
+    },
+    "2120988583678910695": {
+      "hand": false,
+      "monitor": 19,
+      "open": 65,
+      "post": 15,
+      "total": 99,
+      "edited": "yes"
+    },
+    "2120989159984615683": {
+      "hand": false,
+      "monitor": 18,
+      "open": 29,
+      "post": 11,
+      "total": 58,
+      "edited": "yes"
+    },
+    "2121000329957249400": {
+      "hand": false,
+      "monitor": 11,
+      "open": 28,
+      "post": 34,
+      "total": 73,
+      "edited": "yes"
+    },
+    "2121003753293664589": {
+      "hand": false,
+      "monitor": 24,
+      "open": 30,
+      "post": 10,
+      "total": 64,
+      "edited": "no"
+    },
+    "2121004043510087883": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 14,
+      "edited": "yes"
+    },
+    "2121004135902273568": {
+      "hand": false,
+      "monitor": 24,
+      "open": 117,
+      "post": 14,
+      "total": 155,
+      "edited": "no"
+    },
+    "2121004222195876310": {
+      "hand": false,
+      "monitor": 24,
+      "open": 142,
+      "post": 9,
+      "total": 175,
+      "edited": "yes"
+    },
+    "2121013240842874945": {
+      "hand": false,
+      "monitor": 17,
+      "open": 41,
+      "post": 7,
+      "total": 65,
+      "edited": "no"
+    },
+    "2121020195531530529": {
+      "hand": false,
+      "monitor": 21,
+      "open": 14,
+      "post": 8,
+      "total": 43,
+      "edited": "yes"
+    },
+    "2121020477128810636": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 41,
+      "edited": "yes"
+    },
+    "2121021431769125204": {
+      "hand": false,
+      "monitor": 16,
+      "open": 64,
+      "post": 21,
+      "total": 101,
+      "edited": "yes"
+    },
+    "2121021561389879792": {
+      "hand": false,
+      "monitor": 16,
+      "open": 101,
+      "post": 15,
+      "total": 132,
+      "edited": "yes"
+    },
+    "2121028984099975306": {
+      "hand": true,
+      "monitor": null,
+      "open": null,
+      "post": null,
+      "total": 16,
+      "edited": "yes"
+    },
+    "2121038956313678325": {
+      "hand": false,
+      "monitor": 17,
+      "open": 302,
+      "post": 28,
+      "total": 347,
+      "edited": "yes"
     }
   },
   "sheets": [
@@ -20885,35 +21231,28 @@
   "summary": {
     "margin": {
       "last30": {
-        "n": 676,
-        "median": 85,
+        "n": 685,
+        "median": 83,
         "rw_first_pct": 1.5,
-        "tie_pct": 36.7,
-        "ud_first_pct": 61.8,
-        "ud_mid_pct": 47.6,
-        "ud_blowout_pct": 14.2,
-        "rw_early_n": 77,
+        "tie_pct": 37.2,
+        "ud_first_pct": 61.3,
+        "ud_mid_pct": 47.4,
+        "ud_blowout_pct": 13.9,
+        "rw_early_n": 87,
         "ud_early_n": 34
       },
       "prior30": {
-        "n": 730,
+        "n": 706,
         "median": 110,
         "rw_first_pct": 3.4,
-        "tie_pct": 25.6,
-        "ud_first_pct": 71.0,
-        "ud_mid_pct": 56.8,
-        "ud_blowout_pct": 14.1,
-        "rw_early_n": 41,
-        "ud_early_n": 42
+        "tie_pct": 25.4,
+        "ud_first_pct": 71.2,
+        "ud_mid_pct": 57.1,
+        "ud_blowout_pct": 14.2,
+        "rw_early_n": 40,
+        "ud_early_n": 41
       },
       "rolling": [
-        [
-          "2026-08-14",
-          89,
-          102,
-          34,
-          10
-        ],
         [
           "2026-08-15",
           65,
@@ -21539,8 +21878,15 @@
         ],
         [
           "2026-11-12",
+          58,
+          83,
+          46,
+          12
+        ],
+        [
+          "2026-11-13",
           60,
-          84,
+          85,
           null,
           0
         ]
@@ -21591,11 +21937,11 @@
       "on": {
         "arrival": {
           "median": 15,
-          "n": 904
+          "n": 932
         },
         "margin": {
-          "median": 89,
-          "n": 772
+          "median": 88,
+          "n": 784
         }
       },
       "off": {
@@ -21615,7 +21961,7 @@
         "covers": [],
         "label": "Turbo mode",
         "live": "2026-10-05",
-        "days_since": 38,
+        "days_since": 39,
         "too_soon": false,
         "metrics": [
           {
@@ -21632,7 +21978,7 @@
             },
             "after": {
               "value": 15,
-              "n": 904,
+              "n": 932,
               "unit": "s"
             }
           }
@@ -21643,7 +21989,7 @@
         "covers": [],
         "label": "Turbo all day",
         "live": "2026-10-19",
-        "days_since": 24,
+        "days_since": 25,
         "too_soon": false,
         "metrics": [
           {
@@ -21660,7 +22006,7 @@
             },
             "after": {
               "value": 15,
-              "n": 685,
+              "n": 713,
               "unit": "s"
             }
           },
@@ -21677,8 +22023,8 @@
               "unit": "s"
             },
             "after": {
-              "value": 85,
-              "n": 544,
+              "value": 84,
+              "n": 556,
               "unit": "s"
             }
           }
@@ -21693,7 +22039,7 @@
         ],
         "label": "Templates added",
         "live": "2026-10-09",
-        "days_since": 34,
+        "days_since": 35,
         "too_soon": false,
         "metrics": [
           {
@@ -21709,8 +22055,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 88.5,
-              "n": 1271,
+              "value": 88.4,
+              "n": 1305,
               "unit": "%"
             }
           },
@@ -21727,8 +22073,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 39.3,
-              "n": 1271,
+              "value": 39.0,
+              "n": 1305,
               "unit": "%"
             }
           }
@@ -21742,7 +22088,7 @@
         ],
         "label": "First round of template improvements",
         "live": "2026-10-16",
-        "days_since": 27,
+        "days_since": 28,
         "too_soon": false,
         "metrics": [
           {
@@ -21758,8 +22104,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 102.6,
-              "n": 153,
+              "value": 101.2,
+              "n": 162,
               "unit": "%"
             }
           },
@@ -21776,8 +22122,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 86.1,
-              "n": 1009,
+              "value": 86.0,
+              "n": 1043,
               "unit": "%"
             }
           }
@@ -21788,7 +22134,7 @@
         "covers": [],
         "label": "Flag drafts from sources it can't read",
         "live": "2026-10-17",
-        "days_since": 26,
+        "days_since": 27,
         "too_soon": false,
         "metrics": [
           {
@@ -21804,8 +22150,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 37.2,
-              "n": 954,
+              "value": 36.9,
+              "n": 988,
               "unit": "%"
             }
           },
@@ -21822,8 +22168,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 86.0,
-              "n": 954,
+              "value": 85.8,
+              "n": 988,
               "unit": "%"
             }
           }
@@ -21834,7 +22180,7 @@
         "covers": [],
         "label": "Auto active posts for game-time decisions",
         "live": "2026-10-20",
-        "days_since": 23,
+        "days_since": 24,
         "too_soon": false,
         "metrics": [
           {
@@ -21850,8 +22196,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 21.8,
-              "n": 871,
+              "value": 21.7,
+              "n": 908,
               "unit": "%"
             }
           },
@@ -21869,7 +22215,7 @@
             },
             "after": {
               "value": 82,
-              "n": 524,
+              "n": 536,
               "unit": "s"
             }
           }
@@ -21884,7 +22230,7 @@
         ],
         "label": "Best-fitting template instead of falling back",
         "live": "2026-11-03",
-        "days_since": 9,
+        "days_since": 10,
         "too_soon": false,
         "metrics": [
           {
@@ -21900,8 +22246,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 29.4,
-              "n": 354,
+              "value": 30.4,
+              "n": 388,
               "unit": "%"
             }
           },
@@ -21918,8 +22264,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 86.2,
-              "n": 354,
+              "value": 85.8,
+              "n": 388,
               "unit": "%"
             }
           }
@@ -21930,7 +22276,7 @@
         "covers": [],
         "label": "Live editor page (no 10s refresh)",
         "live": "2026-10-16T19:20:00",
-        "days_since": 26,
+        "days_since": 27,
         "too_soon": false,
         "metrics": [
           {
@@ -21946,8 +22292,8 @@
               "unit": "s"
             },
             "after": {
-              "value": 58,
-              "n": 727,
+              "value": 56,
+              "n": 755,
               "unit": "s"
             }
           }
@@ -21955,7 +22301,7 @@
       }
     ],
     "roadmap": {
-      "fetched_at": "2026-11-12T13:38:33.156876+00:00",
+      "fetched_at": "2026-11-13T12:57:44.894738+00:00",
       "steps": [
         {
           "step": "s1",
@@ -22313,14 +22659,14 @@
     "initiative": {
       "root": "RD-8314",
       "label": "Breaking News AI",
-      "fetched_at": "2026-11-12T13:38:33.156876+00:00",
+      "fetched_at": "2026-11-13T12:57:44.894738+00:00",
       "url": "https://gdcgroup.atlassian.net/browse/RD-8314",
       "assignee": "Matthew Kulina",
       "sprints": [
         {
           "name": "2026.Q4.S23",
           "state": "active",
-          "start": "2026-11-12T13:00:00.000Z",
+          "start": "2026-11-12T14:57:27.126Z",
           "end": "2026-11-25T21:00:00.000Z"
         },
         {
@@ -22444,10 +22790,10 @@
             },
             {
               "key": "RD-8458",
-              "summary": "Breaking News AI: NFL Template Checks Set a Confidence Level Instead of Falling Back",
+              "summary": "Breaking News AI: Every NFL Draft Gets a Template, Worded to the Source's Certainty",
               "type": "Story",
-              "status": "Ready for Work",
-              "category": "new",
+              "status": "In Progress",
+              "category": "indeterminate",
               "assignee": "Matthew Kulina",
               "priority": "Highest",
               "resolved": null,
@@ -22457,7 +22803,7 @@
             },
             {
               "key": "RD-8460",
-              "summary": "Breaking News AI: NFL Template Catalog With Status Levels, Tested Daily by Replay",
+              "summary": "Breaking News AI: Weekly NFL Template Tune-Up (Replay, Desk Review, Scorecard)",
               "type": "Story",
               "status": "Ready for Work",
               "category": "new",
@@ -22483,6 +22829,17 @@
             }
           ],
           "done": [
+            {
+              "key": "RD-8469",
+              "summary": "Match a player when the tweet's first name is one letter off the roster spelling",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-11-12T20:39:09.144+0000",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8469"
+            },
             {
               "key": "RD-8437",
               "summary": "Breaking News AI: NFL Trade Template Should Handle \"Team Receive:\" Trade Breakdowns",
@@ -22737,123 +23094,26 @@
           ]
         },
         {
-          "key": "RD-8115",
-          "summary": "Breaking News AI: Post Design and Reporting",
-          "status": "Ready for Work",
-          "category": "new",
-          "url": "https://gdcgroup.atlassian.net/browse/RD-8115",
-          "prioritized": [],
-          "backlog": [
-            {
-              "key": "RD-7338",
-              "summary": "App Push Notifications: Which Players and When",
-              "type": "Story",
-              "status": "In Refinement",
-              "category": "new",
-              "assignee": "Nicholas Piovano",
-              "priority": "High",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-7338"
-            },
-            {
-              "key": "RD-7649",
-              "summary": "Processing-Time Report Page",
-              "type": "Task",
-              "status": "Ready for Work",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-7649"
-            },
-            {
-              "key": "RD-7911",
-              "summary": "X Post Media Controls: Auto, Card or Text Only",
-              "type": "Task",
-              "status": "Idea",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-7911"
-            },
-            {
-              "key": "RD-7912",
-              "summary": "NFL X Post Card Layouts",
-              "type": "Task",
-              "status": "Idea",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-7912"
-            },
-            {
-              "key": "RD-7913",
-              "summary": "Action Photo Inventory and Social Use Audit",
-              "type": "Task",
-              "status": "Idea",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-7913"
-            },
-            {
-              "key": "RD-8087",
-              "summary": "News Admin: X Post Cited-Text Style for @RotoWireNHL",
-              "type": "Story",
-              "status": "Idea",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8087"
-            },
-            {
-              "key": "RD-8095",
-              "summary": "NFL Stale Players Report: Placeholder Posts",
-              "type": "Story",
-              "status": "Ready for Work",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "High",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8095"
-            },
-            {
-              "key": "RD-8186",
-              "summary": "Bluesky NFL: More Details replies and player images",
-              "type": "Story",
-              "status": "Ready for Work",
-              "category": "new",
-              "assignee": "Matthew Kulina",
-              "priority": "Low",
-              "resolved": null,
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8186"
-            }
-          ],
-          "done": [
-            {
-              "key": "RD-8160",
-              "summary": "Reply Tweet More Details Link: Clean URL, No Preview Card",
-              "type": "Story",
-              "status": "Done",
-              "category": "done",
-              "assignee": "Matthew Kulina",
-              "priority": "Medium",
-              "resolved": "2026-10-19T18:27:53.200+0100",
-              "url": "https://gdcgroup.atlassian.net/browse/RD-8160"
-            }
-          ]
-        },
-        {
           "key": "RD-8100",
           "summary": "News Admin: Desk QoL and UI",
           "status": "Ready for Work",
           "category": "new",
           "url": "https://gdcgroup.atlassian.net/browse/RD-8100",
-          "prioritized": [],
+          "prioritized": [
+            {
+              "key": "RD-8470",
+              "summary": "Warn editors working the same player at once instead of locking them out of the note",
+              "type": "Story",
+              "status": "In Review",
+              "category": "indeterminate",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8470",
+              "sprint": "2026.Q4.S23",
+              "sprint_state": "active"
+            }
+          ],
           "backlog": [
             {
               "key": "RD-7648",
@@ -23043,6 +23303,117 @@
               "priority": "High",
               "resolved": "2026-10-08T17:51:18.964+0100",
               "url": "https://gdcgroup.atlassian.net/browse/RD-8013"
+            }
+          ]
+        },
+        {
+          "key": "RD-8115",
+          "summary": "Breaking News AI: Post Design and Reporting",
+          "status": "Ready for Work",
+          "category": "new",
+          "url": "https://gdcgroup.atlassian.net/browse/RD-8115",
+          "prioritized": [],
+          "backlog": [
+            {
+              "key": "RD-7338",
+              "summary": "App Push Notifications: Which Players and When",
+              "type": "Story",
+              "status": "In Refinement",
+              "category": "new",
+              "assignee": "Nicholas Piovano",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7338"
+            },
+            {
+              "key": "RD-7649",
+              "summary": "Processing-Time Report Page",
+              "type": "Task",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7649"
+            },
+            {
+              "key": "RD-7911",
+              "summary": "X Post Media Controls: Auto, Card or Text Only",
+              "type": "Task",
+              "status": "Idea",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7911"
+            },
+            {
+              "key": "RD-7912",
+              "summary": "NFL X Post Card Layouts",
+              "type": "Task",
+              "status": "Idea",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7912"
+            },
+            {
+              "key": "RD-7913",
+              "summary": "Action Photo Inventory and Social Use Audit",
+              "type": "Task",
+              "status": "Idea",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-7913"
+            },
+            {
+              "key": "RD-8087",
+              "summary": "News Admin: X Post Cited-Text Style for @RotoWireNHL",
+              "type": "Story",
+              "status": "Idea",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8087"
+            },
+            {
+              "key": "RD-8095",
+              "summary": "NFL Stale Players Report: Placeholder Posts",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "High",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8095"
+            },
+            {
+              "key": "RD-8186",
+              "summary": "Bluesky NFL: More Details replies and player images",
+              "type": "Story",
+              "status": "Ready for Work",
+              "category": "new",
+              "assignee": "Matthew Kulina",
+              "priority": "Low",
+              "resolved": null,
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8186"
+            }
+          ],
+          "done": [
+            {
+              "key": "RD-8160",
+              "summary": "Reply Tweet More Details Link: Clean URL, No Preview Card",
+              "type": "Story",
+              "status": "Done",
+              "category": "done",
+              "assignee": "Matthew Kulina",
+              "priority": "Medium",
+              "resolved": "2026-10-19T18:27:53.200+0100",
+              "url": "https://gdcgroup.atlassian.net/browse/RD-8160"
             }
           ]
         },
