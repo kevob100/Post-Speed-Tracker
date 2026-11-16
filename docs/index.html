@@ -609,6 +609,7 @@
   .hl-tbl { margin-top: 12px; overflow-x: auto; }
   .hl-why { margin-top: 14px; }
   .hl-why .hl-tbar { margin-top: 10px; }
+  .hl-csv { background: var(--panel2); color: var(--text, #e6edf3); border: 1px solid var(--line); border-radius: 6px; padding: 5px 10px; font: inherit; font-size: 12px; cursor: pointer; }
   .hl-why .hl-tbl th, .hl-why .hl-tbl td { text-align: left; white-space: normal; vertical-align: top; font-size: 12.5px; }
   .hl-why .hl-tbl td:first-child { white-space: nowrap; }
   .hl-why .hl-tbl td:nth-child(2) { white-space: nowrap; }
@@ -3489,6 +3490,7 @@ function hlWhy(E, w) {
     <div class="hl-mid">${c.judged} edited template post${c.judged === 1 ? "" : "s"} judged${c.judged < c.edited ? ` <span class="hl-goal">of ${c.edited} edited (News Admin returns up to 20 drafts a day)</span>` : ""}</div>
     <div class="hl-tbar" role="img" aria-label="Edited template posts by reason">${bar}</div>
     <div class="hl-key">${key}</div>
+    <div style="margin-top:10px"><button type="button" class="hl-csv" data-w="${w}">Download CSV</button> <span class="hl-vs">every judged post, last ${w} days, with draft and posted text</span></div>
     <details><summary class="lbl" style="cursor:pointer;margin-top:10px">Every judged post (${posts.length})</summary>
       <div class="hl-tbl"><table><thead><tr><th>Day</th><th>Reason</th><th>What changed</th><th>Draft vs posted</th></tr></thead><tbody>${rows}</tbody></table></div></details></div>`;
 }
@@ -3568,6 +3570,15 @@ function renderSummary() {
     <div class="hl-tbar" role="img" aria-label="Share of the typical post each step takes"><i style="flex:${s1};background:var(--s1)"></i><i style="flex:${s2};background:var(--s2)"></i><i style="flex:${s3};background:var(--s3)"></i></div>
     <div class="hl-key"><span><i style="background:var(--s1)"></i>Step 1</span><span><i style="background:var(--s2)"></i>Step 2</span><span><i style="background:var(--s3)"></i>Step 3</span><span>each step's share of the typical post</span></div>
     <p class="sm-note">Medians don't add up: each step is the middle value of its own step. The gap counts every story both accounts posted; steps count Monitor posts only. Template numbers come from News Admin's post edit data, tracked since ${since || "–"}. What each shipped change did, the step tickets and every story are in <a href="#" id="hl-to-det">Details</a>.</p>`;
+  host.querySelectorAll(".hl-csv").forEach(b => b.onclick = () => {
+    const E = H.edit_reasons, since = Date.now() - (+b.dataset.w) * 864e5, q = v => `"${String(v == null ? "" : v).replace(/"/g, '""')}"`;
+    const strip = t => String(t || "").replace(/\s*\n\nVia @\S+\s*$/, "");
+    const lines = [["Posted (UTC)", "Reason", "Template", "Case", "AI draft", "What went out", "What changed"].map(q).join(",")]
+      .concat((E.posts || []).filter(p => Date.parse(p.posted_at) >= since).map(p => [p.posted_at, E.labels[p.reason], p.template, p.template_case, strip(p.draft), strip(p.posted), p.why].map(q).join(",")));
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob(["\ufeff" + lines.join("\n")], { type: "text/csv" }));
+    a.download = `template-edit-reasons_last-${b.dataset.w}-days.csv`; a.click(); URL.revokeObjectURL(a.href);
+  });
   host.querySelectorAll(".hl-win button").forEach(b => b.onclick = () => { hlWin = +b.dataset.w; try { localStorage.setItem("pst-hl-win", hlWin); } catch (e) {} renderSummary(); });
   const td = document.getElementById("hl-to-det");
   if (td) td.onclick = e => { e.preventDefault(); const b = document.querySelector('#pagetabs [data-t="det"]'); if (b) b.click(); };
