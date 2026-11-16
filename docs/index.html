@@ -607,6 +607,12 @@
   .hl-auto .hl-bar { height: 10px; border-radius: 5px; margin: 0; }
   .hl-auto .hl-bar i { border-radius: 5px; }
   .hl-tbl { margin-top: 12px; overflow-x: auto; }
+  .hl-why { margin-top: 14px; }
+  .hl-why .hl-tbar { margin-top: 10px; }
+  .hl-why .hl-tbl th, .hl-why .hl-tbl td { text-align: left; white-space: normal; vertical-align: top; font-size: 12.5px; }
+  .hl-why .hl-tbl td:first-child { white-space: nowrap; }
+  .hl-why .hl-tbl td:nth-child(2) { white-space: nowrap; }
+  .hl-why .hl-tag { display: inline-block; border: 1px solid; border-radius: 4px; padding: 1px 6px; font-size: 11px; }
   .hl-tbl table { width: 100%; border-collapse: collapse; font-variant-numeric: tabular-nums; }
   .hl-tbl th, .hl-tbl td { padding: 9px 8px; border-bottom: 1px solid var(--line); text-align: right; white-space: nowrap; }
   .hl-tbl th:first-child, .hl-tbl td:first-child { text-align: left; white-space: normal; }
@@ -3468,6 +3474,24 @@ function hlChart(el, { rows, lo, hi, ticks, tf, vf, goal, series, dots, dotTip, 
   });
   hit.addEventListener("pointerleave", () => { hov.style.display = "none"; tip.classList.remove("on"); });
 }
+// Why editors changed template drafts: one reason per edited post, judged nightly (src/template_edits.py).
+const HL_WHY = [["template", "#4493f8", "fix the template"], ["wrong_match", "var(--red)", "fix the matching rules"], ["style", "#d29922", "train the desk"], ["other", "#6b7888", ""]];
+function hlWhy(E, w) {
+  const c = E && E["d" + w];
+  if (!c || !c.judged) return "";
+  const esc = t => String(t || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\n\nVia @\S+\s*$/, "");
+  const bar = HL_WHY.filter(([k]) => c[k]).map(([k, col]) => `<i style="flex:${c[k]};background:${col}" title="${E.labels[k]}: ${c[k]}"></i>`).join("");
+  const key = HL_WHY.filter(([k]) => c[k]).map(([k, col, fix]) => `<span><i style="background:${col}"></i>${E.labels[k]}: <b>${c[k]}</b> (${Math.round(100 * c[k] / c.judged)}%)${fix ? ` · ${fix}` : ""}</span>`).join("");
+  const since = Date.now() - w * 864e5, posts = (E.posts || []).filter(p => Date.parse(p.posted_at) >= since);
+  const col = Object.fromEntries(HL_WHY.map(([k, c]) => [k, c]));
+  const rows = posts.map(p => `<tr><td>${smDay(p.posted_at.slice(0, 10))}</td><td><span class="hl-tag" style="border-color:${col[p.reason]};color:${col[p.reason]}">${E.labels[p.reason]}</span><div class="hl-vs">${esc(p.template)}${p.template_case ? " · " + esc(p.template_case) : ""}</div></td><td>${esc(p.why)}</td><td><div class="hl-vs">Draft: ${esc(p.draft)}</div><div>Posted: ${esc(p.posted)}</div></td></tr>`).join("");
+  return `<div class="sm-card hl-why"><div class="lbl">Why template posts were edited · last ${w} days</div>
+    <div class="hl-mid">${c.judged} edited template post${c.judged === 1 ? "" : "s"} judged${c.judged < c.edited ? ` <span class="hl-goal">of ${c.edited} edited (News Admin returns up to 20 drafts a day)</span>` : ""}</div>
+    <div class="hl-tbar" role="img" aria-label="Edited template posts by reason">${bar}</div>
+    <div class="hl-key">${key}</div>
+    <details><summary class="lbl" style="cursor:pointer;margin-top:10px">Every judged post (${posts.length})</summary>
+      <div class="hl-tbl"><table><thead><tr><th>Day</th><th>Reason</th><th>What changed</th><th>Draft vs posted</th></tr></thead><tbody>${rows}</tbody></table></div></details></div>`;
+}
 function renderSummary() {
   const host = document.getElementById("sum"), d = state.desk, H = d && d.summary && d.summary.headline;
   if (!host) return;
@@ -3526,7 +3550,8 @@ function renderSummary() {
       <tr><td>Sent unedited</td><td>${hlPct(tc.template_unedited)}</td><td>${hlPct(tc.freeform_unedited)}</td></tr>
       <tr><td>Step 3: opened to posted (median) <span class="hl-tag" title="Only the sampled draft-vs-posted examples (up to 20 a day) carry a template and a post time to join on">sample</span></td><td>${B.template.s3 == null ? "–" : dkFmt(B.template.s3)} <span class="hl-vs">n=${B.template.s3_n}</span></td><td>${B.freeform.s3 == null ? "–" : dkFmt(B.freeform.s3)} <span class="hl-vs">n=${B.freeform.s3_n}</span></td></tr>
       <tr><td>Behind Underdog (median) <span class="hl-tag" title="Same sample, on stories both accounts posted">sample</span></td><td>${hlGap(B.template.gap)} <span class="hl-vs">n=${B.template.gap_n}</span></td><td>${hlGap(B.freeform.gap)} <span class="hl-vs">n=${B.freeform.gap_n}</span></td></tr>
-      </tbody></table></div>` : `<p class="sm-note">No template data yet.</p>`}
+      </tbody></table></div>
+    ${hlWhy(H.edit_reasons, w)}` : `<p class="sm-note">No template data yet.</p>`}
 
     <h3 class="hl-h">Where our time goes · source tweet to on X</h3>
     <p class="sm-note hl-sub">Median per step, last ${w} days, posts that came through Monitor. A typical post takes ${sc.total == null ? "–" : dkFmt(sc.total)} end to end: ${hlDelta(sc.total, sp.total, { time: true, lowerBetter: true, w, priorN: sp.n })}.</p>

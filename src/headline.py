@@ -160,6 +160,9 @@ def by_template(data_dir: Path, rows: list[dict], stories: list[dict], now: date
     return out
 
 
+from . import template_edits  # noqa: E402
+
+
 def build(cfg: dict, data_dir: Path, rows: list[dict], stories: list[dict], manual_pct, now: datetime) -> dict:
     return {
         "windows": list(WINDOWS),
@@ -168,4 +171,5 @@ def build(cfg: dict, data_dir: Path, rows: list[dict], stories: list[dict], manu
         "templates": templates(data_dir, now),
         "steps": steps(rows, manual_pct, now),
         "by_template": by_template(data_dir, rows, stories, now),
+        "edit_reasons": template_edits.build(data_dir, now),
     }

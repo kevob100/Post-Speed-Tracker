@@ -20,7 +20,7 @@ from datetime import datetime, timedelta, timezone
 from pathlib import Path
 from zoneinfo import ZoneInfo
 
-from . import desk_speed, desk_summary as ds
+from . import desk_speed, desk_summary as ds, template_edits
 from .store import load_jsonl, parse_dt
 
 ET = ZoneInfo("America/New_York")
@@ -82,7 +82,7 @@ def priorities(data_dir: Path, epic: str, now: datetime, limit: int = 5) -> list
     return sorted(out, key=lambda i: (rank.get(i["category"], 2), i["key"]))[:limit]
 
 
-def daily_message(stories: list[dict], edit_daily: list[dict], day: datetime) -> str:
+def daily_message(stories: list[dict], edit_daily: list[dict], day: datetime, data_dir: Path | None = None) -> str:
     a, b = day, day + timedelta(days=1)
     d, w = race(stories, a, b), race(stories, b - timedelta(days=7), b)
     e, ew = edits(edit_daily, a, b), edits(edit_daily, b - timedelta(days=7), b)
@@ -93,6 +93,7 @@ def daily_message(stories: list[dict], edit_daily: list[dict], day: datetime) ->
         f"Typical gap: *{_gap_text(d['gap'])}* that day · {_gap_text(w['gap'])} over the last 7 days",
         f"AI drafts edited: *{_pct(e['edited'])}* of {e['n']} that day · "
         f"{_pct(ew['edited'])} of {ew['n']} over the last 7 days",
+        *([why] if data_dir and (why := template_edits.recap_line(data_dir, a, b)) else []),
         f"<{TRACKER}|Full dashboard>",
     ])
 
@@ -163,7 +164,7 @@ def maybe_post(data_dir: Path, docs_dir: Path, epic: str | None, now: datetime |
     edit_daily = (dsj.get("edits") or {}).get("daily") or []
     done = []
     if daily and (force or state.get("daily") != yesterday.date().isoformat()):
-        _send(hook, daily_message(stories, edit_daily, yesterday))
+        _send(hook, daily_message(stories, edit_daily, yesterday, data_dir))
         state["daily"] = yesterday.date().isoformat()
         done.append("daily")
     week_start = today - timedelta(days=7)

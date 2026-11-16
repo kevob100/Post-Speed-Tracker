@@ -24,7 +24,7 @@ import json
 from datetime import datetime
 import os
 
-from . import (aggregate, classify, collect, credits, desk_speed, desk_summary, news_recap, develop, games, match, positions, practice,
+from . import (template_edits, aggregate, classify, collect, credits, desk_speed, desk_summary, news_recap, develop, games, match, positions, practice,
                source, sprout, staffing_import, xapi)
 from .config import (
     DOCS_DATA_DIR,
@@ -155,6 +155,10 @@ def run_sport(sport: str, cfg: dict | None = None) -> dict:
                 print(f"[desk]      {desk_speed.sync_edits(data_dir, ds_cfg.get('league', sport))}")
             except Exception as e:  # keep the rows from the last good sync
                 print(f"[desk]      sync skipped: {e}")
+            try:  # why editors changed template drafts; judged once per post, cached
+                print(f"[desk]      {template_edits.classify(data_dir)}")
+            except Exception as e:
+                print(f"[desk]      template edit reasons skipped: {e}")
         try:
             stories_out = json.loads((docs_dir / "stories.json").read_text())
             keys = [t["key"] for st in ds_cfg.get("roadmap", []) for t in st.get("tickets", [])]
