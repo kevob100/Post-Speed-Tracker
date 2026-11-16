@@ -17,6 +17,7 @@ judged.
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -32,7 +33,7 @@ SYSTEM = (
     "and an editor changed it before posting. You get the template name and case, the draft and "
     "what was posted. Decide WHY the editor changed it, picking exactly one reason:\n\n"
     "template: the template and case were the right ones, but the template's wording is wrong or "
-    "awkward, or it leaves out a detail that belongs in the post (e.g. the editor wrote 'is being "
+    "awkward, or it leaves out a detail that belongs in the post, including the player's full name such as a missing Jr. (e.g. the editor wrote 'is being "
     "evaluated for a concussion and is questionable to return' where the draft had '(concussion) "
     "is questionable to return', or added the quarter he left in). The fix is to change the "
     "template.\n"
@@ -45,7 +46,7 @@ SYSTEM = (
     "'headed' vs 'has gone'). The fix is training the desk to send good drafts as they are.\n"
     "other: anything else (a typo fix, a correction the template could not have known).\n\n"
     "If the editor both added a missing detail and reworded, pick template. If a fact changed, "
-    "pick wrong_match. Respond with JSON ONLY, no prose, no fences: "
+    "pick wrong_match. Never use double quotes inside why; use single quotes. Respond with JSON ONLY, no prose, no fences: "
     '{"reason": "template|wrong_match|style|other", "why": "<under 15 words: what the editor changed>"}'
 )
 
@@ -62,8 +63,12 @@ def _parse(raw: str) -> dict:
         text = text[4:]
     try:
         d = json.loads(text[text.index("{"): text.rindex("}") + 1])
-    except Exception:
-        return {"reason": "other", "why": "could not classify", "parse_error": True}
+    except Exception:  # usually unescaped quotes inside "why": read the two fields directly
+        m = re.search(r'"reason"\s*:\s*"(\w+)"', text)
+        if not m:
+            return {"reason": "other", "why": "could not classify", "parse_error": True}
+        w = re.search(r'"why"\s*:\s*"(.*)"\s*}', text, re.DOTALL)
+        d = {"reason": m.group(1), "why": w.group(1) if w else ""}
     r = d.get("reason") if d.get("reason") in REASONS else "other"
     return {"reason": r, "why": str(d.get("why") or "")[:160]}
 
@@ -75,7 +80,7 @@ def _edited_template(e: dict) -> bool:
 def classify(data_dir: Path, client=None, limit: int = 150) -> str:
     """Judge every cached example not judged yet. Needs ANTHROPIC_API_KEY."""
     path = data_dir / CACHE
-    done = {r["article_id"]: r for r in load_jsonl(path)}
+    done = {r["article_id"]: r for r in load_jsonl(path) if not r.get("parse_error")}
     todo = [e for e in load_jsonl(data_dir / "x_post_examples.jsonl")
             if _edited_template(e) and e["article_id"] not in done][:limit]
     if not todo:
