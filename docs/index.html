@@ -3418,6 +3418,7 @@ function smBars(m) {
 let hlWin = (() => { try { return +localStorage.getItem("pst-hl-win") || 7; } catch (e) { return 7; } })();
 const HL_MIN_PRIOR = 30; // a prior window thinner than this isn't compared against
 const hlPct = v => v == null ? "–" : Math.round(v) + "%";
+const hlPctX = v => v == null ? "–" : (Math.round(v * 10) / 10) + "%"; // tooltips: one decimal
 const hlGap = v => v == null ? "–" : v >= 0 ? "+" + dkFmt(v) : "−" + dkFmt(-v);
 function hlDelta(cur, prior, { time = false, lowerBetter = false, w, priorN, none = "no earlier data to compare" } = {}) {
   if (cur == null || prior == null || (priorN != null && priorN < HL_MIN_PRIOR)) return `<span class="hl-vs">${none}</span>`;
@@ -3428,12 +3429,13 @@ function hlDelta(cur, prior, { time = false, lowerBetter = false, w, priorN, non
   return `<span class="${good ? "up" : "worse"}">${v < 0 ? "▼" : "▲"} ${time ? dkFmt(Math.abs(v)) : Math.abs(v) + " pt" + (Math.abs(v) === 1 ? "" : "s")}</span> <span class="hl-vs">vs prior ${w} days (${was})</span>`;
 }
 // Line chart drawn at the host's real pixel width, so text and strokes never stretch.
-function hlChart(el, { rows, lo, hi, ticks, tf, goal, series, dots }) {
+function hlChart(el, { rows, lo, hi, ticks, tf, vf, goal, series, dots, dotTip, invert }) {
   if (!el) return;
   const W = el.clientWidth || 300, H = el.clientHeight || 160, L = 40, R = 10, T = 12, B = 20, n = rows.length;
   if (n < 2) { el.innerHTML = ""; return; }
   el.setAttribute("viewBox", `0 0 ${W} ${H}`);
-  const x = i => L + i * (W - L - R) / (n - 1), y = v => T + (hi - Math.max(lo, Math.min(hi, v))) / (hi - lo) * (H - T - B);
+  const x = i => L + i * (W - L - R) / (n - 1), y = v => { const c = Math.max(lo, Math.min(hi, v));
+    return T + (invert ? c - lo : hi - c) / (hi - lo) * (H - T - B); };
   let s = ticks.map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--panel2)"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end" fill="var(--muted)">${tf(v)}</text>`).join("");
   [0, Math.floor((n - 1) / 2), n - 1].forEach((i, k) => s += `<text x="${x(i)}" y="${H - 4}" text-anchor="${["start", "middle", "end"][k]}" fill="var(--muted)">${smDay(rows[i][0])}</text>`);
   if (goal != null) s += `<line x1="${L}" x2="${W - R}" y1="${y(goal)}" y2="${y(goal)}" stroke="var(--good)" stroke-dasharray="4 4"/><text x="${W - R}" y="${y(goal) - 5}" text-anchor="end" fill="var(--good)">goal ${tf(goal)}</text>`;
@@ -3445,7 +3447,26 @@ function hlChart(el, { rows, lo, hi, ticks, tf, goal, series, dots }) {
     s += segs.map(p => `<polyline fill="none" stroke="${color}" stroke-width="${width}" stroke-linejoin="round" stroke-linecap="round" points="${p.join(" ")}"/>`).join("");
     const last = get(rows[n - 1]); if (width > 2 && last != null) s += `<circle cx="${x(n - 1)}" cy="${y(last)}" r="3.5" fill="${color}"/>`;
   });
+  // Hover: crosshair on the nearest day, a dot on each line, and a tooltip with the date and exact values.
+  s += `<g class="hl-hov" style="display:none"><line y1="${T}" y2="${H - B}" stroke="var(--muted)" stroke-dasharray="2 3"/>${series.map(({ color }) => `<circle r="4" fill="${color}" stroke="var(--panel)" stroke-width="1.5"/>`).join("")}</g>`;
+  s += `<rect x="${L}" y="${T}" width="${W - L - R}" height="${H - T - B}" fill="transparent" style="pointer-events:all;cursor:crosshair"/>`;
   el.innerHTML = s;
+  const hov = el.querySelector(".hl-hov"), cl = hov.querySelector("line"), dts = hov.querySelectorAll("circle"), hit = el.lastElementChild, fmt = vf || tf;
+  let tip = document.getElementById("dk-tip");
+  if (!tip) { tip = document.createElement("div"); tip.id = "dk-tip"; tip.className = "dk-tip"; document.body.appendChild(tip); }
+  hit.addEventListener("pointermove", e => {
+    const bx = el.getBoundingClientRect(), px = (e.clientX - bx.left) * W / bx.width;
+    const i = Math.max(0, Math.min(n - 1, Math.round((px - L) / ((W - L - R) / (n - 1))))), r = rows[i];
+    hov.style.display = ""; cl.setAttribute("x1", x(i)); cl.setAttribute("x2", x(i));
+    const lines = series.map(({ get, color, name }, k) => { const v = get(r);
+      if (v == null) { dts[k].setAttribute("cx", -99); return ""; }
+      dts[k].setAttribute("cx", x(i)); dts[k].setAttribute("cy", y(v));
+      return `<br><span><i style="display:inline-block;width:8px;height:8px;border-radius:50%;background:${color};margin-right:6px"></i>${name ? name + ": " : ""}</span>${fmt(v)}`; }).join("");
+    const extra = dotTip ? dotTip(r) : "";
+    tip.innerHTML = `<b>${smDay(r[0])}</b>${lines}${extra ? `<br><span>${extra}</span>` : ""}`; tip.classList.add("on");
+    tip.style.left = Math.min(e.clientX + 12, innerWidth - tip.offsetWidth - 8) + "px"; tip.style.top = (e.clientY + 14) + "px";
+  });
+  hit.addEventListener("pointerleave", () => { hov.style.display = "none"; tip.classList.remove("on"); });
 }
 function renderSummary() {
   const host = document.getElementById("sum"), d = state.desk, H = d && d.summary && d.summary.headline;
@@ -3527,13 +3548,15 @@ function renderSummary() {
   if (td) td.onclick = e => { e.preventDefault(); const b = document.querySelector('#pagetabs [data-t="det"]'); if (b) b.click(); };
   const gi = w === 7 ? 1 : 2, fi = w === 7 ? 3 : 4, roll = H.race.rolling.filter(r => r[gi] != null || r[fi] != null);
   const gmax = Math.max(120, ...roll.map(r => r[gi] || 0)), gtop = Math.ceil(gmax / 60) * 60;
-  hlChart(document.getElementById("hl-gap"), { rows: roll, lo: 0, hi: gtop, ticks: Array.from({ length: gtop / 60 + 1 }, (_, i) => i * 60), tf: v => v ? "+" + dkFmt(v) : "0", series: [{ get: r => r[gi], color: "var(--red)" }] });
+  hlChart(document.getElementById("hl-gap"), { rows: roll, lo: 0, hi: gtop, invert: true, ticks: Array.from({ length: gtop / 60 + 1 }, (_, i) => i * 60), tf: v => v ? "+" + dkFmt(v) : "0", vf: v => hlGap(Math.round(v)) + " behind", series: [{ get: r => r[gi], color: "var(--red)", name: `${w}-day median` }] });
   const fmax = Math.max(10, ...roll.map(r => r[fi] || 0)), ftop = Math.ceil(fmax / 5) * 5;
-  hlChart(document.getElementById("hl-first"), { rows: roll, lo: 0, hi: ftop, ticks: [0, ftop / 2, ftop], tf: v => v + "%", series: [{ get: r => r[fi], color: "var(--green)" }] });
+  hlChart(document.getElementById("hl-first"), { rows: roll, lo: 0, hi: ftop, ticks: [0, ftop / 2, ftop], tf: v => v + "%", vf: hlPctX, series: [{ get: r => r[fi], color: "var(--green)", name: `${w}-day share` }] });
   if (H.templates) {
     const td2 = H.templates.daily, o = w === 7 ? 3 : 6, t100 = [0, 25, 50, 75, 100], pf = v => v + "%";
-    hlChart(document.getElementById("hl-c1"), { rows: td2, lo: 0, hi: 100, ticks: t100, tf: pf, goal: G.template_share, dots: r => r[1] + r[2] ? 100 * r[1] / (r[1] + r[2]) : null, series: [{ get: r => r[o], color: "var(--green)" }] });
-    hlChart(document.getElementById("hl-c2"), { rows: td2, lo: 0, hi: 100, ticks: t100, tf: pf, goal: G.template_unedited, series: [{ get: r => r[o + 2], color: "#6b7888", width: 1.5 }, { get: r => r[o + 1], color: "var(--green)" }] });
+    hlChart(document.getElementById("hl-c1"), { rows: td2, lo: 0, hi: 100, ticks: t100, tf: pf, vf: hlPctX, goal: G.template_share, dots: r => r[1] + r[2] ? 100 * r[1] / (r[1] + r[2]) : null,
+      dotTip: r => r[1] + r[2] ? `That day: ${hlPctX(100 * r[1] / (r[1] + r[2]))} (${r[1]} of ${r[1] + r[2]} posts)` : "No posts that day",
+      series: [{ get: r => r[o], color: "var(--green)", name: `${w}-day` }] });
+    hlChart(document.getElementById("hl-c2"), { rows: td2, lo: 0, hi: 100, ticks: t100, tf: pf, vf: hlPctX, goal: G.template_unedited, series: [{ get: r => r[o + 1], color: "var(--green)", name: `Template, ${w}-day` }, { get: r => r[o + 2], color: "#6b7888", width: 1.5, name: `Freeform, ${w}-day` }] });
   }
 }
 // The previous Summary, now the first Details group: is each shipped change working, and the tickets behind each step.
