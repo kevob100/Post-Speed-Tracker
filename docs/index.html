@@ -3548,7 +3548,7 @@ function renderSummary() {
   if (td) td.onclick = e => { e.preventDefault(); const b = document.querySelector('#pagetabs [data-t="det"]'); if (b) b.click(); };
   const gi = w === 7 ? 1 : 2, fi = w === 7 ? 3 : 4, roll = H.race.rolling.filter(r => r[gi] != null || r[fi] != null);
   const gmax = Math.max(120, ...roll.map(r => r[gi] || 0)), gtop = Math.ceil(gmax / 60) * 60;
-  hlChart(document.getElementById("hl-gap"), { rows: roll, lo: 0, hi: gtop, invert: true, ticks: Array.from({ length: gtop / 60 + 1 }, (_, i) => i * 60), tf: v => v ? "+" + dkFmt(v) : "0:00", vf: v => hlGap(Math.round(v)) + " behind", series: [{ get: r => r[gi], color: "var(--red)", name: `${w}-day median` }] });
+  hlChart(document.getElementById("hl-gap"), { rows: roll, lo: -60, hi: gtop, invert: true, ticks: Array.from({ length: gtop / 60 + 2 }, (_, i) => (i - 1) * 60), tf: v => v > 0 ? "+" + dkFmt(v) : v < 0 ? "−" + dkFmt(-v) : "0:00", vf: v => { const r = Math.round(v); return r > 0 ? `${dkFmt(r)} behind` : r < 0 ? `${dkFmt(-r)} ahead` : "tied"; }, series: [{ get: r => r[gi], color: "var(--red)", name: `${w}-day median` }] });
   const fmax = Math.max(10, ...roll.map(r => r[fi] || 0)), ftop = Math.ceil(fmax / 5) * 5;
   hlChart(document.getElementById("hl-first"), { rows: roll, lo: 0, hi: ftop, ticks: [0, ftop / 2, ftop], tf: v => v + "%", vf: hlPctX, series: [{ get: r => r[fi], color: "var(--green)", name: `${w}-day share` }] });
   if (H.templates) {
