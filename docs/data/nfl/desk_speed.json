@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-16T15:33:32.876105+00:00",
+  "generated_at": "2026-11-16T15:38:00.128988+00:00",
   "window": {
     "from": "2026-10-17",
     "to": "2026-11-16",
@@ -23428,7 +23428,7 @@
       }
     ],
     "roadmap": {
-      "fetched_at": "2026-11-16T15:33:32.311611+00:00",
+      "fetched_at": "2026-11-16T15:37:59.872730+00:00",
       "steps": [
         {
           "step": "s1",
@@ -23786,7 +23786,7 @@
     "initiative": {
       "root": "RD-8314",
       "label": "Breaking News AI",
-      "fetched_at": "2026-11-16T15:33:32.311611+00:00",
+      "fetched_at": "2026-11-16T15:37:59.872730+00:00",
       "url": "https://gdcgroup.atlassian.net/browse/RD-8314",
       "assignee": "Matthew Kulina",
       "sprints": [
@@ -26480,11 +26480,11 @@
             "ud_first_pct": 48.6
           },
           "prior": {
-            "n": 152,
+            "n": 151,
             "median": 69,
             "rw_first_pct": 1.3,
-            "tie_pct": 40.8,
-            "ud_first_pct": 57.9
+            "tie_pct": 40.4,
+            "ud_first_pct": 58.3
           }
         },
         "d30": {
@@ -27408,8 +27408,8 @@
             "s2": 56,
             "s3": 25,
             "total": 109,
-            "n": 237,
-            "hand_pct": 17.1
+            "n": 236,
+            "hand_pct": 17.2
           }
         },
         "d30": {
@@ -27471,18 +27471,18 @@
         "d7": {
           "judged": 40,
           "edited": 56,
-          "template": 7,
+          "template": 11,
           "wrong_match": 1,
-          "style": 24,
-          "other": 8
+          "style": 25,
+          "other": 3
         },
         "d30": {
           "judged": 66,
           "edited": 136,
-          "template": 12,
+          "template": 17,
           "wrong_match": 3,
-          "style": 38,
-          "other": 13
+          "style": 39,
+          "other": 7
         },
         "posts": [
           {
@@ -27512,8 +27512,8 @@
             "manual": false,
             "draft": "Keon Coleman (head) has been cleared to return to Sunday's game against the Jets.\n\nVia @BuffaloBillsPR",
             "posted": "Keon Coleman was cleared to return to Sunday's game against the Jets after being evaluated for a head injury.\n\nVia @BuffaloBillsPR",
-            "reason": "other",
-            "why": "could not classify"
+            "reason": "style",
+            "why": "Reworded 'has been cleared' and added 'after being evaluated for a head injury'"
           },
           {
             "posted_at": "2026-11-15T20:39:52Z",
@@ -27552,8 +27552,8 @@
             "manual": false,
             "draft": "Pat Freiermuth (illness) is listed as questionable for Sunday's game against the Bengals.\n\nVia @steelers",
             "posted": "Pat Freiermuth (illness) was added to the injury report and is questionable for Sunday's game against the Bengals.\n\nVia @steelers",
-            "reason": "other",
-            "why": "could not classify"
+            "reason": "template",
+            "why": "Editor added 'was added to the injury report' detail missing from draft."
           },
           {
             "posted_at": "2026-11-13T22:56:31Z",
@@ -27572,8 +27572,8 @@
             "manual": false,
             "draft": "George Pickens (hamstring) was upgraded to a full participant on Friday's injury report.\n\nVia @tommy_yarrish",
             "posted": "George Pickens (hamstring) practiced fully Friday and does not have an injury designation for Week 10.\n\nVia @tommy_yarrish",
-            "reason": "other",
-            "why": "could not classify"
+            "reason": "template",
+            "why": "Editor added 'no injury designation for Week 10' detail missing from draft"
           },
           {
             "posted_at": "2026-11-13T22:00:43Z",
@@ -27683,7 +27683,7 @@
             "draft": "Drew Lock (oblique) remained a limited participant on Thursday's practice report.\n\nVia @johnpboyle",
             "posted": "Drew Lock (elbow/oblique) remained a limited participant on Thursday's injury report.\n\nVia @johnpboyle",
             "reason": "other",
-            "why": "Editor added 'elbow' to injury list; template couldn't know this detail."
+            "why": "Editor added 'elbow' injury and changed 'practice report' to 'injury report'"
           },
           {
             "posted_at": "2026-11-12T23:24:50Z",
@@ -27712,8 +27712,8 @@
             "manual": false,
             "draft": "Marvin Harrison (hamstring) was downgraded to a non-participant on Thursday's practice report.\n\nVia @ceasterlingABJ",
             "posted": "Marvin Harrison Jr. (hamstring) was downgraded to a non-participant on Thursday's injury report.\n\nVia @ceasterlingABJ",
-            "reason": "other",
-            "why": "Fixed 'Harrison' to 'Harrison Jr.' and 'practice report' to 'injury report'"
+            "reason": "template",
+            "why": "Missing 'Jr.' in name and 'practice report' changed to 'injury report'"
           },
           {
             "posted_at": "2026-11-12T22:15:45Z",
@@ -27763,7 +27763,7 @@
             "draft": "Rashid Shaheed was listed as a full participant on Wednesday's injury report.\n\nVia @johnpboyle",
             "posted": "Rashid Shaheed (knee) was listed as a full participant on Wednesday's injury report.\n\nVia @johnpboyle",
             "reason": "other",
-            "why": "Editor added knee injury designation not available to template"
+            "why": "Editor added '(knee)' injury detail not available to the template."
           },
           {
             "posted_at": "2026-11-11T22:43:58Z",
@@ -27853,7 +27853,7 @@
             "draft": "Josh Downs is being traded from the Colts to the Chiefs in exchange for 2027 fourth-round and fifth-round picks.\n\nVia @TomPelissero",
             "posted": "Josh Downs and a 2027 seventh-round pick are being traded to the Chiefs in exchange for 2027 fourth-round and fifth-round picks.\n\nVia @TomPelissero",
             "reason": "other",
-            "why": "Editor added a seventh-round pick going to Chiefs with Downs."
+            "why": "Editor added '2027 seventh-round pick' detail the template couldn't have known from tweet alone"
           },
           {
             "posted_at": "2026-11-09T23:46:47Z",
@@ -27862,8 +27862,8 @@
             "manual": false,
             "draft": "Odell Beckham is listed as active for Monday's game against the Bills.\n\nVia @BenGoessling",
             "posted": "Odell Beckham Jr. is listed as active for Monday's game against the Bills.\n\nVia @BenGoessling",
-            "reason": "other",
-            "why": "Editor added 'Jr.' to player's name, a fact the template couldn't know."
+            "reason": "template",
+            "why": "Editor added 'Jr.' to complete the player's full name."
           },
           {
             "posted_at": "2026-11-09T22:50:24Z",
@@ -28003,7 +28003,7 @@
             "draft": "Mike Evans (Achilles) has been ruled out for Sunday's game against the Raiders.\n\nVia @nwagoner",
             "posted": "Mike Evans (ribs/Achilles) was ruled out for Sunday's game against the Raiders.\n\nVia @nwagoner",
             "reason": "other",
-            "why": "Editor added 'ribs/' to injury designation that template couldn't know"
+            "why": "Editor added 'ribs/' to injury designation, which template couldn't know."
           },
           {
             "posted_at": "2026-11-06T20:54:57Z",
@@ -28012,8 +28012,8 @@
             "manual": false,
             "draft": "Saquon Barkley (hamstring/back) remained a limited participant on Friday's injury report.\n\nVia @Eagles",
             "posted": "Saquon Barkley (hamstring/back) was limited at Friday's practice but does not have an injury designation for Week 9.\n\nVia @Eagles",
-            "reason": "other",
-            "why": "could not classify"
+            "reason": "template",
+            "why": "Editor added no injury designation detail missing from draft"
           },
           {
             "posted_at": "2026-11-06T20:47:47Z",
@@ -28033,7 +28033,7 @@
             "draft": "Mike Evans (Achilles) remained a non-participant on Friday's injury report.\n\nVia @nwagoner",
             "posted": "Mike Evans (ribs/Achilles) did not participate in the portion of Friday's practice open to the media.\n\nVia @nwagoner",
             "reason": "other",
-            "why": "Editor added 'ribs' to injury list and clarified practice was media-open portion."
+            "why": "Editor added 'ribs' to injury and reworded practice participation description."
           },
           {
             "posted_at": "2026-11-05T23:53:35Z",
@@ -28133,7 +28133,7 @@
             "draft": "Matthew Stafford was listed as a full participant on Wednesday's injury report.\n\nVia @sarahbarshop",
             "posted": "Matthew Stafford (arm) was listed as a full participant on Wednesday's injury report.\n\nVia @sarahbarshop",
             "reason": "other",
-            "why": "could not classify"
+            "why": "Editor added '(arm)' injury designation not in source or template"
           },
           {
             "posted_at": "2026-11-04T23:18:01Z",
