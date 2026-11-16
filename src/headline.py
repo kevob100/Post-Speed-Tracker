@@ -62,9 +62,9 @@ def race(stories: list[dict], now: datetime) -> dict:
            for d in WINDOWS}
     # Daily rolling points, days midnight to midnight Central like the rest of the page:
     # [day, gap 7d, gap 30d, first% 7d, first% 30d, gap that day, first% that day, stories that day].
-    rows, today = [], now.astimezone(ds.TZ).date()
-    d = today - timedelta(days=ROLL_DAYS)
-    while d <= today:
+    rows, last = [], (now - timedelta(seconds=1)).astimezone(ds.TZ).date()  # now is midnight: the last full day
+    d = last - timedelta(days=ROLL_DAYS)
+    while d <= last:
         end = datetime(d.year, d.month, d.day, tzinfo=ds.TZ) + timedelta(days=1)
         pt = []
         for w in WINDOWS:
@@ -165,13 +165,21 @@ def by_template(data_dir: Path, rows: list[dict], stories: list[dict], now: date
 from . import template_edits  # noqa: E402
 
 
+def _midnight(now: datetime) -> datetime:
+    """Start of today, Central: the windows end here so the numbers hold all day, whenever the pipeline runs."""
+    d = now.astimezone(ds.TZ).date()
+    return datetime(d.year, d.month, d.day, tzinfo=ds.TZ)
+
+
 def build(cfg: dict, data_dir: Path, rows: list[dict], stories: list[dict], manual_pct, now: datetime) -> dict:
+    end = _midnight(now)
     return {
+        "through": (end - timedelta(days=1)).date().isoformat(),
         "windows": list(WINDOWS),
         "goals": {**DEFAULT_GOALS, **(cfg.get("goals") or {})},
-        "race": race(stories, now),
+        "race": race(stories, end),
         "templates": templates(data_dir, now),
-        "steps": steps(rows, manual_pct, now),
-        "by_template": by_template(data_dir, rows, stories, now),
+        "steps": steps(rows, manual_pct, end),
+        "by_template": by_template(data_dir, rows, stories, end),
         "edit_reasons": template_edits.build(data_dir, now),
     }

@@ -577,7 +577,9 @@
   .hl-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px 16px; flex-wrap: wrap; margin: 4px 0 14px; }
   #sum h2.hl-title { font-size: 20px; margin: 0 0 2px; }
   .hl-ctl { display: flex; gap: 8px; flex-wrap: wrap; }
+  .hl-ctl { align-items: center; }
   .hl-ctl button { white-space: nowrap; }
+  .hl-ctl-l { color: var(--muted); font-size: 12px; }
   .hl-g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
   .hl-hero { margin-top: 0; }
   .hl-big { font-size: 52px; font-weight: 700; line-height: 1.05; margin: 4px 0 6px; font-variant-numeric: tabular-nums; }
@@ -3512,8 +3514,8 @@ function renderSummary() {
   const s2 = sc.s2 || 0, s1 = sc.s1 || 0, s3 = sc.s3 || 0;
   host.innerHTML = `
     <div class="hl-top"><div><h2 class="hl-title">NFL news speed</h2>
-      <div class="lbl">Last ${w} days · ${rc.n} stories both accounts posted · updated daily</div></div>
-      <div class="hl-ctl"><div class="seg-chips hl-span" role="group" aria-label="Chart range">${[30, 90].map(x => `<button type="button" data-v="${x}" class="${x === hlSpan ? "on" : ""}" aria-pressed="${x === hlSpan}">${x} days</button>`).join("")}</div>
+      <div class="lbl">Last ${w} full days${H.through ? `, through ${smDay(H.through)}` : ""} · ${rc.n} stories both accounts posted · updated daily</div></div>
+      <div class="hl-ctl"><span class="hl-ctl-l">Charts</span><div class="seg-chips hl-span" role="group" aria-label="Chart range">${[30, 90].map(x => `<button type="button" data-v="${x}" class="${x === hlSpan ? "on" : ""}" aria-pressed="${x === hlSpan}">${x} days</button>`).join("")}</div>
         <div class="seg-chips hl-line" role="group" aria-label="Chart line">${[["roll", "7-day avg"], ["day", "Each day"]].map(([v, t]) => `<button type="button" data-v="${v}" class="${v === hlLine ? "on" : ""}" aria-pressed="${v === hlLine}">${t}</button>`).join("")}</div></div></div>
 
     <div class="hl-g2 hl-hero">
