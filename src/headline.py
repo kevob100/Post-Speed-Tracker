@@ -61,7 +61,7 @@ def race(stories: list[dict], now: datetime) -> dict:
                      "prior": _race(win(now - timedelta(days=2 * d), now - timedelta(days=d)))}
            for d in WINDOWS}
     # Daily rolling points, days midnight to midnight Central like the rest of the page:
-    # [day, gap 7d, gap 30d, first% 7d, first% 30d].
+    # [day, gap 7d, gap 30d, first% 7d, first% 30d, gap that day, first% that day, stories that day].
     rows, today = [], now.astimezone(ds.TZ).date()
     d = today - timedelta(days=ROLL_DAYS)
     while d <= today:
@@ -70,7 +70,9 @@ def race(stories: list[dict], now: datetime) -> dict:
         for w in WINDOWS:
             r = _race(win(end - timedelta(days=w), end))
             pt.append(r if r["n"] >= MIN_ROLL_N else None)
-        rows.append([d.isoformat(), *[r and r["median"] for r in pt], *[r and r["rw_first_pct"] for r in pt]])
+        one = _race(win(end - timedelta(days=1), end))
+        rows.append([d.isoformat(), *[r and r["median"] for r in pt], *[r and r["rw_first_pct"] for r in pt],
+                     one["median"], one["rw_first_pct"], one["n"]])
         d += timedelta(days=1)
     out["rolling"] = rows
     return out

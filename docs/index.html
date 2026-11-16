@@ -576,7 +576,8 @@
   /* Summary headline (renderSummary): race on top, then the chain, then the three steps. */
   .hl-top { display: flex; justify-content: space-between; align-items: flex-end; gap: 10px 16px; flex-wrap: wrap; margin: 4px 0 14px; }
   #sum h2.hl-title { font-size: 20px; margin: 0 0 2px; }
-  .hl-win button { white-space: nowrap; }
+  .hl-ctl { display: flex; gap: 8px; flex-wrap: wrap; }
+  .hl-ctl button { white-space: nowrap; }
   .hl-g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 12px; }
   .hl-hero { margin-top: 0; }
   .hl-big { font-size: 52px; font-weight: 700; line-height: 1.05; margin: 4px 0 6px; font-variant-numeric: tabular-nums; }
@@ -3422,7 +3423,10 @@ function smBars(m) {
 // chain that moves them (templates write more posts -> they go out unedited -> step 3 gets
 // faster -> the gap shrinks), then the three steps. Every number switches between the last
 // 7 and 30 days, each against the same-length window before it (desk_speed.json -> summary.headline).
-let hlWin = (() => { try { return +localStorage.getItem("pst-hl-win") || 7; } catch (e) { return 7; } })();
+const hlWin = 7; // the Summary reads the last 7 days (the 7/30 switch was retired 2026-11-16)
+// The two hero charts: how far back they go (30 or 90 days) and whether they draw the 7-day line or each day.
+const hlPref = (k, d) => { try { return localStorage.getItem(k) || d; } catch (e) { return d; } };
+let hlSpan = +hlPref("pst-hl-span", "30"), hlLine = hlPref("pst-hl-line", "roll");
 const HL_MIN_PRIOR = 30; // a prior window thinner than this isn't compared against
 const hlPct = v => v == null ? "–" : Math.round(v) + "%";
 const hlPctX = v => v == null ? "–" : (Math.round(v * 10) / 10) + "%"; // tooltips: one decimal
@@ -3509,18 +3513,19 @@ function renderSummary() {
   host.innerHTML = `
     <div class="hl-top"><div><h2 class="hl-title">NFL news speed</h2>
       <div class="lbl">Last ${w} days · ${rc.n} stories both accounts posted · updated daily</div></div>
-      <div class="seg-chips hl-win" role="group" aria-label="Time window">${H.windows.map(x => `<button type="button" data-w="${x}" class="${x === w ? "on" : ""}" aria-pressed="${x === w}">Last ${x} days</button>`).join("")}</div></div>
+      <div class="hl-ctl"><div class="seg-chips hl-span" role="group" aria-label="Chart range">${[30, 90].map(x => `<button type="button" data-v="${x}" class="${x === hlSpan ? "on" : ""}" aria-pressed="${x === hlSpan}">${x} days</button>`).join("")}</div>
+        <div class="seg-chips hl-line" role="group" aria-label="Chart line">${[["roll", "7-day avg"], ["day", "Each day"]].map(([v, t]) => `<button type="button" data-v="${v}" class="${v === hlLine ? "on" : ""}" aria-pressed="${v === hlLine}">${t}</button>`).join("")}</div></div></div>
 
     <div class="hl-g2 hl-hero">
       <div class="sm-card"><div class="lbl">Median behind Underdog</div><div class="hl-big">${hlGap(rc.median)}</div>
         <div class="hl-d">${hlDelta(rc.median, rp.median, { time: true, lowerBetter: true, w, priorN: rp.n })}</div>
-        <svg class="hl-chart sm" id="hl-gap" role="img" aria-label="${w}-day median gap behind Underdog, last 90 days"></svg>
-        <div class="hl-key"><span><i style="background:var(--red)"></i>${w}-day median, last 90 days</span></div></div>
+        <svg class="hl-chart sm" id="hl-gap" role="img" aria-label="Median gap behind Underdog, last ${hlSpan} days"></svg>
+        <div class="hl-key"><span><i style="background:var(--red)"></i>${hlLine === "day" ? "Each day" : "7-day median"}, last ${hlSpan} days</span></div></div>
       <div class="sm-card"><div class="lbl">Stories we post first</div><div class="hl-big">${hlPct(rc.rw_first_pct)}</div>
         <div class="hl-d">${hlDelta(rc.rw_first_pct, rp.rw_first_pct, { w, priorN: rp.n })}</div>
         <div class="hl-d hl-vs">Tied within a minute: ${hlPct(rc.tie_pct)} (was ${hlPct(rp.tie_pct)}) · Underdog first: ${hlPct(rc.ud_first_pct)}</div>
-        <svg class="hl-chart sm" id="hl-first" role="img" aria-label="Share of stories we post first, ${w}-day, last 90 days"></svg>
-        <div class="hl-key"><span><i style="background:var(--green)"></i>${w}-day share, last 90 days</span></div></div>
+        <svg class="hl-chart sm" id="hl-first" role="img" aria-label="Share of stories we post first, last ${hlSpan} days"></svg>
+        <div class="hl-key"><span><i style="background:var(--green)"></i>${hlLine === "day" ? "Each day" : "7-day share"}, last ${hlSpan} days</span></div></div>
     </div>
 
     <h3 class="hl-h">How we close the gap</h3>
@@ -3579,14 +3584,25 @@ function renderSummary() {
     a.href = URL.createObjectURL(new Blob(["\ufeff" + lines.join("\n")], { type: "text/csv" }));
     a.download = `template-edit-reasons_last-${b.dataset.w}-days.csv`; a.click(); URL.revokeObjectURL(a.href);
   });
-  host.querySelectorAll(".hl-win button").forEach(b => b.onclick = () => { hlWin = +b.dataset.w; try { localStorage.setItem("pst-hl-win", hlWin); } catch (e) {} renderSummary(); });
+  host.querySelectorAll(".hl-span button").forEach(b => b.onclick = () => { hlSpan = +b.dataset.v; try { localStorage.setItem("pst-hl-span", hlSpan); } catch (e) {} renderSummary(); });
+  host.querySelectorAll(".hl-line button").forEach(b => b.onclick = () => { hlLine = b.dataset.v; try { localStorage.setItem("pst-hl-line", hlLine); } catch (e) {} renderSummary(); });
   const td = document.getElementById("hl-to-det");
   if (td) td.onclick = e => { e.preventDefault(); const b = document.querySelector('#pagetabs [data-t="det"]'); if (b) b.click(); };
-  const gi = w === 7 ? 1 : 2, fi = w === 7 ? 3 : 4, roll = H.race.rolling.filter(r => r[gi] != null || r[fi] != null);
-  const gmax = Math.max(120, ...roll.map(r => r[gi] || 0)), gtop = Math.ceil(gmax / 60) * 60;
-  hlChart(document.getElementById("hl-gap"), { rows: roll, lo: -60, hi: gtop, invert: true, ticks: Array.from({ length: gtop / 60 + 2 }, (_, i) => (i - 1) * 60), tf: v => v > 0 ? "+" + dkFmt(v) : v < 0 ? "−" + dkFmt(-v) : "0:00", vf: v => { const r = Math.round(v); return r > 0 ? `${dkFmt(r)} behind` : r < 0 ? `${dkFmt(-r)} ahead` : "tied"; }, series: [{ get: r => r[gi], color: "var(--red)", name: `${w}-day median` }] });
+  hlDrawArgs = [H, w, G]; hlDraw();
+  if (!hlRO && window.ResizeObserver) { let lastW = 0; hlRO = new ResizeObserver(([e]) => { const cw = Math.round(e.contentRect.width); if (cw && cw !== lastW) { lastW = cw; hlDraw(); } }); hlRO.observe(host); }
+}
+// Charts are drawn at the host's pixel width, so they redraw when it changes (including the first time the tab shows).
+let hlRO = null, hlDrawArgs = null;
+function hlDraw() {
+  if (!hlDrawArgs) return;
+  const [H, w, G] = hlDrawArgs;
+  // rolling rows: [day, gap 7d, gap 30d, first% 7d, first% 30d, gap that day, first% that day, stories that day]
+  const day = hlLine === "day", gi = day ? 5 : 1, fi = day ? 6 : 3, nTip = r => day ? `${r[7] || 0} stor${r[7] === 1 ? "y" : "ies"} both posted that day` : "";
+  const span = H.race.rolling.slice(-hlSpan), roll = span.slice(Math.max(0, span.findIndex(r => r[gi] != null || r[fi] != null)));
+  const gstep = day ? 120 : 60, gmax = Math.max(120, ...roll.map(r => r[gi] || 0)), gtop = Math.ceil(gmax / gstep) * gstep;
+  hlChart(document.getElementById("hl-gap"), { rows: roll, lo: -gstep, hi: gtop, invert: true, ticks: Array.from({ length: gtop / gstep + 2 }, (_, i) => (i - 1) * gstep), tf: v => v > 0 ? "+" + dkFmt(v) : v < 0 ? "−" + dkFmt(-v) : "0:00", vf: v => { const r = Math.round(v); return r > 0 ? `${dkFmt(r)} behind` : r < 0 ? `${dkFmt(-r)} ahead` : "tied"; }, dotTip: nTip, series: [{ get: r => r[gi], color: "var(--red)", name: day ? "That day's median" : "7-day median" }] });
   const fmax = Math.max(10, ...roll.map(r => r[fi] || 0)), ftop = Math.ceil(fmax / 5) * 5;
-  hlChart(document.getElementById("hl-first"), { rows: roll, lo: 0, hi: ftop, ticks: [0, ftop / 2, ftop], tf: v => v + "%", vf: hlPctX, series: [{ get: r => r[fi], color: "var(--green)", name: `${w}-day share` }] });
+  hlChart(document.getElementById("hl-first"), { rows: roll, lo: 0, hi: ftop, ticks: [0, ftop / 2, ftop], tf: v => v + "%", vf: hlPctX, dotTip: nTip, series: [{ get: r => r[fi], color: "var(--green)", name: day ? "That day" : "7-day share" }] });
   if (H.templates) {
     const td2 = H.templates.daily, o = w === 7 ? 3 : 6, t100 = [0, 25, 50, 75, 100], pf = v => v + "%";
     hlChart(document.getElementById("hl-c1"), { rows: td2, lo: 0, hi: 100, ticks: t100, tf: pf, vf: hlPctX, goal: G.template_share, dots: r => r[1] + r[2] ? 100 * r[1] / (r[1] + r[2]) : null,
