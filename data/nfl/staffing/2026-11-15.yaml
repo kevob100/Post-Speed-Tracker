@@ -39,9 +39,7 @@ slots:
   distributor: [Ryan W.]
   writers: [Eric C., Mike]
 - start: '13:00'
-  tweets:
-  - {name: Adam, until: '13:50'}
-  - Cullum
+  tweets: [Adam]
   distributor: [Ryan W.]
   writers: [Eric C., Mike]
 - start: '14:00'
@@ -49,25 +47,25 @@ slots:
   distributor: [Ryan W.]
   writers: [Eric C., Mike]
 - start: '15:00'
-  tweets: [Cullum, Eric C.]
+  tweets: [Cullum]
   distributor: [Ryan W.]
-  writers: [Eric C., Mike]
+  writers: [Eric C., Mike, Paul]
 - start: '16:00'
   tweets: [Cullum, Eric C., KOB]
   distributor: [Ryan W.]
-  writers: [Eric C., Mike]
+  writers: [Eric C., Mike, Paul]
 - start: '17:00'
   tweets: [Cullum, Eric C., KOB]
   distributor: [Ryan W.]
-  writers: [Eric C.]
+  writers: [Eric C., Paul]
 - start: '18:00'
   tweets: [KOB]
   distributor: [Mensio]
-  writers: [Mensio]
+  writers: [Mensio, Paul]
 - start: '19:00'
   tweets: [KOB]
   distributor: [Mensio]
-  writers: [Mensio]
+  writers: [Mensio, Paul]
 - start: '20:00'
   tweets: [KOB]
   distributor: [Mensio]
