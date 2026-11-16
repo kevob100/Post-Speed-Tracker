@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-16T13:28:19.909585+00:00",
+  "generated_at": "2026-11-16T15:33:32.876105+00:00",
   "window": {
     "from": "2026-10-17",
     "to": "2026-11-16",
@@ -10,7 +10,7 @@
     "all": {
       "posts": 1127,
       "race": {
-        "n": 697,
+        "n": 698,
         "median_gap": 80,
         "underdog_first_pct": 93.1,
         "gaps": [
@@ -129,6 +129,7 @@
           21,
           21,
           21,
+          22,
           22,
           22,
           22,
@@ -291,7 +292,6 @@
           58,
           58,
           59,
-          59,
           60,
           60,
           60,
@@ -350,6 +350,7 @@
           76,
           77,
           77,
+          78,
           78,
           78,
           78,
@@ -720,14 +721,14 @@
         }
       },
       "from_source": {
-        "median": 114,
-        "n": 668
+        "median": 115,
+        "n": 669
       }
     },
     "monitor": {
-      "posts": 824,
+      "posts": 825,
       "race": {
-        "n": 540,
+        "n": 541,
         "median_gap": 67,
         "underdog_first_pct": 91.9,
         "gaps": [
@@ -834,6 +835,7 @@
           21,
           21,
           21,
+          22,
           22,
           22,
           22,
@@ -972,7 +974,6 @@
           58,
           58,
           58,
-          59,
           60,
           60,
           60,
@@ -1022,6 +1023,7 @@
           76,
           77,
           77,
+          78,
           78,
           78,
           79,
@@ -1272,7 +1274,7 @@
           1139,
           1613
         ],
-        "underdog_before_source_pct": 13.0,
+        "underdog_before_source_pct": 12.9,
         "before_source": {
           "n": 70,
           "monitor_had_earlier": 37,
@@ -1280,35 +1282,35 @@
         }
       },
       "from_source": {
-        "median": 100,
-        "n": 540
+        "median": 99,
+        "n": 541
       },
       "steps": {
         "sent_to_monitor": {
           "median": 15,
-          "n": 854
+          "n": 855
         },
         "monitor_to_open": {
           "median": 55,
-          "n": 846
+          "n": 847
         },
         "open_to_x": {
           "median": 24,
-          "n": 846
+          "n": 847
         },
         "monitor_to_x": {
           "median": 90,
-          "n": 854
+          "n": 855
         },
         "split": true,
         "edited": {
-          "pct": 84.5,
-          "n": 854
+          "pct": 84.6,
+          "n": 855
         }
       }
     },
     "manual": {
-      "posts": 252,
+      "posts": 250,
       "race": {
         "n": 133,
         "median_gap": 124,
@@ -1461,11 +1463,11 @@
       },
       "add_line_to_x": {
         "median": 46,
-        "n": 259
+        "n": 257
       }
     },
     "other": {
-      "posts": 51,
+      "posts": 52,
       "race": {
         "n": 24,
         "median_gap": 156,
@@ -1502,8 +1504,8 @@
         "n": 17
       }
     },
-    "manual_pct": 22.4,
-    "other_pct": 4.5
+    "manual_pct": 22.2,
+    "other_pct": 4.6
   },
   "manual_weekly": [
     {
@@ -1562,7 +1564,7 @@
     },
     {
       "week": "2026-11-16",
-      "posts": 3,
+      "posts": 7,
       "manual": 0,
       "pct": 0.0
     }
@@ -2291,14 +2293,14 @@
       },
       {
         "day": "2026-11-16",
-        "posts": 6,
-        "scored": 6,
-        "edited_pct": 83.3,
-        "change_pct": 25.0,
+        "posts": 9,
+        "scored": 9,
+        "edited_pct": 88.9,
+        "change_pct": 34.5,
         "stored_pct": 100.0,
         "open_to_x": {
-          "median": 96,
-          "n": 4
+          "median": 70,
+          "n": 7
         }
       }
     ],
@@ -2487,14 +2489,41 @@
         "version": "generate_v41_2026_11_06",
         "first_day": "2026-11-07",
         "last_day": "2026-11-16",
-        "posts": 324,
-        "scored": 324,
-        "edited_pct": 83.3,
-        "change_pct": 34.4,
+        "posts": 327,
+        "scored": 327,
+        "edited_pct": 83.5,
+        "change_pct": 34.6,
         "stored_pct": 100.0
       }
     ],
     "examples": [
+      {
+        "posted_at": "2026-11-16T14:37:25Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.5128,
+        "draft": "Omar Cooper Jr. (ankle) will get imaging Monday.\n\nVia @eallenjets",
+        "posted": "Omar Cooper Jr. (ankle) will undergo tests Monday, per head coach Aaron Glenn.\n\nVia @eallenjets"
+      },
+      {
+        "posted_at": "2026-11-16T14:36:20Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.375,
+        "draft": "Geno Smith (ankle), per head coach Aaron Glenn, will undergo imaging Monday and Glenn will have an update on his status later this week.\n\nVia @antwanstaley",
+        "posted": "Geno Smith (ankle) will undergo tests Monday, and head coach Aaron Glenn \"will have an update on his status later this week.\"\n\nVia @antwanstaley"
+      },
+      {
+        "posted_at": "2026-11-16T14:21:20Z",
+        "generate_prompt_version": "generate_v41_2026_11_06",
+        "manual": false,
+        "baseline_source": "stored",
+        "distance": 0.7172,
+        "draft": "Carnell Tate (shoulder), per Robert Saleh, is expected to return this week.\n\nVia @jwyattsports",
+        "posted": "The Titans are \"hoping to get Carnell Tate (shoulder) back this week,\" per head coach Robert Saleh.\n\nVia @jwyattsports"
+      },
       {
         "posted_at": "2026-11-16T13:18:41Z",
         "generate_prompt_version": "generate_v41_2026_11_06",
@@ -3007,48 +3036,21 @@
         "distance": 0.5714,
         "draft": "Dalton Kincaid (ankle) was upgraded to a full participant on Friday's injury report.\n\nVia @BuffaloBillsPR",
         "posted": "Dalton Kincaid (ankle) practiced fully Friday and does not have an injury designation for Week 10.\n\nVia @BuffaloBillsPR"
-      },
-      {
-        "posted_at": "2026-11-13T21:01:52Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": true,
-        "baseline_source": "stored",
-        "distance": 0.1446,
-        "draft": "Marvin Harrison (hamstring) is out for Sunday's game against the Browns.\n\nVia @texanspr",
-        "posted": "Marvin Harrison Jr. (hamstring) was ruled out for Sunday's game against the Browns.\n\nVia @TexansPR"
-      },
-      {
-        "posted_at": "2026-11-13T21:00:16Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": true,
-        "baseline_source": "stored",
-        "distance": 0.6809,
-        "draft": "Woody Marks does not have an injury designation for Sunday's game against the Browns.\n\nVia @texanspr",
-        "posted": "Woody Marks (knee) practiced fully Friday and does not have an injury designation for Week 10.\n\nVia @texanspr"
-      },
-      {
-        "posted_at": "2026-11-13T20:58:56Z",
-        "generate_prompt_version": "generate_v41_2026_11_06",
-        "manual": true,
-        "baseline_source": "stored",
-        "distance": 0.0,
-        "draft": "David Montgomery (groin) is listed as questionable for Sunday's game against the Browns.\n\nVia @texanspr",
-        "posted": "David Montgomery (groin) is listed as questionable for Sunday's game against the Browns.\n\nVia @TexansPR"
       }
     ],
     "last30": {
-      "posts": 1093,
-      "scored": 1093,
-      "edited_pct": 85.7,
+      "posts": 1096,
+      "scored": 1096,
+      "edited_pct": 85.8,
       "change_pct": 36.4,
       "stored_pct": 100.0
     },
     "by_path": {
       "monitor": {
-        "posts": 842,
-        "scored": 842,
-        "edited_pct": 84.9,
-        "change_pct": 33.8,
+        "posts": 845,
+        "scored": 845,
+        "edited_pct": 85.0,
+        "change_pct": 33.9,
         "stored_pct": 100.0
       },
       "manual": {
@@ -3189,9 +3191,9 @@
       },
       {
         "day": "2026-11-04",
-        "sampled": 8,
-        "drafted_by_template": 3,
-        "posted_in_template_form": 5,
+        "sampled": 5,
+        "drafted_by_template": 2,
+        "posted_in_template_form": 4,
         "untouched": 1
       },
       {
@@ -3273,8 +3275,8 @@
       },
       {
         "day": "2026-11-16",
-        "sampled": 6,
-        "drafted_by_template": 2,
+        "sampled": 9,
+        "drafted_by_template": 4,
         "posted_in_template_form": 1,
         "untouched": 1
       }
@@ -4194,11 +4196,11 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 130,
+          "posts": 134,
           "race": {
-            "n": 86,
+            "n": 88,
             "median_gap": 77,
-            "underdog_first_pct": 91.9,
+            "underdog_first_pct": 92.0,
             "gaps": [
               -73,
               -59,
@@ -4212,6 +4214,7 @@
               12,
               14,
               21,
+              22,
               22,
               25,
               27,
@@ -4243,6 +4246,7 @@
               67,
               69,
               76,
+              78,
               78,
               78,
               79,
@@ -4287,7 +4291,7 @@
               739,
               1139
             ],
-            "underdog_before_source_pct": 10.7,
+            "underdog_before_source_pct": 10.5,
             "before_source": {
               "n": 9,
               "monitor_had_earlier": 5,
@@ -4296,15 +4300,15 @@
           },
           "from_source": {
             "median": 120,
-            "n": 83
+            "n": 85
           }
         },
         "monitor": {
-          "posts": 106,
+          "posts": 109,
           "race": {
-            "n": 72,
+            "n": 74,
             "median_gap": 68,
-            "underdog_first_pct": 90.3,
+            "underdog_first_pct": 90.5,
             "gaps": [
               -73,
               -59,
@@ -4316,6 +4320,7 @@
               12,
               14,
               21,
+              22,
               27,
               29,
               31,
@@ -4344,6 +4349,7 @@
               67,
               69,
               76,
+              78,
               78,
               79,
               81,
@@ -4379,7 +4385,7 @@
               739,
               1139
             ],
-            "underdog_before_source_pct": 8.3,
+            "underdog_before_source_pct": 8.1,
             "before_source": {
               "n": 6,
               "monitor_had_earlier": 5,
@@ -4388,29 +4394,29 @@
           },
           "from_source": {
             "median": 116,
-            "n": 72
+            "n": 74
           },
           "steps": {
             "sent_to_monitor": {
               "median": 14,
-              "n": 110
+              "n": 113
             },
             "monitor_to_open": {
-              "median": 68,
-              "n": 110
+              "median": 64,
+              "n": 113
             },
             "open_to_x": {
               "median": 46,
-              "n": 110
+              "n": 113
             },
             "monitor_to_x": {
-              "median": 124,
-              "n": 110
+              "median": 123,
+              "n": 113
             },
             "split": true,
             "edited": {
-              "pct": 92.7,
-              "n": 110
+              "pct": 92.9,
+              "n": 113
             }
           }
         },
@@ -4451,7 +4457,7 @@
           }
         },
         "other": {
-          "posts": 7,
+          "posts": 8,
           "race": {
             "n": 2,
             "median_gap": 162,
@@ -4466,8 +4472,8 @@
             "n": 2
           }
         },
-        "manual_pct": 13.1,
-        "other_pct": 5.4
+        "manual_pct": 12.7,
+        "other_pct": 6.0
       }
     },
     {
@@ -5305,11 +5311,11 @@
       "key": false,
       "paths": {
         "all": {
-          "posts": 74,
+          "posts": 70,
           "race": {
-            "n": 49,
-            "median_gap": 87,
-            "underdog_first_pct": 87.8,
+            "n": 48,
+            "median_gap": 90,
+            "underdog_first_pct": 87.5,
             "gaps": [
               -74,
               -73,
@@ -5331,7 +5337,6 @@
               38,
               40,
               58,
-              59,
               62,
               67,
               74,
@@ -5361,7 +5366,7 @@
               514,
               560
             ],
-            "underdog_before_source_pct": 21.3,
+            "underdog_before_source_pct": 21.7,
             "before_source": {
               "n": 10,
               "monitor_had_earlier": 4,
@@ -5369,16 +5374,16 @@
             }
           },
           "from_source": {
-            "median": 106,
-            "n": 47
+            "median": 112,
+            "n": 46
           }
         },
         "monitor": {
-          "posts": 54,
+          "posts": 52,
           "race": {
-            "n": 40,
-            "median_gap": 60,
-            "underdog_first_pct": 85.0,
+            "n": 39,
+            "median_gap": 62,
+            "underdog_first_pct": 84.6,
             "gaps": [
               -74,
               -73,
@@ -5399,7 +5404,6 @@
               38,
               40,
               58,
-              59,
               62,
               87,
               144,
@@ -5421,7 +5425,7 @@
               511,
               514
             ],
-            "underdog_before_source_pct": 22.5,
+            "underdog_before_source_pct": 23.1,
             "before_source": {
               "n": 9,
               "monitor_had_earlier": 4,
@@ -5429,35 +5433,35 @@
             }
           },
           "from_source": {
-            "median": 100,
-            "n": 40
+            "median": 97,
+            "n": 39
           },
           "steps": {
             "sent_to_monitor": {
               "median": 15,
-              "n": 55
+              "n": 53
             },
             "monitor_to_open": {
-              "median": 48,
-              "n": 55
+              "median": 51,
+              "n": 53
             },
             "open_to_x": {
               "median": 24,
-              "n": 55
+              "n": 53
             },
             "monitor_to_x": {
-              "median": 80,
-              "n": 55
+              "median": 81,
+              "n": 53
             },
             "split": true,
             "edited": {
-              "pct": 72.7,
-              "n": 55
+              "pct": 71.7,
+              "n": 53
             }
           }
         },
         "manual": {
-          "posts": 16,
+          "posts": 14,
           "race": {
             "n": 7,
             "median_gap": 130,
@@ -5483,8 +5487,8 @@
             "n": 7
           },
           "add_line_to_x": {
-            "median": 46,
-            "n": 17
+            "median": 45,
+            "n": 15
           }
         },
         "other": {
@@ -5503,8 +5507,8 @@
             "n": 0
           }
         },
-        "manual_pct": 21.6,
-        "other_pct": 5.4
+        "manual_pct": 20.0,
+        "other_pct": 5.7
       }
     }
   ],
@@ -22276,6 +22280,30 @@
       "post": 66,
       "total": 125,
       "edited": "yes"
+    },
+    "2122334203563962594": {
+      "hand": false,
+      "monitor": 14,
+      "open": 16,
+      "post": 131,
+      "total": 161,
+      "edited": "yes"
+    },
+    "2122337979527995711": {
+      "hand": false,
+      "monitor": 16,
+      "open": 14,
+      "post": 49,
+      "total": 79,
+      "edited": "yes"
+    },
+    "2122338251050525181": {
+      "hand": false,
+      "monitor": 13,
+      "open": 21,
+      "post": 20,
+      "total": 54,
+      "edited": "yes"
     }
   },
   "sheets": [
@@ -22330,23 +22358,23 @@
   "summary": {
     "margin": {
       "last30": {
-        "n": 696,
+        "n": 697,
         "median": 80,
         "rw_first_pct": 1.7,
         "tie_pct": 38.6,
-        "ud_first_pct": 59.6,
-        "ud_mid_pct": 46.7,
+        "ud_first_pct": 59.7,
+        "ud_mid_pct": 46.8,
         "ud_blowout_pct": 12.9,
         "rw_early_n": 75,
         "ud_early_n": 28
       },
       "prior30": {
-        "n": 757,
+        "n": 758,
         "median": 106,
         "rw_first_pct": 3.3,
-        "tie_pct": 25.6,
-        "ud_first_pct": 71.1,
-        "ud_mid_pct": 57.2,
+        "tie_pct": 25.7,
+        "ud_first_pct": 71.0,
+        "ud_mid_pct": 57.1,
         "ud_blowout_pct": 13.9,
         "rw_early_n": 50,
         "ud_early_n": 43
@@ -22986,8 +23014,8 @@
           "2026-11-16",
           58,
           80,
-          90,
-          2
+          72,
+          4
         ]
       ]
     },
@@ -23036,11 +23064,11 @@
       "on": {
         "arrival": {
           "median": 15,
-          "n": 1028
+          "n": 1031
         },
         "margin": {
-          "median": 86,
-          "n": 879
+          "median": 85,
+          "n": 881
         }
       },
       "off": {
@@ -23077,7 +23105,7 @@
             },
             "after": {
               "value": 15,
-              "n": 1028,
+              "n": 1031,
               "unit": "s"
             }
           }
@@ -23105,7 +23133,7 @@
             },
             "after": {
               "value": 15,
-              "n": 815,
+              "n": 818,
               "unit": "s"
             }
           },
@@ -23123,7 +23151,7 @@
             },
             "after": {
               "value": 80,
-              "n": 651,
+              "n": 653,
               "unit": "s"
             }
           }
@@ -23203,8 +23231,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 102.3,
-              "n": 171,
+              "value": 102.4,
+              "n": 170,
               "unit": "%"
             }
           },
@@ -23295,8 +23323,8 @@
               "unit": "%"
             },
             "after": {
-              "value": 21.3,
-              "n": 1035,
+              "value": 21.2,
+              "n": 1039,
               "unit": "%"
             }
           },
@@ -23313,8 +23341,8 @@
               "unit": "s"
             },
             "after": {
-              "value": 80,
-              "n": 631,
+              "value": 79,
+              "n": 633,
               "unit": "s"
             }
           }
@@ -23392,7 +23420,7 @@
             },
             "after": {
               "value": 55,
-              "n": 854,
+              "n": 857,
               "unit": "s"
             }
           }
@@ -23400,7 +23428,7 @@
       }
     ],
     "roadmap": {
-      "fetched_at": "2026-11-16T13:28:19.573871+00:00",
+      "fetched_at": "2026-11-16T15:33:32.311611+00:00",
       "steps": [
         {
           "step": "s1",
@@ -23758,7 +23786,7 @@
     "initiative": {
       "root": "RD-8314",
       "label": "Breaking News AI",
-      "fetched_at": "2026-11-16T13:28:19.573871+00:00",
+      "fetched_at": "2026-11-16T15:33:32.311611+00:00",
       "url": "https://gdcgroup.atlassian.net/browse/RD-8314",
       "assignee": "Matthew Kulina",
       "sprints": [
@@ -26445,7 +26473,7 @@
       "race": {
         "d7": {
           "cur": {
-            "n": 173,
+            "n": 175,
             "median": 58,
             "rw_first_pct": 2.9,
             "tie_pct": 48.6,
@@ -26461,18 +26489,18 @@
         },
         "d30": {
           "cur": {
-            "n": 696,
+            "n": 697,
             "median": 80,
             "rw_first_pct": 1.7,
             "tie_pct": 38.6,
-            "ud_first_pct": 59.6
+            "ud_first_pct": 59.7
           },
           "prior": {
-            "n": 757,
+            "n": 758,
             "median": 106,
             "rw_first_pct": 3.3,
-            "tie_pct": 25.6,
-            "ud_first_pct": 71.1
+            "tie_pct": 25.7,
+            "ud_first_pct": 71.0
           }
         },
         "rolling": [
@@ -27110,8 +27138,8 @@
             "2026-11-16",
             58,
             80,
-            3.3,
-            1.8
+            3.2,
+            1.7
           ]
         ]
       },
@@ -27369,18 +27397,18 @@
         "d7": {
           "cur": {
             "s1": 15,
-            "s2": 46,
+            "s2": 43,
             "s3": 21,
-            "total": 87,
-            "n": 208,
-            "hand_pct": 17.8
+            "total": 86,
+            "n": 209,
+            "hand_pct": 17.6
           },
           "prior": {
             "s1": 15,
-            "s2": 55,
+            "s2": 56,
             "s3": 25,
             "total": 109,
-            "n": 236,
+            "n": 237,
             "hand_pct": 17.1
           }
         },
@@ -27389,16 +27417,16 @@
             "s1": 15,
             "s2": 55,
             "s3": 24,
-            "total": 106,
-            "n": 846,
-            "hand_pct": 22.4
+            "total": 107,
+            "n": 847,
+            "hand_pct": 22.2
           },
           "prior": {
             "s1": 28,
             "s2": 58,
             "s3": 31,
-            "total": 209,
-            "n": 86,
+            "total": 208,
+            "n": 88,
             "hand_pct": 40.2
           }
         }
@@ -27413,25 +27441,711 @@
           },
           "freeform": {
             "s3": 24,
-            "s3_n": 75,
+            "s3_n": 78,
             "gap": 57,
-            "gap_n": 61
+            "gap_n": 63
           }
         },
         "d30": {
           "template": {
             "s3": 14,
-            "s3_n": 75,
-            "gap": 96,
-            "gap_n": 67
+            "s3_n": 74,
+            "gap": 91,
+            "gap_n": 66
           },
           "freeform": {
-            "s3": 25,
-            "s3_n": 113,
+            "s3": 27,
+            "s3_n": 114,
             "gap": 67,
             "gap_n": 97
           }
         }
+      },
+      "edit_reasons": {
+        "labels": {
+          "template": "Template wording",
+          "wrong_match": "Wrong template",
+          "style": "Style only",
+          "other": "Other"
+        },
+        "d7": {
+          "judged": 40,
+          "edited": 56,
+          "template": 7,
+          "wrong_match": 1,
+          "style": 24,
+          "other": 8
+        },
+        "d30": {
+          "judged": 66,
+          "edited": 136,
+          "template": 12,
+          "wrong_match": 3,
+          "style": 38,
+          "other": 13
+        },
+        "posts": [
+          {
+            "posted_at": "2026-11-15T21:27:10Z",
+            "template": "game_day",
+            "template_case": "exit",
+            "manual": false,
+            "draft": "Brock Bowers (undisclosed) headed to the locker room during Sunday's game against the Seahawks.\n\nVia @samwarren83",
+            "posted": "Brock Bowers (undisclosed) has gone to the locker room during the first quarter of Sunday's game against the Seahawks.\n\nVia @samwarren83",
+            "reason": "template",
+            "why": "Editor added 'the first quarter' detail missing from draft."
+          },
+          {
+            "posted_at": "2026-11-15T20:58:59Z",
+            "template": "game_day",
+            "template_case": "questionable",
+            "manual": false,
+            "draft": "Drake London (concussion) is questionable to return to Sunday's game against the Chiefs.\n\nVia @tori_mcelhaney",
+            "posted": "Drake London is being evaluated for a concussion and is questionable to return to Sunday's game against the Chiefs.\n\nVia @tori_mcelhaney",
+            "reason": "template",
+            "why": "Template wrote '(concussion) is questionable to return' instead of 'is being evaluated for a concussion and is questionable to return'"
+          },
+          {
+            "posted_at": "2026-11-15T20:41:01Z",
+            "template": "game_day",
+            "template_case": "cleared",
+            "manual": false,
+            "draft": "Keon Coleman (head) has been cleared to return to Sunday's game against the Jets.\n\nVia @BuffaloBillsPR",
+            "posted": "Keon Coleman was cleared to return to Sunday's game against the Jets after being evaluated for a head injury.\n\nVia @BuffaloBillsPR",
+            "reason": "other",
+            "why": "could not classify"
+          },
+          {
+            "posted_at": "2026-11-15T20:39:52Z",
+            "template": "game_day",
+            "template_case": "questionable",
+            "manual": false,
+            "draft": "Xavier Hutchinson (concussion) is questionable to return to Sunday's game against the Browns.\n\nVia @HoustonTexans",
+            "posted": "Xavier Hutchinson is being evaluated for a concussion and is questionable to return to Sunday's game against the Browns.\n\nVia @HoustonTexans",
+            "reason": "template",
+            "why": ""
+          },
+          {
+            "posted_at": "2026-11-15T20:36:18Z",
+            "template": "game_day",
+            "template_case": "questionable",
+            "manual": true,
+            "draft": "Geno Smith (ankle) is questionable to return to Sunday's game against the Bills.\n\nVia @nyjets",
+            "posted": "Geno Smith is questionable to return to Sunday's game against the Bills due to an ankle injury.\n\nVia @nyjets",
+            "reason": "style",
+            "why": "Changed '(ankle)' notation to 'due to an ankle injury' phrase"
+          },
+          {
+            "posted_at": "2026-11-14T18:56:09Z",
+            "template": "practice_report",
+            "template_case": "final_report",
+            "manual": false,
+            "draft": "Jonathon Brooks (groin) has been ruled out for Sunday's game against the Saints.\n\nVia @josephperson",
+            "posted": "Jonathon Brooks (groin) was downgraded to out for Sunday's game against the Saints.\n\nVia @josephperson",
+            "reason": "style",
+            "why": "Changed 'has been ruled out' to 'was downgraded to out'"
+          },
+          {
+            "posted_at": "2026-11-14T17:34:45Z",
+            "template": "practice_report",
+            "template_case": "final_report",
+            "manual": false,
+            "draft": "Pat Freiermuth (illness) is listed as questionable for Sunday's game against the Bengals.\n\nVia @steelers",
+            "posted": "Pat Freiermuth (illness) was added to the injury report and is questionable for Sunday's game against the Bengals.\n\nVia @steelers",
+            "reason": "other",
+            "why": "could not classify"
+          },
+          {
+            "posted_at": "2026-11-13T22:56:31Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Ladd McConkey (back) remained a non-participant on Friday's injury report.\n\nVia @chargers",
+            "posted": "Ladd McConkey (back) remained listed as a non-participant on Friday's injury report.\n\nVia @chargers",
+            "reason": "style",
+            "why": "Editor added 'listed as' for stylistic preference."
+          },
+          {
+            "posted_at": "2026-11-13T22:13:46Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "George Pickens (hamstring) was upgraded to a full participant on Friday's injury report.\n\nVia @tommy_yarrish",
+            "posted": "George Pickens (hamstring) practiced fully Friday and does not have an injury designation for Week 10.\n\nVia @tommy_yarrish",
+            "reason": "other",
+            "why": "could not classify"
+          },
+          {
+            "posted_at": "2026-11-13T22:00:43Z",
+            "template": "practice_report",
+            "template_case": "final_report",
+            "manual": false,
+            "draft": "Deebo Samuel (hamstring) does not have an injury designation for Sunday's game against the Cowboys.\n\nVia @nwagoner",
+            "posted": "Deebo Samuel (hamstring) does not have an injury designation for Week 10.\n\nVia @nwagoner",
+            "reason": "style",
+            "why": "Changed 'for Sunday's game against the Cowboys' to 'for Week 10'"
+          },
+          {
+            "posted_at": "2026-11-13T21:23:50Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Harold Fannin (groin) was upgraded to a full participant on Friday's injury report.\n\nVia @ceasterlingABJ",
+            "posted": "Harold Fannin (groin) practiced fully Friday and does not have an injury designation for Week 10.\n\nVia @ceasterlingABJ",
+            "reason": "style",
+            "why": "Reworded 'upgraded to full participant' and added no injury designation info"
+          },
+          {
+            "posted_at": "2026-11-13T21:13:32Z",
+            "template": "practice_report",
+            "template_case": "final_report",
+            "manual": false,
+            "draft": "Adonai Mitchell (knee) practiced fully Friday but is listed as questionable for Sunday's game against the Bills.\n\nVia @nyjets",
+            "posted": "Adonai Mitchell (knee) is listed as questionable for Sunday's game against the Bills.\n\nVia @nyjets",
+            "reason": "style",
+            "why": "Editor removed 'practiced fully Friday but' from the sentence."
+          },
+          {
+            "posted_at": "2026-11-13T21:12:44Z",
+            "template": "practice_report",
+            "template_case": "final_report",
+            "manual": false,
+            "draft": "Omar Cooper (ankle) practiced fully Friday but is listed as questionable for Sunday's game against the Bills.\n\nVia @nyjets",
+            "posted": "Omar Cooper Jr. (ankle) is listed as questionable for Sunday's matchup with the Bills.\n\nVia @nyjets",
+            "reason": "style",
+            "why": "Editor removed 'practiced fully Friday but' and reworded 'game against' to 'matchup with'"
+          },
+          {
+            "posted_at": "2026-11-13T21:08:50Z",
+            "template": "practice_report",
+            "template_case": "final_report",
+            "manual": false,
+            "draft": "Jordan Addison (thumb) is listed as questionable for Sunday's game against the Packers.\n\nVia @Vikings",
+            "posted": "Jordan Addison (thumb) is listed as questionable for Sunday's matchup with the Packers.\n\nVia @Vikings",
+            "reason": "style",
+            "why": "Changed 'game against' to 'matchup with'"
+          },
+          {
+            "posted_at": "2026-11-13T21:05:34Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Dalton Kincaid (ankle) was upgraded to a full participant on Friday's injury report.\n\nVia @BuffaloBillsPR",
+            "posted": "Dalton Kincaid (ankle) practiced fully Friday and does not have an injury designation for Week 10.\n\nVia @BuffaloBillsPR",
+            "reason": "style",
+            "why": "Reworded 'upgraded to full participant' and added no injury designation detail"
+          },
+          {
+            "posted_at": "2026-11-13T21:00:16Z",
+            "template": "practice_report",
+            "template_case": "final_report",
+            "manual": true,
+            "draft": "Woody Marks does not have an injury designation for Sunday's game against the Browns.\n\nVia @texanspr",
+            "posted": "Woody Marks (knee) practiced fully Friday and does not have an injury designation for Week 10.\n\nVia @texanspr",
+            "reason": "template",
+            "why": "Editor added knee injury, full practice detail, and changed 'Sunday's game against the Browns' to 'Week 10'."
+          },
+          {
+            "posted_at": "2026-11-13T20:35:27Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": true,
+            "draft": "Tony Pollard (finger) was upgraded to a full participant on Friday's injury report.\n\nVia @jwyattsports",
+            "posted": "Tony Pollard (finger/rest) practiced fully Friday and does not have an injury designation for Week 10.\n\nVia @jwyattsports",
+            "reason": "template",
+            "why": "Editor added 'rest' label, 'practiced fully' wording, and no injury designation status."
+          },
+          {
+            "posted_at": "2026-11-13T19:53:38Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Jakobi Meyers (ankle) remained a limited participant on Friday's injury report.\n\nVia @Jaguars",
+            "posted": "Jakobi Meyers (ankle) was limited at Friday’s practice but does not have an injury designation for Week 10.\n\nVia @Jaguars",
+            "reason": "template",
+            "why": "Editor added that Meyers has no injury designation for Week 10."
+          },
+          {
+            "posted_at": "2026-11-13T19:52:15Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Bhayshul Tuten (ankle/foot) was upgraded to a limited participant on Friday's injury report.\n\nVia @Jaguars",
+            "posted": "Bhayshul Tuten (ankle/foot) does not have an injury designation for Sunday’s game against the Titans.\n\nVia @Jaguars",
+            "reason": "wrong_match",
+            "why": "Editor changed status from limited participant to no injury designation."
+          },
+          {
+            "posted_at": "2026-11-12T23:54:51Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": true,
+            "draft": "Drew Lock (oblique) remained a limited participant on Thursday's practice report.\n\nVia @johnpboyle",
+            "posted": "Drew Lock (elbow/oblique) remained a limited participant on Thursday's injury report.\n\nVia @johnpboyle",
+            "reason": "other",
+            "why": "Editor added 'elbow' to injury list; template couldn't know this detail."
+          },
+          {
+            "posted_at": "2026-11-12T23:24:50Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Mike Evans (achilles) remained a non-participant on Thursday's practice report.\n\nVia @MaioccoNBCS",
+            "posted": "Mike Evans (achilles) remained a non-participant on Thursday's injury report.\n\nVia @MaioccoNBCS",
+            "reason": "style",
+            "why": "Changed 'practice report' to 'injury report'"
+          },
+          {
+            "posted_at": "2026-11-12T23:19:56Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Ladd McConkey (back) was listed as a non-participant on Thursday's practice report.\n\nVia @chargers",
+            "posted": "Ladd McConkey (back) was listed as a non-participant on Thursday's injury report.\n\nVia @chargers",
+            "reason": "style",
+            "why": "Changed 'practice report' to 'injury report'"
+          },
+          {
+            "posted_at": "2026-11-12T22:16:27Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Marvin Harrison (hamstring) was downgraded to a non-participant on Thursday's practice report.\n\nVia @ceasterlingABJ",
+            "posted": "Marvin Harrison Jr. (hamstring) was downgraded to a non-participant on Thursday's injury report.\n\nVia @ceasterlingABJ",
+            "reason": "other",
+            "why": "Fixed 'Harrison' to 'Harrison Jr.' and 'practice report' to 'injury report'"
+          },
+          {
+            "posted_at": "2026-11-12T22:15:45Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": true,
+            "draft": "David Montgomery (groin) was upgraded to a limited participant on Thursday's practice report.\n\nVia @ceasterlingABJ",
+            "posted": "David Montgomery (groin) was upgraded to a limited participant on Thursday's injury report.\n\nVia @ceasterlingABJ",
+            "reason": "style",
+            "why": "Changed 'practice report' to 'injury report'"
+          },
+          {
+            "posted_at": "2026-11-12T21:16:36Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Dalton Kincaid (ankle) remained a limited participant on Thursday's practice report.\n\nVia @BuffaloBillsPR",
+            "posted": "Dalton Kincaid (ankle) remained listed as a limited participant on Thursday's practice report.\n\nVia @BuffaloBillsPR",
+            "reason": "style",
+            "why": "Editor added 'listed as' for phrasing preference."
+          },
+          {
+            "posted_at": "2026-11-12T21:13:22Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Bhayshul Tuten (ankle/foot) remained a non-participant on Thursday's practice report.\n\nVia @Jaguars",
+            "posted": "Bhayshul Tuten (ankle/foot) remained listed as a non-participant on Thursday's injury report.\n\nVia @Jaguars",
+            "reason": "style",
+            "why": "Added 'listed as' and changed 'practice report' to 'injury report'"
+          },
+          {
+            "posted_at": "2026-11-12T21:04:20Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "A.J. Brown (ankle/knee) remained a limited participant on Thursday's practice report.\n\nVia @Patriots",
+            "posted": "A.J. Brown (ankle/knee) remained a limited participant on Thursday's injury report.\n\nVia @Patriots",
+            "reason": "style",
+            "why": "Changed 'practice report' to 'injury report'"
+          },
+          {
+            "posted_at": "2026-11-11T23:57:52Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": true,
+            "draft": "Rashid Shaheed was listed as a full participant on Wednesday's injury report.\n\nVia @johnpboyle",
+            "posted": "Rashid Shaheed (knee) was listed as a full participant on Wednesday's injury report.\n\nVia @johnpboyle",
+            "reason": "other",
+            "why": "Editor added knee injury designation not available to template"
+          },
+          {
+            "posted_at": "2026-11-11T22:43:58Z",
+            "template": "practice_report",
+            "template_case": "final_report",
+            "manual": false,
+            "draft": "TreVeyon Henderson (illness) has been ruled out for Sunday's game against the Lions.\n\nVia @Patriots",
+            "posted": "TreVeyon Henderson (illness) was ruled out for Sunday's game against the Lions.\n\nVia @Patriots",
+            "reason": "style",
+            "why": "Changed 'has been ruled out' to 'was ruled out'"
+          },
+          {
+            "posted_at": "2026-11-11T21:36:05Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": true,
+            "draft": "Xavier Worthy (hamstring) was listed as a full participant on Wednesday's injury report.\n\nVia @Chiefs",
+            "posted": "Xavier Worthy (hamstring) was listed as a full participant on Wednesday's practice report.\n\nVia @Chiefs",
+            "reason": "style",
+            "why": "Changed 'injury report' to 'practice report'"
+          },
+          {
+            "posted_at": "2026-11-11T21:33:54Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": true,
+            "draft": "Patrick Mahomes (knee/right elbow) was listed as a full participant on Wednesday's injury report.\n\nVia @Chiefs",
+            "posted": "Patrick Mahomes (knee/elbow) was listed as a full participant on Wednesday's injury report.\n\nVia @Chiefs",
+            "reason": "style",
+            "why": "Removed 'right' before 'elbow' in the injury designation."
+          },
+          {
+            "posted_at": "2026-11-11T21:23:48Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "T.J. Hockenson (wrist/chest) was listed as a non-participant on Wednesday's injury report.\n\nVia @Vikings",
+            "posted": "T.J. Hockenson (wrist/chest) was listed as a non-participant on Wednesday's estimated practice report.\n\nVia @Vikings",
+            "reason": "style",
+            "why": "Editor added 'estimated' before 'practice report'"
+          },
+          {
+            "posted_at": "2026-11-11T21:12:21Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": true,
+            "draft": "Jared Goff (chest) was listed as a limited participant on Wednesday's injury report.\n\nVia @Lions",
+            "posted": "Jared Goff (chest) was listed as a limited participant on Wednesday's practice report.\n\nVia @Lions",
+            "reason": "style",
+            "why": "Changed 'injury report' to 'practice report'"
+          },
+          {
+            "posted_at": "2026-11-11T21:06:57Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": true,
+            "draft": "Chris Rodriguez (hand) was listed as a limited participant on Wednesday's injury report.\n\nVia @ryanohalloran",
+            "posted": "Chris Rodriguez (hand) was listed as a limited participant on Wednesday's practice report.\n\nVia @ryanohalloran",
+            "reason": "style",
+            "why": "Changed 'injury report' to 'practice report'"
+          },
+          {
+            "posted_at": "2026-11-10T21:45:27Z",
+            "template": "transaction",
+            "template_case": "practice_squad",
+            "manual": false,
+            "draft": "Kendre Miller is signing with the Cowboys' practice squad.\n\nVia @NickHarrisFWST",
+            "posted": "Kendre Miller will sign with the Cowboys' practice squad.\n\nVia @NickHarrisFWST",
+            "reason": "style",
+            "why": "Changed 'is signing' to 'will sign' for future tense consistency"
+          },
+          {
+            "posted_at": "2026-11-10T20:46:11Z",
+            "template": "transaction",
+            "template_case": "ir_placed",
+            "manual": false,
+            "draft": "Malik Willis (groin/core muscle) is being placed on injured reserve.\n\nVia @TomPelissero",
+            "posted": "Malik Willis (groin/core) is being placed on injured reserve.\n\nVia @TomPelissero",
+            "reason": "style",
+            "why": "Editor shortened 'groin/core muscle' to 'groin/core'"
+          },
+          {
+            "posted_at": "2026-11-10T20:37:35Z",
+            "template": "transaction",
+            "template_case": "trade",
+            "manual": false,
+            "draft": "Josh Downs is being traded from the Colts to the Chiefs in exchange for 2027 fourth-round and fifth-round picks.\n\nVia @TomPelissero",
+            "posted": "Josh Downs and a 2027 seventh-round pick are being traded to the Chiefs in exchange for 2027 fourth-round and fifth-round picks.\n\nVia @TomPelissero",
+            "reason": "other",
+            "why": "Editor added a seventh-round pick going to Chiefs with Downs."
+          },
+          {
+            "posted_at": "2026-11-09T23:46:47Z",
+            "template": "game_day",
+            "template_case": "active",
+            "manual": false,
+            "draft": "Odell Beckham is listed as active for Monday's game against the Bills.\n\nVia @BenGoessling",
+            "posted": "Odell Beckham Jr. is listed as active for Monday's game against the Bills.\n\nVia @BenGoessling",
+            "reason": "other",
+            "why": "Editor added 'Jr.' to player's name, a fact the template couldn't know."
+          },
+          {
+            "posted_at": "2026-11-09T22:50:24Z",
+            "template": "practice_report",
+            "template_case": "paraphrase",
+            "manual": false,
+            "draft": "Deebo Samuel (hamstring), per 49ers, is on track to return to practice on Wednesday.\n\nVia @LombardiHimself",
+            "posted": "Deebo Samuel (hamstring) \"is on track\" to practice Wednesday.\n\nVia @LombardiHimself",
+            "reason": "style",
+            "why": "Editor shortened and added quotes around 'is on track', same meaning."
+          },
+          {
+            "posted_at": "2026-11-09T00:01:05Z",
+            "template": "game_day",
+            "template_case": "exit",
+            "manual": false,
+            "draft": "Rhamondre Stevenson headed to the locker room during Sunday's game against the Packers.\n\nVia @MikeReiss",
+            "posted": "Rhamondre Stevenson went to the locker room in the third quarter of Sunday's game against the Packers with an apparent injury.\n\nVia @MikeReiss",
+            "reason": "template",
+            "why": "Editor added the quarter and 'with an apparent injury' detail."
+          },
+          {
+            "posted_at": "2026-11-08T22:27:35Z",
+            "template": "game_day",
+            "template_case": "testing",
+            "manual": false,
+            "draft": "Puka Nacua (knee) will undergo an MRI Monday.\n\nVia @AdamSchefter",
+            "posted": "Puka Nacua sustained a knee injury in Sunday's victory over the Commanders and, although the Rams \"do not believe he sustained a torn ACL, he \"will undergo an MRI on Monday to determine the extent of the injury.\"\n\nVia @MikeGarafolo",
+            "reason": "wrong_match",
+            "why": "Draft omits injury context, prognosis detail, and misattributes source"
+          },
+          {
+            "posted_at": "2026-11-08T20:59:34Z",
+            "template": "game_day",
+            "template_case": "out",
+            "manual": true,
+            "draft": "Xavier Worthy (hamstring) has been ruled out for the rest of Sunday's game against the Jets.\n\nVia @Chiefs",
+            "posted": "Xavier Worthy (hamstring) was ruled out for the rest of Sunday's game against the Jets.\n\nVia @Chiefs",
+            "reason": "style",
+            "why": "Changed 'has been ruled out' to 'was ruled out'"
+          },
+          {
+            "posted_at": "2026-11-08T20:32:57Z",
+            "template": "game_day",
+            "template_case": "returned",
+            "manual": true,
+            "draft": "KC Concepcion (right leg) returned to Sunday's game against the Saints.\n\nVia @MaryKayCabot",
+            "posted": "KC Concepcion (leg) returned to Sunday's game against the Saints in the fourth quarter.\n\nVia @MaryKayCabot",
+            "reason": "template",
+            "why": "Editor added the quarter he returned in, missing from draft."
+          },
+          {
+            "posted_at": "2026-11-08T20:11:36Z",
+            "template": "game_day",
+            "template_case": "exit",
+            "manual": false,
+            "draft": "KC Concepcion was helped off the field during Sunday's game against the Saints.\n\nVia @RossJacksonNOLA",
+            "posted": "KC Concepcion was helped off the field in the third quarter of Sunday's game against the Saints after sustaining an apparent right leg injury.\n\nVia @RossJacksonNOLA",
+            "reason": "template",
+            "why": "Editor added the quarter and the apparent right leg injury detail."
+          },
+          {
+            "posted_at": "2026-11-08T20:07:26Z",
+            "template": "game_day",
+            "template_case": "returned",
+            "manual": false,
+            "draft": "Puka Nacua returned to Sunday's game against the Commanders.\n\nVia @StuJRams",
+            "posted": "Puka Nacua (undisclosed) returned to Sunday's game against the Commanders in the third quarter.\n\nVia @StuJRams",
+            "reason": "template",
+            "why": "Editor added injury label and specified the quarter he returned."
+          },
+          {
+            "posted_at": "2026-11-08T20:01:30Z",
+            "template": "game_day",
+            "template_case": "exit",
+            "manual": false,
+            "draft": "Puka Nacua headed to the medical tent during Sunday's game against the Commanders.\n\nVia @StuJRams",
+            "posted": "Puka Nacua was taken to the medical tent during the third quarter of Sunday's game against the Commanders.\n\nVia @StuJRams",
+            "reason": "template",
+            "why": "Editor added 'third quarter' detail missing from draft."
+          },
+          {
+            "posted_at": "2026-11-08T19:44:24Z",
+            "template": "game_day",
+            "template_case": "out",
+            "manual": false,
+            "draft": "Jaylen Waddle (concussion) has been ruled out for the rest of Sunday's game against the Panthers.\n\nVia @ParkerJGabriel",
+            "posted": "Jaylen Waddle (concussion) has been ruled out for the remainder of Sunday's game against the Panthers.\n\nVia @ParkerJGabriel",
+            "reason": "style",
+            "why": "Changed 'rest' to 'remainder' — same meaning, slight rewording."
+          },
+          {
+            "posted_at": "2026-11-07T21:05:40Z",
+            "template": "transaction",
+            "template_case": "ir_placed",
+            "manual": false,
+            "draft": "Brian Robinson (hamstring) is being placed on injured reserve Saturday.\n\nVia @marcraimondi",
+            "posted": "Brian Robinson (hamstring) was placed on injured reserve Saturday.\n\nVia @marcraimondi",
+            "reason": "style",
+            "why": "Changed 'is being placed' to 'was placed' (past tense)"
+          },
+          {
+            "posted_at": "2026-11-07T19:13:30Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": true,
+            "draft": "DJ Moore (shoulder) remained a limited participant on Saturday's practice report.\n\nVia @BuffaloBillsPR",
+            "posted": "DJ Moore (shoulder) doesn't have a designation for Monday's game against the Vikings.\n\nVia @BuffaloBillsPR",
+            "reason": "wrong_match",
+            "why": "Draft reported limited practice; post says no designation, different status/case."
+          },
+          {
+            "posted_at": "2026-11-06T21:58:01Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Michael Wilson (rest/ribs) remained a limited participant on Friday's injury report.\n\nVia @joshweinfuss",
+            "posted": "Michael Wilson (ribs) was limited at Friday's practice but does not have an injury designation for Week 9.\n\nVia @joshweinfuss",
+            "reason": "template",
+            "why": "Added no injury designation detail; removed 'rest' from injury label."
+          },
+          {
+            "posted_at": "2026-11-06T21:54:07Z",
+            "template": "practice_report",
+            "template_case": "final_report",
+            "manual": false,
+            "draft": "Deebo Samuel (hamstring) has been ruled out for Sunday's game against the Raiders.\n\nVia @nwagoner",
+            "posted": "Deebo Samuel (hamstring) was ruled out for Sunday's matchup with the Raiders.\n\nVia @nwagoner",
+            "reason": "style",
+            "why": "Changed 'has been ruled out' to 'was ruled out' and 'game against' to 'matchup with'"
+          },
+          {
+            "posted_at": "2026-11-06T21:53:47Z",
+            "template": "practice_report",
+            "template_case": "final_report",
+            "manual": false,
+            "draft": "Mike Evans (Achilles) has been ruled out for Sunday's game against the Raiders.\n\nVia @nwagoner",
+            "posted": "Mike Evans (ribs/Achilles) was ruled out for Sunday's game against the Raiders.\n\nVia @nwagoner",
+            "reason": "other",
+            "why": "Editor added 'ribs/' to injury designation that template couldn't know"
+          },
+          {
+            "posted_at": "2026-11-06T20:54:57Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Saquon Barkley (hamstring/back) remained a limited participant on Friday's injury report.\n\nVia @Eagles",
+            "posted": "Saquon Barkley (hamstring/back) was limited at Friday's practice but does not have an injury designation for Week 9.\n\nVia @Eagles",
+            "reason": "other",
+            "why": "could not classify"
+          },
+          {
+            "posted_at": "2026-11-06T20:47:47Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Deebo Samuel (hamstring) remained a non-participant on Friday's injury report.\n\nVia @nwagoner",
+            "posted": "Deebo Samuel (hamstring) was not participating during the media-viewing portion of Friday's practice.\n\nVia @nwagoner",
+            "reason": "style",
+            "why": "Reworded 'remained a non-participant' to 'was not participating during media-viewing portion'"
+          },
+          {
+            "posted_at": "2026-11-06T20:46:53Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Mike Evans (Achilles) remained a non-participant on Friday's injury report.\n\nVia @nwagoner",
+            "posted": "Mike Evans (ribs/Achilles) did not participate in the portion of Friday's practice open to the media.\n\nVia @nwagoner",
+            "reason": "other",
+            "why": "Editor added 'ribs' to injury list and clarified practice was media-open portion."
+          },
+          {
+            "posted_at": "2026-11-05T23:53:35Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Terrance Ferguson (ankle) remained a limited participant on Thursday's practice report.\n\nVia @gregbeacham",
+            "posted": "Terrance Ferguson (ankle) remained a limited participant on Thursday's injury report.\n\nVia @gregbeacham",
+            "reason": "other",
+            "why": "Changed 'practice report' to 'injury report'"
+          },
+          {
+            "posted_at": "2026-11-05T22:38:46Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Deebo Samuel (hamstring) remained a non-participant on Thursday's practice report.\n\nVia @samwarren83",
+            "posted": "Deebo Samuel (hamstring) remained listed as a non-participant on Thursday's injury report.\n\nVia @samwarren83",
+            "reason": "style",
+            "why": "Added 'listed as' and changed 'practice report' to 'injury report'"
+          },
+          {
+            "posted_at": "2026-11-05T22:37:38Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Christian McCaffrey (hamstring) was upgraded to a limited participant on Thursday's practice report.\n\nVia @samwarren83",
+            "posted": "Christian McCaffrey (hamstring) was upgraded to a limited participant on Thursday's injury report.\n\nVia @samwarren83",
+            "reason": "style",
+            "why": "Changed 'practice report' to 'injury report'"
+          },
+          {
+            "posted_at": "2026-11-05T22:28:24Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "DeVonta Smith (hamstring) remained a non-participant on Thursday's practice report.\n\nVia @Eagles",
+            "posted": "DeVonta Smith (hamstring) remained listed as a non-participant on Thursday's practice report.\n\nVia @Eagles",
+            "reason": "style",
+            "why": "Added 'listed as' for phrasing preference."
+          },
+          {
+            "posted_at": "2026-11-05T22:28:08Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Saquon Barkley (hamstring/back) was upgraded to a limited participant on Thursday's practice report.\n\nVia @Eagles",
+            "posted": "Saquon Barkley (hamstring/back) was upgraded to a limited participant on Thursday's injury report.\n\nVia @Eagles",
+            "reason": "style",
+            "why": "Changed 'practice report' to 'injury report'"
+          },
+          {
+            "posted_at": "2026-11-05T21:59:34Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "DJ Moore (shoulder) was listed as a limited participant on Thursday's practice report.\n\nVia @BuffaloBillsPR",
+            "posted": "DJ Moore (shoulder) was listed as a limited participant on Thursday's injury report.\n\nVia @BuffaloBillsPR",
+            "reason": "style",
+            "why": "Changed 'practice report' to 'injury report'"
+          },
+          {
+            "posted_at": "2026-11-05T21:48:03Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "Jake Ferguson (ankle) remained a non-participant on Thursday's practice report.\n\nVia @toddarcher",
+            "posted": "Jake Ferguson (ankle) did not practice Thursday for a second straight day.\n\nVia @toddarcher",
+            "reason": "style",
+            "why": "Reworded 'remained a non-participant' to 'did not practice' and added 'for a second straight day'"
+          },
+          {
+            "posted_at": "2026-11-05T21:47:32Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "George Pickens (hamstring) remained a limited participant on Thursday's practice report.\n\nVia @toddarcher",
+            "posted": "George Pickens (hamstring) remained listed as a limited participant on Thursday's injury report.\n\nVia @toddarcher",
+            "reason": "style",
+            "why": "Added 'listed as' and changed 'practice report' to 'injury report'"
+          },
+          {
+            "posted_at": "2026-11-05T21:20:27Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": true,
+            "draft": "Jordyn Tyson (hamstring) remained a limited participant on Thursday's practice report.\n\nVia @Kat_Terrell",
+            "posted": "Jordyn Tyson (hamstring) remained listed as a limited participant on Thursday's practice report.\n\nVia @Kat_Terrell",
+            "reason": "style",
+            "why": "Editor added 'listed as' for natural phrasing."
+          },
+          {
+            "posted_at": "2026-11-05T00:28:54Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": true,
+            "draft": "Matthew Stafford was listed as a full participant on Wednesday's injury report.\n\nVia @sarahbarshop",
+            "posted": "Matthew Stafford (arm) was listed as a full participant on Wednesday's injury report.\n\nVia @sarahbarshop",
+            "reason": "other",
+            "why": "could not classify"
+          },
+          {
+            "posted_at": "2026-11-04T23:18:01Z",
+            "template": "practice_report",
+            "template_case": "report",
+            "manual": false,
+            "draft": "DeVonta Smith (hamstring) was listed as a non-participant on Wednesday's injury report.\n\nVia @Eagles",
+            "posted": "DeVonta Smith (hamstring) was listed as a non-participant on Wednesday's practice report.\n\nVia @Eagles",
+            "reason": "style",
+            "why": "Changed 'injury report' to 'practice report'"
+          }
+        ]
       }
     }
   }
