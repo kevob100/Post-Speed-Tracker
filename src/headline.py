@@ -106,7 +106,7 @@ def templates(data_dir: Path, now: datetime) -> dict | None:
                         "prior": _tpl_sum(in_days(end - timedelta(days=2 * w), end - timedelta(days=w)))}
     # Per day since the template field exists: [day, template posts, freeform posts,
     # share 7d, template unedited 7d, freeform unedited 7d, same three over 30d,
-    # template posts scored that day, of those unedited].
+    # template posts scored that day, of those unedited, freeform scored that day, of those unedited].
     series, d = [], parse_dt(out["since"] + "T00:00:00Z").date()
     while d <= today:
         day = [r for r in rows if r["day"] == d.isoformat()]
@@ -117,7 +117,9 @@ def templates(data_dir: Path, now: datetime) -> dict | None:
                 r = _tpl_sum(in_days(d - timedelta(days=w - 1), d + timedelta(days=1)))
                 pt += [r["share"], r["template_unedited"], r["freeform_unedited"]]
             tday = [r for r in day if r["template"] != "freeform"]
-            pt += [sum(r.get("scored") or 0 for r in tday), sum(r.get("unchanged") or 0 for r in tday)]
+            fday = [r for r in day if r["template"] == "freeform"]
+            pt += [sum(r.get("scored") or 0 for r in tday), sum(r.get("unchanged") or 0 for r in tday),
+                   sum(r.get("scored") or 0 for r in fday), sum(r.get("unchanged") or 0 for r in fday)]
             series.append(pt)
         d += timedelta(days=1)
     # Today is partial until the nightly run; leave it off the trend.

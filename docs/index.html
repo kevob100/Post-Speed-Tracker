@@ -3452,7 +3452,9 @@ function hlChart(el, { rows, lo, hi, ticks, tf, vf, goal, series, dots, dotTip, 
   let s = ticks.map(v => `<line x1="${L}" x2="${W - R}" y1="${y(v)}" y2="${y(v)}" stroke="var(--panel2)"/><text x="${L - 6}" y="${y(v) + 3}" text-anchor="end" fill="var(--muted)">${tf(v)}</text>`).join("");
   [0, Math.floor((n - 1) / 2), n - 1].forEach((i, k) => s += `<text x="${x(i)}" y="${H - 4}" text-anchor="${["start", "middle", "end"][k]}" fill="var(--muted)">${smDay(rows[i][0])}</text>`);
   if (goal != null) s += `<line x1="${L}" x2="${W - R}" y1="${y(goal)}" y2="${y(goal)}" stroke="var(--good)" stroke-dasharray="4 4"/><text x="${W - R}" y="${y(goal) - 5}" text-anchor="end" fill="var(--good)">goal ${tf(goal)}</text>`;
-  if (dots) s += rows.map((r, i) => { const v = dots(r); return v == null ? "" : `<circle cx="${x(i)}" cy="${y(v)}" r="2.5" fill="#3a4654"/>`; }).join("");
+  // dots: one function (grey), or a list of { get, color } for several each-day series
+  if (dots) (typeof dots === "function" ? [{ get: dots, color: "#3a4654" }] : dots).forEach(({ get, color }) =>
+    s += rows.map((r, i) => { const v = get(r); return v == null ? "" : `<circle cx="${x(i)}" cy="${y(v)}" r="2.5" fill="${color}"/>`; }).join(""));
   series.forEach(({ get, color, width = 2.5 }) => {
     const segs = []; let cur = [];
     rows.forEach((r, i) => { const v = get(r); if (v == null) { if (cur.length) segs.push(cur); cur = []; } else cur.push(`${x(i).toFixed(1)},${y(v).toFixed(1)}`); });
@@ -3551,7 +3553,7 @@ function renderSummary() {
         <div class="hl-key"><span><i style="background:var(--green)"></i>${w}-day</span><span><i style="background:#3a4654;height:6px;width:6px;border-radius:50%"></i>Each day</span><span><i class="dash"></i>Goal</span></div></div>
       <div class="sm-card"><div class="lbl">2 · Template posts sent unedited</div><div class="hl-mid">${hlPct(tc.template_unedited)} <span class="hl-goal">goal ${G.template_unedited}%</span></div>
         <svg class="hl-chart" id="hl-c2" role="img" aria-label="Share of template posts sent unedited, ${w}-day, since ${since}"></svg>
-        <div class="hl-key"><span><i style="background:var(--green)"></i>Template, ${w}-day</span><span><i style="background:#6b7888"></i>Freeform, ${w}-day</span><span><i style="background:#3a4654;height:6px;width:6px;border-radius:50%"></i>Template, each day</span><span><i class="dash"></i>Goal</span></div></div>
+        <div class="hl-key"><span><i style="background:var(--green)"></i>Template, ${w}-day</span><span><i style="background:#6b7888"></i>Freeform, ${w}-day</span><span><i style="background:#1f6673;height:6px;width:6px;border-radius:50%"></i>Template, each day</span><span><i style="background:#4a5563;height:6px;width:6px;border-radius:50%"></i>Freeform, each day</span><span><i class="dash"></i>Goal</span></div></div>
     </div>
     <div class="sm-card hl-tbl"><table>
       <thead><tr><th>Last ${w} days</th><th>Template</th><th>Freeform</th></tr></thead><tbody>
@@ -3610,8 +3612,8 @@ function hlDraw() {
     hlChart(document.getElementById("hl-c1"), { rows: td2, lo: 0, hi: 100, ticks: t100, tf: pf, vf: hlPctX, goal: G.template_share, dots: r => r[1] + r[2] ? 100 * r[1] / (r[1] + r[2]) : null,
       dotTip: r => r[1] + r[2] ? `That day: ${hlPctX(100 * r[1] / (r[1] + r[2]))} (${r[1]} of ${r[1] + r[2]} posts)` : "No posts that day",
       series: [{ get: r => r[o], color: "var(--green)", name: `${w}-day` }] });
-    hlChart(document.getElementById("hl-c2"), { rows: td2, lo: 0, hi: 100, ticks: t100, tf: pf, vf: hlPctX, goal: G.template_unedited, dots: r => r[9] ? 100 * r[10] / r[9] : null,
-      dotTip: r => r[9] == null ? "" : r[9] ? `That day: ${hlPctX(100 * r[10] / r[9])} (${r[10]} of ${r[9]} template posts)` : "No template posts that day", series: [{ get: r => r[o + 1], color: "var(--green)", name: `Template, ${w}-day` }, { get: r => r[o + 2], color: "#6b7888", width: 1.5, name: `Freeform, ${w}-day` }] });
+    hlChart(document.getElementById("hl-c2"), { rows: td2, lo: 0, hi: 100, ticks: t100, tf: pf, vf: hlPctX, goal: G.template_unedited, dots: [{ get: r => r[9] ? 100 * r[10] / r[9] : null, color: "#1f6673" }, { get: r => r[11] ? 100 * r[12] / r[11] : null, color: "#4a5563" }],
+      dotTip: r => r[9] == null ? "" : ["Template", "Freeform"].map((t, k) => { const n = r[9 + 2 * k], u = r[10 + 2 * k]; return n ? `${t} that day: ${hlPctX(100 * u / n)} (${u} of ${n})` : `${t} that day: no posts`; }).join("<br>"), series: [{ get: r => r[o + 1], color: "var(--green)", name: `Template, ${w}-day` }, { get: r => r[o + 2], color: "#6b7888", width: 1.5, name: `Freeform, ${w}-day` }] });
   }
 }
 // The previous Summary, now the first Details group: is each shipped change working, and the tickets behind each step.
