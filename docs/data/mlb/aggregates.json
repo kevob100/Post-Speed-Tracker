@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-11-16T15:38:09.064797+00:00",
+  "generated_at": "2026-11-17T14:12:08.716451+00:00",
   "analysis_start": null,
   "summary": {
     "matched": 1244,
@@ -22,7 +22,7 @@
   "headline": {
     "days": 30,
     "tie_seconds": 60,
-    "since": "2026-10-17",
+    "since": "2026-10-18",
     "matched": 25,
     "rotowire_first": 3,
     "ties": 3,
@@ -10980,6 +10980,16 @@
       "date": "2026-11-16",
       "account": "underdog",
       "followers_count": 213332
+    },
+    {
+      "date": "2026-11-17",
+      "account": "rotowire",
+      "followers_count": 13412
+    },
+    {
+      "date": "2026-11-17",
+      "account": "underdog",
+      "followers_count": 213320
     }
   ],
   "audience": {
@@ -12997,6 +13007,10 @@
         {
           "date": "2026-11-16",
           "followers": 13411
+        },
+        {
+          "date": "2026-11-17",
+          "followers": 13412
         }
       ],
       "underdog": [
@@ -13187,27 +13201,31 @@
         {
           "date": "2026-11-16",
           "followers": 213332
+        },
+        {
+          "date": "2026-11-17",
+          "followers": 213320
         }
       ]
     },
     "growth": {
       "rotowire": {
         "first_date": "2026-10-01",
-        "last_date": "2026-11-16",
-        "days": 46,
-        "followers": 13411,
-        "gained": -21,
-        "gained_rate": -0.00156,
-        "per_day": -0.5
+        "last_date": "2026-11-17",
+        "days": 47,
+        "followers": 13412,
+        "gained": -20,
+        "gained_rate": -0.00149,
+        "per_day": -0.4
       },
       "underdog": {
         "first_date": "2026-10-01",
-        "last_date": "2026-11-16",
-        "days": 46,
-        "followers": 213332,
-        "gained": 1767,
-        "gained_rate": 0.00835,
-        "per_day": 38.4
+        "last_date": "2026-11-17",
+        "days": 47,
+        "followers": 213320,
+        "gained": 1755,
+        "gained_rate": 0.0083,
+        "per_day": 37.3
       }
     },
     "views_by_week": [
@@ -13435,6 +13453,15 @@
         "underdog_posts": 49,
         "underdog_median_views": 67929,
         "underdog_total_views": 4708780
+      },
+      {
+        "week": "2026-11-16",
+        "rotowire_posts": 2,
+        "rotowire_median_views": 2004,
+        "rotowire_total_views": 4007,
+        "underdog_posts": 0,
+        "underdog_median_views": null,
+        "underdog_total_views": 0
       }
     ],
     "head_to_head": {
@@ -14403,16 +14430,32 @@
         "days": 7,
         "new_follows": -3,
         "unfollows": 0,
-        "impressions": 81947,
-        "engagements": 735,
+        "impressions": 83865,
+        "engagements": 747,
         "likes": 61,
         "replies": 23,
-        "reposts": 22,
-        "link_clicks": 338,
-        "content_clicks": 293,
-        "media_views": 1575,
+        "reposts": 23,
+        "link_clicks": 345,
+        "content_clicks": 298,
+        "media_views": 1590,
         "video_views": 0,
         "posts": 47
+      },
+      {
+        "week": "2026-11-16",
+        "days": 1,
+        "new_follows": 5,
+        "unfollows": 0,
+        "impressions": 9974,
+        "engagements": 221,
+        "likes": 25,
+        "replies": 3,
+        "reposts": 3,
+        "link_clicks": 91,
+        "content_clicks": 101,
+        "media_views": 31,
+        "video_views": 0,
+        "posts": 6
       }
     ],
     "account_sources": [
