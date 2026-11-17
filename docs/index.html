@@ -487,7 +487,7 @@
   .ed-ex .txt { white-space: pre-wrap; line-height: 1.45; }
   .ed-ex del { color: #f0a070; background: rgba(221,107,40,.14); text-decoration: line-through; border-radius: 2px; }
   .ed-ex ins { color: #b8f0f7; background: rgba(31,162,184,.22); text-decoration: none; border-radius: 2px; }
-  /* Summary / Details report tabs (NFL, from desk_speed.json -> summary) */
+  /* Summary / Details report tabs (any sport with desk_speed.json, from desk_speed.json -> summary) */
   .pagetabs { display: flex; gap: 2px; border-bottom: 1px solid var(--line); margin: 12px 0 18px; }
   .pagetabs button { background: none; border: 0; border-bottom: 2px solid transparent; color: var(--muted); font: inherit;
     font-size: 15px; font-weight: 600; padding: 10px 14px; cursor: pointer; }
@@ -3024,7 +3024,7 @@ function renderCredits() {
                ["presser", "#a7b4c2", "press conference"], ["none", "var(--panel2)", "no credit"]];
   host.innerHTML = `
     <h2 id="cr-h">${d.missing} accounts Underdog credits ${listKnown ? "aren't on our Monitor list" : "never show up in our Monitor"}</h2>
-    <p class="dek">Underdog named a source on <b>${named}%</b> of its ${d.posts} NFL news posts in the last ${d.window_days} days. Each account they named, checked against ${listKnown
+    <p class="dek">Underdog named a source on <b>${named}%</b> of its ${d.posts} ${esc((state.sportMeta || {}).label || "NFL")} news posts in the last ${d.window_days} days. Each account they named, checked against ${listKnown
       ? `the X list our Monitor ingests (${d.list.members} accounts)` : "the accounts our Monitor has ingested a tweet from in the last 30 days, which proves an account is on the list but can't prove it isn't"}. The ones missing come first.</p>
     <div class="cr-mix" role="img" aria-label="How Underdog credits its source">${mix.filter(([k]) => pct(k)).map(([k, c, l]) =>
       `<i style="width:${pct(k)}%;background:${c}" title="${l}: ${pct(k)}%"></i>`).join("")}</div>
@@ -3502,6 +3502,24 @@ function hlWhy(E, w) {
     <details><summary class="lbl" style="cursor:pointer;margin-top:10px">Every judged post (${posts.length})</summary>
       <div class="hl-tbl"><table><thead><tr><th>Day</th><th>Reason</th><th>What changed</th><th>Draft vs posted</th></tr></thead><tbody>${rows}</tbody></table></div></details></div>`;
 }
+// Step card status line from config (desk_speed.step_notes); none when the sport has no note.
+function hlNote(H, k) {
+  const n = (H.step_notes || {})[k];
+  return n && n.text ? `\n        <div class="hl-state ${esc(n.kind || "")}">${esc(n.text)}</div>` : "";
+}
+// "How we close the gap" for a sport without code templates (NBA): unedited posts, then step 3, then the gap.
+function hlNoTpl(tc, tpr, tpN, sc, sp, rc, rp, w) {
+  const un = tc ? tc.freeform_unedited : null, unP = tpr ? tpr.freeform_unedited : null;
+  return `<h3 class="hl-h">How we close the gap</h3>
+    <p class="sm-note hl-sub">More drafts go out unedited → step 3 (opened to posted) gets faster → we post sooner → the gap to Underdog shrinks.</p>
+    <div class="hl-chain">
+      <div class="hl-link"><div class="hl-n">1 · Sent unedited</div><div class="hl-v">${hlPct(un)}</div><div class="hl-d">${tc ? `of ${tc.freeform_posts} posts · ` : ""}${hlDelta(un, unP, { w, priorN: tpN, none: "no earlier data" })}</div></div>
+      <div class="hl-arrow" aria-hidden="true">→</div>
+      <div class="hl-link"><div class="hl-n">2 · Step 3: opened → posted</div><div class="hl-v">${sc.s3 == null ? "–" : dkFmt(sc.s3)}</div><div class="hl-d">median · ${hlDelta(sc.s3, sp.s3, { time: true, lowerBetter: true, w, priorN: sp.n })}</div></div>
+      <div class="hl-arrow" aria-hidden="true">→</div>
+      <div class="hl-link end"><div class="hl-n">= Behind Underdog</div><div class="hl-v">${hlGap(rc.median)}</div><div class="hl-d">${hlDelta(rc.median, rp.median, { time: true, lowerBetter: true, w, priorN: rp.n })}</div></div>
+    </div>`;
+}
 function renderSummary() {
   const host = document.getElementById("sum"), d = state.desk, H = d && d.summary && d.summary.headline;
   if (!host) return;
@@ -3515,7 +3533,7 @@ function renderSummary() {
   const bar = (v, goal, color = "var(--green)") => `<div class="hl-bar"><i style="width:${Math.min(100, v || 0)}%;background:${color}"></i><b style="left:${goal}%"></b></div>`;
   const s2 = sc.s2 || 0, s1 = sc.s1 || 0, s3 = sc.s3 || 0;
   host.innerHTML = `
-    <div class="hl-top"><div><h2 class="hl-title">NFL news speed</h2>
+    <div class="hl-top"><div><h2 class="hl-title">${esc((state.sportMeta || {}).label || "NFL")} news speed</h2>
       <div class="lbl">Last ${w} full days${H.through ? `, through ${smDay(H.through)}` : ""} · ${rc.n} stories both accounts posted · updated daily</div></div>
       <div class="hl-ctl"><span class="hl-ctl-l">Charts</span><div class="seg-chips hl-span" role="group" aria-label="Chart range">${[30, 90].map(x => `<button type="button" data-v="${x}" class="${x === hlSpan ? "on" : ""}" aria-pressed="${x === hlSpan}">${x} days</button>`).join("")}</div>
         <div class="seg-chips hl-line" role="group" aria-label="Chart line">${[["roll", "7-day avg"], ["day", "Each day"]].map(([v, t]) => `<button type="button" data-v="${v}" class="${v === hlLine ? "on" : ""}" aria-pressed="${v === hlLine}">${t}</button>`).join("")}</div></div></div>
@@ -3532,7 +3550,7 @@ function renderSummary() {
         <div class="hl-key"><span><i style="background:var(--green)"></i>${hlLine === "day" ? "Each day" : "7-day share"}, last ${hlSpan} days</span></div></div>
     </div>
 
-    <h3 class="hl-h">How we close the gap</h3>
+    ${H.uses_templates === false ? hlNoTpl(tc, tpr, tpN, sc, sp, rc, rp, w) : `<h3 class="hl-h">How we close the gap</h3>
     <p class="sm-note hl-sub">Templates write more posts → template posts go out unedited → step 3 (opened to posted) gets faster → we post sooner → the gap to Underdog shrinks.</p>
     ${tc ? `<div class="hl-chain">
       <div class="hl-link"><div class="hl-n">1 · Template wrote it</div><div class="hl-v">${hlPct(tc.share)}</div><div class="hl-d">goal ${G.template_share}% · ${hlDelta(tc.share, tpr.share, { w, priorN: tpN, none: tNone })}</div>${bar(tc.share, G.template_share)}</div>
@@ -3562,23 +3580,19 @@ function renderSummary() {
       <tr><td>Step 3: opened to posted (median) <span class="hl-tag" title="Only the sampled draft-vs-posted examples (up to 20 a day) carry a template and a post time to join on">sample</span></td><td>${B.template.s3 == null ? "–" : dkFmt(B.template.s3)} <span class="hl-vs">n=${B.template.s3_n}</span></td><td>${B.freeform.s3 == null ? "–" : dkFmt(B.freeform.s3)} <span class="hl-vs">n=${B.freeform.s3_n}</span></td></tr>
       <tr><td>Behind Underdog (median) <span class="hl-tag" title="Same sample, on stories both accounts posted">sample</span></td><td>${hlGap(B.template.gap)} <span class="hl-vs">n=${B.template.gap_n}</span></td><td>${hlGap(B.freeform.gap)} <span class="hl-vs">n=${B.freeform.gap_n}</span></td></tr>
       </tbody></table></div>
-    ${hlWhy(H.edit_reasons, w)}` : `<p class="sm-note">No template data yet.</p>`}
+    ${hlWhy(H.edit_reasons, w)}` : `<p class="sm-note">No template data yet.</p>`}`}
 
     <h3 class="hl-h">Where our time goes · source tweet to on X</h3>
     <p class="sm-note hl-sub">Median per step, last ${w} days, posts that came through Monitor. A typical post takes ${sc.total == null ? "–" : dkFmt(sc.total)} end to end: ${hlDelta(sc.total, sp.total, { time: true, lowerBetter: true, w, priorN: sp.n })}.</p>
     <div class="hl-steps">
-      <div class="hl-link" style="--c:var(--s1)"><div class="hl-n">Step 1 · Sent → in Monitor</div><div class="hl-v">${dkFmt(s1)}</div><div class="hl-d">${hlDelta(sc.s1, sp.s1, { time: true, lowerBetter: true, w, priorN: sp.n })}</div>
-        <div class="hl-state done">Done for now: turbo mode fixed most of it</div></div>
-      <div class="hl-link" style="--c:var(--s2)"><div class="hl-n">Step 2 · In Monitor → opened</div><div class="hl-v">${dkFmt(s2)}</div><div class="hl-d">${hlDelta(sc.s2, sp.s2, { time: true, lowerBetter: true, w, priorN: sp.n })}</div>
-        <div class="hl-state next">Next: which tweet editors open first (UI priority, flow, training)</div></div>
-      <div class="hl-link now" style="--c:var(--s3)"><div class="hl-n">Step 3 · Opened → posted</div><div class="hl-v">${dkFmt(s3)}</div><div class="hl-d">${hlDelta(sc.s3, sp.s3, { time: true, lowerBetter: true, w, priorN: sp.n })}</div>
-        <div class="hl-state focus">Focus now: templates, sent unedited</div></div>
-      <div class="hl-link hand"><div class="hl-n">Added by hand (Add Line)</div><div class="hl-v">${hlPct(sc.hand_pct)}</div><div class="hl-d">of posts · goal 0% · ${hlDelta(sc.hand_pct, sp.hand_pct, { lowerBetter: true, w })}</div>
-        <div class="hl-state">Remove: hand-added posts are slower</div></div>
+      <div class="hl-link" style="--c:var(--s1)"><div class="hl-n">Step 1 · Sent → in Monitor</div><div class="hl-v">${dkFmt(s1)}</div><div class="hl-d">${hlDelta(sc.s1, sp.s1, { time: true, lowerBetter: true, w, priorN: sp.n })}</div>${hlNote(H, "s1")}</div>
+      <div class="hl-link" style="--c:var(--s2)"><div class="hl-n">Step 2 · In Monitor → opened</div><div class="hl-v">${dkFmt(s2)}</div><div class="hl-d">${hlDelta(sc.s2, sp.s2, { time: true, lowerBetter: true, w, priorN: sp.n })}</div>${hlNote(H, "s2")}</div>
+      <div class="hl-link now" style="--c:var(--s3)"><div class="hl-n">Step 3 · Opened → posted</div><div class="hl-v">${dkFmt(s3)}</div><div class="hl-d">${hlDelta(sc.s3, sp.s3, { time: true, lowerBetter: true, w, priorN: sp.n })}</div>${hlNote(H, "s3")}</div>
+      <div class="hl-link hand"><div class="hl-n">Added by hand (Add Line)</div><div class="hl-v">${hlPct(sc.hand_pct)}</div><div class="hl-d">of posts · goal 0% · ${hlDelta(sc.hand_pct, sp.hand_pct, { lowerBetter: true, w })}</div>${hlNote(H, "hand")}</div>
     </div>
     <div class="hl-tbar" role="img" aria-label="Share of the typical post each step takes"><i style="flex:${s1};background:var(--s1)"></i><i style="flex:${s2};background:var(--s2)"></i><i style="flex:${s3};background:var(--s3)"></i></div>
     <div class="hl-key"><span><i style="background:var(--s1)"></i>Step 1</span><span><i style="background:var(--s2)"></i>Step 2</span><span><i style="background:var(--s3)"></i>Step 3</span><span>each step's share of the typical post</span></div>
-    <p class="sm-note">Medians don't add up: each step is the middle value of its own step. The gap counts every story both accounts posted; steps count Monitor posts only. Template numbers come from News Admin's post edit data, tracked since ${since || "–"}. What each shipped change did, the step tickets and every story are in <a href="#" id="hl-to-det">Details</a>.</p>`;
+    <p class="sm-note">Medians don't add up: each step is the middle value of its own step. The gap counts every story both accounts posted; steps count Monitor posts only. ${H.uses_templates === false ? "Edit numbers come from News Admin's post edit data." : `Template numbers come from News Admin's post edit data, tracked since ${since || "–"}.`} What each shipped change did, the step tickets and every story are in <a href="#" id="hl-to-det">Details</a>.</p>`;
   host.querySelectorAll(".hl-csv").forEach(b => b.onclick = () => {
     const E = H.edit_reasons, since = Date.now() - (+b.dataset.w) * 864e5, q = v => `"${String(v == null ? "" : v).replace(/"/g, '""')}"`;
     const strip = t => String(t || "").replace(/\s*\n\nVia @\S+\s*$/, "");
@@ -3607,7 +3621,7 @@ function hlDraw() {
   hlChart(document.getElementById("hl-gap"), { rows: roll, lo: -gstep, hi: gtop, invert: true, ticks: Array.from({ length: gtop / gstep + 2 }, (_, i) => (i - 1) * gstep), tf: v => v > 0 ? "+" + dkFmt(v) : v < 0 ? "−" + dkFmt(-v) : "0:00", vf: v => { const r = Math.round(v); return r > 0 ? `${dkFmt(r)} behind` : r < 0 ? `${dkFmt(-r)} ahead` : "tied"; }, dotTip: nTip, series: [{ get: r => r[gi], color: "var(--red)", name: day ? "That day's median" : "7-day median" }] });
   const fmax = Math.max(10, ...roll.map(r => r[fi] || 0)), ftop = Math.ceil(fmax / 5) * 5;
   hlChart(document.getElementById("hl-first"), { rows: roll, lo: 0, hi: ftop, ticks: [0, ftop / 2, ftop], tf: v => v + "%", vf: hlPctX, dotTip: nTip, series: [{ get: r => r[fi], color: "var(--green)", name: day ? "That day" : "7-day share" }] });
-  if (H.templates) {
+  if (H.templates && H.uses_templates !== false) {
     const td2 = H.templates.daily, o = w === 7 ? 3 : 6, t100 = [0, 25, 50, 75, 100], pf = v => v + "%";
     hlChart(document.getElementById("hl-c1"), { rows: td2, lo: 0, hi: 100, ticks: t100, tf: pf, vf: hlPctX, goal: G.template_share, dots: r => r[1] + r[2] ? 100 * r[1] / (r[1] + r[2]) : null,
       dotTip: r => r[1] + r[2] ? `That day: ${hlPctX(100 * r[1] / (r[1] + r[2]))} (${r[1]} of ${r[1] + r[2]} posts)` : "No posts that day",

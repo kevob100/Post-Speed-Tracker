@@ -35,6 +35,12 @@ sports:
       # Summary tab goals (sent to Restivo 2026-11-13): templates write 90% of NFL posts,
       # 75% of template posts go out unedited, so about 2/3 of all posts are fully automated.
       goals: {template_share: 90, template_unedited: 75, automated: 67}
+      # Status line under each Summary step card: {text, kind: done | next | focus | ''}.
+      step_notes:
+        s1: {kind: done, text: 'Done for now: turbo mode fixed most of it'}
+        s2: {kind: next, text: 'Next: which tweet editors open first (UI priority, flow, training)'}
+        s3: {kind: focus, text: 'Focus now: templates, sent unedited'}
+        hand: {kind: '', text: 'Remove: hand-added posts are slower'}
       turbo:
         since: '2026-10-05'
         timezone: America/New_York
@@ -272,6 +278,29 @@ sports:
       underdog:
         handle: UnderdogNFL
         user_id: '1449054490062110725'
+  nba:
+    label: NBA
+    active: true
+    backfill_start_date: '2026-07-06'
+    # Desk Speed panel for NBA (same Summary / Details / Roadmap tabs as NFL). News Admin
+    # has NBA desk rows since 2026-11-09. No turbo windows, templates or change cards yet.
+    desk_speed:
+      league: nba
+      # NBA drafts are AI-written, no code templates yet: the Summary skips the template funnel.
+      templates: false
+      initiative:
+        root: RD-8315
+        label: 'Breaking News AI: NBA'
+        prioritize_assignee: Matthew Kulina
+      measure_since: '2026-11-09'
+    accounts:
+      rotowire:
+        handle: RotoWireNBA
+        sprout_profile_id: 5872842
+        user_id: '2291803664'
+      underdog:
+        handle: UnderdogNBA
+        user_id: '1448762998840074240'
   mlb:
     label: MLB
     active: true
@@ -283,18 +312,6 @@ sports:
       underdog:
         handle: UnderdogMLB
         user_id: '1449055868880818178'
-  nba:
-    label: NBA
-    active: true
-    backfill_start_date: '2026-07-06'
-    accounts:
-      rotowire:
-        handle: RotoWireNBA
-        sprout_profile_id: 5872842
-        user_id: '2291803664'
-      underdog:
-        handle: UnderdogNBA
-        user_id: '1448762998840074240'
   wnba:
     label: WNBA
     active: false
