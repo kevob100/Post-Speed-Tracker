@@ -303,7 +303,9 @@ sports:
         user_id: '1448762998840074240'
   mlb:
     label: MLB
-    active: true
+    # Off 2026-11-17: hidden from the dashboard and not collected nightly (offseason, and
+    # News Admin has no MLB desk data for the Summary/Details tabs). Data stays in data/mlb.
+    active: false
     accounts:
       rotowire:
         handle: RotoWireMLB
