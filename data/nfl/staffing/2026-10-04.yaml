@@ -1,88 +1,55 @@
-# Generated from the x_watcher staffing sheet; edit the sheet, not this file.
+# Generated from the breaking_news staffing sheet; edit the sheet, not this file.
 date: '2026-10-04'
 timezone: America/Chicago
-source: x_watcher
-roles: {tweets: Tweets (L1-2), distributor: Distributor (L3-5), writers: Writers}
+source: breaking_news
+roles: {nfl: NFL desk, nfl_news: NFL News}
 slots:
-- start: 05:00
-  tweets: [KOB]
-  distributor: [KOB]
-  writers: [KOB]
-- start: 06:00
-  tweets: [KOB]
-  distributor: [KOB]
-  writers: [KOB]
-- start: 07:00
-  tweets: [Adam]
-  distributor: [Adam]
-  writers: [Adam]
 - start: 08:00
-  tweets: [Adam]
-  distributor: [Adam]
-  writers: [Adam]
+  nfl: [Adam]
 - start: 09:00
-  tweets: [KOB]
-  distributor: [Eric C.]
-  writers: [Eric C.]
+  nfl: [Eric C.]
+  nfl_news: [Cullum]
 - start: '10:00'
-  tweets: [KOB]
-  distributor:
+  nfl:
   - {name: Eric C., until: '10:30'}
   - Adam
-  writers:
-  - {name: Eric C., until: '10:30'}
-  - Adam
+  nfl_news: [Paul, Cullum]
 - start: '11:00'
-  tweets: [Adam, KOB]
-  distributor: [Adam]
-  writers: [Adam]
+  nfl: [Adam]
+  nfl_news: [Paul, Cullum, Zoe]
 - start: '12:00'
-  tweets: [Adam]
-  distributor: [Ryan W.]
-  writers: [Eric C., Paul, Cullum]
+  nfl: [Eric C., Adam, Ryan W.]
+  nfl_news: [Paul, Cullum, Zoe]
 - start: '13:00'
-  tweets:
-  - {name: Adam, until: '13:50'}
-  - Cullum
-  distributor: [Ryan W.]
-  writers: [Eric C., Paul, Cullum]
+  nfl: [Eric C., Adam, Ryan W.]
+  nfl_news: [Paul, Cullum]
 - start: '14:00'
-  tweets: [Cullum, Adam]
-  distributor: [Ryan W.]
-  writers: [Eric C., Cullum]
+  nfl: [Eric C., Adam, Ryan W.]
+  nfl_news: [Cullum, Dennis]
 - start: '15:00'
-  tweets: [Cullum]
-  distributor: [Ryan W.]
-  writers: [Ryan W.]
+  nfl: [Eric C., Ryan W.]
+  nfl_news: [Cullum, Dennis]
 - start: '16:00'
-  tweets: [Cullum, Eric C.]
-  distributor: [Ryan W.]
-  writers: [Eric C., Nick B.]
+  nfl: [Eric C., Ryan W.]
+  nfl_news: [Nick B., Cullum, Dennis]
 - start: '17:00'
-  tweets: [Cullum, Eric C.]
-  distributor: [Ryan W.]
-  writers: [Eric C., Nick B.]
+  nfl: [Eric C., Ryan W.]
+  nfl_news: [Nick B., Cullum, Dennis]
 - start: '18:00'
-  tweets: [Sasha, Eric C.]
-  distributor: [Sasha]
-  writers: [Mensio, Nick B.]
+  nfl: [Sasha]
+  nfl_news: [Mensio, Nick B.]
 - start: '19:00'
-  tweets: [Sasha]
-  distributor: [Sasha]
-  writers: [Mensio, Nick B.]
+  nfl: [Sasha]
+  nfl_news: [Mensio, Nick B.]
 - start: '20:00'
-  tweets: [Sasha]
-  distributor: [Sasha]
-  writers: [Mensio, Nick B.]
+  nfl: [Sasha]
+  nfl_news: [Mensio, Nick B.]
 - start: '21:00'
-  tweets: [Sasha]
-  distributor: [Sasha]
-  writers: [Mensio, Nick B.]
+  nfl: [Sasha]
+  nfl_news: [Mensio, Nick B.]
 - start: '22:00'
-  tweets: [Sasha]
-  distributor: [Sasha]
-  writers: [Mensio, Nick B.]
+  nfl: [Sasha]
+  nfl_news: [Mensio, Nick B.]
 - start: '23:00'
-  tweets: [Sasha]
-  distributor: [Sasha]
-  writers: [Mensio, Nick B.]
+  nfl: [Sasha]
+  nfl_news: [Mensio, Nick B.]
