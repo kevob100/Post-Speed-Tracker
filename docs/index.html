@@ -592,6 +592,10 @@
   #sum svg.hl-chart text { font-size: 10.5px; }
   .hl-key { display: flex; flex-wrap: wrap; gap: 4px 14px; font-size: 12px; color: var(--muted); margin-top: 6px; }
   .hl-key i { display: inline-block; width: 14px; height: 3px; border-radius: 2px; vertical-align: middle; margin-right: 5px; }
+  .hl-weeks { margin-top: 12px; display: grid; gap: 6px; }
+  .hl-wk { display: grid; grid-template-columns: 110px 1fr 200px; gap: 10px; align-items: center; font-size: 12px; }
+  .hl-why .hl-wk .hl-tbar { margin: 0; height: 8px; }
+  @media (max-width: 560px) { .hl-wk { grid-template-columns: 1fr; gap: 2px; } }
   .hl-key i.dash { height: 0; border-top: 2px dashed var(--good); }
   #sum h3.hl-h { font-size: 13px; color: var(--muted); text-transform: uppercase; letter-spacing: .05em; font-weight: 600; margin: 30px 0 2px; }
   #sum .hl-sub { margin: 0 0 12px; font-size: 13px; }
@@ -3490,14 +3494,23 @@ function hlWhy(E, w) {
   if (!c || !c.judged) return "";
   const esc = t => String(t || "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/\n\nVia @\S+\s*$/, "");
   const bar = HL_WHY.filter(([k]) => c[k]).map(([k, col]) => `<i style="flex:${c[k]};background:${col}" title="${E.labels[k]}: ${c[k]}"></i>`).join("");
-  const key = HL_WHY.filter(([k]) => c[k]).map(([k, col, fix]) => `<span><i style="background:${col}"></i>${E.labels[k]}: <b>${c[k]}</b> (${Math.round(100 * c[k] / c.judged)}%)${fix ? ` · ${fix}` : ""}</span>`).join("");
+  // Trend: share of each reason vs the window before (only when that window judged enough posts to compare).
+  const p = E["p" + w], pct = (o, k) => Math.round(100 * (o[k] || 0) / o.judged);
+  const was = k => p && p.judged >= 5 ? `, was ${pct(p, k)}%` : "";
+  const key = HL_WHY.filter(([k]) => c[k] || (p && p[k])).map(([k, col, fix]) => `<span><i style="background:${col}"></i>${E.labels[k]}: <b>${c[k] || 0}</b> (${pct(c, k)}%${was(k)})${fix ? ` · ${fix}` : ""}</span>`).join("");
+  const wk = (E.weeks || []).filter(x => x.judged);
+  const weeks = wk.length > 1 ? `<div class="hl-weeks"><div class="lbl">By week</div>${wk.map(x => {
+    const e = new Date(Date.parse(x.start) + 6 * 864e5).toISOString().slice(0, 10);
+    return `<div class="hl-wk"><span>${smDay(x.start)}–${smDay(e)}</span><div class="hl-tbar">${HL_WHY.filter(([k]) => x[k]).map(([k, col]) => `<i style="flex:${x[k]};background:${col}" title="${E.labels[k]}: ${x[k]} (${pct(x, k)}%)"></i>`).join("")}</div><span class="hl-vs">style ${pct(x, "style")}% · wording ${pct(x, "template")}% · n=${x.judged}</span></div>`;
+  }).join("")}</div>` : "";
   const since = Date.now() - w * 864e5, posts = (E.posts || []).filter(p => Date.parse(p.posted_at) >= since);
   const col = Object.fromEntries(HL_WHY.map(([k, c]) => [k, c]));
   const rows = posts.map(p => `<tr><td>${smDay(p.posted_at.slice(0, 10))}</td><td><span class="hl-tag" style="border-color:${col[p.reason]};color:${col[p.reason]}">${E.labels[p.reason]}</span><div class="hl-vs">${esc(p.template)}${p.template_case ? " · " + esc(p.template_case) : ""}</div></td><td>${esc(p.why)}</td><td><div class="hl-vs">Draft: ${esc(p.draft)}</div><div>Posted: ${esc(p.posted)}</div></td></tr>`).join("");
   return `<div class="sm-card hl-why"><div class="lbl">Why template posts were edited · last ${w} days</div>
     <div class="hl-mid">${c.judged} edited template post${c.judged === 1 ? "" : "s"} judged${c.judged < c.edited ? ` <span class="hl-goal">of ${c.edited} edited (News Admin returns up to 20 drafts a day)</span>` : ""}</div>
     <div class="hl-tbar" role="img" aria-label="Edited template posts by reason">${bar}</div>
-    <div class="hl-key">${key}</div>
+    <div class="hl-key">${key}</div>${p && p.judged >= 5 ? `<div class="hl-vs" style="font-size:12px;margin-top:4px">"was" = the ${w} days before (${p.judged} judged)</div>` : ""}
+    ${weeks}
     <div style="margin-top:10px"><button type="button" class="hl-csv" data-w="${w}">Download CSV</button> <span class="hl-vs">every judged post, last ${w} days, with draft and posted text</span></div>
     <details><summary class="lbl" style="cursor:pointer;margin-top:10px">Every judged post (${posts.length})</summary>
       <div class="hl-tbl"><table><thead><tr><th>Day</th><th>Reason</th><th>What changed</th><th>Draft vs posted</th></tr></thead><tbody>${rows}</tbody></table></div></details></div>`;

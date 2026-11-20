@@ -123,6 +123,11 @@ def build(data_dir: Path, now: datetime, windows=(7, 30)) -> dict | None:
     out = {"labels": LABELS}
     for w in windows:
         out[f"d{w}"] = window(data_dir, end - timedelta(days=w), end)
+        out[f"p{w}"] = window(data_dir, end - timedelta(days=2 * w), end - timedelta(days=w))  # the window before, for the trend
+    # Last four 7-day blocks, oldest first: the reason mix week by week.
+    out["weeks"] = [{"start": (end - timedelta(days=7 * (i + 1))).date().isoformat(),
+                     **window(data_dir, end - timedelta(days=7 * (i + 1)), end - timedelta(days=7 * i))}
+                    for i in reversed(range(4))]
     recent = [r for r in rows if parse_dt(r["posted_at"]) >= end - timedelta(days=max(windows))]
     out["posts"] = [{k: r.get(k) for k in ("posted_at", "template", "template_case", "manual", "draft", "posted", "reason", "why")}
                     for r in sorted(recent, key=lambda r: r["posted_at"], reverse=True)]

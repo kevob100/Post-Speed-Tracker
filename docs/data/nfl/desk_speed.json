@@ -3018,7 +3018,7 @@
         "baseline_source": "stored",
         "distance": 0.6458,
         "draft": "Aidan Hutchinson (torn ACL) sustained a torn ACL and additional tests confirmed there was no other significant damage.\n\nVia @TomPelissero",
-        "posted": "Additional tests performed Monday confirmed Aidan Hutchinson (knee) sustained a torn ACL, and although “no other significant damage” was detected he will “now focus on getting ready for 2027.”\n\nVia @TomPelissero"
+        "posted": "Additional tests performed Monday confirmed Aidan Hutchinson (knee) sustained a torn ACL, and although \u201cno other significant damage\u201d was detected he will \u201cnow focus on getting ready for 2027.\u201d\n\nVia @TomPelissero"
       },
       {
         "posted_at": "2026-11-16T21:55:08Z",
@@ -26250,7 +26250,7 @@
             },
             {
               "key": "RD-7942",
-              "summary": "editor-2: server-side priority ordering — priority players always on top + tier shown on group bars",
+              "summary": "editor-2: server-side priority ordering \u2014 priority players always on top + tier shown on group bars",
               "type": "Task",
               "status": "Done",
               "category": "done",
@@ -26261,7 +26261,7 @@
             },
             {
               "key": "RD-7941",
-              "summary": "NFL: matcher never backfills team from matched player — team + RW logo gone from feed",
+              "summary": "NFL: matcher never backfills team from matched player \u2014 team + RW logo gone from feed",
               "type": "Task",
               "status": "Done",
               "category": "done",
@@ -26272,7 +26272,7 @@
             },
             {
               "key": "RD-7940",
-              "summary": "editor-2: toolbar rebuild phase 1+2 — clarity pass + facet foundation",
+              "summary": "editor-2: toolbar rebuild phase 1+2 \u2014 clarity pass + facet foundation",
               "type": "Task",
               "status": "Done",
               "category": "done",
@@ -26327,7 +26327,7 @@
             },
             {
               "key": "RD-7944",
-              "summary": "editor-2: schedule-driven NFL game badges — gold \"Browns @ Bills\" filter badges during game windows (future)",
+              "summary": "editor-2: schedule-driven NFL game badges \u2014 gold \"Browns @ Bills\" filter badges during game windows (future)",
               "type": "Task",
               "status": "Done",
               "category": "done",
@@ -26338,7 +26338,7 @@
             },
             {
               "key": "RD-7943",
-              "summary": "editor-2: NFL team multi-select filter (Teams menu) — ground work for schedule-driven game badges",
+              "summary": "editor-2: NFL team multi-select filter (Teams menu) \u2014 ground work for schedule-driven game badges",
               "type": "Task",
               "status": "Done",
               "category": "done",
@@ -28679,6 +28679,14 @@
           "style": 17,
           "other": 3
         },
+        "p7": {
+          "judged": 36,
+          "edited": 44,
+          "template": 9,
+          "wrong_match": 2,
+          "style": 20,
+          "other": 5
+        },
         "d30": {
           "judged": 82,
           "edited": 153,
@@ -28687,6 +28695,52 @@
           "style": 46,
           "other": 10
         },
+        "p30": {
+          "judged": 0,
+          "edited": 0,
+          "template": 0,
+          "wrong_match": 0,
+          "style": 0,
+          "other": 0
+        },
+        "weeks": [
+          {
+            "start": "2026-10-23",
+            "judged": 0,
+            "edited": 14,
+            "template": 0,
+            "wrong_match": 0,
+            "style": 0,
+            "other": 0
+          },
+          {
+            "start": "2026-10-30",
+            "judged": 11,
+            "edited": 45,
+            "template": 0,
+            "wrong_match": 0,
+            "style": 9,
+            "other": 2
+          },
+          {
+            "start": "2026-11-06",
+            "judged": 36,
+            "edited": 44,
+            "template": 9,
+            "wrong_match": 2,
+            "style": 20,
+            "other": 5
+          },
+          {
+            "start": "2026-11-13",
+            "judged": 35,
+            "edited": 50,
+            "template": 13,
+            "wrong_match": 2,
+            "style": 17,
+            "other": 3
+          }
+        ],
         "posts": [
           {
             "posted_at": "2026-11-19T23:06:29Z",
@@ -29024,7 +29078,7 @@
             "template_case": "report",
             "manual": false,
             "draft": "Jakobi Meyers (ankle) remained a limited participant on Friday's injury report.\n\nVia @Jaguars",
-            "posted": "Jakobi Meyers (ankle) was limited at Friday’s practice but does not have an injury designation for Week 10.\n\nVia @Jaguars",
+            "posted": "Jakobi Meyers (ankle) was limited at Friday\u2019s practice but does not have an injury designation for Week 10.\n\nVia @Jaguars",
             "reason": "template",
             "why": "Editor added that Meyers has no injury designation for Week 10."
           },
@@ -29034,7 +29088,7 @@
             "template_case": "report",
             "manual": false,
             "draft": "Bhayshul Tuten (ankle/foot) was upgraded to a limited participant on Friday's injury report.\n\nVia @Jaguars",
-            "posted": "Bhayshul Tuten (ankle/foot) does not have an injury designation for Sunday’s game against the Titans.\n\nVia @Jaguars",
+            "posted": "Bhayshul Tuten (ankle/foot) does not have an injury designation for Sunday\u2019s game against the Titans.\n\nVia @Jaguars",
             "reason": "wrong_match",
             "why": "Editor changed status from limited participant to no injury designation."
           },
@@ -29316,7 +29370,7 @@
             "draft": "Jaylen Waddle (concussion) has been ruled out for the rest of Sunday's game against the Panthers.\n\nVia @ParkerJGabriel",
             "posted": "Jaylen Waddle (concussion) has been ruled out for the remainder of Sunday's game against the Panthers.\n\nVia @ParkerJGabriel",
             "reason": "style",
-            "why": "Changed 'rest' to 'remainder' — same meaning, slight rewording."
+            "why": "Changed 'rest' to 'remainder' \u2014 same meaning, slight rewording."
           },
           {
             "posted_at": "2026-11-07T21:05:40Z",
