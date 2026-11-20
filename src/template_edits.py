@@ -115,7 +115,7 @@ def window(data_dir: Path, a: datetime, b: datetime) -> dict:
     return {"judged": len(rows), "edited": max(len(rows), _edited_total(data_dir, a, b)), **counts}
 
 
-def build(data_dir: Path, now: datetime, windows=(7, 30)) -> dict | None:
+def build(data_dir: Path, now: datetime, windows=(7, 30), since: dict | None = None) -> dict | None:
     rows = load_jsonl(data_dir / CACHE)
     if not rows:
         return None
@@ -128,6 +128,11 @@ def build(data_dir: Path, now: datetime, windows=(7, 30)) -> dict | None:
     out["weeks"] = [{"start": (end - timedelta(days=7 * (i + 1))).date().isoformat(),
                      **window(data_dir, end - timedelta(days=7 * (i + 1)), end - timedelta(days=7 * i))}
                     for i in reversed(range(4))]
+    # A named period from a set date through now (today included), e.g. since the desk was told to send as-is.
+    if since and since.get("date"):
+        d = datetime.fromisoformat(str(since["date"])).replace(tzinfo=end.tzinfo)
+        out["since"] = {"start": d.date().isoformat(), "label": since.get("label") or "",
+                        **window(data_dir, d, now + timedelta(seconds=1))}
     recent = [r for r in rows if parse_dt(r["posted_at"]) >= end - timedelta(days=max(windows))]
     out["posts"] = [{k: r.get(k) for k in ("posted_at", "template", "template_case", "manual", "draft", "posted", "reason", "why")}
                     for r in sorted(recent, key=lambda r: r["posted_at"], reverse=True)]

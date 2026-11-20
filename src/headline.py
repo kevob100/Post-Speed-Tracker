@@ -186,7 +186,7 @@ def build(cfg: dict, data_dir: Path, rows: list[dict], stories: list[dict], manu
         "templates": templates(data_dir, now),
         "steps": steps(rows, manual_pct, end),
         "by_template": by_template(data_dir, rows, stories, end),
-        "edit_reasons": template_edits.build(data_dir, now),
+        "edit_reasons": template_edits.build(data_dir, now, since=cfg.get("edit_reasons_since")),
         # False for a sport whose drafts don't come from code templates (NBA): the Summary
         # then drops the template funnel and tracks plain unedited posts instead.
         "uses_templates": cfg.get("templates", True),

@@ -35,6 +35,9 @@ sports:
       # Summary tab goals (sent to Restivo 2026-11-13): templates write 90% of NFL posts,
       # 75% of template posts go out unedited, so about 2/3 of all posts are fully automated.
       goals: {template_share: 90, template_unedited: 75, automated: 67}
+      # Summary 'Why template posts were edited' box adds a period from this date through today
+      # (11/16: KOB meeting, desk told to send close-enough drafts as they are).
+      edit_reasons_since: {date: 2026-11-16, label: Send as-is}
       # Status line under each Summary step card: {text, kind: done | next | focus | ''}.
       step_notes:
         s1: {kind: done, text: 'Done for now: turbo mode fixed most of it'}
