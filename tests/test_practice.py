@@ -43,3 +43,31 @@ def test_guess_and_parse():
     assert practice.guess_phase("Zay Flowers officially limited in practice Thursday.") == "post"
     assert practice.guess_phase("Puka Nacua was not spotted during the portion of practice open to the media.") == "pre"
     assert practice.parse_phase('{"phase": "pre"}') == "pre" and practice.parse_phase("junk") == "other"
+
+
+def test_weekly_pre_counts_only_rotowire_by_monday_week():
+    from src.practice import weekly_pre
+    rw = {"rotowire": {"created_at": "2026-11-20T15:00:00Z"}}
+    both = {"rotowire": {"created_at": "2026-11-20T15:00:00Z"}, "underdog": {"created_at": "2026-11-20T15:00:30Z"}}
+    rows = [{"date": "2026-11-20", "pre": rw, "post": {}},          # Fri, week of 11/16
+            {"date": "2026-11-22", "pre": both, "post": {}},        # Sun, same week
+            {"date": "2026-11-23", "pre": rw, "post": {}},          # Mon, next week
+            {"date": "2026-11-23", "pre": {}, "post": rw}]          # post only: not a pre day
+    w = weekly_pre(rows)
+    assert [x["week"] for x in w] == ["2026-11-16", "2026-11-23"]
+    assert (w[0]["days"], w[0]["rotowire_only"], w[0]["both"], w[0]["ties"]) == (2, 1, 1, 1)
+    assert (w[1]["days"], w[1]["rotowire_only"]) == (1, 1)
+
+
+def test_practice_line_in_weekly_post():
+    from datetime import datetime
+    from src.news_recap import practice_line
+    wk = [{"week": "2026-11-09", "days": 40, "rotowire_only": 27, "underdog_only": 5,
+           "rotowire_posted_rate": 0.875, "underdog_posted_rate": 0.325},
+          {"week": "2026-11-16", "days": 46, "rotowire_only": 28, "underdog_only": 0,
+           "rotowire_posted_rate": 1.0, "underdog_posted_rate": 0.3913}]
+    line = practice_line(wk, datetime(2026, 11, 16))
+    assert line == ("Pre-practice notes only we posted: *28* (was 27) · only Underdog: 0 · "
+                    "we covered 100% of 46 player practice days, Underdog 39%")
+    assert practice_line(wk, datetime(2026, 11, 23)) is None
+    assert practice_line(None, datetime(2026, 11, 16)) is None

@@ -638,6 +638,16 @@
   .hl-state.focus { color: var(--good); background: rgba(79, 191, 138, .12); }
   .hl-tbar { display: flex; gap: 2px; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 12px; }
   @media (max-width: 860px) { .hl-chain { grid-template-columns: 1fr; } .hl-arrow { width: auto; height: 22px; transform: rotate(90deg); } .hl-steps { grid-template-columns: 1fr 1fr; } }
+  /* Pre-practice notes only we posted (practice.weekly_pre) */
+  .hl-pre { display: grid; grid-template-columns: minmax(260px, 1fr) 1.6fr; gap: 18px 28px; align-items: end; }
+  .hl-pre-bars { display: flex; align-items: flex-end; gap: 6px; height: 132px; }
+  .hl-pre-wk { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
+  .hl-pre-pair { display: flex; align-items: flex-end; gap: 2px; width: 100%; justify-content: center; flex: 1; }
+  .hl-pre-pair i { display: block; width: 42%; max-width: 18px; border-radius: 2px 2px 0 0; min-height: 1px; }
+  .hl-pre-n { font-size: 11px; color: var(--text); font-variant-numeric: tabular-nums; }
+  .hl-pre-x { font-size: 11px; color: var(--muted); white-space: nowrap; }
+  .hl-pre-wk.cur .hl-pre-x { color: var(--text); font-weight: 600; }
+  @media (max-width: 640px) { .hl-pre { grid-template-columns: 1fr; } .hl-pre-wk:nth-child(-n+3) { display: none; } }
   @media (max-width: 640px) { .hl-g2, .hl-steps { grid-template-columns: 1fr; } .hl-big { font-size: 42px; } }
   :is(#sum, #sum-old) h2.sm-h { font-size: 18px; margin: 32px 0 4px; }
   :is(#sum, #sum-old) h2.sm-h + .sm-note { margin: 0 0 12px; }
@@ -3535,6 +3545,34 @@ function hlNoTpl(tc, tpr, tpN, sc, sp, rc, rp, w) {
       <div class="hl-link end"><div class="hl-n">= Behind Underdog</div><div class="hl-v">${hlGap(rc.median)}</div><div class="hl-d">${hlDelta(rc.median, rp.median, { time: true, lowerBetter: true, w, priorN: rp.n })}</div></div>
     </div>`;
 }
+// Pre-practice notes only we posted: Underdog skips most "will he practice / seen at practice"
+// updates, so they never race and never reach the speed numbers. Counted per Monday week.
+function hlPre(P) {
+  if (!P || !P.weekly || !P.weekly.length) return "";
+  const today = new Date().toLocaleDateString("en-CA", { timeZone: "America/Chicago" });
+  const addD = (d, n) => { const x = new Date(d + "T12:00:00Z"); x.setUTCDate(x.getUTCDate() + n); return x.toISOString().slice(0, 10); };
+  const full = P.weekly.filter(w => addD(w.week, 7) <= today);   // finished weeks only
+  if (!full.length) return "";
+  const cur = full[full.length - 1], prev = full[full.length - 2], wks = full.slice(-10);
+  const mx = Math.max(1, ...wks.map(w => Math.max(w.rotowire_only, w.underdog_only)));
+  const pc = r => r == null ? "–" : Math.round(r * 100) + "%";
+  const pre = P.phases && P.phases.pre;
+  const bars = wks.map(w => `<div class="hl-pre-wk${w === cur ? " cur" : ""}" title="Week of ${smDay(w.week)}: ${w.rotowire_only} only we posted, ${w.underdog_only} only Underdog posted, ${w.both} both, of ${w.days} player practice days">
+      <span class="hl-pre-n">${w.rotowire_only}</span>
+      <div class="hl-pre-pair"><i style="height:${100 * w.rotowire_only / mx}%;background:var(--green)"></i><i style="height:${100 * w.underdog_only / mx}%;background:var(--red)"></i></div>
+      <span class="hl-pre-x">${smDay(w.week)}</span></div>`).join("");
+  return `<h3 class="hl-h">Pre-practice notes only we post</h3>
+    <p class="sm-note hl-sub">Will he practice, seen or not seen, worked on the side. These often signal the injury report hours early. Underdog posts few of them, so they never race and aren't in the speed numbers above.</p>
+    <div class="sm-card hl-pre">
+      <div><div class="lbl">Week of ${smDay(cur.week)}</div>
+        <div class="hl-big">${cur.rotowire_only}</div>
+        <div class="hl-d">pre-practice notes only we posted${prev ? ` · ${prev.rotowire_only} the week before` : ""}</div>
+        <div class="hl-d hl-vs">Only Underdog posted: ${cur.underdog_only} · We covered ${pc(cur.rotowire_posted_rate)} of ${cur.days} player practice days, Underdog ${pc(cur.underdog_posted_rate)}</div>
+        ${pre && pre.both ? `<div class="hl-d hl-vs">When both posted one (last ${P.days} days, ${pre.both}): Underdog first ${pre.underdog_first}, within a minute ${pre.ties}, us first ${pre.rotowire_first}</div>` : ""}</div>
+      <div><div class="hl-pre-bars" role="img" aria-label="Pre-practice notes only one account posted, by week">${bars}</div>
+        <div class="hl-key"><span><i style="background:var(--green)"></i>Only RotoWire</span><span><i style="background:var(--red)"></i>Only Underdog</span><span>per week · <a href="#" id="hl-to-pre">every practice day in Details</a></span></div></div>
+    </div>`;
+}
 function renderSummary() {
   const host = document.getElementById("sum"), d = state.desk, H = d && d.summary && d.summary.headline;
   if (!host) return;
@@ -3564,6 +3602,8 @@ function renderSummary() {
         <svg class="hl-chart sm" id="hl-first" role="img" aria-label="Share of stories we post first, last ${hlSpan} days"></svg>
         <div class="hl-key"><span><i style="background:var(--green)"></i>${hlLine === "day" ? "Each day" : "7-day share"}, last ${hlSpan} days</span></div></div>
     </div>
+
+    ${hlPre(state.agg && state.agg.practice)}
 
     ${H.uses_templates === false ? hlNoTpl(tc, tpr, tpN, sc, sp, rc, rp, w) : `<h3 class="hl-h">How we close the gap</h3>
     <p class="sm-note hl-sub">Templates write more posts → template posts go out unedited → step 3 (opened to posted) gets faster → we post sooner → the gap to Underdog shrinks.</p>
@@ -3619,6 +3659,8 @@ function renderSummary() {
   });
   host.querySelectorAll(".hl-span button").forEach(b => b.onclick = () => { hlSpan = +b.dataset.v; try { localStorage.setItem("pst-hl-span", hlSpan); } catch (e) {} renderSummary(); });
   host.querySelectorAll(".hl-line button").forEach(b => b.onclick = () => { hlLine = b.dataset.v; try { localStorage.setItem("pst-hl-line", hlLine); } catch (e) {} renderSummary(); });
+  const tp = document.getElementById("hl-to-pre");
+  if (tp) tp.onclick = e => { e.preventDefault(); const b = document.querySelector('#pagetabs [data-t="det"]'); if (b) b.click(); const g = document.querySelector('.dsec-h[data-g="stories"]'); if (g && g.getAttribute("aria-expanded") !== "true") g.click(); const t = document.getElementById("tab-practice"); if (t) { t.click(); setTimeout(() => t.scrollIntoView({ block: "start" }), 0); } };
   const td = document.getElementById("hl-to-det");
   if (td) td.onclick = e => { e.preventDefault(); const b = document.querySelector('#pagetabs [data-t="det"]'); if (b) b.click(); };
   hlDrawArgs = [H, w, G]; hlDraw();

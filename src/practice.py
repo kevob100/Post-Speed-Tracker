@@ -190,4 +190,16 @@ def rollup(data_dir: Path, rw_handle: str, phases: dict[str, str], now: datetime
     list_since = (now - timedelta(days=list_days)).astimezone(LOCAL).date().isoformat()
     return {"days": days, "since": since, "tie_seconds": tie_s,
             "phases": {ph: _phase_summary(recent, ph, tie_s) for ph in PHASES},
+            "weekly": weekly_pre(rows, tie_s),
             "recent": [r for r in rows if r["date"] >= list_since]}
+
+
+def weekly_pre(rows: list[dict], tie_s: int = 60) -> list[dict]:
+    """Pre-practice coverage per Monday-start week (US Central): how many player practice
+    days had a pre-practice update, and how many only one account posted. Underdog skips
+    most of these, so `rotowire_only` is the count of notes only we posted that week."""
+    weeks: dict[str, list[dict]] = {}
+    for r in rows:
+        d = datetime.fromisoformat(r["date"]).date()
+        weeks.setdefault((d - timedelta(days=d.weekday())).isoformat(), []).append(r)
+    return [{"week": wk, **_phase_summary(weeks[wk], "pre", tie_s)} for wk in sorted(weeks)]

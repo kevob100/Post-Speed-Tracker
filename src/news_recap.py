@@ -98,8 +98,23 @@ def daily_message(stories: list[dict], edit_daily: list[dict], day: datetime, da
     ])
 
 
+def practice_line(practice_weekly: list[dict] | None, start: datetime) -> str | None:
+    """Pre-practice notes only we posted that week (practice.weekly_pre, Monday weeks).
+    Underdog skips most of these, so they never race and aren't in the speed numbers."""
+    by = {w["week"]: w for w in practice_weekly or []}
+    w = by.get(start.date().isoformat())
+    if not w or not w.get("days"):
+        return None
+    p = by.get((start - timedelta(days=7)).date().isoformat())
+    was = f" (was {p['rotowire_only']})" if p else ""
+    return (f"Pre-practice notes only we posted: *{w['rotowire_only']}*{was} · "
+            f"only Underdog: {w['underdog_only']} · we covered {_pct(100 * w['rotowire_posted_rate'])} "
+            f"of {w['days']} player practice days, Underdog {_pct(100 * w['underdog_posted_rate'])}")
+
+
 def weekly_message(data_dir: Path, stories: list[dict], rows: list[dict], edit_daily: list[dict],
-                   start: datetime, epic: str | None, now: datetime) -> str:
+                   start: datetime, epic: str | None, now: datetime,
+                   practice_weekly: list[dict] | None = None) -> str:
     end, prev = start + timedelta(days=7), start - timedelta(days=7)
     r, rp = race(stories, start, end), race(stories, prev, start)
     e, ep = edits(edit_daily, start, end), edits(edit_daily, prev, start)
@@ -122,6 +137,8 @@ def weekly_message(data_dir: Path, stories: list[dict], rows: list[dict], edit_d
     gap_was = f" (was {_dur(rp['gap'])}{closer})" if rp["gap"] is not None else ""
     lines.append(f"Typical gap: *{_gap_text(r['gap'])}*{gap_was}")
     lines.append(f"Ties within a minute: {_pct(r['tie'], 1)}{was(rp['tie'], lambda v: _pct(v, 1))}")
+    if pl := practice_line(practice_weekly, start):
+        lines.append(pl)
     lines.append("")
     lines.append(f"AI drafts edited before posting: *{_pct(e['edited'])}* of {e['n']}"
                  f"{was(ep['edited'], _pct)}")
@@ -170,8 +187,10 @@ def maybe_post(data_dir: Path, docs_dir: Path, epic: str | None, now: datetime |
     week_start = today - timedelta(days=7)
     if weekly and today.weekday() == 0 and (force or state.get("weekly") != week_start.date().isoformat()):
         rows = [r for r in load_jsonl(data_dir / "desk_timeline.jsonl") if r.get("posted_to_x_at")]
+        agg_p = docs_dir / "aggregates.json"
+        pw = (json.loads(agg_p.read_text()).get("practice") or {}).get("weekly") if agg_p.exists() else None
         _send(hook, weekly_message(data_dir, stories, rows, edit_daily,
-                                   week_start, epic, now))
+                                   week_start, epic, now, practice_weekly=pw))
         state["weekly"] = week_start.date().isoformat()
         done.append("weekly")
     state["posted_at"] = now.isoformat()
