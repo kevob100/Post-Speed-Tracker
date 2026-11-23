@@ -639,15 +639,13 @@
   .hl-tbar { display: flex; gap: 2px; height: 10px; border-radius: 5px; overflow: hidden; margin-top: 12px; }
   @media (max-width: 860px) { .hl-chain { grid-template-columns: 1fr; } .hl-arrow { width: auto; height: 22px; transform: rotate(90deg); } .hl-steps { grid-template-columns: 1fr 1fr; } }
   /* Pre-practice notes only we posted (practice.weekly_pre) */
-  .hl-pre { display: grid; grid-template-columns: minmax(260px, 1fr) 1.6fr; gap: 18px 28px; align-items: end; }
-  .hl-pre-bars { display: flex; align-items: flex-end; gap: 6px; height: 132px; }
-  .hl-pre-wk { flex: 1; min-width: 0; display: flex; flex-direction: column; align-items: center; gap: 4px; height: 100%; justify-content: flex-end; }
-  .hl-pre-pair { display: flex; align-items: flex-end; gap: 2px; width: 100%; justify-content: center; flex: 1; }
-  .hl-pre-pair i { display: block; width: 42%; max-width: 18px; border-radius: 2px 2px 0 0; min-height: 1px; }
-  .hl-pre-n { font-size: 11px; color: var(--text); font-variant-numeric: tabular-nums; }
-  .hl-pre-x { font-size: 11px; color: var(--muted); white-space: nowrap; }
-  .hl-pre-wk.cur .hl-pre-x { color: var(--text); font-weight: 600; }
-  @media (max-width: 640px) { .hl-pre { grid-template-columns: 1fr; } .hl-pre-wk:nth-child(-n+3) { display: none; } }
+  .hl-pre { display: flex; align-items: flex-end; justify-content: space-between; gap: 16px 32px; flex-wrap: wrap; }
+  .hl-pre .hl-v { font-size: 40px; font-weight: 700; line-height: 1; font-variant-numeric: tabular-nums; }
+  .hl-pre-chart { flex: 0 1 360px; min-width: 220px; }
+  .hl-pre-bars { display: flex; align-items: flex-end; gap: 4px; height: 48px; }
+  .hl-pre-bars i { flex: 1; background: var(--green); opacity: .45; border-radius: 2px 2px 0 0; min-height: 2px; }
+  .hl-pre-bars i.cur { opacity: 1; }
+  .hl-pre-ax { display: flex; justify-content: space-between; font-size: 11px; color: var(--muted); margin-top: 4px; }
   @media (max-width: 640px) { .hl-g2, .hl-steps { grid-template-columns: 1fr; } .hl-big { font-size: 42px; } }
   :is(#sum, #sum-old) h2.sm-h { font-size: 18px; margin: 32px 0 4px; }
   :is(#sum, #sum-old) h2.sm-h + .sm-note { margin: 0 0 12px; }
@@ -3554,23 +3552,14 @@ function hlPre(P) {
   const full = P.weekly.filter(w => addD(w.week, 7) <= today);   // finished weeks only
   if (!full.length) return "";
   const cur = full[full.length - 1], prev = full[full.length - 2], wks = full.slice(-10);
-  const mx = Math.max(1, ...wks.map(w => Math.max(w.rotowire_only, w.underdog_only)));
-  const pc = r => r == null ? "–" : Math.round(r * 100) + "%";
-  const pre = P.phases && P.phases.pre;
-  const bars = wks.map(w => `<div class="hl-pre-wk${w === cur ? " cur" : ""}" title="Week of ${smDay(w.week)}: ${w.rotowire_only} only we posted, ${w.underdog_only} only Underdog posted, ${w.both} both, of ${w.days} player practice days">
-      <span class="hl-pre-n">${w.rotowire_only}</span>
-      <div class="hl-pre-pair"><i style="height:${100 * w.rotowire_only / mx}%;background:var(--green)"></i><i style="height:${100 * w.underdog_only / mx}%;background:var(--red)"></i></div>
-      <span class="hl-pre-x">${smDay(w.week)}</span></div>`).join("");
-  return `<h3 class="hl-h">Pre-practice notes only we post</h3>
-    <p class="sm-note hl-sub">Will he practice, seen or not seen, worked on the side. These often signal the injury report hours early. Underdog posts few of them, so they never race and aren't in the speed numbers above.</p>
-    <div class="sm-card hl-pre">
-      <div><div class="lbl">Week of ${smDay(cur.week)}</div>
-        <div class="hl-big">${cur.rotowire_only}</div>
-        <div class="hl-d">pre-practice notes only we posted${prev ? ` · ${prev.rotowire_only} the week before` : ""}</div>
-        <div class="hl-d hl-vs">Only Underdog posted: ${cur.underdog_only} · We covered ${pc(cur.rotowire_posted_rate)} of ${cur.days} player practice days, Underdog ${pc(cur.underdog_posted_rate)}</div>
-        ${pre && pre.both ? `<div class="hl-d hl-vs">When both posted one (last ${P.days} days, ${pre.both}): Underdog first ${pre.underdog_first}, within a minute ${pre.ties}, us first ${pre.rotowire_first}</div>` : ""}</div>
-      <div><div class="hl-pre-bars" role="img" aria-label="Pre-practice notes only one account posted, by week">${bars}</div>
-        <div class="hl-key"><span><i style="background:var(--green)"></i>Only RotoWire</span><span><i style="background:var(--red)"></i>Only Underdog</span><span>per week · <a href="#" id="hl-to-pre">every practice day in Details</a></span></div></div>
+  const mx = Math.max(1, ...wks.map(w => w.rotowire_only));
+  return `<h3 class="hl-h">Pre-practice notes</h3>
+    <div class="sm-card hl-pre" title="Will he practice, seen or not seen, worked on the side. Underdog rarely posts these, so they are not in the speed numbers.">
+      <div><div class="lbl">Posted by us, not Underdog · week of ${smDay(cur.week)}</div>
+        <div class="hl-v">${cur.rotowire_only}</div>
+        <div class="hl-d">${prev ? `${prev.rotowire_only} the week before · ` : ""}Underdog posted ${cur.underdog_only} we didn't</div></div>
+      <div class="hl-pre-chart"><div class="hl-pre-bars" role="img" aria-label="Pre-practice notes only we posted, last ${wks.length} weeks">${wks.map(w => `<i class="${w === cur ? "cur" : ""}" style="height:${100 * w.rotowire_only / mx}%" title="Week of ${smDay(w.week)}: ${w.rotowire_only} only we posted, ${w.underdog_only} only Underdog"></i>`).join("")}</div>
+        <div class="hl-pre-ax"><span>${smDay(wks[0].week)}</span><a href="#" id="hl-to-pre">Every practice day</a><span>${smDay(cur.week)}</span></div></div>
     </div>`;
 }
 function renderSummary() {
@@ -3602,8 +3591,6 @@ function renderSummary() {
         <svg class="hl-chart sm" id="hl-first" role="img" aria-label="Share of stories we post first, last ${hlSpan} days"></svg>
         <div class="hl-key"><span><i style="background:var(--green)"></i>${hlLine === "day" ? "Each day" : "7-day share"}, last ${hlSpan} days</span></div></div>
     </div>
-
-    ${hlPre(state.agg && state.agg.practice)}
 
     ${H.uses_templates === false ? hlNoTpl(tc, tpr, tpN, sc, sp, rc, rp, w) : `<h3 class="hl-h">How we close the gap</h3>
     <p class="sm-note hl-sub">Templates write more posts → template posts go out unedited → step 3 (opened to posted) gets faster → we post sooner → the gap to Underdog shrinks.</p>
@@ -3647,7 +3634,8 @@ function renderSummary() {
     </div>
     <div class="hl-tbar" role="img" aria-label="Share of the typical post each step takes"><i style="flex:${s1};background:var(--s1)"></i><i style="flex:${s2};background:var(--s2)"></i><i style="flex:${s3};background:var(--s3)"></i></div>
     <div class="hl-key"><span><i style="background:var(--s1)"></i>Step 1</span><span><i style="background:var(--s2)"></i>Step 2</span><span><i style="background:var(--s3)"></i>Step 3</span><span>each step's share of the typical post</span></div>
-    <p class="sm-note">Medians don't add up: each step is the middle value of its own step. The gap counts every story both accounts posted; steps count Monitor posts only. ${H.uses_templates === false ? "Edit numbers come from News Admin's post edit data." : `Template numbers come from News Admin's post edit data, tracked since ${since || "–"}.`} What each shipped change did, the step tickets and every story are in <a href="#" id="hl-to-det">Details</a>.</p>`;
+    <p class="sm-note">Medians don't add up: each step is the middle value of its own step. The gap counts every story both accounts posted; steps count Monitor posts only. ${H.uses_templates === false ? "Edit numbers come from News Admin's post edit data." : `Template numbers come from News Admin's post edit data, tracked since ${since || "–"}.`} What each shipped change did, the step tickets and every story are in <a href="#" id="hl-to-det">Details</a>.</p>
+    ${hlPre(state.agg && state.agg.practice)}`;
   host.querySelectorAll(".hl-csv").forEach(b => b.onclick = () => {
     const E = H.edit_reasons, since = Date.now() - (+b.dataset.w) * 864e5, q = v => `"${String(v == null ? "" : v).replace(/"/g, '""')}"`;
     const strip = t => String(t || "").replace(/\s*\n\nVia @\S+\s*$/, "");
